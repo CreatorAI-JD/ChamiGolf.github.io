@@ -5289,7 +5289,11 @@
   try { banInfo = JSON.parse(localStorage.getItem(BAN_KEY)); } catch (e) {}
   // bans made by mistake by older versions of the game (Cloudflare's analytics script, the site's address with a dot on the end,
   // a sleeping iPad's clock, a save fingerprint mix-up, good rounds on a par-3 course) come off by themselves
-  if (banInfo && /cloudflareinsights|chamigolf\.github\.io\.\)|clock running at 0\.|save was edited by hand|over 9 holes at 3C Par Three/.test(banInfo.reason || '')) {
+  // the game's real homes: GitHub Pages plus the Vercel copy (for Wi-Fi that blocks github.io) and its preview links
+  function okSite(hn) { return hn === 'chamigolf.github.io' || /^chamigolf(-[a-z0-9-]+)?\.vercel\.app$/.test(hn) || /(^|\.)redandgoldgolf\.[a-z]+$/.test(hn); }
+  // a ban for "a modified copy of the game" that was really just the game on one of its real homes
+  function siteBanMistake(reason) { const m = /modified copy of the game was running \(([^)]+)\)/.exec(reason || ''); return !!m && okSite(m[1].toLowerCase()); }
+  if (banInfo && (siteBanMistake(banInfo.reason) || /cloudflareinsights|chamigolf\.github\.io\.\)|clock running at 0\.|save was edited by hand|over 9 holes at 3C Par Three/.test(banInfo.reason || ''))) {
     banInfo = null; try { localStorage.removeItem(BAN_KEY); } catch (e) {}
   }
   const banned = () => !!banInfo && !isCreator();
@@ -5341,7 +5345,8 @@
     const u = meUser(); if (!u || !fbDb) { showBanned(); return; }
     try {
       const ref = fbDb.collection('bans').doc(u.uid), snap = await ref.get();
-      if (snap.exists && !(banInfo && !banInfo.remote && banInfo.hard && snap.data().appeal !== false)) {
+      if (snap.exists && siteBanMistake(snap.data().reason)) { if (banInfo && siteBanMistake(banInfo.reason)) { banInfo = null; storeBan(); } }   // waits for the creator's game to lift it
+      else if (snap.exists && !(banInfo && !banInfo.remote && banInfo.hard && snap.data().appeal !== false)) {
         const d = snap.data(); banInfo = { reason: d.reason || 'Banned by the creator', at: d.at || Date.now(), uid: u.uid, remote: true, hard: d.appeal === false }; storeBan();
       }
       else if (!snap.exists && banInfo && banInfo.remote && banInfo.uid === u.uid) { banInfo = null; appealInfo = null; storeBan(); }   // the creator lifted the ban
@@ -5429,11 +5434,11 @@
     const flag = what => cheatFlag('interference', what, false);
     const ban = what => cheatFlag('interference', what, true);
     const hard = what => cheatFlag('tamper', what, 'hard');
-    // a copy of the game running anywhere but chamigolf.github.io has had its code changed (local testing on localhost is only flagged)
+    // a copy of the game running anywhere but its real homes (see okSite) has had its code changed (local testing on localhost is only flagged)
     try {
       const hn = location.hostname.toLowerCase().replace(/\.$/, '');   // "chamigolf.github.io." (trailing dot) is the same site
       if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(hn)) flag(`game running from a local copy (${hn})`);
-      else if (hn !== 'chamigolf.github.io') hard(`a modified copy of the game was running (${(location.protocol === 'file:' ? 'a file on the device' : hn).slice(0, 60)})`);
+      else if (!okSite(hn)) hard(`a modified copy of the game was running (${(location.protocol === 'file:' ? 'a file on the device' : hn).slice(0, 60)})`);
     } catch (e) {}
     try { if (navigator.webdriver) ban('an automated browser (webdriver) is running the game'); } catch (e) {}
     // taps and key presses made by a script instead of a finger
@@ -7134,6 +7139,11 @@
     admSyncAt = Date.now();
     const snap = await fbDb.collection('bans').orderBy('at', 'desc').limit(500).get();
     admBans = snap.docs.map(d => Object.assign({ uid: d.id }, d.data()));
+    // lift bans made by mistake when the game moved to Vercel (it banned everyone playing there as a "modified copy")
+    for (const b of admBans.filter(b => siteBanMistake(b.reason))) {
+      try { await fbDb.collection('bans').doc(b.uid).delete(); fbDb.collection('appeals').doc(b.uid).delete().catch(() => {}); } catch (e) {}
+    }
+    admBans = admBans.filter(b => !siteBanMistake(b.reason));
     const uids = admBans.map(b => b.uid);
     for (const u of uids) if (!admSwept[u]) { try { await admWipe(u); } catch (e) {} }
     try { await fbDb.collection('meta').doc('bannedList').set({ uids, at: Date.now() }); } catch (e) {}
