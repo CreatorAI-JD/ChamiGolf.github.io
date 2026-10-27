@@ -7,7 +7,9 @@ service cloud.firestore {
     function isMe(uid) { return request.auth != null && request.auth.uid == uid; }
     // The creator (admin tools: bans, analytics, gifts, removing scores). Must be a verified Google sign-in.
     function isAdmin() { return request.auth != null && request.auth.token.email == 'jamesondoyle11@gmail.com' && request.auth.token.email_verified == true; }
-    function notBanned() { return request.auth != null && !exists(/databases/$(database)/documents/bans/$(request.auth.uid)); }
+    // Only the creator's bans count: old automatic bans (auto == true) are ignored, so nobody stays locked out by them.
+    function notBanned() { return request.auth != null && (!exists(/databases/$(database)/documents/bans/$(request.auth.uid))
+      || get(/databases/$(database)/documents/bans/$(request.auth.uid)).data.get('auto', false) == true); }
     // Names: 1-14 characters, and none of the worst words (the game also runs a much bigger filter before posting).
     function okName(n) { return n is string && n.size() > 0 && n.size() <= 14
       && !n.lower().matches('.*(fuck|shit|bitch|cunt|nigg|faggot|retard|whore|slut|penis|vagina|porn|nazi|hitler|dildo|pussy|rapist|molest|pedo|asshole|kkk).*'); }
@@ -123,40 +125,36 @@ service cloud.firestore {
       allow write: if isAdmin() || (request.auth != null && notBanned() && (bumpBadge('ace') || bumpBadge('champ')));
     }
 
-    // ---- Anti-cheat ----
-    // Bans: the game bans itself when it catches cheating (auto); only the creator can ban anyone else or lift a ban.
-    // appeal == false marks a final ban (the game's code was tampered with). A golfer's own game can only make its auto-ban
-    // harsher (turn appeals off), never softer.
+    // ---- Bans and review lists ----
+    // (Oct 27 2026) The game no longer bans anyone by itself. Only the creator can ban or lift a ban.
     match /bans/{uid} {
       allow read: if isMe(uid) || isAdmin();
-      allow create: if isAdmin() || (isMe(uid) && request.resource.data.auto == true);
-      allow update: if isAdmin() || (isMe(uid) && resource.data.auto == true && request.resource.data.appeal == false
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['appeal', 'reason', 't']));
-      allow delete: if isAdmin();
+      allow write: if isAdmin();
     }
-    // Appeals: one per banned golfer, only for bans that allow it. The creator reads them and unbans or turns them down.
-    match /appeals/{uid} {
-      allow read: if isMe(uid) || isAdmin();
-      allow create: if isMe(uid) && exists(/databases/$(database)/documents/bans/$(uid))
-        && get(/databases/$(database)/documents/bans/$(uid)).data.get('appeal', true) != false
-        && request.resource.data.keys().hasOnly(['uid', 'name', 'reason', 'msg', 'at', 't', 'status'])
-        && request.resource.data.uid == uid && request.resource.data.status == 'pending'
-        && request.resource.data.msg is string && request.resource.data.msg.size() <= 300
-        && request.resource.data.reason is string && request.resource.data.reason.size() <= 140 && request.resource.data.name is string && request.resource.data.name.size() <= 20;
-      allow update, delete: if isAdmin();
-    }
+    // (The appeals collection is gone: nobody can read or write it any more.)
     // Banned golfers' IDs (written by the creator's tools), so every game hides them from all the leaderboards.
     match /meta/bannedList {
       allow read: if true;
       allow write: if isAdmin();
     }
-    // Suspicious things the game noticed, for the creator to review.
+    // Hole-in-one logs (and the scorecards a banned golfer's game sends up), for the creator to review.
     match /flags/{id} {
       allow read, delete: if isAdmin();
       allow create: if request.auth != null && request.resource.data.uid == request.auth.uid
         && request.resource.data.keys().hasOnly(['uid', 'name', 'kind', 'detail', 'strong', 'google', 'at', 't', 'card', 'hard'])
         && request.resource.data.detail is string && request.resource.data.detail.size() <= 140
         && (!('card' in request.resource.data) || (request.resource.data.card is map && request.resource.data.card.size() <= 4));
+    }
+
+    // Scorecard review: the full card of any round of -9 or better over 9 holes (-18 or better over 18). Never bans anyone.
+    match /reviews/{id} {
+      allow read, delete: if isAdmin();
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'google', 't', 'cid', 'course', 's', 'pars', 'n', 'rel', 'strokes', 'aces', 'm', 'at'])
+        && request.resource.data.s is string && request.resource.data.s.size() <= 40
+        && request.resource.data.course is string && request.resource.data.course.size() <= 40
+        && request.resource.data.n is int && request.resource.data.n > 0 && request.resource.data.n <= 18
+        && request.resource.data.rel is int;
     }
 
     // (Analytics moved to Google Analytics: the old "presence" notes and "daily" counters aren't used any more.)

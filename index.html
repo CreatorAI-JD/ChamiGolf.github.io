@@ -336,6 +336,26 @@
                font:700 14px Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase}
   .logoEd .upl input{position:absolute;inset:0;opacity:0;cursor:pointer}
   .ballpv{display:flex;align-items:center;gap:16px}
+  /* ---- colour picker (Oct 27 2026): built for iPad fingers: a big hue/shade pad, brightness, swatches, R/G/B with +/- and numbers ---- */
+  .cpick{margin-top:8px;display:grid;gap:12px;touch-action:manipulation}
+  .cpTop{display:flex;gap:12px;align-items:center}
+  .cpPrev{width:64px;height:64px;flex:none;border-radius:16px;background:var(--c);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.45)}
+  .cpTop label{flex:1;font:800 10px Inter;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+  .cpHex{display:block;width:100%;margin-top:6px;padding:12px 14px;border-radius:12px;border:2px solid rgba(242,193,78,.55);background:var(--red-dd);color:#fff;font:700 20px Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+  .cpPadW{position:relative;height:170px;border-radius:16px;overflow:hidden;border:2px solid rgba(255,255,255,.35);touch-action:none;cursor:crosshair}
+  .cpPad{position:absolute;inset:0;width:100%;height:100%}
+  .cpDot{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:4px solid #fff;box-shadow:0 0 0 2px rgba(0,0,0,.5),0 3px 8px rgba(0,0,0,.5);background:var(--c);pointer-events:none}
+  .cpRow{display:grid;grid-template-columns:70px 46px 1fr 46px 64px;align-items:center;gap:8px;font:800 13px Inter,sans-serif;color:var(--gold-l)}
+  .cpRow input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;border-radius:11px;border:1px solid rgba(255,255,255,.4);outline:none;margin:0;touch-action:pan-y}
+  .cpRow input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:40px;height:40px;border-radius:50%;background:#fff;border:4px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.5)}
+  .cpRow input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;background:#fff;border:4px solid var(--gold)}
+  .cpRow input[type=number]{width:100%;padding:9px 4px;border-radius:10px;border:2px solid rgba(242,193,78,.55);background:var(--red-dd);color:#fff;font:700 17px Oswald,sans-serif;text-align:center}
+  .cpStep{height:46px;border-radius:12px;border:2px solid rgba(242,193,78,.6);background:rgba(0,0,0,.25);color:#fff;font:900 22px/42px Inter;text-align:center;user-select:none;-webkit-user-select:none;cursor:pointer}
+  .cpStep:active{background:rgba(242,193,78,.3)}
+  .cpSw{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px}
+  .cpSw div{height:44px;border-radius:12px;border:2px solid rgba(255,255,255,.35);cursor:pointer}
+  .cpSw div.on{border:3px solid #fff;box-shadow:0 0 0 2px var(--gold)}
+  .cpWarn{font:700 13px Inter;color:#ffb3bd;background:rgba(0,0,0,.25);border-radius:10px;padding:8px 10px}
   .rgb{display:grid;gap:10px;margin-top:6px}
   .rgbrow{display:grid;grid-template-columns:18px 1fr 34px;align-items:center;gap:10px;font:800 13px Inter,sans-serif;color:var(--gold-l)}
   .rgbrow b{font:700 15px Oswald,sans-serif;color:#fff;text-align:right}
@@ -855,9 +875,8 @@
 <div id="bannedOv" class="overlay hidden" style="z-index:60">
   <div class="card">
     <h2>⛔ Banned</h2>
-    <div class="sub">This device has been banned for suspected cheating, so it can't play or post scores.</div>
+    <div class="sub">The creator has banned this account, so it can't play or post scores.</div>
     <div class="sub" id="banWhy" style="color:var(--gold-l)"></div>
-    <div id="banAppeal"></div>
   </div>
 </div>
 
@@ -1150,8 +1169,8 @@
     { name: 'Red & Gold', price: 1500, look: { style: 'suit', jacket: '#B3122B', shirt: '#ffffff', tie: '#F2C14E', pants: '#1c1c22', shoes: '#111111' } },
     { name: 'Senior Sweater', lock: 'senior', look: { style: 'sweater', jacket: '#f4f1ea', trim: '#F2C14E', shirt: '#bcd6f2', tie: '#2747a8', pants: '#8a8d93', shoes: '#111111' } },
     { name: 'Brother Outfit', price: 1800, look: { style: 'suit', jacket: '#111113', shirt: '#ffffff', tie: '#09090a', pants: '#111113', shoes: '#0a0a0a' } },
-    { name: 'NHS Outfit', price: 4000, look: { style: 'suit', jacket: '#C9962B', shirt: '#ffffff', tie: '#B3122B', pants: '#1c1c22', shoes: '#111111' } },
-    { name: 'Masters Outfit', lock: 'masters', look: { style: 'suit', jacket: '#1f5a34', shirt: '#ffffff', tie: '#1f5a34', pants: '#b9a47c', shoes: '#eeeeea' } },
+    { name: 'Gold Jacket', price: 4000, look: { style: 'suit', jacket: '#C9962B', shirt: '#ffffff', tie: '#B3122B', pants: '#1c1c22', shoes: '#111111' } },
+    { name: 'Green Jacket', lock: 'masters', look: { style: 'suit', jacket: '#1f5a34', shirt: '#ffffff', tie: '#1f5a34', pants: '#b9a47c', shoes: '#eeeeea' } },
   ];
   LOOK_PRESETS.forEach(p => { if (p.price) p.price = salePrice(p.price); });
   const SWATCHES = {
@@ -1188,7 +1207,7 @@
   // Unlockable gear: name, how to earn it
   const MASTERS_REL = 0, MASTERS_CID = 'clblack';   // par or better on the hardest course
   const UNLOCKS = { senior: { name: 'Senior Sweater', how: 'Hit it within 10 feet of the pin in the Daily Closest to the Pin challenge.' },
-    masters: { name: 'Masters Outfit', how: 'The hardest unlock in the game: shoot par or better for a full round at Chami Links Black, the hardest course.' } };
+    masters: { name: 'Green Jacket', how: 'The hardest unlock in the game: shoot par or better for a full round at Chami Links Black, the hardest course.' } };
   const unlocked = id => !!(save.unlocks && save.unlocks[id]);
   const partShown = (k, look) => (k !== 'trim' || look.style === 'sweater') && (k !== 'style' || unlocked('senior'));
 
@@ -1217,7 +1236,7 @@
     covers: [['Gold', '#F2C14E'], ['Red', '#B3122B'], ['Black', '#111113'], ['White', '#eeeeea'], ['Navy', '#1f2c4d'], ['Green', '#1f5a34']],
   };
   const BAG_LOGOS = [['chaminade', 'Chami Golf'], ['none', 'No logo'], ['custom', 'Custom logo']];
-  const CUSTOM_LOGO_PRICE = salePrice(10000);
+  const CUSTOM_LOGO_PRICE = 5000;   // (Oct 27 2026) flat $5,000
   const BAG_PARTS = [['body', 'Bag color'], ['trim', 'Trim'], ['covers', 'Headcovers'], ['logo', 'Logo']];
 
   // ================= Save data =================
@@ -1290,6 +1309,23 @@
     return sw && table[sw[0]] != null ? table[sw[0]] : 0;
   }
   const ownsC = (part, hex) => priceOf(part, hex) === 0 || !!save.ownedLook[ckey(part, hex)];
+  // Mixed (custom) outfit colours from the colour picker: each one is bought once, like a swatch.
+  const CUSTOM_COLOR_PRICE = salePrice(1500);
+  const isSwatch = (part, hex) => (swList(part) || []).some(x => x[1].toLowerCase() === String(hex).toLowerCase());
+  const priceOfAny = (part, hex) => isSwatch(part, hex) ? priceOf(part, hex) : PRICES[part] ? CUSTOM_COLOR_PRICE : 0;
+  const ownsAny = (part, hex) => priceOfAny(part, hex) === 0 || !!save.ownedLook[ckey(part, hex)];
+  // The Green Jacket's green and the Gold Jacket's gold (and anything close to them) can't be put on a jacket from the shop or
+  // the colour mixer, so nobody can make a replica. You get them by earning the Green Jacket or buying the Gold Jacket outfit.
+  // (Anyone who already bought one of those jacket colours before Oct 27 2026 keeps it.)
+  const RESERVED = [{ hex: '#1f5a34', name: 'Green Jacket' }, { hex: '#C9962B', name: 'Gold Jacket' }];
+  const colorDist = (a, b) => { const [r1, g1, b1] = [1, 3, 5].map(i => parseInt(a.slice(i, i + 2), 16)), [r2, g2, b2] = [1, 3, 5].map(i => parseInt(b.slice(i, i + 2), 16));
+    const rm = (r1 + r2) / 2, dr = r1 - r2, dg = g1 - g2, db = b1 - b2; return Math.sqrt((2 + rm / 256) * dr * dr + 4 * dg * dg + (2 + (255 - rm) / 256) * db * db); };
+  const RESERVED_DIST = 90;   // "redmean" colour distance: about this close and it reads as the same jacket
+  function reservedFor(part, hex) {
+    if (part !== 'jacket' || !/^#[0-9a-f]{6}$/i.test(String(hex))) return null;
+    if (save.ownedLook[ckey(part, hex)]) return null;   // already yours (earned, bought with the outfit, or bought before)
+    return RESERVED.find(r => colorDist(String(hex), r.hex) < RESERVED_DIST) || null;
+  }
   const grantC = (part, hex) => { save.ownedLook[ckey(part, hex)] = 1; };
   // one-time switch for everyone: the Classic Outfit is the new starter, and Red & Gold has to be bought
   if (!save.migSchoolBag) {   // one-time: everyone on the old red default bag gets the real team bag
@@ -1307,7 +1343,7 @@
   ['trim', 'covers'].forEach(k => { grantC('bag-' + k, BAG_PRESETS[0].bag[k]); if (save.gbag[k]) grantC('bag-' + k, save.gbag[k]); });
   const OUTFIT_PARTS = ['jacket', 'shirt', 'tie', 'pants', 'shoes', 'trim'];
   const presetOwned = p => !p.price || OUTFIT_PARTS.every(k => p.look[k] == null || ownsC(k, p.look[k]));
-  // the Masters Outfit's colours stay yours once it's unlocked
+  // the Green Jacket's colours stay yours once it's unlocked (its internal unlock id is still 'masters')
   if (save.unlocks.masters) OUTFIT_PARTS.forEach(k => { const p = LOOK_PRESETS.find(x => x.lock === 'masters'); if (p.look[k]) grantC(k, p.look[k]); });
 
   // ================= Achievements =================
@@ -1342,7 +1378,7 @@
     ['underpar10', '🔥', 'On Fire', 'Finish 10 rounds under par', s => [s.underPar, 10], 2500],
     ['explorer', '🗺️', 'Course Explorer', 'Finish a round on every course', s => [COURSES.filter(c => s.roundsBy[c.id]).length, COURSES.length], 1500],
     ['valley', '🌊', 'Valley Conqueror', 'Shoot even par or better at Deans Valley', s => [s.bestBy.valley != null && s.bestBy.valley <= 0 ? 1 : 0, 1], 5000],
-    ['masters', '🧥', 'Green Jacket', 'Shoot par or better at Chami Links Black (unlocks the Masters Outfit)', s => [save.unlocks.masters ? 1 : 0, 1], 10000],
+    ['masters', '🧥', 'Green Jacket', 'Shoot par or better at Chami Links Black (unlocks the Green Jacket outfit)', s => [save.unlocks.masters ? 1 : 0, 1], 10000],
     ['blackTees', '⚫', 'From the Tips', 'Finish a round at Chami Links Black', s => [s.roundsBy.clblack || 0, 1], 1500],
     ['earn10k', '💰', 'Big Earner', 'Earn $10,000 in total', s => [s.earnedTotal, 10000], 0],
     ['earn100k', '🏦', 'Tour Money', 'Earn $100,000 in total', s => [s.earnedTotal, 100000], 0],
@@ -1368,24 +1404,9 @@
   loadBag();
   // Online state (filled in by the Online section below). var so persist() can run before that section does.
   var fbAuth = null, fbDb = null, fbUser = null, cloudReady = false, cloudTimer = null, lastSavedJson = null;
-  // ---- Money watchdog: every payout in the game goes through paid(). If the bank grows by more than the game paid out,
-  // the money was added some other way: 5,000 or more at once (or 5,000 in total) bans; smaller amounts are flagged for review.
-  let coinBase = save.coins || 0, coinPaid = 0, coinOdd = 0;
-  function paid(n) { coinPaid += Math.max(0, +n || 0); }
-  // also flagged (not banned) for the creator to look at: earning unusually fast (over $25,000 in an hour)
-  let earnWin = [], rateFlagged = false, bankFlagged = false;
-  function moneyWatch() {
-    const c = save.coins || 0, extra = c - coinBase - coinPaid, now = Date.now(), et = (save.stats && save.stats.earnedTotal) || 0;
-    if (coinPaid > 0) { earnWin.push([now, coinPaid]); earnWin = earnWin.filter(x => now - x[0] < 3600e3); const hr = earnWin.reduce((a, x) => a + x[1], 0);
-      if (hr > 25000 && !rateFlagged && typeof cheatFlag === 'function') rateFlagged = true, cheatFlag('money', `earned ${money(Math.round(hr))} in under an hour`, false); }
-    if (c > et + 500 && c <= et + 5000 && !bankFlagged && typeof cheatFlag === 'function') bankFlagged = true, cheatFlag('money', `bank ${money(Math.round(c))} is more than everything ever earned (${money(Math.round(et))})`, false);
-    coinBase = c; coinPaid = 0;
-    if (!(extra > 0.5) || typeof cheatFlag !== 'function') return;
-    coinOdd += extra;
-    if (extra >= 5000) cheatFlag('money', `${money(Math.round(extra))} appeared in the bank at once (not paid out by the game)`, true);
-    else if (coinOdd >= 5000) cheatFlag('money', `${money(Math.round(coinOdd))} in total appeared in the bank that the game never paid out`, true);
-    else cheatFlag('money', `${money(Math.round(extra))} appeared in the bank that the game didn't pay out`, false);
-  }
+  // ---- Money bookkeeping: every payout goes through paid(). (The old money watchdog that flagged and banned is gone.)
+  function paid(n) {}
+  function moneyWatch() {}
   function persist() {
     try { moneyWatch(); } catch (e) {}
     save.sig = sigOf(save);
@@ -1530,7 +1551,7 @@
   const CLB = (n, nm, par, y, o) => R(BLK, 'Bethpage Black', n, nm, par, y, Object.assign({ t: [46, 46], ts: 28 }, o));
   const own = h => { h.after = null; return h; };   // original holes (not modeled on a real course)
   const P3 = (n, nm, y, o) => own(R(D3C, '3C', n, nm, 3, y, Object.assign({ t: [46, 46], ts: 26, fw: [['g-35', 'g-13', 26]] }, o)));
-  const FL = (n, nm, par, y, o) => own(R(LAKE, 'Farbor Lake', n, nm, par, y, Object.assign({ ts: 30, t: [50, 50] }, o)));
+  const FL = (n, nm, par, y, o) => own(R(LAKE, 'Faerber Lake', n, nm, par, y, Object.assign({ ts: 30, t: [50, 50] }, o)));
   const CL_PAL = { outer: '#2f6f30', rough: '#3f8b3c', fairEdge: '#4f9d48', fair: '#66c05c', fringe: '#5cb854', green: '#88da7f', sand: '#f7ebc8', sandRim: '#7d6638',
              tee: '#74cd6a', far: 0x2f6f30, sky: ['#3f8fd6', '#b9dcf3', '#eef6fb'], fog: 0xd3e8f4, sun: 0xfff0d0, leaves: [0x2d6e2f, 0x245f29, 0x387a34], style: 'round' };
   const TPC = (n, nm, par, y, o) => R(MED, 'TPC Sawgrass', n, nm, par, y, Object.assign({ ts: 28 }, o));
@@ -1560,6 +1581,12 @@
     18: ['The Squeeze', 4, 411, { fw: [[0.08, 0.93, 34]], bk: [[0.6, -24, 14, 7], [0.6, 24, 14, 7], ['g-14', -15, 7, 8], ['g-14', 15, 7, 8]] }],
   };
   const bethHoles = (mk, list) => list.map(n => mk(n, ...BETH[n]));
+  // ---- New courses (Oct 27 2026): Founders Park, Hearst Executive, Darby Beach and Flyers Presidential (original holes) ----
+  const FPD = { k: 1.0, fw: 1.1, gm: 1.1 }, HXD = { k: 1.02, fw: 1.0, gm: 0.95 }, DBD = { k: 1.04, fw: 0.98, gm: 0.98 }, FXD = { k: 1.07, fw: 0.88, gm: 0.88 };
+  const FNP = (n, nm, par, y, o) => own(R(FPD, 'Founders Park', n, nm, par, y, Object.assign({ ts: 30, t: [50, 50] }, o)));
+  const HXC = (n, nm, par, y, o) => own(R(HXD, 'Hearst Executive', n, nm, par, y, Object.assign({ ts: 24, t: [40, 40] }, par === 3 ? { fw: [['g-32', 'g-13', 24]] } : {}, o)));
+  const DBC = (n, nm, par, y, o) => own(R(DBD, 'Darby Beach', n, nm, par, y, Object.assign({ ts: 44, t: [52, 52], tr: 6 }, o)));
+  const FXC = (n, nm, par, y, o) => own(R(FXD, 'Flyers Presidential', n, nm, par, y, Object.assign({ ts: 26, t: [42, 42] }, o)));
   const COURSES = [
     { id: 'par3', name: '3C Par Three', teeCol: '#f2f2ee', desc: 'Where everyone starts. Nine short par 3s to learn your irons, your wedges and your putting.', wind: 6,
       pal: Object.assign({}, CL_PAL, { sky: ['#4a9be0', '#c4e3f6', '#f2f8fc'], green: '#8fe086', fair: '#6cc761' }),
@@ -1577,6 +1604,20 @@
     { id: 'pines', name: 'Chami Links Crimson', unlock: 'par3', teeCol: '#B3122B', desc: 'The original Chami Links, from the crimson tees. Wide, friendly parkland modeled on Bethpage Black. Learn your yardages here.', wind: 8,
       pal: CL_PAL,
       holes: bethHoles(BB, [1, 4, 5, 8, 15, 18]) },
+    { id: 'founders', name: 'Founders Park', unlock: 'pines', teeCol: '#c0392b', desc: 'A historic old parkland nine in full autumn colour: big oaks and maples, a mill pond, a cobblestone creek and the town green.', wind: 9,
+      pal: { outer: '#4f6b2c', rough: '#5f8a36', fairEdge: '#6ea544', fair: '#7cbf55', fringe: '#72b44f', green: '#93d77f', sand: '#f3e6c4', sandRim: '#7a6236',
+             tee: '#82c763', far: 0x6a5a2a, sky: ['#5b8fc9', '#c9dcec', '#f6efe2'], fog: 0xe9dcc4, sun: 0xffe0b0, leaves: [0xc0561e, 0xd9952b, 0x9c2f1c], style: 'round' },
+      holes: [
+        FNP(1, 'Liberty Bell', 4, 380, { bk: [[0.55, 24, 10, 7], ['g-12', -15, 6, 8]] }),
+        FNP(2, 'Charter Oak', 3, 165, { fw: [['g-40', 'g-13', 28]], cl: [['g-22', 14, 1, 12]], bk: [['g+4', -15, 5, 7]] }),
+        FNP(3, 'Constitution', 5, 520, { p: [[0, 0], [0, 280], [70, 520]], fw: [[0.07, 0.94, 44]], bk: [['v1', -28, 10, 7], ['g-14', 15, 7, 8]], wd: [['v1-40', 62, 24, 6]] }),
+        FNP(4, 'Old Mill Pond', 4, 360, { wt: [['g-26', 0, 12, 30]], bk: [['g+8', 14, 5, 6]] }),
+        FNP(5, 'The Signers', 4, 410, { p: [[0, 0], [0, 250], [-60, 410]], bk: [['v1+5', 26, 10, 7], ['g-10', -15, 6, 8]], wd: [['v1-40', -60, 22, 5]] }),
+        FNP(6, 'Town Green', 3, 140, { fw: [['g-34', 'g-13', 26]], g: [15, 17], bk: [['g-12', -9, 5, 4], ['g-12', 9, 5, 4], ['g+12', 0, 5, 7]] }),
+        FNP(7, 'Cobblestone Creek', 4, 395, { wt: [[0.62, 0, 5, 40]], bk: [[0.42, -24, 10, 6], ['g-10', 15, 6, 8]] }),
+        FNP(8, 'Lamplighter', 3, 185, { fw: [['g-44', 'g-13', 28]], wt: [[0.5, -28, 44, 12]], bk: [['g-2', 16, 5, 8]] }),
+        FNP(9, 'Founders Way', 5, 505, { p: [[0, 0], [0, 240], [50, 360], [40, 505]], fw: [[0.07, 0.5, 44], [0.62, 0.95, 38]], bk: [['v2+20', 0, 6, 28], ['g-12', -15, 6, 8]], wd: [['v1-20', -60, 22, 5]] }),
+      ] },
     { id: 'coast', name: 'TPC Saragosa', unlock: 'pines', desc: 'Stadium golf modeled on TPC Sawgrass. Water everywhere, doglegs around lakes and the famous island green.', wind: 14,
       pal: { outer: '#6f8f4a', rough: '#8fa54f', fairEdge: '#6fae55', fair: '#7cc663', fringe: '#6dbd5c', green: '#93de86', sand: '#f8eecd', sandRim: '#806a3a',
              tee: '#80d070', far: 0x3f6f35, sky: ['#2f86d6', '#a9d8f5', '#f3f9fb'], fog: 0xdcecf5, sun: 0xfff6e0, leaves: [0x3e6b3a, 0x4b7a40, 0x35602f], style: 'pine' },
@@ -1589,7 +1630,30 @@
         TPC(17, 'Island Green', 3, 137, { g: [12, 16], wt: [['g+0', 0, 32, 38]], t: [58, 58] }),
         TPC(18, 'Water Left', 4, 462, { p: [[0, 0], [0, 230], [-110, 420]], wt: [['v1+40', -50, 70, 40]], t: [0, 50], bk: [['g-6', 20, 7, 8], ['v1', 30, 12, 7]] }),
       ] },
-    { id: 'farbor', name: 'Farbor Lake', unlock: 'coast', desc: 'Nine holes wrapped around a big blue lake: water on every hole, a dock green and a long lakeside par 5.', wind: 13,
+    { id: 'hearst', name: 'Hearst Executive', unlock: 'coast', teeCol: '#7d5fff', desc: 'An 18-hole executive course in the middle of the city at dusk: mostly par 3s and short, tight par 4s, with water features and the skyline all around.', wind: 10,
+      pal: { outer: '#34503a', rough: '#3f6b47', fairEdge: '#4d8456', fair: '#5fa067', fringe: '#579a5f', green: '#7fd08a', sand: '#efe6d6', sandRim: '#6d6070',
+             tee: '#66b06e', far: 0x3a3550, sky: ['#2b2350', '#8a5a9a', '#f2b07a'], fog: 0xb796a8, sun: 0xffc48a, leaves: [0x2e5a3a, 0x3a6a46, 0x264c32], style: 'round' },
+      holes: [
+        HXC(1, 'Front Page', 4, 330, { bk: [[0.6, 22, 9, 6], ['g-10', -14, 5, 7]] }),
+        HXC(2, 'Headline', 3, 145, { bk: [['g-8', 15, 5, 7]] }),
+        HXC(3, 'Byline', 3, 120, { wt: [['g-26', 0, 8, 22]], bk: [['g+6', -11, 4, 5]] }),
+        HXC(4, 'Press Room', 4, 305, { p: [[0, 0], [0, 200], [40, 305]], bk: [['v1', -22, 8, 6], ['g-8', 13, 5, 6]] }),
+        HXC(5, 'Deadline', 3, 175, { bk: [['g-10', -14, 5, 7], ['g-10', 14, 5, 7]] }),
+        HXC(6, 'The Scoop', 3, 105, { g: [10, 11], bk: [['g-8', 0, 6, 3], ['g+7', 9, 3, 4]] }),
+        HXC(7, 'Ink Well', 3, 160, { wt: [['g+0', -20, 10, 18]], bk: [['g+8', 9, 4, 4]] }),
+        HXC(8, 'Editor\'s Desk', 4, 345, { p: [[0, 0], [0, 230], [-40, 345]], wt: [['v1+20', 30, 16, 12]], bk: [['g-10', -14, 5, 7]] }),
+        HXC(9, 'Column Nine', 3, 135, { bk: [['g-6', -14, 5, 7], ['g+8', 10, 4, 4]] }),
+        HXC(10, 'Op-Ed', 3, 150, { p: [[0, 0], [16, 150]], bk: [['g-6', -15, 5, 7]], wt: [[0.45, 26, 18, 10]] }),
+        HXC(11, 'Breaking News', 4, 320, { bk: [[0.55, -22, 9, 6], [0.55, 22, 9, 6], ['g-10', 0, 5, 10]] }),
+        HXC(12, 'Corner Office', 3, 185, { p: [[0, 0], [-14, 185]], bk: [['g-8', 14, 5, 7], ['g+8', -10, 4, 5]] }),
+        HXC(13, 'Elevator', 3, 115, { g: [9, 10], wt: [['g+14', 0, 6, 18]], bk: [['g-8', -8, 4, 3], ['g-8', 8, 4, 3]] }),
+        HXC(14, 'Board Room', 4, 355, { p: [[0, 0], [0, 240], [45, 355]], bk: [['v1', -24, 9, 6], ['g-10', 14, 5, 7]], wd: [['v1-30', 46, 16, 4]] }),
+        HXC(15, 'Stock Ticker', 3, 165, { wt: [['g-30', 0, 10, 26]], bk: [['g+6', 12, 4, 5]] }),
+        HXC(16, 'Penthouse', 3, 130, { g: [12, 13], bk: [['g-10', -9, 4, 4], ['g-10', 9, 4, 4], ['g+10', 0, 4, 6]] }),
+        HXC(17, 'Rooftop', 4, 290, { wt: [[0.4, 0, 6, 30]], bk: [['g-8', -13, 5, 6], ['g+6', 12, 4, 5]] }),
+        HXC(18, 'Last Edition', 4, 365, { p: [[0, 0], [0, 250], [-35, 365]], wt: [['g-20', 22, 14, 18]], bk: [['v1', 24, 9, 6], ['g+8', -12, 5, 6]] }),
+      ] },
+    { id: 'farbor', name: 'Faerber Lake', unlock: 'coast', desc: 'Nine holes wrapped around a big blue lake: water on every hole, a dock green and a long lakeside par 5.', wind: 13,
       pal: { outer: '#3a7a3a', rough: '#4a944a', fairEdge: '#58a852', fair: '#6fc966', fringe: '#63bd5b', green: '#90e188', sand: '#f6ecd0', sandRim: '#7a6640',
              tee: '#7ad06f', far: 0x2d6a8f, sky: ['#2b7fd0', '#a8d6f4', '#eef7fc'], fog: 0xd2e7f4, sun: 0xfff2da, leaves: [0x2f6a35, 0x3d7a3a, 0x285c2c], style: 'round' },
       holes: [
@@ -1603,9 +1667,37 @@
         FL(8, 'Sunset Cove', 3, 192, { p: [[0, 0], [20, 192]], wt: [[0.45, 32, 56, 20]], bk: [['g-6', -16, 6, 8], ['g+8', 12, 5, 6]] }),
         FL(9, 'Clubhouse', 4, 440, { p: [[0, 0], [0, 270], [-40, 440]], wt: [['g-30', 0, 9, 40]], bk: [['v1', 28, 10, 7], ['g+8', -14, 5, 7]], wd: [['v1-30', -58, 22, 5]] }),
       ] },
+    { id: 'darby', name: 'Darby Beach', unlock: 'farbor', teeCol: '#2bb3c0', desc: 'Nine seaside links holes on the dunes: the ocean down one side, sandy waste areas, pot bunkers, a lighthouse green and a sea breeze that never quits.', wind: 18,
+      pal: { outer: '#9aa66a', rough: '#a9b56c', fairEdge: '#8cc06a', fair: '#9ad277', fringe: '#8cc86e', green: '#a6e292', sand: '#fff3d1', sandRim: '#b39a62',
+             tee: '#98d27c', far: 0x2a8fb0, sky: ['#1f9bd6', '#9fe0f2', '#f4fbfc'], fog: 0xd7f0f6, sun: 0xfff8e4, leaves: [0x5f8a3a, 0x6e9a44, 0x4f7a32], style: 'round' },
+      holes: [
+        DBC(1, 'Boardwalk', 4, 390, { wt: [[0.5, 70, 260, 34, 1]], t: [52, 0], m: [64, 46], bk: [[0.5, -24, 9, 6], ['g-10', 15, 5, 6]] }),
+        DBC(2, 'Sand Dollar', 3, 175, { fw: [['g-30', 'g-13', 24]], bk: [[0.35, 0, 18, 14], ['g-8', -13, 4, 4], ['g+8', 12, 4, 4]] }),
+        DBC(3, 'Lifeguard Stand', 4, 420, { p: [[0, 0], [0, 250], [55, 420]], wt: [[0.6, 80, 260, 30, 1]], t: [52, 0], m: [60, 52], bk: [['v1', -26, 6, 6], ['g-10', -14, 4, 4], ['g+6', 12, 4, 4]] }),
+        DBC(4, 'Riptide', 5, 535, { p: [[0, 0], [0, 290], [-40, 535]], fw: [[0.07, 0.94, 40]], wt: [[0.5, -78, 320, 30, 1]], t: [0, 52], m: [52, 62], bk: [['v1', 24, 6, 6], ['v1+60', -18, 5, 5], ['g-12', 14, 4, 4]] }),
+        DBC(5, 'Dune Ridge', 4, 345, { bk: [[0.45, -14, 4, 4], [0.5, 14, 4, 4], [0.65, 0, 4, 4], ['g-9', -10, 3, 3], ['g-9', 10, 3, 3]] }),
+        DBC(6, 'Tide Pool', 3, 150, { fw: [], wt: [['g-22', 0, 9, 26]], bk: [['g+6', -11, 4, 5]] }),
+        DBC(7, 'Seagull', 4, 405, { p: [[0, 0], [0, 230], [-45, 405]], bk: [['v1', 22, 12, 8], [0.72, -6, 14, 10], ['g-10', 14, 4, 4]] }),
+        DBC(8, 'Lighthouse', 3, 205, { p: [[0, 0], [16, 205]], wt: [[0.55, 50, 160, 30, 1]], t: [36, 0], m: [44, 32], bk: [['g-8', -12, 5, 6], ['g+9', -5, 4, 4]] }),
+        DBC(9, 'Sunset Pier', 5, 520, { p: [[0, 0], [0, 260], [60, 380], [50, 520]], fw: [[0.07, 0.5, 42], [0.62, 0.94, 36]], wt: [['g+30', 0, 40, 18, 1]], bk: [['v2+20', 0, 14, 10], ['g-12', -14, 4, 4], ['g-10', 13, 4, 4]], mb: 26 }),
+      ] },
     { id: 'clyellow', name: 'Chami Links Gold', unlock: 'farbor', teeCol: '#F2C14E', desc: 'Chami Links from the gold tees: the front nine of Bethpage Black, longer and tighter than the crimson tees.', wind: 11,
       pal: Object.assign({}, CL_PAL, { sky: ['#e0a040', '#f6d79a', '#fdf0d6'], fog: 0xf3dfb8, sun: 0xffe2a8 }),
       holes: bethHoles(CLY, [1, 2, 3, 4, 5, 6, 7, 8, 9]) },
+    { id: 'flyers', name: 'Flyers Presidential', unlock: 'clyellow', teeCol: '#1f3a93', desc: 'A grand, perfectly kept championship nine: tall pines, brilliant white sand, an oval green, the Reflecting Pool and a long par 5 to finish. Tight and long.', wind: 12,
+      pal: { outer: '#1f5a2e', rough: '#2d7a3a', fairEdge: '#3f9a4a', fair: '#55b75c', fringe: '#4fae56', green: '#7fd77c', sand: '#ffffff', sandRim: '#8a8a96',
+             tee: '#5fbf63', far: 0x1f4a2a, sky: ['#2a5bb8', '#9fc0ee', '#f1f5fd'], fog: 0xd6e2f4, sun: 0xfffaf0, leaves: [0x1c4a26, 0x23552c, 0x183f21], style: 'pine' },
+      holes: [
+        FXC(1, 'Inauguration', 4, 425, { bk: [[0.58, -24, 11, 7], ['g-12', 15, 6, 8], ['g-12', -15, 6, 8]] }),
+        FXC(2, 'Oval Office', 3, 190, { fw: [['g-44', 'g-13', 26]], g: [11, 19], bk: [['g-2', -17, 5, 9], ['g-2', 17, 5, 9], ['g+12', 0, 4, 8]] }),
+        FXC(3, 'Rose Garden', 4, 400, { p: [[0, 0], [0, 250], [55, 400]], bk: [['v1', -26, 10, 7], ['g-10', 14, 6, 7], ['g+8', -12, 5, 6]], wd: [['v1-40', 56, 22, 5]] }),
+        FXC(4, 'Air Force One', 5, 575, { p: [[0, 0], [0, 280], [-70, 420], [-60, 575]], fw: [[0.07, 0.55, 40], [0.65, 0.95, 36]], bk: [['v1+10', 28, 12, 7], ['v2+20', 0, 6, 28], ['g-12', -15, 6, 8]], wd: [['v1-30', -60, 24, 6]] }),
+        FXC(5, 'The Cabinet', 4, 445, { fw: [[0.08, 0.93, 36]], bk: [[0.6, -22, 12, 7], [0.62, 22, 12, 7], ['g-14', -14, 6, 8], ['g-14', 14, 6, 8]] }),
+        FXC(6, 'Rotunda', 3, 215, { fw: [['g-46', 'g-13', 26]], g: [13, 13], bk: [['g-10', -12, 5, 5], ['g-10', 12, 5, 5], ['g+0', -16, 4, 6], ['g+0', 16, 4, 6], ['g+12', 0, 5, 5]] }),
+        FXC(7, 'Capitol Hill', 4, 430, { p: [[0, 0], [0, 260], [-50, 430]], bk: [['v1', 26, 10, 7], ['g-12', -14, 6, 8]], wd: [['v1-40', -58, 22, 5]] }),
+        FXC(8, 'Reflecting Pool', 3, 175, { fw: [], wt: [[0.5, 0, 50, 12]], bk: [['g-4', -15, 5, 7], ['g+8', 12, 4, 5]] }),
+        FXC(9, 'Commander in Chief', 5, 545, { p: [[0, 0], [0, 270], [60, 545]], fw: [[0.07, 0.94, 38]], wt: [['g-34', 0, 8, 36]], bk: [['v1', -28, 12, 7], ['g-10', 15, 6, 8], ['g+8', -12, 5, 6]], wd: [['v1-40', 60, 22, 5]] }),
+      ] },
     { id: 'meribah', name: 'Meribah Country Club', unlock: 'clyellow', desc: '18 holes modeled on Augusta National. Sharp doglegs through tall pines, creeks and white sand.', wind: 12,
       pal: { outer: '#2c6a34', rough: '#3d8a3f', fairEdge: '#55a84c', fair: '#6cc95f', fringe: '#62bf57', green: '#8fe086', sand: '#fbf6ea', sandRim: '#857552',
              tee: '#78d06c', far: 0x2c5f30, sky: ['#d9714a', '#f4c296', '#fde9d2'], fog: 0xf0d2b2, sun: 0xffd9a8, leaves: [0x24502a, 0x2d5e2f, 0x1f4524], style: 'pine' },
@@ -1779,42 +1871,105 @@
   const spinAng = sp => sp.ph + sp.w * miniT;
 
   // ================= Daily Closest to the Pin =================
-  // A brutal one-shot par 3, generated fresh every day (midnight ET) from the date, so everyone gets the same hole.
+  // A one-shot par 3, generated fresh every day (midnight ET) from the date, so everyone gets the same hole.
+  // (Oct 27 2026) Much more variety: 14 layouts (island, peninsula, redan, postage stamp, forest chute, desert waste, punchbowl,
+  // elevated drops and uphill shots...), short / mid / long holes, calm to gusty wind, uphill and downhill tees
+  // (elevation changes how far the ball carries: "plays like" yardage), and the pin tucked somewhere different on the green.
+  // The same layout never comes up two days in a row.
   const CTP_TRIES = 3, CTP_UNLOCK_FT = 10;
+  const CTP_KINDS = [
+    // [label, about, difficulty weight, length class]
+    ['Island green', 'The green sits alone in a lake. Short is wet, long is wet.', 1.1, 'Mid'],
+    ['Long and tight', 'A monster par 3 with water down one side and bunkers guarding the green.', 0.8, 'Long'],
+    ['Bunker gauntlet', 'Carry the creek, then thread it between bunkers on every side.', 0.9, 'Mid'],
+    ['Cliff edge', 'The green hangs on the edge of the ocean. Miss on the wrong side and it\'s gone.', 1.0, 'Long'],
+    ['Wedge wizard', 'A short one, but the green is tiny with deep sand in front and water behind.', 0.9, 'Short'],
+    ['Postage stamp', 'A pocket-sized green ringed by pot bunkers. Any miss is in the sand.', 1.1, 'Short'],
+    ['Redan', 'A long green angled away from you, with a deep bunker guarding the front corner.', 0.9, 'Long'],
+    ['Big drop', 'The tee sits way above the green: it plays much shorter than the card says.', 0.7, 'Mid'],
+    ['Uphill fortress', 'Straight uphill to a green guarded by bunkers: it plays longer than it looks.', 0.9, 'Mid'],
+    ['Forest chute', 'Hit it through a narrow gap in the trees. The leaves slow you down, the trunks send you back.', 1.0, 'Mid'],
+    ['Peninsula', 'The green pokes out into a lake, with water short, long and on one side.', 1.0, 'Mid'],
+    ['Desert waste', 'Nothing but sand between you and the green. Carry it all the way.', 0.8, 'Long'],
+    ['Punchbowl', 'A big green in a hollow ringed by bunkers, with trees close behind.', 0.6, 'Short'],
+    ['Double water', 'Two ponds in front, one either side of the line. Thread it down the middle.', 1.0, 'Mid'],
+  ];
+  const ctpSeed = day => +day.replace(/-/g, '') % 233280;
+  const ctpKindOf = day => { const r = makeRng(ctpSeed(day) * 7 + 3); r(); r(); return Math.floor(r() * CTP_KINDS.length); };
+  const ctpPrevDay = day => { const d = new Date(day + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() - 1); return d.toISOString().slice(0, 10); };
+  // elevation: + = the tee is above the green (downhill, plays shorter); - = uphill (plays longer). 1 yd up or down = 1 yd of carry.
+  const playsLikeAdj = (h, fromX, fromY, toX, toY) => h && h.elev ? terrainH(h, fromX, fromY) - terrainH(h, toX, toY) : 0;
   let ctpCache = null;
   function ctpCourse() {
     const day = etDay();
     if (ctpCache && ctpCache.day === day) return ctpCache;
-    const seed = +day.replace(/-/g, '') % 233280, rng = makeRng(seed);
+    const seed = ctpSeed(day), rng = makeRng(seed);
     for (let i = 0; i < 5; i++) rng();
-    const base = COURSES[seed % COURSES.length], kind = Math.floor(rng() * 4), side = rng() < 0.5 ? -1 : 1, D = { k: 1, fw: 1, gm: 0.8 };
-    let real, o, name;
-    if (kind === 0) {          // island green ringed by water
-      real = 172 + Math.round(rng() * 34); name = ['Island of Doom', 'Lonely Island', 'The Moat', 'Splash Zone'][Math.floor(rng() * 4)];
-      o = { g: [10, 11], wt: [['g+0', 0, 30, 28]], bk: [['g-7', side * 6, 3, 2.5], ['g+7', -side * 5, 3, 2.5]], t: [42, 42], m: [44, 44], mb: 34 };
-    } else if (kind === 1) {   // super long, tight and guarded
-      real = 245 + Math.round(rng() * 28); name = ['The Monster', 'Long Haul', 'Giant Killer', 'The Marathon'][Math.floor(rng() * 4)];
-      o = { p: [[0, 0], [side * Math.round(10 + rng() * 14), real]], g: [9, 12], fw: [['g-80', 'g-12', 22]], wt: [[0.55, -side * 30, 60, 9]],
-        bk: [['g-13', -12, 5, 4], ['g-12', 12, 5, 4], ['g+9', 0, 7, 3], [0.62, side * 20, 12, 5]], t: [28, 28], m: [38, 38] };
-    } else if (kind === 2) {   // creek in front, bunkers all the way round
-      real = 192 + Math.round(rng() * 28); name = ['The Gauntlet', 'Sand Trap City', 'Bunker Hill', 'No Bailout'][Math.floor(rng() * 4)];
-      o = { g: [9, 11], wt: [['g-33', 0, 5, 40]], t: [22, 22], ts: 18, m: [34, 34],
-        bk: [['g-11', -8, 4, 4], ['g-11', 8, 4, 4], ['g+0', -11, 4, 6], ['g+0', 11, 4, 6], ['g+11', -7, 4, 4], ['g+11', 7, 4, 4], ['g-22', -side * 6, 8, 4]] };
-    } else {                   // green on the edge of the ocean
-      real = 205 + Math.round(rng() * 32); name = ['Cliffhanger', 'Edge of the World', 'Ocean Drop', 'Sea Wall'][Math.floor(rng() * 4)];
-      o = { p: [[0, 0], [side * 18, real]], g: [9, 12], wt: [[0.55, side * 44, 150, 30, 1]], t: side > 0 ? [30, 0] : [0, 30], m: side > 0 ? [44, 30] : [30, 44],
-        bk: [['g-8', -side * 11, 5, 6], ['g+9', -side * 5, 4, 4], ['g-20', 0, 6, 3]] };
+    const base = COURSES[seed % COURSES.length], side = rng() < 0.5 ? -1 : 1, D = { k: 1, fw: 1, gm: 0.8 };
+    let kind = ctpKindOf(day);
+    if (kind === ctpKindOf(ctpPrevDay(day))) kind = (kind + 1 + Math.floor(rng() * (CTP_KINDS.length - 1))) % CTP_KINDS.length;
+    const pick = a => a[Math.floor(rng() * a.length)], span = (lo, hi) => lo + Math.round(rng() * (hi - lo));
+    let real, o, name, elev = 0;
+    switch (kind) {
+      case 0:   // island green ringed by water
+        real = span(150, 206); name = pick(['Island of Doom', 'Lonely Island', 'The Moat', 'Splash Zone']);
+        o = { g: [10, 11], wt: [['g+0', 0, 30, 28]], bk: [['g-7', side * 6, 3, 2.5], ['g+7', -side * 5, 3, 2.5]], t: [42, 42], m: [44, 44], mb: 34 }; break;
+      case 1:   // super long, tight and guarded
+        real = span(235, 273); name = pick(['The Monster', 'Long Haul', 'Giant Killer', 'The Marathon']);
+        o = { p: [[0, 0], [side * span(10, 24), real]], g: [9, 12], fw: [['g-80', 'g-12', 22]], wt: [[0.55, -side * 30, 60, 9]],
+          bk: [['g-13', -12, 5, 4], ['g-12', 12, 5, 4], ['g+9', 0, 7, 3], [0.62, side * 20, 12, 5]], t: [28, 28], m: [38, 38] }; break;
+      case 2:   // creek in front, bunkers all the way round
+        real = span(178, 220); name = pick(['The Gauntlet', 'Sand Trap City', 'Bunker Hill', 'No Bailout']);
+        o = { g: [9, 11], wt: [['g-33', 0, 5, 40]], t: [22, 22], ts: 18, m: [34, 34],
+          bk: [['g-11', -8, 4, 4], ['g-11', 8, 4, 4], ['g+0', -11, 4, 6], ['g+0', 11, 4, 6], ['g+11', -7, 4, 4], ['g+11', 7, 4, 4], ['g-22', -side * 6, 8, 4]] }; break;
+      case 3:   // green on the edge of the ocean
+        real = span(195, 240); name = pick(['Cliffhanger', 'Edge of the World', 'Ocean Drop', 'Sea Wall']); elev = rng() < 0.5 ? span(3, 7) : 0;
+        o = { p: [[0, 0], [side * 18, real]], g: [9, 12], wt: [[0.55, side * 44, 150, 30, 1]], t: side > 0 ? [30, 0] : [0, 30], m: side > 0 ? [44, 30] : [30, 44],
+          bk: [['g-8', -side * 11, 5, 6], ['g+9', -side * 5, 4, 4], ['g-20', 0, 6, 3]] }; break;
+      case 4:   // short wedge to a tiny green, sand in front, water behind
+        real = span(108, 142); name = pick(['Wedge Wizard', 'Little Devil', 'The Thimble', 'Short & Sweet']);
+        o = { g: [7, 8], bk: [['g-10', -4, 6, 3], ['g-10', 5, 6, 3], ['g+0', side * 10, 3, 4]], wt: [['g+16', 0, 7, 22]], t: [30, 30], m: [32, 32], mb: 30 }; break;
+      case 5:   // postage stamp ringed by pot bunkers
+        real = span(118, 150); name = pick(['Postage Stamp', 'The Pocket', 'Pot Luck', 'The Thumbprint']);
+        o = { g: [7, 7], t: [36, 36], m: [34, 34], bk: [['g-9', 0, 3, 3], ['g-6', -8, 3, 3], ['g-6', 8, 3, 3], ['g+3', -9, 3, 3], ['g+3', 9, 3, 3], ['g+9', -4, 3, 3], ['g+9', 5, 3, 3], ['g-24', side * 5, 4, 3]] }; break;
+      case 6:   // redan: long angled green, deep front-corner bunker
+        real = span(185, 222); name = pick(['The Redan', 'Angle of Attack', 'The Slide', 'Kick Plate']);
+        o = { p: [[0, 0], [side * 6, real * 0.86], [side * 30, real]], g: [8, 15], bk: [['g-12', -side * 8, 9, 3], ['g+4', side * 12, 4, 6]], t: [34, 34], m: [40, 40] }; break;
+      case 7:   // big drop: elevated tee, water short
+        real = span(165, 212); name = pick(['The Big Drop', 'Sky Box', 'Free Fall', 'Mountaintop']); elev = span(10, 15);
+        o = { g: [10, 11], wt: [['g-28', side * 4, 10, 26]], bk: [['g+10', 0, 6, 3], ['g-3', side * 11, 3, 5]], t: [30, 30], m: [40, 40] }; break;
+      case 8:   // uphill fortress
+        real = span(148, 190); name = pick(['Uphill Fortress', 'The Climb', 'Castle Rock', 'Heartbreak Hill']); elev = -span(6, 10);
+        o = { g: [9, 11], bk: [['g-11', -6, 5, 3], ['g-11', 7, 5, 3], ['g-2', -11, 3, 5], ['g-2', 11, 3, 5]], t: [24, 24], ts: 20, m: [34, 34] }; break;
+      case 9:   // forest chute: tight lines of trees right up to the green
+        real = span(160, 205); name = pick(['Forest Chute', 'The Tunnel', 'Needle\'s Eye', 'Timber Alley']); elev = rng() < 0.4 ? span(3, 6) : 0;
+        o = { g: [9, 11], t: [13, 13], ts: 13, tr: 7, m: [30, 30], bk: [['g-10', side * 7, 4, 3]], cl: [[0.55, side * 9, 2, 6]] }; break;
+      case 10:  // peninsula green
+        real = span(160, 205); name = pick(['The Peninsula', 'Point Break', 'Land\'s End', 'The Jetty']);
+        o = { g: [10, 11], wt: [['g-6', side * 26, 40, 16], ['g+20', side * 4, 12, 30], ['g-34', side * 8, 6, 18]], bk: [['g+0', -side * 12, 4, 6]], t: [36, 36], m: [46, 46], mb: 38 }; break;
+      case 11:  // desert waste: sand all the way
+        real = span(200, 248); name = pick(['Desert Waste', 'The Sahara', 'Dust Bowl', 'Mirage']);
+        o = { g: [10, 12], t: [0, 0], m: [40, 40], bk: [[0.28, 0, 16, 18], [0.5, side * 4, 18, 20], [0.7, -side * 3, 16, 18], ['g-14', 0, 6, 9], ['g+10', side * 6, 5, 4]] }; break;
+      case 12:  // punchbowl: big green in a bowl, bunkers all round, trees behind
+        real = span(120, 160); name = pick(['The Punchbowl', 'Soup Bowl', 'The Hollow', 'Amphitheatre']); elev = rng() < 0.6 ? span(2, 6) : 0;
+        o = { g: [13, 14], bk: [['g-15', -8, 4, 3], ['g-15', 8, 4, 3], ['g+0', -16, 3, 5], ['g+0', 16, 3, 5]], wd: [['g+30', 0, 22, 9]], t: [34, 34], m: [40, 40], mb: 40 }; break;
+      default:  // double water: two ponds either side of the line
+        real = span(165, 210); name = pick(['Double Trouble', 'Twin Lakes', 'The Narrows', 'Split Decision']);
+        o = { g: [9, 11], wt: [[0.45, -14, 26, 12], [0.62, 15, 24, 12]], bk: [['g-9', 0, 5, 3], ['g+8', side * 7, 4, 3]], t: [30, 30], m: [40, 40] };
     }
     const h = R(D, 'Daily Challenge', 1, name, 3, real, o);
-    const mph = 8 + Math.round(rng() * 14), ang = rng() * Math.PI * 2;
+    // the pin is tucked somewhere different on the green every day (never right on the edge)
+    const pa = rng() * Math.PI * 2, pr = 0.15 + rng() * 0.4;
+    h.pin = { x: h.green.x + Math.cos(pa) * h.green.rx * pr, y: h.green.y + Math.sin(pa) * h.green.ry * pr };
+    h.yds = Math.round(Math.hypot(h.pin.x - h.tee.x, h.pin.y - h.tee.y));
+    if (elev) h.elev = elev;
+    // wind: some days calm, most days a breeze, some days really gusty
+    const wr = rng(), mph = wr < 0.18 ? span(0, 5) : wr < 0.72 ? span(6, 15) : span(16, 27), ang = rng() * Math.PI * 2;
     h.fixedWind = { mph, ang, x: Math.cos(ang) * mph, y: Math.sin(ang) * mph };
     h.after = null;
-    const KIND = [['Island green', 'The green sits alone in a lake. Short is wet, long is wet.', 1.1],
-      ['Long and tight', 'A monster par 3 with water down one side and bunkers guarding the green.', 0.8],
-      ['Bunker gauntlet', 'Carry the creek, then thread it between bunkers on every side.', 0.9],
-      ['Cliff edge', 'The green hangs on the edge of the ocean. Miss on the wrong side and it\'s gone.', 1.0]][kind];
-    const diff = clamp(Math.round(1 + (real - 170) / 50 + mph / 11 + KIND[2] * 0.6), 1, 5);
-    h.ctpKind = { label: KIND[0], about: KIND[1], diff };
+    const KIND = CTP_KINDS[kind], plays = Math.round(h.yds - elev);
+    const diff = clamp(Math.round(1 + (plays - 150) / 45 + mph / 10 + KIND[2] * 0.6), 1, 5);
+    h.ctpKind = { label: KIND[0], about: KIND[1] + (elev ? ` The tee is ${Math.abs(elev * 3)} ft ${elev > 0 ? 'above' : 'below'} the green: it plays like about ${plays} yds.` : ''), diff, len: KIND[3], plays, elev };
     ctpCache = { id: 'ctp', ctp: true, day, name: 'Daily Closest to the Pin', desc: 'One swing. Get it close.', wind: mph, pal: base.pal, holes: [h], par: 3, yds: h.yds };
     return ctpCache;
   }
@@ -1827,7 +1982,11 @@
   // A bucket of 30 balls off a wide practice tee, with eight target greens from 50 to 270 yards. Each target has a bucket in
   // the middle: drop a ball IN the bucket for the big money, stop it inside the inner ring or on the target green for less,
   // and keep hitting targets in a row for a streak bonus. Range money is capped each day so it never beats playing rounds.
-  const RANGE_BALLS = 30, RANGE_DAY_CAP = 1500, BUCKET_R = 0.85;
+  // (Oct 27 2026) The range costs a $1,000 day pass (one payment covers every bucket that day, Eastern time). Every zone pays
+  // 50% more than before. "Another bucket" reuses your bucket: each reuse in a row adds +5% (and keeps your 🔥 streak), up to
+  // 10 reuses; after that the next bucket is a fresh one again (payouts back to the base, starting at $10 on the target green).
+  // The daily cap went up by the same 50% ($1,500 -> $2,250).
+  const RANGE_BALLS = 30, RANGE_DAY_CAP = 2250, BUCKET_R = 0.85, RANGE_PASS = 1000, RANGE_REUSE_MAX = 10, RANGE_REUSE_PCT = 0.05;
   const RANGE_SPOTS = [[50, -12, '#F2C14E'], [80, 14, '#ff6b7d'], [110, -16, '#7cc6ff'], [140, 10, '#FFE08A'], [170, -8, '#c9a6ff'],
     [200, 18, '#7be08a'], [235, -14, '#ffad5a'], [270, 6, '#ffffff']];
   const rangeHole = (() => {
@@ -1840,9 +1999,13 @@
   })();
   const RANGE = { id: 'range', range: true, name: 'Driving Range', wind: 7, teeCol: '#F2C14E', par: 0, yds: 270,
     desc: 'Grab a bucket of 30 balls and hit the targets.', pal: Object.assign({}, CL_PAL, { fair: '#6cc761', green: '#8fe086' }), holes: [rangeHole] };
-  const rangeDay = () => { const d = etDay(); if (!save.range || save.range.day !== d) save.range = Object.assign({ holed: 0, balls: 0, longest: 0, best: 0, buckets: 0 }, save.range || {}, { day: d, earned: 0 }); return save.range; };
-  const rangePay = (ring, d) => Math.round(ring === 3 ? 40 + d * 0.6 : ring === 2 ? 8 + d * 0.07 : 3 + d * 0.02);
+  const rangeDay = () => { const d = etDay(); if (!save.range || save.range.day !== d) save.range = Object.assign({ holed: 0, balls: 0, longest: 0, best: 0, buckets: 0 }, save.range || {}, { day: d, earned: 0, pass: false }); return save.range; };
+  // (+50% on every zone; the target green starts at $10 on the 50 yd target)
+  const rangePay = (ring, d) => Math.round(ring === 3 ? 60 + d * 0.9 : ring === 2 ? 12 + d * 0.105 : 10 + (d - 50) * 0.03);
 
+  // Farbor Lake was renamed Faerber Lake (Oct 27 2026). Its internal id stays 'farbor' so every leaderboard (courses/farbor/...),
+  // daily tournament, cloud save and stat keeps working; older records that saved the name as text are shown with the new spelling.
+  const fixName = t => String(t == null ? '' : t).replace(/\bFarb(o|e)r\b/g, 'Faerber');
   const courseById = id => id === 'mini' ? MINI : (COURSES.find(c => c.id === id) || COURSES[0]);
   // (a course you've already finished a round on always stays open, even if the unlock order changes)
   const isUnlocked = c => !c.unlock || (save.stats.roundsBy[c.unlock] || 0) > 0 || (save.stats.roundsBy[c.id] || 0) > 0;
@@ -2006,6 +2169,7 @@
     putt: () => tone(260, 0.08, 'triangle', 0.22),
     land: () => tone(110, 0.09, 'sine', 0.22),
     tree: () => { tone(90, 0.12, 'square', 0.07); tone(140, 0.08, 'triangle', 0.08); },
+    leaves: () => { tone(820, 0.05, 'triangle', 0.025); tone(610, 0.07, 'triangle', 0.02); },
     cup: () => { tone(660, 0.12, 'sine', 0.2); setTimeout(() => tone(990, 0.28, 'sine', 0.18), 120); },
     splash: () => tone(500, 0.45, 'sawtooth', 0.05, 70),
     rattle: v => tone(1500 + Math.random() * 500, 0.035, 'square', clamp(0.02 + v * 0.02, 0.02, 0.07)),
@@ -2351,7 +2515,7 @@
       metal: new THREE.MeshPhongMaterial({ color: 0xc9cdd3, specular: 0xffffff, shininess: 90 }) };
   }
   // the bag's skin: body color plus a vertical CHAMI GOLF logo down the front (u = 0.5 faces front)
-  // ---- custom bag logo: your own picture and/or words, bought for $10,000 ----
+  // ---- custom bag logo: your own picture and/or words, bought for $5,000 ----
   let logoImg = null, logoSrc = '';
   function customLogo() { return save.customLogo || (save.customLogo = { img: '', text: '' }); }
   function drawCustomLogo(g, W, H, b) {
@@ -2866,10 +3030,10 @@
 
   // ================= Terrain: rolling hills shaped around each hole =================
   // Purely visual: the ball, golfer, trees, flag and camera sit on it, while the game's physics stay flat.
-  const HILL = { mini: 0.15, range: 0.35, pines: 1.2, coast: 0.6, meribah: 1.7, hollow: 0.55, valley: 1.2 };   // how hilly each course is
-  const LINKS = { hollow: 1 };
+  const HILL = { mini: 0.15, range: 0.35, founders: 1.0, hearst: 0.5, darby: 0.8, flyers: 1.1, pines: 1.2, coast: 0.6, meribah: 1.7, hollow: 0.55, valley: 1.2 };   // how hilly each course is
+  const LINKS = { hollow: 1, darby: 1 };
   // How much the greens break (slope, yards of rise per yard). Chami Links is the flattest, Deans Valley the wildest.
-  const BREAK = { clblack: 0.05, clyellow: 0.022, pines: 0.01, coast: 0.02, meribah: 0.03, hollow: 0.026, valley: 0.045, ctp: 0.03 };
+  const BREAK = { founders: 0.018, hearst: 0.022, darby: 0.024, flyers: 0.034, clblack: 0.05, clyellow: 0.022, pines: 0.01, coast: 0.02, meribah: 0.03, hollow: 0.026, valley: 0.045, ctp: 0.03 };
   const SLOPE_G = 7.6;   // a rolling ball feels 5/7 of gravity (yd/s²) along the slope                                                         // lots of small humps and hollows
   const sm01 = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
   const LIP_Q = 1.28;
@@ -2907,6 +3071,10 @@
     const dx = Math.max(b.x - x, 0, x - (b.x + b.w)), dy = Math.max(b.y - y, 0, y - (b.y + b.h)), out = Math.hypot(dx, dy);
     z *= 0.4 + 0.6 * sm01(out / 35);
     z += Math.min(out * 0.1, 6) * (0.6 + T.hill * 0.4);
+    if (h.elev) {   // uphill / downhill holes (Daily Closest to the Pin): the land ramps from the tee to the green
+      const ex = h.pin.x - h.tee.x, ey = h.pin.y - h.tee.y, L2 = ex * ex + ey * ey || 1, pr = ((x - h.tee.x) * ex + (y - h.tee.y) * ey) / L2;
+      z += h.elev * (1 - sm01(clamp(pr, -0.1, 1.1) * 0.9 + 0.05));
+    }
     return z;
   }
   // mini golf: flat carpet with the hole's tilt, hills and dips; outside the course it blends into the countryside
@@ -3294,7 +3462,7 @@
   function autoClub() {
     const lie = terrainAt(ball), d = distToPin();
     if (lie === 'green' || (lie === 'fringe' && d < 25)) return PUTTER;
-    const i = closestClub(d);
+    const i = closestClub(Math.max(1, d - playsLikeAdj(hole, ball.x, ball.y, hole.pin.x, hole.pin.y)));   // "plays like" on hilly holes
     return i < 0 ? PUTTER - 1 : i;
   }
   // On doglegs, aim at the corner (and pick a club that won't run through it) when the green is out of reach.
@@ -3597,7 +3765,8 @@
       state = 'rolling'; sfx.putt();
       return;
     }
-    const carry = Math.max(3, full * power * (1 - 0.07 * aoe + gauss() * 0.015));
+    let carry = Math.max(3, full * power * (1 - 0.07 * aoe + gauss() * 0.015));
+    if (hole.elev) { const a0 = aimAng, lx = ball.x + Math.cos(a0) * carry, ly = ball.y + Math.sin(a0) * carry; carry = Math.max(3, carry + playsLikeAdj(hole, ball.x, ball.y, lx, ly)); }   // downhill carries further
     const mm = missMult(c);
     const ang = aimAng + ((ks < 0 ? ks * 4 : ks * 1.5) * hs * (c.spread / 3.2) * lieErr * mm + gauss() * 0.35) * DEG;
     const dir = { x: Math.cos(ang), y: Math.sin(ang) }, right = { x: -dir.y, y: dir.x };
@@ -3629,7 +3798,7 @@
   // ---- Realistic putting ("Pace & Line") ----
   // Every course has its own green speed (Stimpmeter: how many feet a ball rolls off the stimp ramp). Faster greens
   // = the same stroke rolls further. Speeds drift a little day to day, like real greens after mowing and rain.
-  const STIMP = { par3: 9, pines: 9.5, coast: 10.5, farbor: 10, clyellow: 10.5, meribah: 12.5, hollow: 9.5, valley: 12, clblack: 13, ctp: 11 };
+  const STIMP = { par3: 9, pines: 9.5, founders: 9.5, coast: 10.5, hearst: 10, farbor: 10, darby: 10.5, flyers: 12, clyellow: 10.5, meribah: 12.5, hollow: 9.5, valley: 12, clblack: 13, ctp: 11 };
   const STIMP_REF = 10;   // your stroke is calibrated on a flat, Stimp-10 green
   function stimpOf(c) {
     const base = STIMP[c.id] || 10, day = etDay(), seed = [...(c.id + day)].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) % 9973, 7);
@@ -3661,16 +3830,30 @@
     // Curve and wind build up later in the flight (s squared), like a real ball.
     ball.x = f.sx + (f.ex - f.sx - f.qx) * s + f.qx * s * s;
     ball.y = f.sy + (f.ey - f.sy - f.qy) * s + f.qy * s * s;
+    f.ox0 = ball.x; f.oy0 = ball.y;   // where the ball would be with nothing in the way
+    if (f.cut) { ball.x = f.cut.x + (ball.x - f.cut.ox) * f.cut.k; ball.y = f.cut.y + (ball.y - f.cut.oy) * f.cut.k; }   // slowed by leaves
     const ox = f.px != null ? f.px : f.sx, oy = f.py != null ? f.py : f.sy; f.px = ball.x; f.py = ball.y;
     f.hgt = f.h * 4 * s * (1 - s);
     if (s > 0.5 && poleIn() && f.hgt < POLE_H * pinScale()) {   // coming down into the flagstick
       const hit = segNear(ox, oy, ball.x, ball.y, hole.pin.x, hole.pin.y, poleR() + BALL_R);
       if (hit) { ball.x = hit.x; ball.y = hit.y; hitPole(ball.x - ox, ball.y - oy, f.T ? Math.hypot(f.ex - f.sx, f.ey - f.sy) / f.T : 20); return; }
     }
+    // Trees: only the trunk (the wood) is a hard bounce. Flying into the leaves: 30% of the time the ball catches a branch and
+    // drops, 70% of the time it carries on through, but slowed so the rest of the shot only goes about half as far.
     for (const t of hole.allTrees) {
       if (f.ignore.has(t) || f.hgt > t.top) continue;
-      const dx = ball.x - t.x, dy = ball.y - t.y, d = Math.hypot(dx, dy);
-      if (d < t.r * 0.8) { hitTree(dx, dy, d); return; }
+      const g = treeShape(t), dx = ball.x - t.x, dy = ball.y - t.y, d = Math.hypot(dx, dy);
+      if (d > g.r + 1) continue;
+      if (f.hgt < g.trunkTop && segNear(ox, oy, ball.x, ball.y, t.x, t.y, g.trunkR)) { hitTree(dx, dy, d); return; }
+      if (f.leaf && f.leaf.has(t)) continue;
+      if (inCanopy(g, d, f.hgt)) {
+        (f.leaf || (f.leaf = new Set())).add(t);
+        if (Math.random() < 0.3) { hitBranch(ball.x - ox, ball.y - oy); return; }
+        // through the leaves: the rest of the flight (and the roll) covers half the distance
+        f.cut = { x: ball.x, y: ball.y, ox: f.ox0, oy: f.oy0, k: (f.cut ? f.cut.k : 1) * 0.5 };   // each canopy halves what's left
+        f.rollMul *= 0.5;
+        sfx.leaves(); showRating('THROUGH THE LEAVES', '#9be38f');
+      }
     }
     if (s >= 1) land();
   }
@@ -3698,6 +3881,27 @@
     const out = Math.min(sp, 40) * (0.08 + 0.1 * (1 + vn));                        // a square hit kills nearly all of it
     ball.vx = rx * out; ball.vy = ry * out; ball.z = Math.max(0.01, hgt); ball.vz = -2; ball.spin = 0;
     state = 'rolling'; sfx.rattle(1); showRating('OFF THE PIN!', '#FFE08A');
+  }
+  // the tree's real shape, matching the 3D model: trunk (wood) up to the canopy, then a round or pine-cone canopy
+  function treeShape(t) {
+    if (t._g) return t._g;
+    const mini = hole && hole.mini, pine = course && course.pal && course.pal.style === 'pine', lift = mini ? 1.6 : 4;
+    const g = pine ? { pine: true, r: t.r * 0.85, zb: lift - 1, zh: t.r * 2.2, trunkTop: lift - 1, trunkR: mini ? 0.3 : 0.6 }
+      : { pine: false, r: t.r, cz: lift + t.r, rz: t.r * 1.05, trunkTop: lift, trunkR: mini ? 0.3 : 0.6 };
+    return (t._g = g);
+  }
+  function inCanopy(g, d, z) {
+    if (g.pine) { if (z < g.zb || z > g.zb + g.zh) return false; return d < g.r * (1 - (z - g.zb) / g.zh); }
+    const a = d / g.r, b = (z - g.cz) / g.rz; return a * a + b * b < 1;
+  }
+  // caught a branch in the canopy: the ball loses nearly all its pace and drops out of the tree
+  function hitBranch(mx, my) {
+    const hgt = flight ? flight.hgt : 0;
+    flight = null;
+    const L = Math.hypot(mx, my) || 1, a = Math.atan2(my / L, mx / L) + (Math.random() - 0.5) * 2.4, sp = 0.8 + Math.random() * 2.2;
+    ball.vx = Math.cos(a) * sp; ball.vy = Math.sin(a) * sp;
+    ball.z = Math.max(0.01, Math.min(hgt, 10)); ball.vz = 0; ball.spin = 0;
+    state = 'rolling'; sfx.tree(); showRating('OFF A BRANCH!', '#ffad5a');
   }
   function hitTree(dx, dy, d) {
     const hgt = flight ? flight.hgt : 0;
@@ -4703,7 +4907,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.22';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.10.27';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). The rules check this email too.
   const CREATOR_EMAIL = 'jamesondoyle11@gmail.com';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5007,24 +5211,42 @@
   $('prizeOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('prize').classList.add('hidden'); });
 
   // ---- Accounts: sign in with Google; progress is saved to the cloud and follows you to any device ----
+  // Works on iPad Safari: the popup opens straight from the tap (nothing is awaited before it, so Safari doesn't block it).
+  // If the popup can't open (blocked, a home-screen web app, an in-app browser), it falls back to the full-page redirect flow,
+  // and the result is picked up by getRedirectResult when the game loads again.
+  const noPopups = () => !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || /FBAN|FBAV|Instagram|GSA\//.test(navigator.userAgent));
+  const POPUP_FAIL = ['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment', 'auth/web-storage-unsupported', 'auth/internal-error', 'auth/network-request-failed'];
+  function authMsg(e) {
+    const c = (e && e.code) || '';
+    if (c === 'auth/unauthorized-domain') return `Google sign-in isn't turned on for ${location.hostname} yet. (Creator: add it in Firebase console > Authentication > Settings > Authorized domains.)`;
+    if (c === 'auth/network-request-failed') return 'Sign-in could not reach Google. Check the Wi-Fi and try again.';
+    return 'Sign-in did not work: ' + ((e && (e.message || e.code)) || 'unknown error');
+  }
+  async function useCredential(e) {   // this Google account already has progress: switch to it
+    const cred = e && (e.credential || (firebase.auth.GoogleAuthProvider.credentialFromError && firebase.auth.GoogleAuthProvider.credentialFromError(e)));
+    if (cred) { await fbAuth.signInWithCredential(cred); return true; }
+    return false;
+  }
   async function signIn() {
     if (!fbAuth) { alert('Online features could not load. Check your internet connection and reload.'); return; }
     const p = new firebase.auth.GoogleAuthProvider();
     p.setCustomParameters({ prompt: 'select_account' });
-    const cur = fbAuth.currentUser;
+    const cur = fbAuth.currentUser, guest = !!(cur && cur.isAnonymous);
+    const redirect = () => { try { sessionStorage.setItem('cg-signin', '1'); } catch (er) {} return guest ? cur.linkWithRedirect(p) : fbAuth.signInWithRedirect(p); };
+    if (noPopups()) { try { await redirect(); } catch (e) { alert(authMsg(e)); } return; }
     try {
-      if (cur && cur.isAnonymous) {
+      if (guest) {
         // keep the guest's leaderboard scores: turn the guest account into this Google account
         try { const r = await cur.linkWithPopup(p); await onUser(r.user); return; }
         catch (e) {
-          if (e.code === 'auth/credential-already-in-use' || e.code === 'auth/email-already-in-use') { if (e.credential) { await fbAuth.signInWithCredential(e.credential); return; } }
-          else throw e;
+          if (e.code === 'auth/credential-already-in-use' || e.code === 'auth/email-already-in-use') { if (await useCredential(e)) return; }
+          throw e;
         }
       }
       await fbAuth.signInWithPopup(p);
     } catch (e) {
-      if (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment') return fbAuth.signInWithRedirect(p);
-      if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') alert('Sign-in did not work: ' + (e.message || e.code));
+      if (POPUP_FAIL.includes(e.code)) { try { await redirect(); } catch (e2) { alert(authMsg(e2)); } return; }
+      if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') alert(authMsg(e));
     }
   }
   function signOut() { if (fbAuth) fbAuth.signOut(); }
@@ -5131,7 +5353,14 @@
     }
   }
   if (fbAuth) {
-    fbAuth.getRedirectResult().catch(() => {});
+    try { fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {}); } catch (e) {}
+    // finishing a redirect sign-in (iPad home-screen app, or a blocked popup)
+    fbAuth.getRedirectResult().then(r => { try { sessionStorage.removeItem('cg-signin'); } catch (e) {} if (r && r.user) onUser(r.user); })
+      .catch(async e => {
+        let back = false; try { back = sessionStorage.getItem('cg-signin') === '1'; sessionStorage.removeItem('cg-signin'); } catch (er) {}
+        if (e && (e.code === 'auth/credential-already-in-use' || e.code === 'auth/email-already-in-use')) { try { if (await useCredential(e)) return; } catch (er) {} }
+        if (back) alert(authMsg(e));
+      });
     fbAuth.onAuthStateChanged(u => { onUser(u); });
   } else setTimeout(() => { if (!checkedOnce) { checkedOnce = true; startupChecks(); } }, 0);
 
@@ -5235,7 +5464,7 @@
     el.innerHTML = ''; return;
     try {
       const rows = await fetchAces();
-      const items = rows.map(r => `<span>⛳ ${badgeHtml(r.badge, r.wins)}<b>${esc(r.name)}</b> ${esc(r.course || '')}${r.course === 'Closest to the Pin' ? '' : ` #${r.hole}`} · ${r.yds} yds</span>`).join('');
+      const items = rows.map(r => `<span>⛳ ${badgeHtml(r.badge, r.wins)}<b>${esc(r.name)}</b> ${esc(fixName(r.course))}${r.course === 'Closest to the Pin' ? '' : ` #${r.hole}`} · ${r.yds} yds</span>`).join('');
       el.innerHTML = rows.length
         ? `<div class="acebar"><div class="ah">🎯 HOLE-IN-ONES TODAY <b>${rows.length}</b></div><div class="tick"><div class="tk${rows.length > 2 ? ' run' : ''}">${items}${rows.length > 2 ? items : ''}</div></div></div>`
         : '';   // stays hidden until somebody makes one
@@ -5274,248 +5503,89 @@
   function bumpDaily(inc) { for (const k in inc) track('cg_' + k, { value: inc[k] }); }
   if (!save.firstDay) { save.firstDay = etDay(); bumpDaily({ newPlayers: 1 }); }
 
-  // ================= Anti-cheat and bans =================
-  // What gets caught: editing the save (money, upgrades, unlocks), money or gear the game never paid out,
-  // impossible rounds (a pile of aces, aces in a row, rounds far too low or too fast) and absurd drives.
-  // Two kinds of ban (both happen right away, the moment it's caught):
-  //   HARD (no appeal): the game's own code was messed with: scripts injected into the page, built-in browser functions
-  //     swapped out, or a modified copy of the game running somewhere else. The ban is final.
-  //   APPEALABLE: everything else that bans on its own (an edited save, money the game never paid out, impossible rounds,
-  //     bots and auto-clickers, speed hacks, extensions adding scripts). The golfer can send ONE appeal and the creator
-  //     decides in the creator tools (📨 Appeals) after looking at their scorecards.
-  // Smaller signs are only flagged for the creator to review.
+  // ================= Bans and the creator's review lists =================
+  // (Oct 27 2026) The game no longer bans anyone by itself and no longer sends automatic cheat flags: too many real golfers
+  // were getting banned by mistake. What's left:
+  //   - Bans only come from the creator (🛡️ creator tools). Old auto-bans are ignored by every game and by the rules,
+  //     and the creator's game deletes them from the database the next time the creator tools are opened.
+  //   - Every hole in one is still logged (flags with kind 'ace') with the golfer's card, club and swing.
+  //   - Low rounds (-9 or better over 9 holes, -18 or better over 18; one under per hole on other lengths) send their full
+  //     scorecard to reviews/ so the creator can look over them in 📋 Scorecard review.
   const BAN_KEY = 'cg-ban';
   let banInfo = null;
   try { banInfo = JSON.parse(localStorage.getItem(BAN_KEY)); } catch (e) {}
-  // bans made by mistake by older versions of the game (Cloudflare's analytics script, the site's address with a dot on the end,
-  // a sleeping iPad's clock, a save fingerprint mix-up, good rounds on a par-3 course) come off by themselves
-  // the game's real homes: GitHub Pages plus the Vercel copy (for Wi-Fi that blocks github.io) and its preview links
-  function okSite(hn) { return hn === 'chamigolf.github.io' || /^chamigolf(-[a-z0-9-]+)?\.vercel\.app$/.test(hn) || /(^|\.)redandgoldgolf\.[a-z]+$/.test(hn); }
-  // a ban for "a modified copy of the game" that was really just the game on one of its real homes
+  // only a ban the creator made counts (anything the game made by itself before this update comes off right away)
+  if (banInfo && !banInfo.byCreator) { banInfo = null; try { localStorage.removeItem(BAN_KEY); } catch (e) {} }
+  function okSite(hn) { return hn === 'chamigolf.github.io' || /^chamigolf(-[a-z0-9-]+)?\.vercel\.app$/.test(hn) || /\.netlify\.app$/.test(hn) || /(^|\.)redandgoldgolf\.[a-z]+$/.test(hn); }
   function siteBanMistake(reason) { const m = /modified copy of the game was running \(([^)]+)\)/.exec(reason || ''); return !!m && okSite(m[1].toLowerCase()); }
-  if (banInfo && (siteBanMistake(banInfo.reason) || /cloudflareinsights|chamigolf\.github\.io\.\)|clock running at 0\.|save was edited by hand|over 9 holes at 3C Par Three/.test(banInfo.reason || ''))) {
-    banInfo = null; try { localStorage.removeItem(BAN_KEY); } catch (e) {}
-  }
+  const isAutoBan = d => !!d && (d.auto === true || siteBanMistake(d.reason));
   const banned = () => !!banInfo && !isCreator();
   function showBanned() {
     const o = $('bannedOv'); if (!o) return;
     o.classList.toggle('hidden', !banned());
     if (!banned()) return;
     $('banWhy').textContent = banInfo.reason ? `Reason: ${banInfo.reason}` : '';
-    renderAppeal();
   }
-  // ---- Appeals: one per ban, read by the creator (appeals/{uid}) ----
-  let appealInfo = null, appealLoaded = false;
-  async function loadAppeal() {
-    const u = meUser(); if (!u || !fbDb || !banInfo || banInfo.hard) return;
-    try { const s = await fbDb.collection('appeals').doc(u.uid).get(); appealInfo = s.exists ? s.data() : null; appealLoaded = true; } catch (e) {}
-    renderAppeal();
-  }
-  function renderAppeal() {
-    const box = $('banAppeal'); if (!box || !banInfo) return;
-    const note = t => `<div class="sub" style="margin-top:10px">${t}</div>`;
-    if (banInfo.hard) { box.innerHTML = note('🔒 <b>This ban is final.</b> The game\'s code was tampered with, so it can\'t be appealed.'); return; }
-    if (!ONLINE) { box.innerHTML = note('Connect to the internet to appeal this ban.'); return; }
-    if (appealInfo && appealInfo.status === 'denied') { box.innerHTML = note('Your appeal was looked at and turned down. This ban is final.'); return; }
-    if (appealInfo) { box.innerHTML = note(`📨 Appeal sent ${ago(appealInfo.at || Date.now())}. The creator will look over your rounds and decide. If it's approved you can play again within about 15 minutes.`); return; }
-    if (!banInfo.remote || !appealLoaded) { box.innerHTML = note('Think this is a mistake? Connecting… (you can send an appeal once the game is online)'); return; }
-    box.innerHTML = note('Think this is a mistake? You can send <b>one</b> appeal. The creator will look at your scorecards and decide.')
-      + `<textarea id="appealMsg" class="mpin" maxlength="300" rows="3" placeholder="What happened? (up to 300 characters)" style="width:100%;margin-top:8px;resize:none;font:500 14px Inter"></textarea>
-        <div class="btns" style="margin-top:8px"><button class="main" id="appealSend">Send appeal</button></div><div class="sub" id="appealErr" style="color:#ffb3bd"></div>`;
-  }
-  document.addEventListener('click', async e => {
-    if (!e.target.closest || !e.target.closest('#appealSend')) return;
-    const u = meUser(), msg = String(($('appealMsg') || {}).value || '').trim().slice(0, 300), btn = $('appealSend');
-    if (!u || !fbDb || !banInfo) return;
-    if (msg.length < 5) { $('appealErr').textContent = 'Write a sentence or two about what happened.'; return; }
-    btn.disabled = true; btn.textContent = 'Sending…';
-    const doc = { uid: u.uid, name: boardName(), reason: String(banInfo.reason || '').slice(0, 140), msg, at: Date.now(), t: serverTime(), status: 'pending' };
-    try { await fbDb.collection('appeals').doc(u.uid).set(doc); appealInfo = doc; renderAppeal(); }
-    catch (er) { btn.disabled = false; btn.textContent = 'Send appeal'; $('appealErr').textContent = netErr(er); }
-  });
   const storeBan = () => { try { banInfo ? localStorage.setItem(BAN_KEY, JSON.stringify(banInfo)) : localStorage.removeItem(BAN_KEY); } catch (e) {} };
-  function banMe(reason, hard) {
-    if (isCreator()) return;
-    if (banInfo) { if (hard && !banInfo.hard) { banInfo.hard = true; banInfo.reason = reason; banInfo.remote = false; storeBan(); showBanned(); syncBan(); } return; }   // a worse offence makes it final
-    banInfo = { reason, at: Date.now(), uid: meUid(), remote: false, hard: !!hard }; storeBan();
-    showBanned(); syncBan();
-  }
-  async function syncBan() {   // keep the ban on this device and the online ban list in step
+  async function syncBan() {   // the creator's bans (bans/{uid} without auto) are the only ones that count
     if (isCreator()) { if (banInfo) { banInfo = null; storeBan(); } showBanned(); return; }
     const u = meUser(); if (!u || !fbDb) { showBanned(); return; }
     try {
-      const ref = fbDb.collection('bans').doc(u.uid), snap = await ref.get();
-      if (snap.exists && siteBanMistake(snap.data().reason)) { if (banInfo && siteBanMistake(banInfo.reason)) { banInfo = null; storeBan(); } }   // waits for the creator's game to lift it
-      else if (snap.exists && !(banInfo && !banInfo.remote && banInfo.hard && snap.data().appeal !== false)) {
-        const d = snap.data(); banInfo = { reason: d.reason || 'Banned by the creator', at: d.at || Date.now(), uid: u.uid, remote: true, hard: d.appeal === false }; storeBan();
-      }
-      else if (!snap.exists && banInfo && banInfo.remote && banInfo.uid === u.uid) { banInfo = null; appealInfo = null; storeBan(); }   // the creator lifted the ban
-      else if (snap.exists && banInfo && !banInfo.remote && banInfo.hard) {   // an appealable ban that just became final
-        await ref.update({ appeal: false, reason: String(banInfo.reason).slice(0, 140), t: serverTime() });
-        banInfo.remote = true; banInfo.uid = u.uid; storeBan();
-      }
-      else if (banInfo && !banInfo.remote) {
-        // the ban note carries the golfer's last scorecards and ace count, so the creator can double-check it
-        await ref.set({ auto: true, appeal: !banInfo.hard, reason: String(banInfo.reason).slice(0, 140), name: boardName(), at: banInfo.at, t: serverTime(),
-          aces: save.stats.aces | 0, rounds: save.stats.rounds | 0, cards: (save.cards || []).slice(-10) });
-        banInfo.remote = true; banInfo.uid = u.uid; storeBan(); save.cardsSent = u.uid; persist();
-      }
-      if (banInfo && !banInfo.hard) loadAppeal();
-      // banned by the creator: send up the recent scorecards once (as notes the creator can read)
-      if (banInfo && banInfo.remote && save.cardsSent !== u.uid && (save.cards || []).length) {
-        save.cardsSent = u.uid; persist();
-        const name = boardName();
-        (save.cards || []).slice(-6).forEach(k => fbDb.collection('flags').add({ uid: u.uid, name, kind: 'card', strong: false, google: !!fbUser, at: Date.now(), t: serverTime(),
-          detail: `round ${cardTok(k.c, unpackCard(k.s))} ${fmtRel(k.r)} ${k.m}m ${new Date(k.d).toISOString().slice(5, 16).replace('T', ' ')}${k.x ? ' ended early' : ''} · ${save.stats.aces | 0} career aces` }).catch(() => {}));
-      }
+      const snap = await fbDb.collection('bans').doc(u.uid).get();
+      if (snap.exists && !isAutoBan(snap.data())) {
+        const d = snap.data(); banInfo = { reason: d.reason || 'Banned by the creator', at: d.at || Date.now(), uid: u.uid, byCreator: true }; storeBan();
+        // send up the recent scorecards once so the creator can double-check the ban
+        if (save.cardsSent !== u.uid && (save.cards || []).length) {
+          save.cardsSent = u.uid; persist();
+          const name = boardName();
+          (save.cards || []).slice(-6).forEach(k => fbDb.collection('flags').add({ uid: u.uid, name, kind: 'card', strong: false, google: !!fbUser, at: Date.now(), t: serverTime(),
+            detail: `round ${cardTok(k.c, unpackCard(k.s))} ${fmtRel(k.r)} ${k.m}m ${new Date(k.d).toISOString().slice(5, 16).replace('T', ' ')}${k.x ? ' ended early' : ''} · ${save.stats.aces | 0} career aces` }).catch(() => {}));
+        }
+      } else if (banInfo) { banInfo = null; storeBan(); }   // no ban, an old auto-ban, or the creator lifted it
     } catch (e) {}
     showBanned();
   }
   setInterval(() => { if (!document.hidden && meUser()) syncBan(); }, 900000);   // every 15 minutes
-  // Flags made before the game is online (or before sign-in finishes) wait in a queue instead of getting lost.
+  // Hole-in-one logs and low-round scorecards made before the game is online wait in a queue instead of getting lost.
   const flagsSent = {}, flagQ = [];
   function sendFlag(f) {
     const u = meUser(); if (!u || !fbDb) return false;
-    const doc = Object.assign({ uid: u.uid, name: boardName(), google: !!fbUser, t: serverTime() }, f);
-    fbDb.collection('flags').add(doc).catch(() => {
-      // (older published rules don't know the round's scorecard or the hard-ban mark yet: send it without them)
-      if (doc.card || doc.hard) { const d2 = Object.assign({}, doc); delete d2.card; delete d2.hard; fbDb.collection('flags').add(d2).catch(() => {}); }
+    const col = f._col || 'flags', doc = Object.assign({ uid: u.uid, name: boardName(), google: !!fbUser, t: serverTime() }, f); delete doc._col;
+    fbDb.collection(col).add(doc).catch(() => {
+      if (doc.card) { const d2 = Object.assign({}, doc); delete d2.card; fbDb.collection(col).add(d2).catch(() => {}); }
     });
     return true;
   }
   function flushFlags() { if (isCreator()) { flagQ.length = 0; return; } if (meUser() && fbDb) flagQ.splice(0).forEach(sendFlag); }
-  // The scorecard of the round being played right now (holes finished so far, plus the hole in progress), so every flag
-  // raised during a round carries its card for the creator to look at.
   let roundFlags = 0;
   function liveCard() {
     if (!course || course.ctp || course.range || !HOLES || !HOLES.length || !roundStart || state === 'title') return null;
     if (!$('home').classList.contains('hidden')) return null;   // not in a round
     return { c: course.id, s: packCard(scores.slice(0, HOLES.length)), h: holeIdx + 1, n: HOLES.length };
   }
-  // strong: false = flag only · true = ban right away (can be appealed) · 'hard' = ban right away, final, no appeal
-  function cheatFlag(kind, detail, strong) {
-    if (isCreator()) return;
+  // Only holes in one are logged now (kind 'ace'). Every other call is ignored, and nothing ever bans.
+  function cheatFlag(kind, detail) {
+    if (isCreator() || kind !== 'ace') return;
     const key = kind + ':' + detail; if (flagsSent[key]) return; flagsSent[key] = 1;
-    const f = { kind, detail: String(detail).slice(0, 140), strong: !!strong, at: Date.now() };
-    if (strong === 'hard') f.hard = true;
+    const f = { kind, detail: String(detail).slice(0, 140), strong: false, at: Date.now() };
     const lc = liveCard();
-    if (lc) { roundFlags++; if (!/\{[a-z0-9]+:[0-9a-c-]+\}/.test(detail)) f.card = lc; }
+    if (lc && !/\{[a-z0-9]+:[0-9a-c-]+\}/.test(detail)) f.card = lc;
     if (!sendFlag(f)) flagQ.push(f);
-    if (strong) banMe(`${strong === 'hard' ? 'Game tampering' : 'Suspected cheating'}: ${String(detail).replace(/\s*\{[^}]*\}/g, '')}`, strong === 'hard');
   }
+  // A low round's whole scorecard goes to the creator's 📋 Scorecard review (no ban, no flag).
+  const reviewLine = n => n === 9 ? -9 : n === 18 ? -18 : -n;
   function roundCheck(rel) {
-    const n = HOLES.length; if (course.mini || course.ctp || !n || (MP && MP.started)) return;
-    const card = ' ' + cardTok(course.id, scores), at = ` at ${course.name}`;
-    if (roundAces >= 4) cheatFlag('aces', `${roundAces} holes in one in one round${at}${card}`, true);
-    else if (roundAces >= 2) cheatFlag('aces', `${roundAces} holes in one in one round${at}${card}`, false);
-    if (rel <= -Math.max(16, Math.ceil(n * 1.6))) cheatFlag('score', `${fmtRel(rel)} over ${n} holes${at}${card}`, true);
-    else if (rel <= -Math.max(8, Math.ceil(n * 0.9))) cheatFlag('score', `${fmtRel(rel)} over ${n} holes${at}${card}`, false);
-    if (rStat.eagles >= 3) cheatFlag('score', `${rStat.eagles} eagles in one round${at}${card}`, false);
-    if (rStat.chips >= 3) cheatFlag('score', `${rStat.chips} chip-ins in one round${at}${card}`, false);
-    if (rStat.shots >= 20 && rStat.perf / rStat.shots >= 0.9) cheatFlag('swings', `${rStat.perf} of ${rStat.shots} swings PERFECT in one round${at}`, false);
-    const secs = (Date.now() - roundStart) / 1000;
-    if (roundStart && secs < n * 6) cheatFlag('speed', `${n} holes in ${Math.round(secs)} seconds${at}${card}`, true);
-    else if (roundStart && secs < n * 14) cheatFlag('speed', `${n} holes in only ${Math.round(secs)} seconds${at}${card}`, false);
+    const n = HOLES.length; if (isCreator() || course.mini || course.ctp || course.range || !n || (MP && MP.started)) return;
+    if (rel > reviewLine(n)) return;
+    const pars = HOLES.map(h => h.par);
+    const f = { _col: 'reviews', cid: course.id, course: String(course.name).slice(0, 40), s: packCard(scores.slice(0, n)), pars: pars.join(''), n, rel,
+      strokes: scores.slice(0, n).reduce((a, v) => a + (v || 0), 0), aces: roundAces | 0, m: Math.round((Date.now() - roundStart) / 60000), at: Date.now() };
+    if (!sendFlag(f)) flagQ.push(f);
   }
-  // swings that look like a macro: the exact same pull-back, or the exact same hold time, over and over
-  const swingLog = [];
-  function swingCheck(power, t0) {
-    swingLog.push({ p: Math.round(power * 1000), t: t0 ? Math.round(performance.now() - t0) : -1 });
-    if (swingLog.length > 8) swingLog.shift();
-    const last = swingLog.slice(-6); if (last.length < 6) return;
-    if (last[0].p < 990 && last.every(x => x.p === last[0].p)) cheatFlag('interference', `6 swings in a row pulled back exactly ${(last[0].p / 10).toFixed(1)}% (macro?)`, false);
-    if (last[0].t > 0 && last.every(x => Math.abs(x.t - last[0].t) <= 2)) cheatFlag('interference', `6 swings in a row held for exactly ${last[0].t} ms (auto-clicker?)`, false);
-  }
-  // ---- Outside interference: bots, auto-clickers, injected scripts, rigged browser functions and speed hacks.
-  //   Messing with the game's code (injected scripts, swapped-out browser functions, a modified copy on another site) = HARD ban, no appeal.
-  //   Bots, auto-clickers, speed hacks and extension scripts = ban right away, but it can be appealed.
-  //   Smaller signs (a few scripted taps, macro-like swings, outside scripts) are flagged for review.
-  (function watchInterference() {
-    const flag = what => cheatFlag('interference', what, false);
-    const ban = what => cheatFlag('interference', what, true);
-    const hard = what => cheatFlag('tamper', what, 'hard');
-    // a copy of the game running anywhere but its real homes (see okSite) has had its code changed (local testing on localhost is only flagged)
-    try {
-      const hn = location.hostname.toLowerCase().replace(/\.$/, '');   // "chamigolf.github.io." (trailing dot) is the same site
-      if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(hn)) flag(`game running from a local copy (${hn})`);
-      else if (!okSite(hn)) hard(`a modified copy of the game was running (${(location.protocol === 'file:' ? 'a file on the device' : hn).slice(0, 60)})`);
-    } catch (e) {}
-    try { if (navigator.webdriver) ban('an automated browser (webdriver) is running the game'); } catch (e) {}
-    // taps and key presses made by a script instead of a finger
-    let fake = 0;
-    ['pointerdown', 'pointerup', 'pointermove', 'mousedown', 'touchstart', 'keydown'].forEach(ev => addEventListener(ev, e => {
-      if (e.isTrusted === false) { fake++; if (fake === 3) flag('3 taps/keys were made by a script, not a person'); else if (fake === 40) ban('40 taps/keys were made by a script, not a person (bot)'); }
-    }, { capture: true, passive: true }));
-    // built-in browser functions swapped out (rigging random numbers, speeding up time, faking frames, faking the save)
-    const fnStr = Function.prototype.toString;
-    const natives = [['Math.random', () => Math.random], ['Date.now', () => Date.now], ['performance.now', () => performance.now],
-      ['requestAnimationFrame', () => window.requestAnimationFrame], ['setTimeout', () => window.setTimeout], ['setInterval', () => window.setInterval],
-      ['JSON.parse', () => JSON.parse], ['JSON.stringify', () => JSON.stringify], ['Storage.setItem', () => Storage.prototype.setItem], ['Storage.getItem', () => Storage.prototype.getItem],
-      ['Math.hypot', () => Math.hypot], ['Math.sqrt', () => Math.sqrt]];
-    const checkNatives = () => {
-      natives.forEach(([n, get]) => { try { const f = get(); if (typeof f !== 'function' || !/\[native code\]\s*\}\s*$/.test(fnStr.call(f))) hard(`${n} was replaced by outside code`); } catch (e) {} });
-      if (Function.prototype.toString !== fnStr) hard('Function.toString was replaced (hiding injected code)');
-    };
-    checkNatives();
-    // speed hacks: the game's clock running faster than the real clock (a slow clock is just a sleeping or battery-saving device)
-    let w0 = Date.now(), p0 = performance.now(), odd = 0;
-    setInterval(() => {
-      const w = Date.now(), p = performance.now(), dw = w - w0, dp = p - p0; w0 = w; p0 = p;
-      if (document.hidden) odd = 0;
-      else if (dw > 2000 && dp > 2000 && dw < 20000) { const r = dp / dw; if (r > 1.5) { if (++odd >= 4) ban(`game clock running at ${r.toFixed(2)}x real time (speed hack)`); } else odd = 0; }
-      checkNatives();
-    }, 5000);
-    // (the game pausing on screen is no longer flagged: iPads pause it for split screen, notifications and Control Center)
-    // scripts or frames added to the page that the game itself didn't add (cheat extensions, console snippets)
-    const okHost = /(^|\.)(googletagmanager\.com|google-analytics\.com|gstatic\.com|google\.com|googleapis\.com|firebaseapp\.com|firebaseio\.com|cloudflare\.com|cloudflareinsights\.com)$/i;
-    try {
-      new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(nd => {
-        const tag = nd && nd.tagName; if (tag !== 'SCRIPT' && tag !== 'IFRAME') return;
-        const src = nd.getAttribute('src') || '';
-        if (!src) { if (tag === 'SCRIPT' && (nd.textContent || '').trim() && !/^\s*\{/.test(nd.textContent) && nd.type !== 'application/json' && nd.type !== 'application/ld+json') hard('a script was injected into the page'); return; }
-        let u = null; try { u = new URL(src, location.href); } catch (e) { return; }
-        if (/^(chrome|moz|safari-web)-extension:$/.test(u.protocol)) { if (tag === 'SCRIPT') ban(`a browser extension added a script to the game (${u.hostname.slice(0, 40)})`); else flag(`browser extension added a frame (${u.hostname.slice(0, 40)})`); }
-        else if (u.protocol === 'javascript:' || u.protocol === 'data:' || u.protocol === 'blob:') hard(`a ${u.protocol.replace(':', '')} ${tag === 'SCRIPT' ? 'script' : 'frame'} was injected into the page`);
-        else if (u.hostname && u.hostname !== location.hostname && !okHost.test(u.hostname)) flag(`outside ${tag === 'SCRIPT' ? 'script' : 'frame'} added: ${u.hostname.slice(0, 60)}`);   // networks, browsers and blockers add these too: review only, never a ban
-      }))).observe(document.documentElement, { childList: true, subtree: true });
-    } catch (e) {}
-    // the game open in two tabs at once (rounds farmed side by side)
-    // (no longer flagged: reloading for an update or reopening the game does this all the time)
-    // the save edited by hand from another tab (devtools)
-    addEventListener('storage', e => {
-      if (e.key !== SAVE_KEY || !e.newValue) return;
-      try { const o = JSON.parse(e.newValue); if (o && o.sig && o.sig !== sigOf(o)) cheatFlag('save', 'the game save was changed in another tab', false); } catch (er) {}
-    });
-  })();
-  function aceCheck(h) {
-    const run = save.stats.aceRun || 0;
-    if (run >= 4) cheatFlag('aces', `${run} holes in one in a row`, true);
-    else if (run === 3) cheatFlag('aces', '3 holes in one in a row', false);
-    if (h.yds > 420) cheatFlag('aces', `hole in one on a ${h.yds} yd hole`, true);
-  }
-  // money and gear can't add up to more than the game has ever paid you
-  function econCheck() {
-    const s = save.stats, earned = s.earnedTotal || 0;
-    let spent = save.owned.reduce((a, id) => a + ((modelById(id) || {}).price || 0), 0);
-    for (const id in save.up) {
-      const m = modelById(id); if (!m) continue;
-      const u = upOf(m), base = Math.min(MAX_LV, (save.upBase || {})[id] || 0);
-      for (let l = 0; l < base; l++) spent += COSTS[l];
-      tracksOf(m).forEach(([k]) => { for (let l = base; l < u[k]; l++) spent += upCost(m, k, l); });
-    }
-    for (let l = 0; l < Math.min(BALL_MAX, save.ball | 0); l++) spent += BALL_COSTS[l];
-    const worth = (save.coins || 0) + spent;
-    if (save.coins > 3000000 || worth > earned + 60000) cheatFlag('money', `${money(Math.round(worth))} in money and gear but only ${money(Math.round(earned))} ever earned`, true);
-    if (save.coins < 0 || !isFinite(save.coins)) cheatFlag('money', 'impossible bank balance', true);
-    // your bank can never hold more than the game has ever paid you (spending and buy-ins only take money away)
-    if (save.coins > earned + 5000) cheatFlag('money', `${money(Math.round(save.coins))} in the bank but only ${money(Math.round(earned))} ever earned`, true);
-  }
-  function startupChecks() {
-    if (isCreator()) { syncBan(); return; }
-    if (tamperedSave) cheatFlag('save', 'the game save didn\'t match its fingerprint (edited by hand?)', false);
-    econCheck();
-    showBanned();
-  }
+  function swingCheck() {}
+  function aceCheck() {}
+  function econCheck() {}
+  function startupChecks() { showBanned(); }
 
   // ================= Play Friends: friend codes, 1v1 wagers, 2v2 and Foursomes (Firebase) =================
   // Everything about a match lives in one Firestore doc (matches/{CODE}). Each golfer only appends to its
@@ -6169,13 +6239,14 @@
     Object.assign(save.look, look); persist();
     applyLook(playerMats, save.look); applyLook(previewMats, save.look);
   }
-  let gTab = 'outfit', gPart = 'jacket', bPart = 'body', gLockMsg = null, bLockMsg = null;
+  let gTab = 'outfit', gPart = 'jacket', bPart = 'body', gLockMsg = null, bLockMsg = null, gReserved = null;
   const sameLook = (a, b) => Object.keys(b).every(k => k === 'skin' || k === 'hair' || String(a[k] || '').toLowerCase() === String(b[k]).toLowerCase());
   const swName = (list, c) => { const hit = list.find(x => x[1].toLowerCase() === String(c || '').toLowerCase()); return hit ? hit[0] : 'Custom'; };
   // everything in the shop is listed cheapest first (stable, so equal prices keep their order)
   const byCost = (arr, cost) => arr.map((x, i) => ({ x, i, c: cost(x) })).sort((a, b) => a.c - b.c || a.i - b.i).map(o => o.x);
   const swRow = (attr, list, cur, label, part) => '<div class="sw">' + (part ? byCost(list, ([, c]) => priceOf(part, c)) : list).map(([n, c]) => {
     const own = !part || ownsC(part, c), pr = part ? priceOf(part, c) : 0;
+    if (part && reservedFor(part, c)) return `<button ${attr}="${c}" title="${n} · reserved" aria-label="${label}: ${n}, reserved" class="${c.toLowerCase() === String(cur).toLowerCase() ? 'on' : ''} buy" style="background:${c}"><em>🔒</em></button>`;
     return `<button ${attr}="${c}" title="${n}${own ? '' : ' · ' + money(pr)}" aria-label="${label}: ${n}${own ? '' : ', costs ' + money(pr)}" class="${c.toLowerCase() === String(cur).toLowerCase() ? 'on' : ''}${own ? '' : ' buy'}" style="background:${c}">${own ? '' : `<em>${pr >= 1000 ? '$' + (pr / 1000) + 'k' : '$' + pr}</em>`}</button>`;
   }).join('') + '</div>';
   // the buy bar shown under the swatches when you pick something you don't own yet
@@ -6198,7 +6269,8 @@
         `${k.style === 'sweater' ? `<i style="background:linear-gradient(90deg,${k.jacket} 30%,#B3122B 30% 40%,${k.trim} 40% 60%,#B3122B 60% 70%,${k.jacket} 70%);flex:.35"></i>` : ''}<i style="background:${k.pants}"></i>` +
         `${locked ? '<b class="lk">🔒</b>' : ''}</span>${p.name}${locked ? '<small>LOCKED</small>' : forSale ? `<small>${money(p.price)}</small>` : ''}</button>`;
     }).join('');
-    const lockNote = gLockMsg ? `<div class="locknote">🔒 <b>${UNLOCKS[gLockMsg].name}</b> is locked. ${UNLOCKS[gLockMsg].how}${tryLook ? '<br>👀 You\'re trying it on in the preview.' : ''}</div>` : '';
+    const lockNote = gReserved ? `<div class="locknote">🔒 That jacket colour belongs to the <b>${gReserved}</b> outfit. ${gReserved === 'Green Jacket' ? UNLOCKS.masters.how : 'Buy the Gold Jacket outfit above to wear it.'}</div>`
+      : gLockMsg ? `<div class="locknote">🔒 <b>${UNLOCKS[gLockMsg].name}</b> is locked. ${UNLOCKS[gLockMsg].how}${tryLook ? '<br>👀 You\'re trying it on in the preview.' : ''}</div>` : '';
     const chips = LOOK_PARTS.filter(([k]) => partShown(k, L)).map(([k]) => {
       const dot = k === 'style' ? '' : `<i style="background:${L[k]}"></i>`;
       return `<button data-gpart="${k}" class="${k === gPart ? 'on' : ''}">${dot}${k === 'style' ? (L.style === 'sweater' ? '🧶 ' : '🧥 ') + 'Top' : partLabel(k, L)}</button>`;
@@ -6207,7 +6279,9 @@
     if (gPart === 'style') pane = `<div class="lh">Top<b>${L.style === 'sweater' ? 'Sweater' : 'Suit jacket'}</b></div><div class="opts">` +
       STYLES.map(([v, n]) => `<button data-style="${v}" class="${L.style === v ? 'on' : ''}">${n}</button>`).join('') + '</div>';
     else pane = `<div class="lh">${partLabel(gPart, L)}<b>${gPart === 'skin' ? '' : swName(SWATCHES[gPart], L[gPart])}</b></div>` +
-      swRow('data-col', SWATCHES[gPart], L[gPart], partLabel(gPart, L), PRICES[gPart] ? gPart : null);
+      swRow('data-col', SWATCHES[gPart], L[gPart], partLabel(gPart, L), PRICES[gPart] ? gPart : null)
+      + (OUTFIT_PARTS.includes(gPart) ? `<div class="sect" style="margin-top:14px">MIX YOUR OWN · ${money(CUSTOM_COLOR_PRICE)} per new colour</div>`
+        + cpHtml('look', cpLook && cpLook.part === gPart ? cpLook.hex : (tryLook && tryLook[gPart]) || L[gPart], '<button class="main" data-cpuse="1" style="width:100%">Use this colour</button>') : '');
     const presetBuy = pendingBuy && pendingBuy.kind === 'preset' ? buyBar() : '', partBuy = pendingBuy && pendingBuy.kind === 'look' ? buyBar() : '';
     return `<div class="gcard"><div class="sect" style="display:flex;justify-content:space-between">OUTFITS<span>${money(save.coins)}</span></div><div class="pgrid">${cards}</div>${lockNote}${presetBuy}</div>` +
       `<div class="gcard"><div class="sect">CUSTOMIZE</div><div class="chiprow">${chips}</div><div class="swpane">${pane}${partBuy}</div>`
@@ -6253,15 +6327,103 @@
     }).join('');
     const lines = BALL_LINES.map(([id, n, pr]) => `<button data-balll="${id}" class="${L.line === id ? 'on' : ''}">${n}${ownsBall('line', id, pr) ? '' : `<br><small style="font:800 10px Inter;color:var(--gold)">${money(pr)}</small>`}</button>`).join('');
     const cn = ballColOf(L)[0], ln = (BALL_LINES.find(x => x[0] === L.line) || BALL_LINES[0])[1];
-    const rgb = hexRgb(ballColOf(L)[1]);
-    const slider = (k, i, lab) => `<label class="rgbrow"><span>${lab}</span><input type="range" min="0" max="255" step="1" data-rgb="${i}" id="rgb${k}" value="${rgb[i]}"><b id="rgbv${k}">${rgb[i]}</b></label>`;
     return `<div class="gcard"><div class="sect" style="display:flex;justify-content:space-between">GOLF BALL<span>${money(save.coins)}</span></div>
       <div class="ballpv"><canvas id="ballPv" width="320" height="320"></canvas><div><b>${cn}</b><span>${ln}</span>
         <p>Looks only. The Pro Ball upgrade in the Clubs tab is what cuts the wind.</p></div></div></div>
       <div class="gcard"><div class="sect">COLOUR · FREE</div><div class="sw">${cols}</div>
-      <div class="sect" style="margin-top:16px">MIX YOUR OWN</div><div class="rgb" id="rgbBox" style="--r:${rgb[0]};--g:${rgb[1]};--b:${rgb[2]}">${slider('R', 0, 'R')}${slider('G', 1, 'G')}${slider('B', 2, 'B')}</div>
+      <div class="sect" style="margin-top:16px">MIX YOUR OWN · FREE</div>${cpHtml('ball', ballColOf(L)[1])}
       <div class="sect" style="margin-top:16px">ALIGNMENT LINE</div><div class="opts" style="flex-wrap:wrap">${lines}</div>${pendingBuy && pendingBuy.kind === 'balll' ? buyBar() : ''}</div>`;
   }
+  // ---- Colour picker: one shared, touch-friendly mixer (ball colour and custom outfit colours) ----
+  // Pad: hue left to right, colour strength top to bottom. Plus brightness, R/G/B sliders with big thumbs, +/- buttons,
+  // number boxes, a hex box and a palette of quick picks. Everything updates the preview live.
+  const CP_PALETTE = ['#ffffff', '#d9d9d9', '#8a8d93', '#3a3d42', '#111113', '#f3c4cf', '#ff8fb8', '#d81f3a', '#B3122B', '#6b0f1e', '#ff8c2a', '#b8733a',
+    '#f4e04d', '#e8d27a', '#b9a47c', '#5a3b24', '#5fd068', '#2e8b57', '#0f3d2a', '#7cc7ff', '#2747a8', '#1f2c4d', '#5b2a86', '#cfc3ec'];
+  const rgb2hsv = (r, g, b) => { r /= 255; g /= 255; b /= 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
+    let h = 0; if (d) h = mx === r ? ((g - b) / d + 6) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return [h * 60, mx ? d / mx : 0, mx]; };
+  const hsv2rgb = (h, s, v) => { const f = n => { const k = (n + h / 60) % 6; return v - v * s * Math.max(0, Math.min(k, 4 - k, 1)); }; return [f(5), f(3), f(1)].map(x => Math.round(x * 255)); };
+  let cpCur = null;   // { id, hex, hsv: [h, s, v] }
+  function cpHtml(id, hex, extra = '') {
+    hex = okHex(hex) ? hex.toLowerCase() : '#ffffff';
+    const [r, g, b] = hexRgb(hex), hsv = rgb2hsv(r, g, b);
+    cpCur = { id, hex, hsv };
+    const row = (k, lab, val, max) => `<div class="cpRow"><span>${lab}</span><div class="cpStep" data-cpstep="${k}" data-d="-1" role="button" aria-label="${lab} down">−</div>
+      <input type="range" min="0" max="${max}" step="1" data-cpk="${k}" value="${val}" aria-label="${lab}"><div class="cpStep" data-cpstep="${k}" data-d="1" role="button" aria-label="${lab} up">+</div>
+      <input type="number" inputmode="numeric" min="0" max="${max}" data-cpn="${k}" value="${val}" aria-label="${lab} value"></div>`;
+    return `<div class="cpick" id="cp-${id}" data-cp="${id}" style="--c:${hex}">
+      <div class="cpTop"><div class="cpPrev"></div><label>Colour code<input class="cpHex" data-cphex="1" maxlength="7" value="${hex.toUpperCase()}" autocomplete="off" spellcheck="false" autocapitalize="characters"></label></div>
+      <div class="cpPadW" data-cppad="1"><canvas class="cpPad" width="360" height="170"></canvas><div class="cpDot"></div></div>
+      ${row('v', 'Bright', Math.round(hsv[2] * 100), 100)}${row('r', 'Red', r, 255)}${row('g', 'Green', g, 255)}${row('b', 'Blue', b, 255)}
+      <div class="cpSw">${CP_PALETTE.map(c => `<div role="button" data-cpsw="${c}" title="${c}" style="background:${c}" class="${c === hex ? 'on' : ''}"></div>`).join('')}</div>
+      <div class="cpWarn" data-cpwarn="1" style="display:none"></div>${extra}</div>`;
+  }
+  function cpDrawPad(box) {
+    const cv = box.querySelector('.cpPad'); if (!cv || !cpCur) return;
+    const g = cv.getContext('2d'), W = cv.width, Hh = cv.height, v = cpCur.hsv[2];
+    const hg = g.createLinearGradient(0, 0, W, 0);
+    for (let i = 0; i <= 6; i++) { const [r, gg, b] = hsv2rgb(i * 60 % 360, 1, v); hg.addColorStop(i / 6, `rgb(${r},${gg},${b})`); }
+    g.fillStyle = hg; g.fillRect(0, 0, W, Hh);
+    const vg = g.createLinearGradient(0, 0, 0, Hh), gr = Math.round(v * 255); vg.addColorStop(0, `rgba(${gr},${gr},${gr},0)`); vg.addColorStop(1, `rgba(${gr},${gr},${gr},1)`);
+    g.fillStyle = vg; g.fillRect(0, 0, W, Hh);
+  }
+  // put the picker's controls in step with cpCur (skip = the control the finger is on, so it isn't fought over)
+  function cpSync(box, skip, quiet) {
+    const [r, g, b] = hexRgb(cpCur.hex), vals = { r, g, b, v: Math.round(cpCur.hsv[2] * 100) };
+    box.style.setProperty('--c', cpCur.hex);
+    box.querySelectorAll('[data-cpk]').forEach(el => { if (el !== skip) el.value = vals[el.dataset.cpk]; });
+    box.querySelectorAll('[data-cpn]').forEach(el => { if (el !== skip) el.value = vals[el.dataset.cpn]; });
+    const hx = box.querySelector('[data-cphex]'); if (hx && hx !== skip) hx.value = cpCur.hex.toUpperCase();
+    const cs = (k, lo, hi) => `linear-gradient(90deg,${lo},${hi})`;
+    const sl = k => box.querySelector(`[data-cpk="${k}"]`);
+    if (sl('r')) sl('r').style.background = cs('r', rgbHex(0, g, b), rgbHex(255, g, b));
+    if (sl('g')) sl('g').style.background = cs('g', rgbHex(r, 0, b), rgbHex(r, 255, b));
+    if (sl('b')) sl('b').style.background = cs('b', rgbHex(r, g, 0), rgbHex(r, g, 255));
+    if (sl('v')) { const [vr, vg2, vb] = hsv2rgb(cpCur.hsv[0], cpCur.hsv[1], 1); sl('v').style.background = cs('v', '#000', rgbHex(vr, vg2, vb)); }
+    const dot = box.querySelector('.cpDot'); if (dot) { dot.style.left = (cpCur.hsv[0] / 360 * 100) + '%'; dot.style.top = ((1 - cpCur.hsv[1]) * 100) + '%'; }
+    box.querySelectorAll('[data-cpsw]').forEach(el => el.classList.toggle('on', el.dataset.cpsw === cpCur.hex));
+    cpDrawPad(box);
+    if (!quiet) cpChanged(box.dataset.cp, cpCur.hex, false);
+  }
+  function cpSetHex(box, hex, skip) { if (!okHex(hex)) return; cpCur.hex = hex.toLowerCase(); const [r, g, b] = hexRgb(cpCur.hex), h = rgb2hsv(r, g, b);
+    if (h[1] < 0.01 || h[2] < 0.01) h[0] = cpCur.hsv[0]; if (h[2] < 0.01) h[1] = cpCur.hsv[1]; cpCur.hsv = h; cpSync(box, skip); }
+  function cpSetHsv(box, hsv, skip) { cpCur.hsv = hsv; cpCur.hex = rgbHex(...hsv2rgb(...hsv)); cpSync(box, skip); }
+  function cpSetKey(box, k, val, skip) {
+    if (k === 'v') return cpSetHsv(box, [cpCur.hsv[0], cpCur.hsv[1], clamp(val, 0, 100) / 100], skip);
+    const c = hexRgb(cpCur.hex), i = 'rgb'.indexOf(k); c[i] = clamp(Math.round(val), 0, 255); cpSetHex(box, rgbHex(...c), skip);
+  }
+  const cpBox = el => el && el.closest && el.closest('.cpick');
+  function cpPadAt(box, e) {
+    const pad = box.querySelector('[data-cppad]'), rc = pad.getBoundingClientRect();
+    const x = clamp((e.clientX - rc.left) / rc.width, 0, 1), y = clamp((e.clientY - rc.top) / rc.height, 0, 1);
+    cpSetHsv(box, [Math.min(359.9, x * 360), 1 - y, Math.max(0.08, cpCur.hsv[2])]);
+  }
+  let cpDrag = null, cpHold = null;
+  document.addEventListener('pointerdown', e => {
+    const pad = e.target.closest && e.target.closest('[data-cppad]'), box = cpBox(e.target); if (!box || !cpCur) return;
+    if (pad) { e.preventDefault(); cpDrag = box; try { pad.setPointerCapture(e.pointerId); } catch (er) {} cpPadAt(box, e); return; }
+    const st = e.target.closest('[data-cpstep]');
+    if (st) {   // tap = 1 step, hold = keep going (faster)
+      e.preventDefault();
+      const k = st.dataset.cpstep, d = +st.dataset.d, cur = () => k === 'v' ? Math.round(cpCur.hsv[2] * 100) : hexRgb(cpCur.hex)['rgb'.indexOf(k)];
+      cpSetKey(box, k, cur() + d); let n = 0;
+      clearInterval(cpHold); cpHold = setInterval(() => { n++; if (n > 4) cpSetKey(box, k, cur() + d * (n > 20 ? 5 : 1)); }, 70);
+      return;
+    }
+    const sw = e.target.closest('[data-cpsw]'); if (sw) { cpSetHex(box, sw.dataset.cpsw); cpChanged(box.dataset.cp, cpCur.hex, true); }
+  });
+  document.addEventListener('pointermove', e => { if (cpDrag) cpPadAt(cpDrag, e); });
+  const cpEnd = () => { if (cpDrag) { cpChanged(cpDrag.dataset.cp, cpCur.hex, true); cpDrag = null; } if (cpHold) { clearInterval(cpHold); cpHold = null; const b = document.querySelector('.cpick'); if (b && cpCur) cpChanged(b.dataset.cp, cpCur.hex, true); } };
+  document.addEventListener('pointerup', cpEnd); document.addEventListener('pointercancel', cpEnd);
+  document.addEventListener('input', e => {
+    const box = cpBox(e.target); if (!box || !cpCur) return;
+    const t = e.target, d = t.dataset;
+    if (d.cpk) cpSetKey(box, d.cpk, +t.value, t);
+    else if (d.cpn) { if (t.value !== '') cpSetKey(box, d.cpn, +t.value, t); }
+    else if (d.cphex) { let v = t.value.trim(); if (v[0] !== '#') v = '#' + v; if (/^#[0-9a-f]{3}$/i.test(v)) v = '#' + [...v.slice(1)].map(ch => ch + ch).join(''); if (okHex(v)) cpSetHex(box, v, t); }
+  });
+  document.addEventListener('change', e => { const box = cpBox(e.target); if (box && cpCur) { if (e.target.dataset.cpn || e.target.dataset.cphex) cpSync(box); cpChanged(box.dataset.cp, cpCur.hex, true); } });
+  document.addEventListener('keydown', e => { if (cpBox(e.target) && (e.target.tagName === 'INPUT')) { e.stopPropagation(); if (e.key === 'Enter') e.target.blur(); } }, true);
+  function cpInit() { const box = document.querySelector('.cpick'); if (!box || !cpCur) return; cpSync(box, null, true); if (box.dataset.cp === 'look' && cpLook) cpChanged('look', cpCur.hex, false); }
   function drawBallPreview() {
     const cv = $('ballPv'); if (!cv) return;
     const g = cv.getContext('2d'), S = cv.width, R = S * 0.4, cx = S / 2, cy = S / 2;
@@ -6298,15 +6460,36 @@
     document.querySelectorAll('#gTabs button').forEach(b => b.classList.toggle('on', b.dataset.gtab === gTab));
     $('gPanel').innerHTML = gTab === 'bag' ? bagPanel() : gTab === 'ball' ? ballPanel() : outfitPanel();
     if (gTab === 'ball') drawBallPreview();
+    cpInit();
     // trying something on: the preview golfer wears it, but nothing is bought or saved
     applyLook(previewMats, tryLook ? Object.assign({}, save.look, tryLook) : save.look);
     applyBag(previewBagMats, tryBag ? Object.assign({}, save.gbag, tryBag) : save.gbag);
+  }
+  // what the colour picker does as you drag (final = finger lifted / box changed)
+  let cpLook = null, cpPersistT = 0;
+  function cpChanged(id, hex, final) {
+    if (id === 'ball') {
+      save.ballLook.color = hex; applyBallLook(); drawBallPreview();
+      document.querySelectorAll('#gPanel [data-ballc]').forEach(b => b.classList.toggle('on', b.dataset.ballc.toLowerCase() === hex));
+      const nm = document.querySelector('#gPanel .ballpv b'); if (nm) nm.textContent = ballColOf(save.ballLook)[0];
+      if (final) { clearTimeout(cpPersistT); cpPersistT = setTimeout(persist, 150); }
+      return;
+    }
+    if (id === 'look') {
+      cpLook = { part: gPart, hex };
+      applyLook(previewMats, Object.assign({}, save.look, { [gPart]: hex }));   // the preview golfer wears it right away
+      const res = reservedFor(gPart, hex), box = document.getElementById('cp-look'); if (!box) return;
+      const warn = box.querySelector('[data-cpwarn]'), use = box.querySelector('[data-cpuse]'), owned = ownsAny(gPart, hex);
+      if (warn) { warn.style.display = res ? '' : 'none'; warn.textContent = res ? `🔒 That's too close to the ${res.name}'s colour. ${res.name === 'Green Jacket' ? 'Earn the Green Jacket outfit to wear it.' : 'Buy the Gold Jacket outfit to wear it.'}` : ''; }
+      if (use) { use.disabled = !!res; use.textContent = res ? 'Reserved colour' : owned ? 'Wear this colour' : `Try it on · ${money(priceOfAny(gPart, hex))}`; }
+    }
   }
   function setBag(b) { Object.assign(save.gbag, b); persist(); applyBag(playerBagMats, save.gbag); applyBag(previewBagMats, save.gbag); }
   $('tab-golfer').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
     ensureAudio(); sfx.click();
-    const d = b.dataset; gLockMsg = null; bLockMsg = null; tryLook = null; tryBag = null;
+    const d = b.dataset; gLockMsg = null; bLockMsg = null; tryLook = null; tryBag = null; gReserved = null;
+    if (!d.cpuse && !d.buy) cpLook = null;
     if (d.buy) {
       const pb = pendingBuy; pendingBuy = null;
       if (pb && save.coins >= pb.price) {
@@ -6330,6 +6513,16 @@
     }
     else if (d.gpart) gPart = d.gpart;
     else if (d.style) setLook({ style: d.style, trim: save.look.trim || '#F2C14E' });
+    else if (d.cpuse && cpLook && cpLook.part === gPart) {
+      const part = gPart, col = cpLook.hex, res = reservedFor(part, col);
+      if (res) { renderGolfer(); return; }
+      if (!ownsAny(part, col)) { pendingBuy = { kind: 'look', title: `Custom ${partLabel(part, save.look).toLowerCase()} colour`, price: priceOfAny(part, col), swatch: col,
+        grant: () => grantC(part, col), apply: () => setLook({ [part]: col }) }; tryLook = { [part]: col }; }
+      else setLook({ [part]: col });
+    }
+    else if (d.col && reservedFor(gPart, d.col)) {
+      const res = reservedFor(gPart, d.col); gReserved = res.name; tryLook = { [gPart]: d.col };
+    }
     else if (d.col) {
       const part = gPart, col = d.col;
       if (PRICES[part] && !ownsC(part, col)) pendingBuy = { kind: 'look', title: `${swName(SWATCHES[part], col)} ${partLabel(part, save.look).toLowerCase()}`, price: priceOf(part, col), swatch: col,
@@ -6364,21 +6557,11 @@
     renderGolfer();
   });
   $('gPanel').addEventListener('input', e => {
-    if (e.target.dataset.rgb != null) {   // R/G/B sliders: recolour the ball live (saved when you let go)
-      const v = ['R', 'G', 'B'].map(k => +$('rgb' + k).value);
-      ['R', 'G', 'B'].forEach((k, i) => { $('rgbv' + k).textContent = v[i]; });
-      const box = $('rgbBox'); box.style.setProperty('--r', v[0]); box.style.setProperty('--g', v[1]); box.style.setProperty('--b', v[2]);
-      save.ballLook.color = rgbHex(v[0], v[1], v[2]); applyBallLook(); drawBallPreview();
-      document.querySelectorAll('#gPanel [data-ballc]').forEach(b => b.classList.toggle('on', b.dataset.ballc.toLowerCase() === save.ballLook.color));
-      const nm = document.querySelector('#gPanel .ballpv b'); if (nm) nm.textContent = ballColOf(save.ballLook)[0];
-      return;
-    }
     if (e.target.id !== 'logoText') return;
     customLogo().text = e.target.value.replace(/[<>]/g, '').slice(0, 12); persist(); setBag({});
   });
   $('gPanel').addEventListener('keydown', e => { if (e.target.id === 'logoText') { e.stopPropagation(); if (e.key === 'Enter') e.target.blur(); } });
   $('gPanel').addEventListener('change', e => {
-    if (e.target.dataset.rgb != null) { persist(); return; }
     if (e.target.id !== 'logoFile' || !e.target.files || !e.target.files[0]) return;
     const fr = new FileReader();
     fr.onload = () => {
@@ -6800,7 +6983,7 @@
     let mastersLine = '';
     if (course.id === MASTERS_CID && !roundCut && HOLES.length >= course.holes.length && rel <= MASTERS_REL && !unlocked('masters')) {
       save.unlocks.masters = true; OUTFIT_PARTS.forEach(k => { const p = LOOK_PRESETS.find(x => x.lock === 'masters'); if (p.look[k]) grantC(k, p.look[k]); });
-      mastersLine = ' · 🧥 MASTERS OUTFIT UNLOCKED!'; burst(220);
+      mastersLine = ' · 🧥 GREEN JACKET UNLOCKED!'; burst(220);
     }
     let line, rank = 0;
     // keep the last 15 scorecards (they go up with a ban so the creator can double-check it)
@@ -6814,12 +6997,6 @@
       else line = `Course best: ${fmtRel(best)}`;
       rank = recordScore(rel, ts);
       if (rank) line += ` · Leaderboard #${rank}`;
-    }
-    // a round that got flagged sends its finished scorecard too, so the creator can see how the whole round went
-    if (roundFlags && !isCreator() && !(MP && MP.started)) {
-      const tok = cardTok(course.id, scores), head = `final card of a flagged round (${roundFlags} flag${roundFlags === 1 ? '' : 's'}) · ${course.name} ${fmtRel(rel)} · ${Math.round((Date.now() - roundStart) / 60000)} min${roundCut ? ' · ended early' : ''}`;
-      const f = { kind: 'round', detail: head.slice(0, 138 - tok.length) + ' ' + tok, strong: false, at: Date.now() };
-      if (!sendFlag(f)) flagQ.push(f);
     }
     roundFlags = 0;
     const newly = COURSES.filter(c => wasLocked.includes(c.id) && isUnlocked(c));
@@ -6907,14 +7084,29 @@
   $('ctpAgain').addEventListener('click', () => { ensureAudio(); sfx.click(); startCtp(); });
 
   // ---- Driving Range: a bucket of balls, targets, money and a summary at the end ----
-  let rangeS = null, rangeT = 0, rangeFx = [], rangeManual = false;
-  function startRange() {
+  let rangeS = null, rangeT = 0, rangeFx = [], rangeManual = false, rangeChain = null;
+  const rangePaidToday = () => rangeDay().pass === true;
+  // the $1,000 day pass: paid once per day (Eastern time), then every bucket that day is free
+  function buyRangePass() {
+    if (rangePaidToday()) return true;
+    if (save.coins < RANGE_PASS) { alert(`The Driving Range costs ${money(RANGE_PASS)} for the day. You have ${money(save.coins)}: play a round or two and come back!`); return false; }
+    if (!confirm(`Buy today's Driving Range pass for ${money(RANGE_PASS)}?\n\nIt covers every bucket you hit today.`)) return false;
+    save.coins -= RANGE_PASS; rangeDay().pass = true; persist(); setTimeout(cloudSaveSoon, 0);
+    const hc = $('homeCoins'); if (hc) hc.textContent = money(save.coins);
+    return true;
+  }
+  function startRange(reuse) {
     if (banned()) { showBanned(); return; }
-    rangeS = { left: RANGE_BALLS, shots: 0, hits: 0, holed: 0, earned: 0, streak: 0, bestStreak: 0, closest: null, longest: 0, capped: false };
+    if (!buyRangePass()) { renderRangeCard(); return; }
+    // reusing the bucket ("Another bucket" right after one): +5% a reuse and the streak carries on, up to 10 in a row
+    const ch = reuse && rangeChain && rangeChain.day === etDay() && rangeChain.n < RANGE_REUSE_MAX ? rangeChain : null;
+    const n = ch ? ch.n + 1 : 0;
+    rangeS = { left: RANGE_BALLS, shots: 0, hits: 0, holed: 0, earned: 0, streak: ch ? ch.streak : 0, bestStreak: 0, closest: null, longest: 0, capped: false, reuse: n };
+    rangeChain = { day: etDay(), n, streak: rangeS.streak };
     rangeFx = []; rangeManual = false; $('rangeEnd').classList.add('hidden');
     startRound(RANGE);
     firstShot = false;
-    showBanner('Driving Range', `${RANGE_BALLS} balls · aim at a target and drop one in the bucket`, 2.6);
+    showBanner('Driving Range', rangeS.reuse ? `Reused bucket ${rangeS.reuse}/${RANGE_REUSE_MAX} · +${Math.round(rangeS.reuse * RANGE_REUSE_PCT * 100)}% on every target` : `${RANGE_BALLS} balls · fresh bucket · aim at a target and drop one in the bucket`, 2.6);
   }
   // the target you're aiming at is the one closest to your aim line
   function rangeTarget() {
@@ -6944,7 +7136,7 @@
     const ring = pen || !t ? 0 : holed ? 3 : dist <= t.r1 ? 2 : dist <= t.r2 ? 1 : 0;
     let got = 0;
     if (ring) {
-      const mult = 1 + 0.1 * Math.min(5, S.streak), pay = Math.round(rangePay(ring, t.d) * mult);
+      const mult = (1 + 0.1 * Math.min(5, S.streak)) * (1 + RANGE_REUSE_PCT * (S.reuse || 0)), pay = Math.round(rangePay(ring, t.d) * mult);
       got = Math.max(0, Math.min(pay, RANGE_DAY_CAP - day.earned)); if (got < pay) S.capped = true;
       if (got) { paid(got); save.coins += got; save.stats.earnedTotal += got; day.earned += got; S.earned += got; }
       S.streak++; S.bestStreak = Math.max(S.bestStreak, S.streak); S.hits++;
@@ -6979,6 +7171,10 @@
     const day = rangeDay();
     if (S.shots) { day.buckets = (day.buckets || 0) + (quit ? 0 : 1); day.best = Math.max(day.best || 0, S.earned); }
     persist(); setTimeout(cloudSaveSoon, 0); track('range_bucket', { shots: S.shots, earned: S.earned });
+    if (rangeChain) rangeChain.streak = S.streak;
+    if (quit || !S.shots) rangeChain = null;   // leaving the range ends the reuse run
+    const nextFresh = !rangeChain || rangeChain.n >= RANGE_REUSE_MAX;
+    $('rangeAgain').textContent = nextFresh ? 'Fresh bucket' : `Reuse bucket (${rangeChain.n + 1}/${RANGE_REUSE_MAX}) · +${Math.round((rangeChain.n + 1) * RANGE_REUSE_PCT * 100)}%`;
     const acc = S.shots ? Math.round(S.hits / S.shots * 100) : 0;
     $('rangeTitle').textContent = !S.shots ? 'See you next time' : S.holed >= 2 ? 'Bucket master! 🪣' : acc >= 60 ? 'Dialed in! 🎯' : acc >= 35 ? 'Nice session' : 'Keep grinding';
     $('rangeSub').textContent = `${S.shots} ball${S.shots === 1 ? '' : 's'} hit${quit && S.left > 0 ? ` · left with ${S.left} in the bucket` : ''}`;
@@ -6988,14 +7184,15 @@
       + `<div><span>🔥 Best streak</span><span>${S.bestStreak}</span></div>`
       + `<div><span>Closest to a bucket</span><span>${S.closest ? (S.closest.d === 0 ? 'IN!' : fmtFt(S.closest.d)) + ` (${S.closest.t} yds)` : '—'}</span></div>`
       + (S.longest ? `<div><span>Longest drive</span><span>${S.longest} yds</span></div>` : '')
+      + `<div><span>Bucket</span><span>${S.reuse ? `reused ${S.reuse}/${RANGE_REUSE_MAX} (+${Math.round(S.reuse * RANGE_REUSE_PCT * 100)}%)` : 'fresh'}</span></div>`
       + `<div class="sum"><span>Range money today</span><span>${money(day.earned)} / ${money(RANGE_DAY_CAP)}</span></div>`
       + (S.capped ? '<div style="color:#f3d7a8;font-size:12px;margin-top:6px">You hit today\'s range limit: the range pays again tomorrow (rounds still pay as usual).</div>' : '');
     if (S.holed) { burst(120); sfx.perfect(); }
     $('rangeEnd').classList.remove('hidden');
     rangeS = null;
   }
-  $('rangeAgain').addEventListener('click', () => { ensureAudio(); sfx.click(); startRange(); });
-  $('rangeHome').addEventListener('click', () => { ensureAudio(); sfx.click(); showHome(); setTab('play'); });
+  $('rangeAgain').addEventListener('click', () => { ensureAudio(); sfx.click(); startRange(true); });
+  $('rangeHome').addEventListener('click', () => { ensureAudio(); sfx.click(); rangeChain = null; showHome(); setTab('play'); });
   function renderRangeCard() {
     const box = $('rangeCard'); if (!box) return;
     const d = rangeDay(), top = Math.max(...RANGE_SPOTS.map(x => rangePay(3, x[0])));
@@ -7004,7 +7201,8 @@
       <div class="ci"><div class="ctag">🏌️ DRIVING RANGE · PRACTICE</div><div class="cn">Hit the buckets</div>
         <div class="cm">${RANGE_BALLS} balls · 8 targets from 50 to 270 yds · drop one in a bucket for up to ${money(top)}</div>
         <div class="cm" style="color:#FFE08A;margin-top:3px">Today: ${money(d.earned)} of ${money(RANGE_DAY_CAP)} · 🪣 ${d.holed || 0} in the bucket all-time</div>
-        <div class="act"><button class="main sm" data-range="1">Grab a bucket ›</button></div></div></div>`;
+        <div class="cm" style="margin-top:3px">${d.pass ? '✅ Day pass bought: every bucket is free today' : `🎟️ Day pass: ${money(RANGE_PASS)} (covers every bucket today)`}</div>
+        <div class="act"><button class="main sm" data-range="1">${d.pass ? 'Grab a bucket ›' : `Buy pass · ${money(RANGE_PASS)} ›`}</button></div></div></div>`;
   }
   $('rangeCard').addEventListener('click', e => { if (e.target.closest('[data-range]')) { ensureAudio(); sfx.click(); startRange(); } });
   $('ctpHome').addEventListener('click', () => { ensureAudio(); sfx.click(); showHome(); setTab('ctp'); });
@@ -7030,7 +7228,7 @@
     $('ctpCard').innerHTML = `<div class="ctp" data-ctpinfo="1" role="button">
       <div class="thumb" style="background-image:url('${holeThumb(c, 0)}')"></div>
       <div class="ci"><div class="ctag">🎯 DAILY CHALLENGE · CLOSEST TO THE PIN</div><div class="cn">${h.name}</div>
-        <div class="cm">${h.yds} yds · Wind ${h.fixedWind.mph} mph · <span style="color:#FFE08A">${stars(k.diff)}</span> ${DIFF_NAMES[k.diff]}</div>
+        <div class="cm">${h.yds} yds${k.elev ? ` (plays ${k.plays})` : ''} · ${k.label} · Wind ${h.fixedWind.mph} mph · <span style="color:#FFE08A">${stars(k.diff)}</span> ${DIFF_NAMES[k.diff]}</div>
         <div class="cm" style="color:#FFE08A;margin-top:3px">Best today: ${st.best == null ? '—' : st.best === 0 ? 'Ace!' : fmtFt(st.best)} · Tries left: ${left}</div>
         <div class="act"><button class="main sm" data-ctpinfo="1">Hole details & leaderboard ›</button></div></div></div>`;
   }
@@ -7044,7 +7242,7 @@
       <div class="dgrid">
         <div><small>DIFFICULTY</small><b style="color:#FFE08A">${stars(k.diff)}</b><em>${DIFF_NAMES[k.diff]}</em></div>
         <div><small>WIND</small><b>${windArrow(h)} ${h.fixedWind.mph} mph</b><em>${windWords(h)}</em></div>
-        <div><small>LENGTH</small><b>${h.yds} yds</b><em>Par 3 · ${k.label}</em></div>
+        <div><small>LENGTH</small><b>${h.yds} yds</b><em>${k.len} par 3 · ${k.label}${k.elev ? ` · plays ${k.plays} (${k.elev > 0 ? '⬇' : '⬆'} ${Math.abs(k.elev * 3)} ft)` : ''}</em></div>
         <div><small>TRIES LEFT</small><b>${left} / ${CTP_TRIES}</b><em>New hole in ${resetsIn()}</em></div>
       </div></div>
       <div class="chips" style="margin-top:10px"><span>Your best today <b>${st.best == null ? '—' : st.best === 0 ? 'Ace!' : fmtFt(st.best)}</b></span>${pays}</div>
@@ -7104,7 +7302,7 @@
     } catch (e) {}
     giftBusy = false;
   }
-  const admTabs = [['players', '🔎 Find a player'], ['aces', '🎯 Holes in one'], ['flags', '🚩 Cheat flags'], ['appeals', '📨 Appeals'], ['bans', '⛔ Bans'], ['boards', '🏆 Leaderboards']];
+  const admTabs = [['players', '🔎 Find a player'], ['aces', '🎯 Holes in one'], ['reviews', '📋 Scorecard review'], ['flags', '🎯 Ace flags'], ['bans', '⛔ Bans'], ['boards', '🏆 Leaderboards']];
   let admFlagDocs = {};
   // One flagged round's scorecard: the card the flag carried (holes played so far), plus the final card of that round if it came in
   function admRoundCard(id) {
@@ -7114,7 +7312,7 @@
       .sort((a, b) => a.at - b.at)[0];
     const finK = fin ? Object.assign(cardsFromText(fin.detail)[0] || {}, { d: fin.at }) : null;
     $('acTitle').textContent = `📋 ${f.name || 'Golfer'} · flagged round`;
-    $('acBody').innerHTML = `<div class="tnote" style="text-align:left">🚩 <b>${esc(f.kind || '')}</b>: ${prettyDetail(f.detail)}<br>${f.at ? ago(f.at) : ''}${f.card ? ` · flagged on hole ${f.card.h} of ${f.card.n}` : ''}${f.hard ? ' · <b>hard ban (no appeal)</b>' : f.strong ? ' · auto-banned (can appeal)' : ''}</div>`
+    $('acBody').innerHTML = `<div class="tnote" style="text-align:left">🚩 <b>${esc(f.kind || '')}</b>: ${prettyDetail(f.detail)}<br>${f.at ? ago(f.at) : ''}${f.card ? ` · flagged on hole ${f.card.h} of ${f.card.n}` : ''}</div>`
       + (k.c && k.s ? cardBlock(k, f.card ? `when it was flagged (thru ${Math.max(0, f.card.h - 1)})` : 'card in the flag') : '<div class="empty">This flag didn\'t come with a scorecard (older flags, or it wasn\'t raised during a round).</div>')
       + (finK && finK.c && fin !== f ? cardBlock(finK, 'final card of this round') : '')
       + `<div class="btns" style="margin-top:8px"><button class="ghost sm" data-allcards="${esc(f.uid)}" data-n="${esc(f.name || '')}">All of this golfer's scorecards</button></div>`;
@@ -7139,11 +7337,12 @@
     admSyncAt = Date.now();
     const snap = await fbDb.collection('bans').orderBy('at', 'desc').limit(500).get();
     admBans = snap.docs.map(d => Object.assign({ uid: d.id }, d.data()));
-    // lift bans made by mistake when the game moved to Vercel (it banned everyone playing there as a "modified copy")
-    for (const b of admBans.filter(b => siteBanMistake(b.reason))) {
-      try { await fbDb.collection('bans').doc(b.uid).delete(); fbDb.collection('appeals').doc(b.uid).delete().catch(() => {}); } catch (e) {}
+    // the game doesn't ban by itself any more: every old automatic ban is lifted (only the creator's own bans stay)
+    for (const b of admBans.filter(isAutoBan)) {
+      try { await fbDb.collection('bans').doc(b.uid).delete(); delete admSwept[b.uid]; } catch (e) {}
     }
-    admBans = admBans.filter(b => !siteBanMistake(b.reason));
+    try { localStorage.setItem(SWEPT_KEY, JSON.stringify(admSwept)); } catch (e) {}
+    admBans = admBans.filter(b => !isAutoBan(b));
     const uids = admBans.map(b => b.uid);
     for (const u of uids) if (!admSwept[u]) { try { await admWipe(u); } catch (e) {} }
     try { await fbDb.collection('meta').doc('bannedList').set({ uids, at: Date.now() }); } catch (e) {}
@@ -7153,7 +7352,7 @@
   // ---- Scorecards for any golfer: from their ban note, their cheat flags and (Google players) their cloud save ----
   const cardCourse = id => id === 'mini' ? MINI : courseById(id);
   function cardsFromText(t) { const out = []; String(t || '').replace(/\{([a-z0-9]+):([0-9a-c-]+)\}/g, (_, c, sc) => { out.push({ c, s: sc }); return ''; }); return out; }
-  const prettyDetail = t => esc(String(t || '').replace(/\s*\{[a-z0-9]+:[0-9a-c-]+\}/g, ' 📋'));
+  const prettyDetail = t => esc(fixName(String(t || '')).replace(/\s*\{[a-z0-9]+:[0-9a-c-]+\}/g, ' 📋'));
   function cardBlock(k, title) {
     const c = cardCourse(k.c), S = unpackCard(k.s); if (!c || !S.length) return '';
     const H = c.holes.slice(0, S.length).map((h, i) => h || { par: 4 });
@@ -7167,6 +7366,7 @@
     let info = [];
     try { const b = await fbDb.collection('bans').doc(uid).get(); if (b.exists) { const d = b.data(); info.push(`⛔ ${esc(d.reason || 'Banned')}${d.aces != null ? ` · 🎯 ${d.aces} career aces` : ''}${d.rounds != null ? ` · ${d.rounds} rounds` : ''}`); (d.cards || []).slice().reverse().forEach(k => add(k, 'from the ban note')); } } catch (e) {}
     try { const u = await fbDb.collection('users').doc(uid).get(); if (u.exists) { const sv = JSON.parse(u.data().data || '{}'); info.push(`☁️ Google save · ${money(sv.coins || 0)} bank · ${money((sv.stats || {}).earnedTotal || 0)} earned · 🎯 ${(sv.stats || {}).aces || 0} aces · ${(sv.stats || {}).rounds || 0} rounds`); (sv.cards || []).slice().reverse().forEach(k => add(k, 'cloud save')); } } catch (e) {}
+    try { const rv = await fbDb.collection('reviews').where('uid', '==', uid).limit(30).get(); rv.docs.map(d => d.data()).sort((a, b) => (b.at || 0) - (a.at || 0)).forEach(r => add({ c: r.cid, s: r.s, d: r.at, m: r.m }, `low round ${fmtRel(r.rel)}`)); } catch (e) {}
     let flagTxt = [];
     try {
       const fs = await fbDb.collection('flags').where('uid', '==', uid).limit(60).get();
@@ -7179,7 +7379,7 @@
       + (got.length ? got.map(g => cardBlock(g.k, g.title)).join('') : '<div class="empty">No scorecards for this golfer yet. (Cards are kept from Oct 20 2026 on: they come up with a ban, with ace and score flags, and in Google players\' cloud saves.)</div>')
       + (flagTxt.length ? `<div class="sect" style="margin-top:12px">FLAGS</div><div class="mplist">${flagTxt.join('')}</div>` : '');
   }
-  let admQ = '', admFound = null, admGifted = {}, admMoneyOnly = false;
+  let admQ = '', admFound = null, admGifted = {}, admMoneyOnly = 'ace';
   // Find a player: the whole player directory is loaded once (one read per golfer, remembered for 6 hours on this device)
   // and searched right here, so any part of a name matches ("coll" finds "John Collins").
   const DIR_KEY = 'cg-admdir', DIR_TTL = 6 * 3600e3;
@@ -7258,29 +7458,31 @@
         rows.sort((a, b) => b.date - a.date);
         v.innerHTML = `<div class="tnote" style="text-align:left">Every hole in one from the last 3 days. Each one is also flagged in 🚩 Cheat flags. Banned golfers are hidden.</div>
           <div class="mplist">${rows.map(r => { const n = Math.max(career[r.uid] || 0, per[r.uid] || 0), hot = n >= 3 || per[r.uid] >= 2;
-            return `<div class="mpli"><div class="nm"><b>${hot ? '⚠️ ' : ''}${esc(r.name || 'Golfer')}</b> <span class="pill2${hot ? ' r' : ''}">🎯 ${n} career ace${n === 1 ? '' : 's'}</span><small>${esc(r.course || '')}${r.course === 'Closest to the Pin' ? '' : ` #${r.hole}`} · ${r.yds} yds · ${r.date ? ago(r.date) : ''}${per[r.uid] > 1 ? ` · ${per[r.uid]} aces in 3 days` : ''}</small></div>
+            return `<div class="mpli"><div class="nm"><b>${hot ? '⚠️ ' : ''}${esc(r.name || 'Golfer')}</b> <span class="pill2${hot ? ' r' : ''}">🎯 ${n} career ace${n === 1 ? '' : 's'}</span><small>${esc(fixName(r.course))}${r.course === 'Closest to the Pin' ? '' : ` #${r.hole}`} · ${r.yds} yds · ${r.date ? ago(r.date) : ''}${per[r.uid] > 1 ? ` · ${per[r.uid]} aces in 3 days` : ''}</small></div>
             <button class="ghost sm" data-adm-cards="${r.uid}" data-n="${esc(r.name || '')}">📋 Cards</button><button class="main sm" data-adm-ban="${r.uid}" data-n="${esc(r.name || '')}">Ban</button></div>`; }).join('') || '<div class="empty">No holes in one in the last 3 days.</div>'}</div>`;
       } else if (admView === 'flags') {
         const all = await fbDb.collection('flags').orderBy('at', 'desc').limit(80).get();
         const s = { docs: all.docs.filter(d => { const k = d.data().kind; return admMoneyOnly === 'ace' ? k === 'ace' || k === 'aces' : admMoneyOnly === 'int' ? k === 'interference' || k === 'swings' || k === 'tamper' : admMoneyOnly ? k === 'money' : true; }) };
         admFlagDocs = {}; all.docs.forEach(d => { admFlagDocs[d.id] = d.data(); });
-        const seg = [['0', 'ALL FLAGS'], ['ace', '🎯 ACES'], ['int', '🤖 INTERFERENCE'], ['1', '💰 MONEY']];
+        const seg = [['ace', '🎯 ACES'], ['0', 'EVERYTHING (incl. older flags)']];
         const on = k => (k === '0' && !admMoneyOnly) || (k === '1' && admMoneyOnly === true) || k === admMoneyOnly;
         v.innerHTML = `<div class="seg wrapseg" style="margin-bottom:10px">${seg.map(([k, n]) => `<button data-adm-money="${k}" class="${on(k) ? 'on' : ''}">${n}</button>`).join('')}</div>` + (all.docs.length ? `<button class="ghost sm" data-adm-clearflags="1" style="margin-bottom:10px">🧹 Clear all flags (${all.docs.length}${all.docs.length >= 80 ? '+' : ''})</button>` : '')
-          + `<div class="mplist">${s.docs.map(d => { const f = d.data(), gone = bannedSet.has(f.uid), hasCard = !!f.card || cardsFromText(f.detail).length > 0; return `<div class="mpli"><div class="nm"><b>${esc(f.name || 'Golfer')}</b> ${f.hard ? '<span class="pill2 r">hard ban · no appeal</span>' : gone ? '<span class="pill2 r">banned</span>' : f.strong ? '<span class="pill2 r">auto-banned</span>' : f.kind === 'round' ? '<span class="pill2 g">final card</span>' : '<span class="pill2">flagged</span>'}<small>${esc(f.kind || '')}: ${prettyDetail(f.detail)}${f.card ? ` · 📋 hole ${f.card.h}/${f.card.n}` : ''} · ${f.at ? ago(f.at) : ''}${f.google ? ' · Google' : ' · guest'}</small></div>
-          ${hasCard ? `<button class="main sm" data-adm-round="${d.id}" title="This round's scorecard">📋 Round</button>` : ''}<button class="ghost sm" data-adm-cards="${f.uid}" data-n="${esc(f.name || '')}" title="All of this golfer's scorecards">📋 All</button><button class="ghost sm" data-adm-dismiss="${d.id}">Dismiss</button>${f.strong || gone ? '' : `<button class="main sm" data-adm-ban="${f.uid}" data-n="${esc(f.name || '')}">Ban</button>`}</div>`; }).join('') || '<div class="empty">No cheat flags here. 🎉</div>'}</div>
-          <div class="tnote">📋 Round shows the scorecard of the round that was flagged (and its final card once the round is over); 📋 All shows every scorecard the golfer has. Every hole in one, suspicious round, odd swing pattern and sign of outside interference (scripts, auto-clickers, speed hacks, extensions) is flagged here.</div>
+          + `<div class="mplist">${s.docs.map(d => { const f = d.data(), gone = bannedSet.has(f.uid), hasCard = !!f.card || cardsFromText(f.detail).length > 0; return `<div class="mpli"><div class="nm"><b>${esc(f.name || 'Golfer')}</b> ${gone ? '<span class="pill2 r">banned</span>' : f.kind === 'ace' ? '<span class="pill2 g">🎯 ace</span>' : f.kind === 'round' ? '<span class="pill2 g">final card</span>' : '<span class="pill2">flagged</span>'}<small>${esc(f.kind || '')}: ${prettyDetail(f.detail)}${f.card ? ` · 📋 hole ${f.card.h}/${f.card.n}` : ''} · ${f.at ? ago(f.at) : ''}${f.google ? ' · Google' : ' · guest'}</small></div>
+          ${hasCard ? `<button class="main sm" data-adm-round="${d.id}" title="This round's scorecard">📋 Round</button>` : ''}<button class="ghost sm" data-adm-cards="${f.uid}" data-n="${esc(f.name || '')}" title="All of this golfer's scorecards">📋 All</button><button class="ghost sm" data-adm-dismiss="${d.id}">Dismiss</button>${gone ? '' : `<button class="main sm" data-adm-ban="${f.uid}" data-n="${esc(f.name || '')}">Ban</button>`}</div>`; }).join('') || '<div class="empty">No cheat flags here. 🎉</div>'}</div>
+          <div class="tnote">📋 Round shows the scorecard of the round that was flagged (and its final card once the round is over); 📋 All shows every scorecard the golfer has. Every hole in one is logged here with its card. (Nothing else is flagged any more: low rounds go to 📋 Scorecard review.)</div>
           <div class="tnote">Players online, players per day and rounds played are in Google Analytics (it's free and doesn't use up Firebase).</div>`;
-      } else if (admView === 'appeals') {
-        const snap = await fbDb.collection('appeals').orderBy('at', 'desc').limit(60).get();
-        const rows = snap.docs.map(d => Object.assign({ id: d.id }, d.data())).sort((a, b) => (a.status === 'pending' ? 0 : 1) - (b.status === 'pending' ? 0 : 1) || b.at - a.at);
-        v.innerHTML = `<div class="tnote" style="text-align:left">Golfers who were auto-banned for smaller things can send one appeal. Look at their scorecards, then unban them or turn it down. (Bans for messing with the game's code are final and can't be appealed.)</div>
-          <div class="mplist">${rows.map(r => `<div class="mpli" style="flex-wrap:wrap"><div class="nm" style="flex:1 1 60%"><b>${esc(r.name || 'Golfer')}</b> ${r.status === 'pending' ? '<span class="pill2">waiting</span>' : '<span class="pill2 g">turned down</span>'}<small>⛔ ${esc(r.reason || '')} · ${r.at ? ago(r.at) : ''}</small><div style="margin-top:4px;font:500 13px Inter;color:var(--cream);white-space:pre-wrap">“${esc(r.msg || '')}”</div></div>
-            <button class="ghost sm" data-adm-cards="${r.id}" data-n="${esc(r.name || '')}">📋 Scorecards</button>${r.status === 'pending' ? `<button class="main sm" data-adm-accept="${r.id}" data-n="${esc(r.name || '')}">✅ Unban</button><button class="ghost sm" data-adm-deny="${r.id}">✕ Turn down</button>` : `<button class="ghost sm" data-adm-accept="${r.id}" data-n="${esc(r.name || '')}">Unban anyway</button>`}</div>`).join('') || '<div class="empty">No appeals right now.</div>'}</div>
-          <div class="tnote">Unbanning lets them play again the next time their game checks in (within about 15 minutes). Their old scores don't come back. Turned down = the ban is final; they see that on their ban screen.</div>`;
+      } else if (admView === 'reviews') {
+        // every round of -9 or better over 9 holes (-18 or better over 18), with the whole scorecard, for the creator to look over
+        const snap = await fbDb.collection('reviews').orderBy('at', 'desc').limit(80).get();
+        const rows = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+        v.innerHTML = `<div class="tnote" style="text-align:left">Every round of <b>-9 or better on 9 holes</b> or <b>-18 or better on 18</b> (one under per hole on other lengths), newest first. Nobody is banned or flagged automatically: look over the card and ban by hand if it doesn't add up.</div>`
+          + (rows.length ? `<button class="ghost sm" data-adm-clearrev="1" style="margin-bottom:10px">🧹 Clear reviewed cards (${rows.length}${rows.length >= 80 ? '+' : ''})</button>` : '')
+          + (rows.map(r => `<div class="mpli" style="flex-wrap:wrap"><div class="nm" style="flex:1 1 60%"><b>${esc(r.name || 'Golfer')}</b> <span class="pill2${r.rel <= reviewLine(r.n) - 4 ? ' r' : ''}">${fmtRel(r.rel)}</span>${bannedSet.has(r.uid) ? ' <span class="pill2 r">banned</span>' : ''}<small>${esc(fixName(r.course))} · ${r.n} holes · ${r.strokes} strokes${r.aces ? ` · 🎯 ${r.aces} ace${r.aces === 1 ? '' : 's'}` : ''}${r.m != null ? ` · ${r.m} min` : ''} · ${r.at ? ago(r.at) : ''}${r.google ? ' · Google' : ' · guest'}</small></div>
+            <button class="ghost sm" data-adm-cards="${esc(r.uid)}" data-n="${esc(r.name || '')}">📋 All cards</button><button class="ghost sm" data-adm-revok="${r.id}">✓ Looks fine</button>${bannedSet.has(r.uid) ? '' : `<button class="main sm" data-adm-ban="${esc(r.uid)}" data-n="${esc(r.name || '')}">Ban</button>`}
+            <div style="flex:1 1 100%">${cardBlock({ c: r.cid, s: r.s, d: r.at, m: r.m }, 'full scorecard')}</div></div>`).join('') || '<div class="empty">No low rounds to review. 🎉</div>');
       } else if (admView === 'bans') {
         const list = await admSyncBans(true);
-        v.innerHTML = `<div class="mplist">${list.map(b => `<div class="mpli"><div class="nm"><b>${esc(b.name || 'Golfer')}</b> ${b.auto ? '<span class="pill2 r">auto</span>' : '<span class="pill2">by you</span>'}${b.appeal === false ? ' <span class="pill2 r">final</span>' : ' <span class="pill2 g">can appeal</span>'}${b.aces != null ? ` <span class="pill2">🎯 ${b.aces}</span>` : ''}<small>${esc(b.reason || '')} · ${b.at ? ago(b.at) : ''}</small></div>
+        v.innerHTML = `<div class="mplist">${list.map(b => `<div class="mpli"><div class="nm"><b>${esc(b.name || 'Golfer')}</b> <span class="pill2">by you</span>${b.aces != null ? ` <span class="pill2">🎯 ${b.aces}</span>` : ''}<small>${esc(b.reason || '')} · ${b.at ? ago(b.at) : ''}</small></div>
           <button class="ghost sm" data-adm-cards="${b.uid}" data-n="${esc(b.name || '')}">📋 Scorecards</button><button class="ghost sm" data-adm-unban="${b.uid}">Unban</button></div>`).join('') || '<div class="empty">Nobody is banned.</div>'}</div>
           <div class="tnote">Banned golfers are taken off every leaderboard (all-time, daily tournaments and Closest to the Pin) and their holes in one are hidden. 📋 shows the scorecards they had.</div>
           <div class="tnote">Unbanning lets them play again the next time their game checks in (within about 15 minutes). Their old scores don't come back.</div>`;
@@ -7303,11 +7505,10 @@
   async function admBan(uid, name) {
     const reason = prompt(`Ban ${name || 'this golfer'}? Type a reason (they'll see it):`, 'Cheating');
     if (reason == null) return;
-    const appeal = confirm('Let them send an appeal?\n\nOK = they can appeal · Cancel = the ban is final');
-    await admBanNow(uid, name, reason, false, appeal);
+    await admBanNow(uid, name, reason);
   }
-  async function admBanNow(uid, name, reason, auto = false, appeal = true) {
-    await fbDb.collection('bans').doc(uid).set({ auto: !!auto, appeal: !!appeal, reason: String(reason).slice(0, 140) || 'Banned by the creator', name: name || '', at: Date.now(), t: serverTime() });
+  async function admBanNow(uid, name, reason) {
+    await fbDb.collection('bans').doc(uid).set({ auto: false, reason: String(reason).slice(0, 140) || 'Banned by the creator', name: name || '', at: Date.now(), t: serverTime() });
     try { await admWipe(uid); } catch (e) {}
     await admSyncBans(true);
   }
@@ -7323,19 +7524,17 @@
       else if (d.admMoney != null) admMoneyOnly = d.admMoney === '1' ? true : d.admMoney === '0' ? false : d.admMoney;
       else if (d.admCards) { await admCards(d.admCards, d.n); return; }
       else if (d.admRound) { admRoundCard(d.admRound); return; }
-      else if (d.admAccept) {
-        if (!confirm(`Unban ${d.n || 'this golfer'}?`)) return;
-        await fbDb.collection('bans').doc(d.admAccept).delete().catch(() => {});
-        await fbDb.collection('appeals').doc(d.admAccept).delete();
-        delete admSwept[d.admAccept]; try { localStorage.setItem(SWEPT_KEY, JSON.stringify(admSwept)); } catch (e) {}
-        await admSyncBans(true);
+      else if (d.admRevok) await fbDb.collection('reviews').doc(d.admRevok).delete();
+      else if (d.admClearrev) {
+        if (!confirm('Clear every card in Scorecard review? (Bans stay.)')) return;
+        const snap = await fbDb.collection('reviews').limit(2000).get();
+        for (let i = 0; i < snap.docs.length; i += 400) { const batch = fbDb.batch(); snap.docs.slice(i, i + 400).forEach(x => batch.delete(x.ref)); await batch.commit(); }
       }
-      else if (d.admDeny) { if (!confirm('Turn down this appeal? The ban becomes final.')) return; await fbDb.collection('appeals').doc(d.admDeny).update({ status: 'denied', done: Date.now() }); }
       else if (d.admSearch) { await admSearch($('admQ') ? $('admQ').value : admQ); }
       else if (d.admRefresh) { await admLoadDir(true); if (admQ) await admSearch(admQ); }
       else if (d.admMode) admMode = d.admMode;
       else if (d.admBan) await admBan(d.admBan, d.n);
-      else if (d.admUnban) { if (!confirm('Unban this golfer?')) return; await fbDb.collection('bans').doc(d.admUnban).delete(); fbDb.collection('appeals').doc(d.admUnban).delete().catch(() => {}); delete admSwept[d.admUnban]; try { localStorage.setItem(SWEPT_KEY, JSON.stringify(admSwept)); } catch (e) {} await admSyncBans(true); }
+      else if (d.admUnban) { if (!confirm('Unban this golfer?')) return; await fbDb.collection('bans').doc(d.admUnban).delete(); delete admSwept[d.admUnban]; try { localStorage.setItem(SWEPT_KEY, JSON.stringify(admSwept)); } catch (e) {} await admSyncBans(true); }
       else if (d.admDismiss) await fbDb.collection('flags').doc(d.admDismiss).delete();
       else if (d.admClearflags) {
         const col = 'flags';
@@ -7362,8 +7561,8 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.10.20c', NEWS_NUM = '2.0';
-  const NEWS = [
+  const NEWS_VER = '2026.10.27', NEWS_NUM = '2.1';
+  const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
     ['⭐', '<b>Gold Star Mini Golf, reworked.</b> 13 par 2s and 5 tough par 3s (par 41), with new holes like Zig Zag, Windmill Alley and a brand-new Grand Gold Star finale.'],
@@ -7374,9 +7573,20 @@
     ['🔑', '<b>Play Friends uses match codes now.</b> Create a match and send your friends the 6-character code (or the invite link). Friend lists are gone.'],
     ['☁️', '<b>Progress follows your Google account better:</b> it checks for newer progress whenever you come back to the game, and there\'s a <b>Sync now</b> button in the Golfer tab.'],
   ];
+  const NEWS = [
+    ['⛳', '<b>Four new courses:</b> Founders Park (autumn parkland), Hearst Executive (18 short holes in the city at dusk), Darby Beach (seaside links) and Flyers Presidential (a long, tight championship nine). Each has its own leaderboard and Daily Tournament.'],
+    ['🎯', '<b>A different Daily Closest to the Pin every day:</b> 14 layouts (peninsula, redan, postage stamp, forest chute, big drop, desert waste and more), uphill and downhill tees that play longer or shorter, calm to gusty wind and a new pin spot every day.'],
+    ['🌳', '<b>Trees play like real trees:</b> only the trunk sends the ball back. Through the leaves it can catch a branch and drop, or carry on slowed down.'],
+    ['🏌️', '<b>Driving Range day pass:</b> $1,000 covers every bucket all day, every target pays 50% more, and reusing your bucket (up to 10 in a row) adds +5% each time.'],
+    ['🎨', '<b>New colour mixer:</b> a big colour pad, brightness, easy R/G/B sliders with +/- buttons and a colour code box. Mix your own outfit colours too.'],
+    ['🧥', '<b>The Masters Outfit is now the Green Jacket</b> and the NHS Outfit is now the <b>Gold Jacket</b>. The custom bag logo costs $5,000.'],
+    ['🏞️', '<b>Farbor Lake is now Faerber Lake.</b> Your scores and best rounds there are all still there.'],
+    ['🔑', '<b>Google sign-in works better on iPad.</b>'],
+  ];
   // Every update so far, newest first (shown under "Previous updates"). Only things players can see.
   const UPDATES = [
-    ['2.0', 'Oct 20, 2026', NEWS.map(n => n[1]).concat(['<b>Update pop-up:</b> if a new update comes out while the game is open, you get a pop-up to reload and get it'])],
+    ['2.1', 'Oct 27, 2026', NEWS.map(n => n[1])],
+    ['2.0', 'Oct 20, 2026', NEWS_20.map(n => n[1]).concat(['<b>Update pop-up:</b> if a new update comes out while the game is open, you get a pop-up to reload and get it'])],
     ['1.6', 'Oct 20, 2026', ['Aim putts exactly with the ◀ AIM ▶ buttons or the arrow keys', 'No more wind on putts', '🔥 Momentum: 3 holes in a row with no bogey boosts your payouts',
       'Stronger, cheaper club upgrades (Power, Accuracy, Control)', 'Chami Links Black became a full 18 holes and Chami Links Gold the front nine', 'Cleaner scorecards']],
     ['1.5', 'Oct 15, 2026', ['What\'s New pop-ups and first-time tips', 'Teachers say hi on the first tee of 3C Par Three and Chami Links Crimson', 'Free golf ball colours with R/G/B sliders',
