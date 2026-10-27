@@ -4907,7 +4907,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.27';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.10.27b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). The rules check this email too.
   const CREATOR_EMAIL = 'jamesondoyle11@gmail.com';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -6934,7 +6934,7 @@
     syncInbox();
   }
   // ---- Very rare messages on the back of the home screen (each one has a 0.01% chance every time you come home) ----
-  const EGGS = ['bro ryz was here', 'Mr gallery is a goat', 'RIP Mr. Pisani', 'Cafeteria Christian is unmatched'];
+  const EGGS = ['bro ryz was here', 'Mr gallery is a goat', 'RIP Mr. Pisani', 'Cafeteria Christian is unmatched', 'Go to AI Club'];
   function rollEgg(force) {
     const el = $('egg'); if (!el) return;
     const hit = force != null ? EGGS[force % EGGS.length] : EGGS.find(() => Math.random() < 0.0001);
