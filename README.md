@@ -34,15 +34,19 @@ Daily Closest to the Pin: 14 layouts (island, long and tight, bunker gauntlet, c
 
 Gold Star Mini Golf was reworked on Oct 20 2026 (par 41: 13 par 2s and 5 par 3s). Golfers were birdieing the old par 3s, so every hole was balanced with a computer golfer that takes thousands of simulated putts per hole: a good player now averages about 2.1 to 2.4 on the par 2s and 2.6 to 3.1 on the par 3s (Zig Zag, Windmill Alley, Snake Pass, The Slalom and the Grand Gold Star finale).
 
-## Fresh start (Oct 28 2026)
+## Fresh start (update 2.3, Oct 28 2026)
 
-Everyone started over: `RESET_EPOCH` is 2 (all progress and names wiped on every device and in the cloud the next time the game opens), Leaderboard Season 5 (`SEASON = '_s5'`) started with empty boards, and anyone still signed in with Google (except the creator) is signed out. Old data stays in Firebase but is ignored.
+Everyone started over (twice on Oct 28: once in the afternoon and again with update 2.3 at 7 PM ET). `RESET_EPOCH` is 3 (all progress, names, badges and homerooms wiped on every device and in the cloud), Leaderboard Season 6 (`SEASON = '_s6'`) started with empty all-time and daily boards, and `ACCT_EPOCH` logs every device out of its old account once so each golfer gets a brand-new player code. Old data stays in Firebase but the game ignores it (delete old users in Firebase console > Authentication > Users if you want it gone).
+
+## Hole names (update 2.3)
+
+Meribah, Brothers Hollow, Hearst Executive and Flyers Presidential use original, less corny hole names (`HOLE_NAMES` in index.html). The layouts didn't change.
 
 ## Spirit Day · Weekly Homeroom Cup
 
 (Added Oct 28 2026.) Every week the 13 homerooms (A, B, C, D, E, F, G, H, J, K, L, M, N; there is no Homeroom I) play for the cup on one 18-hole course. The course rotates each week (Meribah, Brothers Hollow, Hearst Executive, Deans Valley, Chami Links Black) and everyone can play it, even if it's still locked for them (playing the cup doesn't unlock it).
 
-- Pick a homeroom in the Golfer tab or on the cup screen (Play tab > Weekly Homeroom Cup). Once you post a cup score your homeroom is set for that week.
+- Pick a homeroom in the Golfer tab or on the cup screen (Play tab > Weekly Homeroom Cup). **It can never be changed** after you pick it. Golfer > Golf Bag > Logo has a free "HR" + letter tag for your bag.
 - Your official score is your best full 18-hole round on the cup course from **Monday 7:00 AM to Friday 2:40 PM** (Eastern). Every finished round counts as an attempt.
 - A homeroom's **team average** = the average of its **20 lowest** official scores (all of them if it has 10 to 19). Under 10 valid scores = **Not Qualified** (provisional average, can't win). Lowest average wins.
 - **Ties** (at the 20-player cutoff and everywhere else) go to whoever posted that score first (the server's time stamp), then by player ID. Nobody can change either one.
@@ -60,8 +64,8 @@ Everyone started over: `RESET_EPOCH` is 2 (all progress and names wiped on every
 ## Online
 
 - Daily Tournaments for every course, mini golf and Closest to the Pin. No sign-in needed to post: you just need a name (anyone still called "Player" is asked for one).
-- **Player codes (Oct 28 2026, replaces Google sign-in):** Golfer tab > Get my player code makes a unique 12-character code (like `ABCD-2345-EFGH`, no 0/O/1/I/L). Type it on any device to sign in: no password, no email. Under the hood it's a Firebase email/password account (`p-<code>@players.chamigolf.app`), so cloud saves, leaderboards and the rules work as before. A guest who makes a code keeps their account and scores. Progress follows the code to every device: the game checks for newer progress whenever you come back to it (and never saves an older copy over a newer one), and Golfer > account has a ☁️ Sync now button. Guest progress stays on that one device.
-- Google sign-in is only kept for the creator (small "Creator sign-in" link in the Golfer tab), because the creator tools and the rules check the creator's Google account.
+- **Player codes (update 2.3):** every golfer gets an 8-character code like `ABCD-2345` automatically (no 0/O/1/I/L in new codes). Tap the 👤 player icon (top right) to see it, copy it, or **Log in** with a code from another device. No password, no email: under the hood it's a Firebase email/password account (`p-<code>@players.chamigolf.app`), so cloud saves, leaderboards and the rules work as usual. If an account can't be made right away (no internet, or too many sign-ups from one school network at once) the game uses a quiet guest account and tries again next time.
+- **Google sign-in is gone completely.** The creator logs in with the creator's player code like everyone else; the creator tools and the rules recognise that account by its uid (`CREATOR_UID` in index.html, `isAdmin()` in firestore.rules). Never post the creator code anywhere public.
 - Premium badges (Creator's Pick, Daily Champion, Hole in One) show next to your name on the leaderboards. Only the Creator's Pick tile shows how many golfers have it. Creator's Pick goes to golfers who helped make the game or had a suggestion added.
 - Daily Champion counts your wins: the number of days you finished 1st (any Daily Tournament or Closest to the Pin) shows next to the 🏆, in the header, in the Golfer tab and next to your name on every leaderboard.
 - Leaderboard Season 4 started Oct 20 2026: every board (all-time, daily tournaments, Closest to the Pin and holes in one) starts fresh. Old scores stay in the database but aren't shown. To start another season, change `SEASON` and `SEASON_START` in index.html.
@@ -86,7 +90,7 @@ The Play tab card has one yellow **Browse match options** button that opens ever
 - **Holes in one are still logged**: every ace is a flag (kind `ace`) with the golfer's career total, club, swing and the card so far. 🎯 Holes in one and 🎯 Ace flags in the creator tools list them.
 - **📋 Scorecard review**: the full scorecard of every round of **-9 or better over 9 holes** or **-18 or better over 18** (one under per hole on other lengths) goes to `reviews/`. Look it over, then ✓ Looks fine, 📋 All cards or Ban.
 - **Banned golfers are taken off every leaderboard**: their scores are deleted (all-time, the last week of daily tournaments and Closest to the Pin) and a small banned list (`meta/bannedList`) hides them from every board, the tournament leaders and the prize payouts.
-- **Server side (firestore.rules)**: only you can write your own save, scores and review cards; the cloud bank can never be more than $5,000 over everything earned; scores and names are range-checked and filtered; score times must be within 2 days of now; boards only accept a better score; banned golfers can't post; only the creator's verified Google account can ban, unban, delete scores or give badges.
+- **Server side (firestore.rules)**: only you can write your own save, scores and review cards; the cloud bank can never be more than $5,000 over everything earned; scores and names are range-checked and filtered; score times must be within 2 days of now; boards only accept a better score; banned golfers can't post; only the creator's account can ban, unban, delete scores or give badges.
 - The creator's account (🛡️ button on the home screen) has Find a player (search by name, give or take back Creator's Pick 🎁, ban), 🎯 Holes in one, 📋 Scorecard review, 🎯 Ace flags, ⛔ Bans (with 📋 scorecards) and the leaderboards (remove a score, ban, 🎁).
 - Player counts, players online and rounds played are in Google Analytics.
 
@@ -119,7 +123,8 @@ On, with Measurement ID `G-4D02FQ9XMJ` (`GA_ID` in index.html). Players online, 
 
 1. Publish the rules in `firestore.rules` (Firebase console > Firestore Database > Rules > Publish). **Publish them again for update 2.2 (Oct 28 2026)**: it adds the Weekly Homeroom Cup (`hrcup/`, `hrcupWeeks/`). Until you do, cup scores can't be posted.
    **Also for 2.2: turn on player codes:** Firebase console > Authentication > Sign-in method > **Email/Password** > Enable (leave "Email link" off). Until you do, "Get my player code" shows an error. **Publish them again for update 2.1 (Oct 27 2026)**: it ignores old auto-bans, removes appeals and adds `reviews/` (Scorecard review). Until you do, golfers who were auto-banned still can't post scores and low rounds can't be sent for review. **Publish them again for update 2.0 (Oct 20 2026)**: it adds appeals, scorecards on cheat flags, the hard-ban mark and the Daily Champion win count. (Until you do, appeals can't be sent; scores and flags still post without the new fields.)
-2. Turn on guest sign-in: Firebase console > Authentication > Sign-in method > **Anonymous** > Enable. (Without it, only Google-signed-in players can post scores.)
+2. Sign-in methods: **Email/Password** (player codes) and **Anonymous** (the fallback guest account) must both be on. Google can be turned off.
+3. Deploying: `firebase deploy --only hosting,firestore:rules --project chamigolf1` updates the site and the rules together (firebase.json points at firestore.rules).
 
 ChamiCards will be back.
 
@@ -129,7 +134,7 @@ GitHub Pages and Vercel are blocked on some school Wi-Fi, so the game also runs 
 
 1. netlify.com > **Add new site** > **Import an existing project** > **GitHub** > pick **ChamiGolf/chamigolf.github.io** > **Deploy** (leave the build command empty and the publish directory as `.`; netlify.toml sets both).
 2. Copy the new `something.netlify.app` address (Site configuration > Change site name to pick a nicer one, like `chamigolf.netlify.app`).
-3. Firebase console > **Authentication** > **Settings** > **Authorized domains** > **Add domain** > paste the netlify.app address, so Google sign-in works there.
+3. Firebase console > **Authentication** > **Settings** > **Authorized domains** > **Add domain** > paste the netlify.app address, so player codes work there.
 
 Every push to the repo redeploys the Netlify copy automatically.
 

@@ -1,12 +1,12 @@
 rules_version = '2';
 // Firestore security rules for Red & Gold Golf (project chamigolf1).
 // Paste into Firebase console > Firestore Database > Rules and press Publish.
-// Guests can post scores too: turn on Authentication > Sign-in method > Anonymous in the Firebase console.
+// Players sign in with player codes (Authentication > Email/Password); anonymous guest accounts are the fallback.
 service cloud.firestore {
   match /databases/{database}/documents {
     function isMe(uid) { return request.auth != null && request.auth.uid == uid; }
-    // The creator (admin tools: bans, analytics, gifts, removing scores). Must be a verified Google sign-in.
-    function isAdmin() { return request.auth != null && request.auth.token.email == 'jamesondoyle11@gmail.com' && request.auth.token.email_verified == true; }
+    // The creator (admin tools: bans, analytics, gifts, removing scores): the creator's player-code account, by its uid.
+    function isAdmin() { return request.auth != null && request.auth.uid == 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2'; }
     // Only the creator's bans count: old automatic bans (auto == true) are ignored, so nobody stays locked out by them.
     function notBanned() { return request.auth != null && (!exists(/databases/$(database)/documents/bans/$(request.auth.uid))
       || get(/databases/$(database)/documents/bans/$(request.auth.uid)).data.get('auto', false) == true); }
@@ -220,22 +220,7 @@ service cloud.firestore {
     }
 
     // ---- Play Friends ----
-    // (Oct 20 2026: friends were taken out; matches are joined with the match code. Codes are only read by the creator's
-    //  one-time player list catch-up now, and the inbox is closed.)
-    // Friend codes: anyone signed in can look one up; only its owner can claim or rename it.
-    match /codes/{code} {
-      allow read: if request.auth != null;
-      // the code CREATOR is reserved for the creator's account
-      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid
-        && request.resource.data.keys().hasOnly(['uid', 'name']) && okName(request.resource.data.name)
-        && (code != 'CREATOR' || isAdmin());
-      allow update: if request.auth != null && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid
-        && request.resource.data.keys().hasOnly(['uid', 'name']) && okName(request.resource.data.name);
-    }
-    // Inbox: friend requests and match invites. Anyone signed in can drop one in; only the owner reads or clears it.
-    match /inbox/{uid}/items/{id} {
-      allow read, delete: if isMe(uid);
-    }
+    // Matches are joined with the 6-character match code. (The old friend codes and inbox are closed: nothing can read or write them.)
     // Matches (doc id = the 6-character match code). Golfers in the match can update it; the host can't be changed.
     match /matches/{id} {
       allow read: if request.auth != null;

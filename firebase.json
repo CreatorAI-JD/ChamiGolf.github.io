@@ -1,10 +1,34 @@
 {
   "hosting": {
     "public": ".",
-    "ignore": ["firebase.json", "**/.*", "* *", "*.md", "*.rules", "*.toml", "LICENSE"],
-    "rewrites": [{ "source": "**", "destination": "/index.html" }],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "* *",
+      "*.md",
+      "*.rules",
+      "*.toml",
+      "LICENSE"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
     "headers": [
-      { "source": "/@(index.html|version.json)", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
+      {
+        "source": "/@(index.html|version.json)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
   }
 }

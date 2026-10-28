@@ -381,7 +381,7 @@
   .chiprow button{display:flex;align-items:center;gap:6px;border:1px solid rgba(242,193,78,.45);background:rgba(69,6,15,.85);color:#f3d7a8;
                   border-radius:999px;padding:6px 11px 6px 6px;font:700 12px Inter,sans-serif;cursor:pointer}
   .chiprow button i{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.55);flex:none}
-  .chiprow button.on{background:var(--gold);color:var(--red-dd);border-color:var(--gold)}
+  .chiprow button.on{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);border-color:var(--gold)}
   .swpane{margin-top:12px;padding-top:12px;border-top:1px solid rgba(242,193,78,.2)}
   .swpane .lh{font:800 10px Inter;letter-spacing:.16em;color:var(--gold);margin:0 2px 9px;text-transform:uppercase;display:flex;justify-content:space-between}
   .swpane .lh b{color:#fff;letter-spacing:.04em;font-weight:600}
@@ -405,11 +405,10 @@
   .board .rk{width:34px;font:700 16px Oswald,sans-serif;color:var(--gold)}
   .seg{display:flex;gap:6px;margin:0 0 8px}
   .seg button{flex:1;padding:8px;border-radius:999px;border:1px solid rgba(242,193,78,.5);background:rgba(69,6,15,.85);color:#f3d7a8;font:800 12px Inter;letter-spacing:.08em;cursor:pointer}
-  .seg button.on{background:var(--gold);color:#45060f;border-color:var(--gold)}
+  .seg button.on{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);border-color:var(--gold)}
   #acctBtn{flex:none;height:38px;min-width:38px;padding:0 14px;border-radius:999px;border:2px solid var(--gold);background:var(--red-dd);color:var(--gold-l);
     font:800 13px Inter,sans-serif;letter-spacing:.04em;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden}
   #acctBtn.in{padding:0;width:38px;font:700 18px Oswald,sans-serif}
-  #acctBtn img{width:100%;height:100%;object-fit:cover}
   .pcodeBig{margin:12px auto 8px;padding:12px 10px;border-radius:14px;background:#111;border:2px dashed var(--gold-l);color:var(--gold-l);
     font:700 26px/1 'Courier New',monospace;letter-spacing:.12em;text-align:center;user-select:all;-webkit-user-select:all}
   .pcode{font-family:'Courier New',monospace;color:var(--gold-l);letter-spacing:.06em;user-select:all;-webkit-user-select:all}
@@ -417,7 +416,6 @@
   .acctCard{margin:14px 2px 0;padding:12px 14px;border-radius:14px;background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.45)}
   .acctCard .an{font:700 18px Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em}
   .acctCard .am{font-size:12px;color:#f3d7a8;margin:3px 0 10px;word-break:break-word}
-  .gsign{display:flex;align-items:center;gap:10px;justify-content:center;width:100%;padding:11px 16px;border-radius:999px;border:0;background:#fff;color:#222;font:700 15px Inter,sans-serif;cursor:pointer}
   .ctpLb{margin-top:10px}
   .ctpLb .board td,.ctpLb .board th{padding:6px 10px}
   .ctp[data-ctpinfo]{cursor:pointer}
@@ -440,7 +438,7 @@
   .tnote b{color:var(--gold-l)}
   .postBox{font-size:13px;color:#f3d7a8;margin:-8px 0 14px;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
   .postBox input{width:150px;padding:8px 10px;border-radius:10px;border:1px solid rgba(242,193,78,.6);background:rgba(0,0,0,.25);color:#fff;font:600 14px Inter}
-  .postBox button{padding:8px 14px;border-radius:10px;border:0;background:var(--gold);color:#45060f;font:800 13px Inter;cursor:pointer}
+  .postBox button{padding:8px 16px;border-radius:999px;border:0;background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);font:700 15px Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 0 #8a6416}
   .empty{background:rgba(79,7,18,.85);border:1px dashed rgba(242,193,78,.4);border-radius:14px;padding:14px;font-size:13px;color:#f3d7a8;text-align:center}
   .holes{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
   .holes .hm{display:block;height:84px;border-radius:7px;background:#2f6f30 center/contain no-repeat;margin:0 4px 6px}
@@ -501,6 +499,8 @@
   .playSide .cupc{padding:9px 10px;margin:6px 0;border-radius:14px}
   .playSide .cupc .cn{font-size:17px;margin:2px 0}
   .playSide .cupc .cm{font-size:11px;margin:2px 0}
+  .hrlock{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1px solid rgba(242,193,78,.5);background:rgba(69,6,15,.85);color:#f3d7a8;font:600 13px Inter,sans-serif}
+  .hrlock b{color:var(--gold-l);font:700 16px Oswald,sans-serif}
   .hrchips{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:4px;margin:4px 0 10px}
   .hrchips button{padding:8px 0;border-radius:10px;border:2px solid rgba(242,193,78,.45);background:var(--red-dd);color:#fff;font:700 15px Oswald,sans-serif;cursor:pointer;min-width:0}
   .hrchips button.on{border-color:var(--gold-l);background:#6d0a1a;color:var(--gold-l)}
@@ -532,9 +532,6 @@
   button.pastw{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;width:100%;text-align:left;padding:10px 12px;margin:0 0 6px;border-radius:12px;
     border:1px solid rgba(242,193,78,.4);background:rgba(79,7,18,.85);color:#f3d7a8;font:600 13px Inter,sans-serif;cursor:pointer}
   button.pastw b{color:var(--gold-l)}
-  button.yelBtn{background:linear-gradient(180deg,#ffe14d,#f5b800);color:#3a2600;border:0;border-radius:999px;padding:9px 14px;font:800 13px Inter,sans-serif;
-    letter-spacing:.02em;cursor:pointer;box-shadow:0 3px 0 #a37a00;white-space:nowrap}
-  button.yelBtn:active{transform:translateY(2px);box-shadow:0 1px 0 #a37a00}
   .mpbtns button{flex:1;padding:10px 6px}
   .mpnote{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;background:rgba(0,0,0,.3);border:1px solid rgba(242,193,78,.5);border-radius:12px;padding:8px 10px;font-size:13px;color:var(--cream)}
   .mpnote b{color:var(--gold-l)}
@@ -644,6 +641,12 @@
   .toast .ts{font:700 12px Inter;color:#FFE08A;margin-top:2px}
 
   /* end-of-round card */
+  .welcome{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .wopt{display:flex;align-items:center;gap:12px;text-align:left;padding:11px 12px;border-radius:14px;border:2px solid rgba(242,193,78,.55);background:rgba(69,6,15,.75);color:#fff;cursor:pointer;font:inherit}
+  .wopt:active{transform:translateY(1px)}
+  .wopt span{font-size:28px;flex:none}
+  .wopt b{display:block;font:700 18px Oswald,sans-serif;color:var(--gold-l);text-transform:uppercase;letter-spacing:.03em}
+  .wopt small{display:block;font-size:12px;color:#f3d7a8;line-height:1.35;margin-top:2px}
   .tipBig{margin:6px 0 12px;padding:10px 12px;border-radius:12px;background:rgba(242,193,78,.16);border:1px solid rgba(242,193,78,.55);font:700 17px/1.3 Inter,sans-serif;color:#FFE08A;text-align:center}
   .tipBig b{color:#fff}
   .card.news{max-height:86vh;overflow:auto}
@@ -926,7 +929,7 @@
 <!-- ===== Player code sign-in (Oct 28 2026: replaces Google sign-in for players) ===== -->
 <div id="codeOv" class="overlay hidden" style="z-index:41">
   <div class="card">
-    <h2>🔑 Player code</h2>
+    <h2>👤 Player code</h2>
     <div class="sub" style="font-size:14px;line-height:1.45">No passwords and no email. Your player code <b>is</b> your account: type it on any device to pick up right where you left off.</div>
     <div id="coBody"></div>
     <div class="mpmsg" id="coMsg"></div>
@@ -1053,12 +1056,14 @@
 <!-- ===== Welcome to Chami Golf (first time only) ===== -->
 <div id="resetNote" class="overlay hidden">
   <div class="card">
-    <h2>Welcome to Chami Golf! ⛳</h2>
-    <div class="tipBig">To get started, enter the <b>3C Par Three</b></div>
-    <div class="sub" style="font-size:14px;line-height:1.5">It's where everyone starts. Beat it to unlock Chami Links, TPC Saragosa, Meribah, Deans Valley and more.<br><br>
-      Every birdie, eagle and ace pays out: spend it on <b>clubs, outfits and bags</b>, earn <b>premium badges</b>, take on the <b>Daily Closest to the Pin</b> and challenge your friends head to head.<br><br>
-      Swipe to aim, press the ball and pull back, and let go in the gold zone. Good luck!</div>
-    <div class="btns" style="margin-top:14px"><button class="main" id="resetOk">Go to 3C Par Three</button></div>
+    <h2>Welcome to Red &amp; Gold Golf! ⛳</h2>
+    <div class="sub" id="welcomeSub" style="font-size:14px;line-height:1.5">Pick how you want to start:</div>
+    <div class="welcome">
+      <button class="wopt" data-welc="par3"><span>⛳</span><div><b>Play the 3C Par Three</b><small>Where everyone starts. Six short holes, and beating it unlocks the other courses.</small></div></button>
+      <button class="wopt" data-welc="ctp"><span>🎯</span><div><b>Daily challenges</b><small>Closest to the Pin and a Daily Tournament on every course. New every day, top 3 win money.</small></div></button>
+      <button class="wopt" data-welc="cup"><span>🏫</span><div><b>Weekly Homeroom Cup</b><small>Pick your homeroom and play this week's 18-hole course for your team. Winner announced Friday 2:42 PM.</small></div></button>
+    </div>
+    <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">👤 Your <b>player code</b> is under the player icon at the top right. Use it to log in on any device.<br>Swipe to aim, press the ball and pull back, and let go in the gold zone.</div>
   </div>
 </div>
 
@@ -1340,12 +1345,12 @@
   // FULL RESET (Oct 14 2026): bumping this wipes every player's progress (money, gear, stats, unlocks, awards) on every
   // device and in the cloud the next time they open the game. Names, sign-ins, friends and settings are kept.
   // (Oct 28 2026, epoch 2) FRESH START for everyone: progress, names and old Google sign-ins are all wiped. Only screen settings are kept.
-  const RESET_EPOCH = 2, RESET_KEEP = ['ui', 'lefty', 'migClassic', 'migSchoolBag'];
+  const RESET_EPOCH = 3, RESET_KEEP = ['ui', 'lefty'];
   const resetSave = old => { const k = {}; RESET_KEEP.forEach(x => { if (old && old[x] !== undefined) k[x] = old[x]; }); return Object.assign(freshSave(), k, { epoch: RESET_EPOCH, mtime: 0, resetNote: 1 }); };
   const freshStats = () => ({ rounds: 0, holes: 0, aces: 0, eagles: 0, birdies: 0, pars: 0, shots: 0, perfects: 0,
     longest: 0, earnedTotal: 0, strokesTotal: 0, parTotal: 0, roundsBy: {}, bestBy: {},
     albatross: 0, chipIns: 0, sandHoles: 0, longPutts: 0, underPar: 0, miniAces: 0 });
-  const freshSave = () => ({ coins: 0, lv: {}, up: {}, migUp: 1, ball: 0, course: 'par3', stats: freshStats(), bag: STARTER_BAG.slice(), owned: STARTER_BAG.slice(),
+  const freshSave = () => ({ coins: 0, lv: {}, up: {}, ball: 0, course: 'par3', stats: freshStats(), bag: STARTER_BAG.slice(), owned: STARTER_BAG.slice(),
     name: 'Player', look: Object.assign({}, LOOK_PRESETS[0].look), gbag: Object.assign({}, BAG_PRESETS[0].bag), board: {}, awards: {}, unlocks: {}, ownedLook: {},
     clubCol: {}, badges: {}, badge: '', lefty: false, epoch: RESET_EPOCH });
   // ---- Anti-cheat: a fingerprint of everything money can buy. Editing the save by hand breaks it. ----
@@ -1371,16 +1376,9 @@
     if (s) {
       save = Object.assign(save, s);
       save.stats = Object.assign(freshStats(), s.stats || {});
-      if (s.best != null && save.stats.bestBy.pines == null) save.stats.bestBy.pines = s.best;   // older saves
-      if (s.rounds && !save.stats.rounds) { save.stats.rounds = s.rounds; save.stats.roundsBy.pines = s.rounds; }
-      if (!s.migUp) save.migUp = 0;   // older save: its upgrades still need converting (below)
-      if (!s.course) save.course = 'pines';
     }
   } catch (e) {}
   save.up = save.up || {}; save.clubCol = save.clubCol || {}; save.badges = save.badges || {}; save.badge = save.badge && save.badge !== 'firstace' ? save.badge : '';
-  // Older saves keyed upgrades by club name.
-  const OLD_NAMES = { 'Driver': 'driver', '3 Wood': 'wood3', '4 Iron': 'iron4', '6 Iron': 'iron6', '8 Iron': 'iron8', 'Pitching Wedge': 'pw', 'Sand Wedge': 'sw', 'Putter': 'putter' };
-  for (const k in OLD_NAMES) if (save.lv[k] != null) { save.lv[OLD_NAMES[k]] = Math.max(save.lv[OLD_NAMES[k]] || 0, save.lv[k]); delete save.lv[k]; }
   if (!Array.isArray(save.bag) || save.bag.length !== 8 || !save.bag.every(modelById)) save.bag = STARTER_BAG.slice();
   if (!Array.isArray(save.owned)) save.owned = STARTER_BAG.slice();
   STARTER_BAG.forEach(id => { if (!save.owned.includes(id)) save.owned.push(id); });
@@ -1389,13 +1387,6 @@
   if (save.look.style !== 'sweater' || !save.unlocks.senior) save.look.style = 'suit';
   save.gbag = Object.assign({}, BAG_PRESETS[0].bag, save.gbag && !('panel' in save.gbag) ? { panel: '' } : {}, save.gbag || {});
   save.awards = save.awards || {};
-  // One-time: upgrades used to be one level per club (each level added distance, accuracy and control at once).
-  // Now Power, Accuracy and Control are upgraded separately. Your old level carries over to all three,
-  // but each level is worth a little less than before, so nobody loses their upgrades, they're just scaled down.
-  if (!save.migUp) {
-    save.migUp = 1; save.upBase = {};
-    for (const id in save.lv) { const L = Math.max(0, Math.min(5, save.lv[id] | 0)); if (L) { save.up[id] = { p: L, a: L, c: L }; save.upBase[id] = L; } }
-  }
   // ---- Shop: which colours you own ----
   save.ownedLook = save.ownedLook || {};
   const ckey = (part, hex) => `${part}:${String(hex).toLowerCase()}`;
@@ -1424,17 +1415,6 @@
     return RESERVED.find(r => colorDist(String(hex), r.hex) < RESERVED_DIST) || null;
   }
   const grantC = (part, hex) => { save.ownedLook[ckey(part, hex)] = 1; };
-  // one-time switch for everyone: the Classic Outfit is the new starter, and Red & Gold has to be bought
-  if (!save.migSchoolBag) {   // one-time: everyone on the old red default bag gets the real team bag
-    save.migSchoolBag = 1;
-    if (!save.gbag.panel && String(save.gbag.body).toLowerCase() === '#b3122b') save.gbag = Object.assign({}, BAG_PRESETS[0].bag, { logo: save.gbag.logo || 'chaminade' });
-  }
-  if (!save.migClassic) {
-    save.migClassic = 1;
-    const sk = save.look.skin, hr = save.look.hair;
-    save.look = Object.assign({}, LOOK_PRESETS[0].look, sk ? { skin: sk } : {}, hr ? { hair: hr } : {});
-    delete save.ownedLook[ckey('jacket', '#B3122B')]; delete save.ownedLook[ckey('tie', '#F2C14E')];
-  }
   // you keep whatever you're already wearing, plus the starter outfit and the Chaminade bag
   ['jacket', 'shirt', 'tie', 'pants', 'shoes', 'trim'].forEach(k => { grantC(k, LOOK_PRESETS[0].look[k]); if (save.look[k]) grantC(k, save.look[k]); });
   ['trim', 'covers'].forEach(k => { grantC('bag-' + k, BAG_PRESETS[0].bag[k]); if (save.gbag[k]) grantC('bag-' + k, save.gbag[k]); });
@@ -1489,29 +1469,13 @@
   const bagOpen = p => !p.award || hasAward(p.award);
 
   if (!save.board) save.board = {};
-  // Oct 20 2026: Chami Links Gold became 9 holes and Chami Links Black 18, so their old (6-hole) bests and boards start over
-  if (!save.migCL18) {
-    save.migCL18 = 1;
-    ['clyellow', 'clblack'].forEach(id => { delete save.board[id]; if (save.stats.bestBy) delete save.stats.bestBy[id]; if (save.live && save.live.cid === id) delete save.live;
-      for (const k in save.posted || {}) if (k.split('|')[1] === id) delete save.posted[k]; });
-  }
-  // Oct 28 2026: 3C Par Three became 6 holes and TPC Saragosa 9, so their old bests and boards start over
-  if (!save.migLen1028) {
-    save.migLen1028 = 1;
-    ['par3', 'coast'].forEach(id => { delete save.board[id]; if (save.stats.bestBy) delete save.stats.bestBy[id]; if (save.live && save.live.cid === id) delete save.live;
-      for (const k in save.posted || {}) if (k.split('|')[1] === id) delete save.posted[k]; });
-  }
   if (!save.pid) save.pid = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36));
   if (!save.tourney) save.tourney = {};   // { 'YYYY-MM-DD': { courseId: true } } days this device entered, prize not yet checked
   function loadBag() { CLUBS.length = 0; save.bag.forEach(id => CLUBS.push(modelById(id))); }
   loadBag();
   // Online state (filled in by the Online section below). var so persist() can run before that section does.
   var fbAuth = null, fbDb = null, fbUser = null, cloudReady = false, cloudTimer = null, lastSavedJson = null;
-  // ---- Money bookkeeping: every payout goes through paid(). (The old money watchdog that flagged and banned is gone.)
-  function paid(n) {}
-  function moneyWatch() {}
   function persist() {
-    try { moneyWatch(); } catch (e) {}
     save.sig = sigOf(save);
     const j = JSON.stringify(Object.assign({}, save, { mtime: 0 }));
     if (j !== lastSavedJson) { if (lastSavedJson !== null) save.mtime = Date.now(); lastSavedJson = j; pushCloud(); }
@@ -1522,7 +1486,7 @@
   //   Power (+4% distance)   Accuracy (+1.6% gold zone and misses 8% straighter)   Control (needle 12% slower)
   // (Oct 20 2026: upgrades got stronger and cheaper so they're worth the money.)
   // A track can only go one level past the club's lowest track, so you have to upgrade a bit of everything at a time.
-  const MAX_LV = 5, COSTS = [150, 350, 700, 1200, 2000];   // (old single-level prices, kept for the anti-cheat money check)
+  const MAX_LV = 5;
   const UP_COSTS = [400, 900, 1800, 3500, 6000], BALL_COSTS = [600, 1500, 3000, 5000, 7500, 10000, 15000];
   const TRACKS = [['p', 'Power'], ['a', 'Accuracy'], ['c', 'Control']];
   const upOf = c => { const u = save.up[c.id] || {}; return { p: u.p | 0, a: u.a | 0, c: u.c | 0 }; };
@@ -1898,6 +1862,9 @@
       pal: Object.assign({}, CL_PAL, { sky: ['#4b5866', '#9aa8b4', '#d9dfe4'], fog: 0xc9d1d8, sun: 0xe8ecf0, leaves: [0x23542a, 0x1d4a24, 0x2b5f2d] }),
       holes: bethHoles(CLB, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]) },
   ];
+  // (update 2.3) hole names: original names only (none borrowed from real courses) and less corny. The layouts don't change.
+  const HOLE_NAMES = {'meribah': ['Pine Gate', 'Ridge Run', 'Short Climb', 'Long Carry', 'High Bend', 'Hilltop Three', 'Narrow Way', 'Uphill Five', 'Back Slope', 'Cascade', 'Lower Creek', 'Little Water', 'Sweeping Five', 'Fir Line', 'Pond Carry', 'Shoal', 'Valley Road', 'Homeward'], 'hollow': ['Starter', 'Long Dunes', 'Gorse Line', 'Low Ground', 'Big Green', 'Ridge Line', 'Crosswind', 'Pot Bunker', 'Turnaround', 'Return', 'Sea Wall', 'Hidden Pots', 'Double Green', 'The Long One', 'Scrub', 'Railway', 'Old Wall', 'Clubhouse'], 'hearst': ['Opening Block', 'Short Street', 'Fountain', 'Avenue', 'Long Three', 'Pocket Green', 'Basin', 'Crosstown', 'Courtyard', 'Plaza', 'Two Bunkers', 'Uptown', 'Small Target', 'Overpass', 'Canal', 'Tight Three', 'Riverwalk', 'Skyline'], 'flyers': ['Front Gate', 'Oval Green', 'Pine Corridor', 'Long Haul', 'Twin Bunkers', 'Round Green', 'Hill Turn', 'The Pool', 'Final Five']};
+  COURSES.forEach(c => (HOLE_NAMES[c.id] || []).forEach((n, i) => { if (c.holes[i]) c.holes[i].name = n; }));
   COURSES.forEach(c => { c.par = c.holes.reduce((a, h) => a + h.par, 0); c.yds = c.holes.reduce((a, h) => a + h.yds, 0); });
   // ================= Gold Star Mini Golf =================
   // Holes are drawn in yards with x = right and y = forward from the tee. pts = the carpet's outline (it gets a wall all round).
@@ -2663,6 +2630,13 @@
       g.lineWidth = 2; g.strokeStyle = 'rgba(0,0,0,.25)'; g.beginPath(); g.moveTo(x0 - 4, 0); g.lineTo(x0 - 4, H); g.moveTo(x1 + 4, 0); g.lineTo(x1 + 4, H); g.stroke();
     } else { g.fillStyle = b.trim; g.fillRect(W * 0.5 - 46, 0, 6, H); g.fillRect(W * 0.5 + 40, 0, 6, H); }
     if (b.logo === 'custom') drawCustomLogo(g, W, H, b);
+    // (update 2.3) optional homeroom tag near the bottom of the bag: "HR H"
+    if (save.bagHr && save.hr) {
+      g.save(); g.font = '700 40px Oswald, Impact, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.lineWidth = 6; g.strokeStyle = 'rgba(0,0,0,.35)'; g.strokeText('HR ' + save.hr, W / 2, H * 0.885 + 2);
+      g.fillStyle = b.panel ? '#F2C14E' : b.trim.toLowerCase() === b.body.toLowerCase() ? '#ffffff' : b.trim; g.fillText('HR ' + save.hr, W / 2, H * 0.885);
+      g.restore();
+    }
     if (b.logo === 'chaminade') {
       g.save(); g.translate(W / 2, H * 0.5); g.rotate(-Math.PI / 2);
       g.font = `700 ${b.panel ? 42 : 50}px Oswald, Impact, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
@@ -3771,7 +3745,7 @@
     if (!ptr) return;
     if (ptr.mode === 'swing' && state === 'swinging') {
       if (Math.round(swing.power * 100) < 1) { state = 'ready'; swing = null; }   // only a pull that shows 0% cancels: 1% and up always hits
-      else { strike = { power: swing.power, o: swing.o, lat: CLUBS[clubIdx].putter ? 0 : swing.lat, t: 0, putt: !!CLUBS[clubIdx].putter }; state = 'striking'; swingCheck(swing.power, ptr.t0); }
+      else { strike = { power: swing.power, o: swing.o, lat: CLUBS[clubIdx].putter ? 0 : swing.lat, t: 0, putt: !!CLUBS[clubIdx].putter }; state = 'striking'; }
     }
     ptr = null;
   }
@@ -4299,7 +4273,7 @@
     for (const a of AWARDS) {
       if (save.awards[a.id] || !awardDone(a)) continue;
       save.awards[a.id] = Date.now(); changed = true;
-      if (a.pay) { paid(a.pay); save.coins += a.pay; save.stats.earnedTotal += a.pay; }
+      if (a.pay) { save.coins += a.pay; save.stats.earnedTotal += a.pay; }
       const bag = BAG_PRESETS.find(p => p.award === a.id);
       toastQ.push({ a, bag });
     }
@@ -4329,7 +4303,7 @@
       const sc = scores.slice(); sc[holeIdx] = strokes;
       const how = lastShot ? `${lastShot.club} ${lastShot.pct}%${lastShot.pure ? ' PERFECT' : ''}` : '';
       if (strokes === 1) {
-        roundAces++; st.aceRun = (st.aceRun || 0) + 1; save.badges.ace = 1; aceCheck(hole); postAce(course, holeIdx, hole);
+        roundAces++; st.aceRun = (st.aceRun || 0) + 1; save.badges.ace = 1; postAce(course, holeIdx, hole);
         // every hole in one is flagged for the creator to check, with the golfer's career total and the card so far
         cheatFlag('ace', `ace #${st.aces} career · ${course.name} #${holeIdx + 1} ${hole.yds}y · ${how} · wind ${hole.wind.mph} ${cardTok(course.id, sc)}`, false);
       } else st.aceRun = 0;
@@ -5054,9 +5028,9 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.28';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
-  // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). The rules check this email too.
-  const CREATOR_EMAIL = 'jamesondoyle11@gmail.com';
+  const GAME_VER = '2026.10.28c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
+  const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
   const DAILY_PRIZES = [1000, 500, 250];
   const CTP_PRIZES = [1500, 750, 400];   // Daily Closest to the Pin: top 3 closest shots of the day
@@ -5076,7 +5050,8 @@
   // Leaderboard season: the full reset started fresh boards (old scores stay in the database, they just aren't shown).
   // (Oct 20 2026, season 4: every leaderboard was reset again along with the Gold Star Mini Golf rework.)
   // (Oct 28 2026, season 5) fresh start: every board starts empty again (old scores stay in the database, hidden)
-  const SEASON = '_s5', SEASON_START = 1793160000000;   // every board (courses, daily tournaments, Closest to the Pin, aces) starts over here
+  // (update 2.3, Oct 28 2026 7 PM ET, season 6) everyone started over again with new player codes
+  const SEASON = '_s6', SEASON_START = 1793228400000;   // every board (courses, daily tournaments, Closest to the Pin, aces) starts over here
   const inSeason = r => (r.date || 0) >= SEASON_START;
   if (save.lbSeason !== SEASON) {   // this device's own boards and remembered bests start over too (mini golf's par changed, so its best does as well)
     save.lbSeason = SEASON; save.board = {}; save.posted = {}; if (save.stats.bestBy) delete save.stats.bestBy.mini;
@@ -5096,9 +5071,9 @@
   var fbGuest = null;
   const meUser = () => fbUser || fbGuest;
   const meUid = () => { const u = meUser(); return u ? u.uid : ''; };
-  const isCreator = () => !!(fbUser && fbUser.email && fbUser.email.toLowerCase() === CREATOR_EMAIL && fbUser.emailVerified !== false);
+  const isCreator = () => !!(fbUser && fbUser.uid === CREATOR_UID);
   const needsName = () => !save.name || String(save.name).trim().toLowerCase() === 'player' || !!nameProblem(save.name);
-  const boardName = () => safeName(save.name && save.name !== 'Player' && !nameProblem(save.name) ? save.name : (fbUser && fbUser.displayName || 'Golfer').split(' ')[0]);
+  const boardName = () => safeName(save.name && save.name !== 'Player' && !nameProblem(save.name) ? save.name : 'Golfer');
   const ago = ms => { const s = Math.max(0, (Date.now() - ms) / 1000); return s < 90 ? 'just now' : s < 3600 ? `${Math.round(s / 60)}m ago` : s < 86400 ? `${Math.round(s / 3600)}h ago` : `${Math.round(s / 86400)}d ago`; };
 
   // ---- Badges: a small icon next to your name on the leaderboards. Earn them, then equip one in the Golfer tab. ----
@@ -5157,7 +5132,7 @@
     const got = {};
     try { const gf = await fbDb.collection('gifts').doc(u.uid).get(); if (gf.exists) got.gift = true; } catch (e) {}
     remoteBadges = got;
-    regBadges(); renderHeadBadges(); autoGifts();
+    regBadges(); renderHeadBadges();
     if (isCreator() && !save.badgeAuto) { save.badgeAuto = 1; save.badge = 'creator'; persist(); }
     if (tab === 'golfer' && !$('home').classList.contains('hidden')) renderGolfer();
   }
@@ -5193,16 +5168,9 @@
     badgeCountAt = Date.now(); const got = {};
     try { await ensureOnlineUser(); } catch (e) {}
     // only the Creator's Pick badge shows how many golfers have it
-    await fbDb.collection('gifts').get().then(s => { got.gift = s.size; }).catch(() => {});
+    await fbDb.collection('gifts').where('at', '>=', SEASON_START).get().then(s => { got.gift = s.size; }).catch(() => {});
     badgeCounts = got;
     if (tab === 'golfer' && !$('home').classList.contains('hidden') && $('badgeBox')) $('badgeBox').innerHTML = badgesHtml();
-  }
-  // creator only: count the badge notes once and fix the counter (for anyone who earned a badge before the counter existed)
-  async function recountBadges() {
-    const got = {};
-    for (const id of ['ace', 'champ']) got[id] = (await holdersRef(id).get()).size;
-    await badgeCountsRef().set(got); badgeCounts = null; badgeCountAt = 0;
-    return got;
   }
   const badgeCountTxt = id => { const n = id === 'gift' && badgeCounts && badgeCounts[id]; return n == null || n === false ? '' : `👥 ${n.toLocaleString()} golfer${n === 1 ? ' has' : 's have'} it`; };
 
@@ -5236,7 +5204,7 @@
   // One row per golfer per board: their best score. Ties go to whoever posted it first.
   // Firebase's free plan allows 50,000 reads a day, so boards are remembered for 5 minutes (even through a reload)
   // and only a few rows past what's shown are read. Your own new score is added into the remembered board.
-  const BOARD_TTL = 300000, BOARD_KEY = 'cg-boards-s5';
+  const BOARD_TTL = 300000, BOARD_KEY = 'cg-boards-s6';
   const boardCache = new Map();
   try { const o = JSON.parse(localStorage.getItem(BOARD_KEY)) || {}; for (const k in o) if (Date.now() - o[k].at < BOARD_TTL) boardCache.set(k, o[k]); } catch (e) {}
   const storeBoards = () => { try { const o = {}; boardCache.forEach((v, k) => { if (Date.now() - v.at < BOARD_TTL) o[k] = v; }); localStorage.setItem(BOARD_KEY, JSON.stringify(o)); } catch (e) {} };
@@ -5345,7 +5313,7 @@
     } catch (e) {}
     if (wins.length) {
       const total = wins.reduce((a, w) => a + w.prize, 0), firsts = wins.some(w => w.place === 0);
-      paid(total); save.coins += total; save.stats.earnedTotal += total; setTimeout(cloudSaveSoon, 0);
+      save.coins += total; save.stats.earnedTotal += total; setTimeout(cloudSaveSoon, 0);
       const nFirst = wins.filter(w => w.place === 0).length;
       if (nFirst) save.stats.champWins = champWins() + nFirst;   // how many days you've won (shows next to the 🏆)
       if (firsts && !save.badges.champ) { save.badges.champ = 1; regBadges(); }
@@ -5359,131 +5327,93 @@
   }
   $('prizeOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('prize').classList.add('hidden'); });
 
-  // ---- Accounts: sign in with Google; progress is saved to the cloud and follows you to any device ----
-  // Works on iPad Safari: the popup opens straight from the tap (nothing is awaited before it, so Safari doesn't block it).
-  // If the popup can't open (blocked, a home-screen web app, an in-app browser), it falls back to the full-page redirect flow,
-  // and the result is picked up by getRedirectResult when the game loads again.
-  const noPopups = () => !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || /FBAN|FBAV|Instagram|GSA\//.test(navigator.userAgent));
-  const POPUP_FAIL = ['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment', 'auth/web-storage-unsupported', 'auth/internal-error', 'auth/network-request-failed'];
-  function authMsg(e) {
-    const c = (e && e.code) || '';
-    if (c === 'auth/unauthorized-domain') return `Google sign-in isn't turned on for ${location.hostname} yet. (Creator: add it in Firebase console > Authentication > Settings > Authorized domains.)`;
-    if (c === 'auth/network-request-failed') return 'Sign-in could not reach Google. Check the Wi-Fi and try again.';
-    return 'Sign-in did not work: ' + ((e && (e.message || e.code)) || 'unknown error');
-  }
-  async function useCredential(e) {   // this Google account already has progress: switch to it
-    const cred = e && (e.credential || (firebase.auth.GoogleAuthProvider.credentialFromError && firebase.auth.GoogleAuthProvider.credentialFromError(e)));
-    if (cred) { await fbAuth.signInWithCredential(cred); return true; }
-    return false;
-  }
-  // Google sign-in is only kept for the creator's account (the creator tools and the rules check the creator's Google email).
-  async function googleSignIn() {
-    if (!fbAuth) { alert('Online features could not load. Check your internet connection and reload.'); return; }
-    const p = new firebase.auth.GoogleAuthProvider();
-    p.setCustomParameters({ prompt: 'select_account' });
-    const cur = fbAuth.currentUser, guest = !!(cur && cur.isAnonymous);
-    const redirect = () => { try { sessionStorage.setItem('cg-signin', '1'); } catch (er) {} return guest ? cur.linkWithRedirect(p) : fbAuth.signInWithRedirect(p); };
-    if (noPopups()) { try { await redirect(); } catch (e) { alert(authMsg(e)); } return; }
-    try {
-      if (guest) {
-        // keep the guest's leaderboard scores: turn the guest account into this Google account
-        try { const r = await cur.linkWithPopup(p); await onUser(r.user); return; }
-        catch (e) {
-          if (e.code === 'auth/credential-already-in-use' || e.code === 'auth/email-already-in-use') { if (await useCredential(e)) return; }
-          throw e;
-        }
-      }
-      await fbAuth.signInWithPopup(p);
-    } catch (e) {
-      if (POPUP_FAIL.includes(e.code)) { try { await redirect(); } catch (e2) { alert(authMsg(e2)); } return; }
-      if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') alert(authMsg(e));
-    }
-  }
-  // ---- (Oct 28 2026) Player codes: every golfer gets a unique 12-character code instead of a Google sign-in ----
-  // Under the hood the code is a Firebase email/password account (p-<code>@players.chamigolf.app), so the uid, cloud save,
-  // leaderboards and the security rules all work exactly as before. Nobody types a password or an email.
-  // (Creator: Firebase console > Authentication > Sign-in method > Email/Password > Enable.)
-  const CODE_ABC = '23456789ABCDEFGHJKMNPQRSTUVWXYZ', CODE_LEN = 12, CODE_DOMAIN = '@players.chamigolf.app';
-  const fmtCode = c => (c || '').match(/.{1,4}/g).join('-');
+  // ---- Accounts (update 2.3): every golfer has a player code, XXXX-XXXX ----
+  // A code is a Firebase email/password account under the hood (p-<code>@players.chamigolf.app, with a password made from
+  // the code), so nobody types a password or an email. The game makes one for every golfer automatically; the 👤 player
+  // icon (top right) shows your code and has the Log in button for using a code from another device.
+  // The creator's account is a code too: the creator tools and the rules recognise its uid (CREATOR_UID).
+  const ACCT_EPOCH = '3';   // bumping this logs every device out of its old account once, so everyone gets a brand-new code
+  const CODE_ABC = '23456789ABCDEFGHJKMNPQRSTUVWXYZ', CODE_LEN = 8, CODE_DOMAIN = '@players.chamigolf.app';
+  const fmtCode = c => c ? c.slice(0, 4) + '-' + c.slice(4) : '';
   const cleanPCode = v => String(v || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
-  const codeOk = c => c.length === CODE_LEN && [...c].every(ch => CODE_ABC.includes(ch));
+  const codeOk = c => c.length === CODE_LEN && /^[0-9A-Z]+$/.test(c);
   const codeEmail = c => 'p-' + c.toLowerCase() + CODE_DOMAIN, codePass = c => 'cg-' + c + '-golf';
-  function newPCode() {
+  function newPCode() {   // no 0/O/1/I/L, so nobody mixes them up
     let out = '';
     while (out.length < CODE_LEN) { const b = new Uint8Array(16); crypto.getRandomValues(b); for (const x of b) if (x < 248 && out.length < CODE_LEN) out += CODE_ABC[x % 31]; }
     return out;
   }
-  // the code a signed-in golfer uses (read back from the account itself, so it's never stored anywhere else)
+  // the signed-in golfer's code, read back from the account itself (it's never stored anywhere else)
   function myCode() {
-    if (!fbUser) return '';
-    const emails = [fbUser.email].concat((fbUser.providerData || []).map(p => p && p.email));
-    const e = emails.find(x => x && x.endsWith(CODE_DOMAIN));
-    return e ? e.slice(2, -CODE_DOMAIN.length).toUpperCase() : '';
+    const e = fbUser && fbUser.email;
+    const c = e && e.endsWith(CODE_DOMAIN) ? e.slice(2, -CODE_DOMAIN.length).toUpperCase() : '';
+    return codeOk(c) ? c : '';
   }
-  let codeFresh = '';   // a code that was just made: shown big until the golfer says they wrote it down
+  let codeFresh = '', makingCode = false, autoTried = false;
   function codeMsg(t, ok) { const m = $('coMsg'); if (m) { m.textContent = t || ''; m.classList.toggle('ok', !!ok); } }
   function pcodeErr(e) {
     const c = (e && e.code) || '';
     if (['auth/invalid-credential', 'auth/user-not-found', 'auth/wrong-password', 'auth/invalid-login-credentials', 'auth/invalid-email'].includes(c)) return "That code doesn't match an account. Check it and try again.";
     if (c === 'auth/too-many-requests') return 'Too many tries. Wait a few minutes and try again.';
-    if (c === 'auth/operation-not-allowed') return "Player codes aren't switched on yet. (Creator: Firebase console > Authentication > Sign-in method > Email/Password > Enable.)";
     if (c === 'auth/network-request-failed') return 'Could not reach the server. Check the Wi-Fi and try again.';
-    if (c === 'auth/requires-recent-login') return 'Sign out and back in, then try again.';
     return 'That did not work: ' + ((e && (e.message || e.code)) || 'unknown error');
   }
   function renderCodeOv() {
     const box = $('coBody'); if (!box) return;
     const mine = myCode();
-    if (codeFresh || (fbUser && mine)) {
-      const c = codeFresh || mine;
-      box.innerHTML = `<div class="pcodeBig">${fmtCode(c)}</div>
-        <div class="sub" style="font-size:13px">${codeFresh ? '<b style="color:var(--gold-l)">Write this down or take a picture of it now.</b> It\'s the only way to get back into your account on another device.' : 'This is your player code. Type it on any device to sign in.'}</div>
-        <div class="btns" style="margin-top:8px"><button class="ghost sm" data-cocopy="1">📋 Copy code</button>${codeFresh ? '<button class="main sm" data-codone="1">I wrote it down ✓</button>' : ''}</div>`;
-      return;
-    }
-    const canMake = !isCreator();
-    box.innerHTML = `${canMake ? `<button class="main" data-comake="1" style="width:100%;margin-top:6px">✨ ${fbUser ? 'Get a player code for this account' : 'Create my player code'}</button>
-        <div class="tnote" style="margin:6px 0 2px">${fbGuest ? 'Your progress and leaderboard scores on this device move into the new code.' : 'Your progress on this device moves into the new code.'}</div>` : ''}
-      <div class="lh" style="margin-top:14px">ALREADY HAVE A CODE?</div>
-      <div class="mprow"><input class="mpin" id="coIn" maxlength="14" placeholder="XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="main sm" data-cogo="1">Sign in</button></div>`;
+    box.innerHTML = (mine ? `<div class="lh">YOUR PLAYER CODE</div><div class="pcodeBig">${fmtCode(mine)}</div>
+        <div class="sub" style="font-size:13px">${codeFresh === mine ? '<b style="color:var(--gold-l)">Write this down or take a picture of it.</b> ' : ''}Type this code on any device to play as you.</div>
+        <div class="btns" style="margin-top:6px"><button class="ghost sm" data-cocopy="1">📋 Copy code</button></div>`
+      : makingCode ? '<div class="sub">Making your player code…</div>'
+      : `<div class="sub">You don't have a player code yet.</div><button class="main" data-comake="1" style="width:100%">✨ Get my player code</button>`)
+      + `<div class="lh" style="margin-top:14px">🔑 LOG IN WITH A CODE</div>
+      <div class="mprow"><input class="mpin" id="coIn" maxlength="9" placeholder="XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="main sm" data-cogo="1">Log in</button></div>
+      <div class="tnote" style="text-align:left">Logging in switches this device to that code's progress.</div>`;
   }
-  function signIn() {
+  function signIn(login) {
     if (!fbAuth) { alert('Online features could not load. Check your internet connection and reload.'); return; }
     codeMsg(''); renderCodeOv(); $('codeOv').classList.remove('hidden');
+    if (login) setTimeout(() => { try { $('coIn').focus(); } catch (e) {} }, 60);
   }
-  async function makeCode() {
-    const cur = fbAuth.currentUser, code = newPCode(), cred = firebase.auth.EmailAuthProvider.credential(codeEmail(code), codePass(code));
-    codeMsg('Making your code…', true);
-    try {
-      if (cur) { const r = await cur.linkWithCredential(cred); codeFresh = code; await onUser(r.user); }   // keeps the same account (and its scores)
-      else { codeFresh = code; await fbAuth.createUserWithEmailAndPassword(codeEmail(code), codePass(code)); }
-      track('player_code_created'); codeMsg(''); renderCodeOv(); renderAcct();
-    } catch (e) { codeFresh = ''; codeMsg(pcodeErr(e)); }
+  // make a new code account (a guest account keeps its uid, so its scores carry over)
+  async function makeCode(quiet) {
+    if (makingCode || !fbAuth) return false;
+    makingCode = true; renderCodeOv(); renderAcct();
+    let ok = false;
+    for (let tries = 0; tries < 3 && !ok; tries++) {
+      const code = newPCode(), cur = fbAuth.currentUser;
+      try {
+        if (cur && cur.isAnonymous) { const r = await cur.linkWithCredential(firebase.auth.EmailAuthProvider.credential(codeEmail(code), codePass(code))); await r.user.reload().catch(() => {}); fbUser = fbAuth.currentUser; }
+        else await fbAuth.createUserWithEmailAndPassword(codeEmail(code), codePass(code));
+        codeFresh = code; ok = true; track('player_code_created');
+      } catch (e) {
+        if (e && e.code === 'auth/email-already-in-use') continue;   // (a 1 in a trillion clash: try another code)
+        if (!quiet) codeMsg(pcodeErr(e));
+        break;
+      }
+    }
+    makingCode = false;
+    if (ok) { await onUser(fbAuth.currentUser); toastQ.push({ a: { icon: '👤', label: 'YOUR PLAYER CODE', name: fmtCode(codeFresh), pay: 0 } }); nextToast(); }
+    renderCodeOv(); renderAcct();
+    return ok;
   }
   async function useCode(raw) {
     const c = cleanPCode(raw);
-    if (!codeOk(c)) { codeMsg(`A player code is ${CODE_LEN} letters and numbers, like ${fmtCode('ABCD2345EFGH')}.`); return; }
-    if (myCode() === c) { codeMsg("You're already signed in with that code.", true); return; }
-    codeMsg('Signing in…', true);
-    try { await fbAuth.signInWithEmailAndPassword(codeEmail(c), codePass(c)); codeMsg(''); $('codeOv').classList.add('hidden'); toastQ.push({ a: { icon: '🔑', label: 'WELCOME BACK', name: 'Signed in with your player code' } }); nextToast(); }
+    if (!codeOk(c)) { codeMsg('A player code is 8 letters and numbers, like ABCD-2345.'); return; }
+    if (myCode() === c) { codeMsg("You're already logged in with that code.", true); return; }
+    codeMsg('Logging in…', true);
+    try { await fbAuth.signInWithEmailAndPassword(codeEmail(c), codePass(c)); codeMsg(''); $('codeOv').classList.add('hidden'); toastQ.push({ a: { icon: '🔑', label: 'WELCOME BACK', name: 'Logged in as ' + fmtCode(c) } }); nextToast(); }
     catch (e) { codeMsg(pcodeErr(e)); }
   }
   $('codeOv').addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b) return;
     ensureAudio(); sfx.click();
     if (b.id === 'coClose') { $('codeOv').classList.add('hidden'); return; }
-    if (b.dataset.comake) { b.disabled = true; await makeCode(); return; }
+    if (b.dataset.comake) { b.disabled = true; await makeCode(false); return; }
     if (b.dataset.cogo) { await useCode(($('coIn') || {}).value); return; }
-    if (b.dataset.codone) { codeFresh = ''; $('codeOv').classList.add('hidden'); renderAcct(); return; }
-    if (b.dataset.cocopy) { const c = fmtCode(codeFresh || myCode()); try { await navigator.clipboard.writeText(c); codeMsg('Copied ' + c, true); } catch (er) { codeMsg(c, true); } }
+    if (b.dataset.cocopy) { const c = fmtCode(myCode()); try { await navigator.clipboard.writeText(c); codeMsg('Copied ' + c, true); } catch (er) { codeMsg(c, true); } }
   });
   $('codeOv').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'coIn') useCode(e.target.value); });
-  function signOut() {
-    if (!fbAuth) return;
-    const c = myCode();
-    if (!confirm(c ? `Sign out? To sign back in you'll need your player code:\n\n${fmtCode(c)}` : 'Sign out?')) return;
-    fbAuth.signOut();
-  }
   const userDoc = () => fbDb.collection('users').doc(fbUser.uid);
   // Cloud save (Google sign-in only). To stay inside Firebase's free daily write limit it's only sent at a few moments:
   // when a round ends, after buying something or collecting winnings, and when the game is closed or put in the background.
@@ -5535,61 +5465,43 @@
     }
     cloudReady = true; cloudMtime = cm;
     save.uid = fbUser.uid;
-    if ((!save.name || save.name === 'Player') && fbUser.displayName) save.name = boardName();   // (player-code accounts get asked for a name instead)
     persist();
     // only send this device's copy up when it's newer than the cloud's (or there's nothing up there yet)
     if (!cloud || (save.mtime || 0) > cm || !mine) { cloudSaveSoon(); } else { cloudSyncAt = Date.now(); }
     if (tab === 'golfer') renderAcct();
   }
   function acctHtml() {
-    if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and sign-in couldn\'t load. Check your connection and reload.</div></div>';
-    const cbtn = `<button class="main" data-signin="1" style="width:100%">🔑 Get my player code / sign in</button>`;
-    const glink = '<div style="margin-top:8px"><button class="linkBtn" data-gsignin="1">Creator sign-in</button></div>';
-    if (!fbUser) return `<div class="acctCard"><div class="an">${fbGuest ? 'Playing as a guest' : 'Play online'}</div><div class="am">${fbGuest ? 'Your scores go on the online leaderboards with just your name. Get a free player code to save your progress, play on any device and play friends. No password or email needed.'
-      : 'Get a free player code to save your progress, play on any device, and post scores to the online leaderboards, Daily Tournaments and Closest to the Pin.'}</div>${cbtn}${glink}</div>`;
+    if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and player codes couldn\'t load. Check your connection and reload.</div></div>';
     const code = myCode();
-    return `<div class="acctCard"><div class="an">${esc(code ? boardName() : (fbUser.displayName || 'Signed in'))}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `🔑 Player code <b class="pcode">${fmtCode(code)}</b> <button class="linkBtn" data-signin="1">show</button>` : esc(fbUser.email || '')}<br>${cloudReady ? `☁️ Progress saved to your account${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}<br><small>${code ? 'Type your player code on any device to keep playing where you left off.' : 'Get a player code to sign in on other devices without Google.'}</small>` : 'Syncing…'}</div>
-      ${!code && !isCreator() ? '<button class="main sm" data-signin="1">🔑 Get a player code</button> ' : ''}<button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>☁️ Sync now</button> <button class="ghost sm" data-signout="1">Sign out</button></div>`;
+    return `<div class="acctCard"><div class="an">👤 ${esc(boardName())}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `Player code <b class="pcode">${fmtCode(code)}</b>` : makingCode ? 'Making your player code…' : 'No player code yet'}${cloudReady ? `<br>☁️ Progress saved to your code${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}` : ''}</div>
+      <button class="main sm" data-signin="1">👤 ${code ? 'My code' : 'Get my code'}</button> <button class="ghost sm" data-login="1">🔑 Log in</button>${fbUser ? ` <button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>☁️ Sync now</button>` : ''}</div>`;
   }
   function renderAcct() {
     const b = $('acctBtn');
-    if (b) {
-      b.classList.toggle('hidden', !ONLINE);
-      b.innerHTML = fbUser ? (fbUser.photoURL ? `<img src="${esc(fbUser.photoURL)}" alt="" referrerpolicy="no-referrer">` : esc((boardName() || fbUser.displayName || '?')[0])) : '🔑 Code';
-      b.classList.toggle('in', !!fbUser);
-    }
+    if (b) { b.classList.toggle('hidden', !ONLINE); b.innerHTML = '👤'; b.title = myCode() ? 'Your player code: ' + fmtCode(myCode()) : 'Player code'; b.classList.add('in'); }
     if ($('adminBtn')) $('adminBtn').classList.toggle('hidden', !isCreator());
     renderHeadBadges();
     if ($('acctBox')) $('acctBox').innerHTML = acctHtml();
+    if (!$('codeOv').classList.contains('hidden')) renderCodeOv();
   }
   document.addEventListener('click', e => {
-    const t = e.target.closest('[data-signin],[data-gsignin],[data-signout],[data-cloudsync],#acctBtn,#adminBtn'); if (!t) return;
+    const t = e.target.closest('[data-signin],[data-login],[data-cloudsync],#acctBtn,#adminBtn'); if (!t) return;
     if (t.closest('#codeOv')) return;
     ensureAudio(); sfx.click();
     if (t.id === 'adminBtn') { if (isCreator()) setTab('admin'); return; }
     if (t.dataset.cloudsync != null) { t.disabled = true; t.textContent = 'Syncing…'; recheckCloud(true); setTimeout(() => { flushCloud(); renderAcct(); }, 2500); return; }
-    if (t.dataset.signout != null) signOut();
-    else if (t.dataset.gsignin != null) googleSignIn();
-    else if (t.id === 'acctBtn' && fbUser) setTab('golfer');
-    else signIn();
+    signIn(t.dataset.login != null);
   });
-  // a Google sign-in counts once a day per device for the analytics
-  function countSignin() { const d = etDay(); if (save.signinDay !== d) { save.signinDay = d; persist(); bumpDaily({ signins: 1 }); } }
   let checkedOnce = false;
   async function onUser(u) {
-    // (Oct 28 2026 fresh start) old Google sign-ins are signed out on every device; only the creator keeps Google
-    if (u && !u.isAnonymous && fbAuth) {
-      const pv = (u.providerData || []).map(p => p && p.providerId);
-      if (pv.includes('google.com') && !pv.includes('password') && String(u.email || '').toLowerCase() !== CREATOR_EMAIL) { fbAuth.signOut(); return; }
-    }
     if (u && u.isAnonymous) { fbGuest = u; fbUser = null; } else { fbUser = u || null; fbGuest = null; }
     cloudReady = false; renderAcct();
-    if (fbUser) { await syncFromCloud(); renderAcct(); countSignin(); }
-    if (meUser()) { loadRemoteBadges(); syncBan(); presence('home'); claimPrizes(); flushFlags(); loadBanList(); }
+    if (fbUser) { await syncFromCloud(); renderAcct(); }
+    if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); flushFlags(); loadBanList(); }
     if (!checkedOnce && (u || !fbAuth)) { checkedOnce = true; startupChecks(); }
     mpOnAuth();
-    // everyone gets a quiet guest account, so posting a score only ever needs a name
-    if (!u && fbAuth) ensureOnlineUser().catch(() => { if (!checkedOnce) { checkedOnce = true; startupChecks(); } });
+    // every golfer gets a player code automatically (a quiet guest account is the fallback if that can't be made right now)
+    if (fbAuth && !fbUser && !autoTried) { autoTried = true; makeCode(true).then(ok => { if (!ok && !meUser()) ensureOnlineUser().catch(() => { if (!checkedOnce) { checkedOnce = true; startupChecks(); } }); }); }
     if (!$('home').classList.contains('hidden')) {
       if (tab === 'course') fillBoard(course); if (tab === 'ctp') renderCtpTab(); if (tab === 'golfer') renderGolfer();
       renderCtpCard(); if (tab === 'play') { renderTourCard(); renderAceBar(); }
@@ -5597,14 +5509,13 @@
   }
   if (fbAuth) {
     try { fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {}); } catch (e) {}
-    // finishing a redirect sign-in (iPad home-screen app, or a blocked popup)
-    fbAuth.getRedirectResult().then(r => { try { sessionStorage.removeItem('cg-signin'); } catch (e) {} if (r && r.user) onUser(r.user); })
-      .catch(async e => {
-        let back = false; try { back = sessionStorage.getItem('cg-signin') === '1'; sessionStorage.removeItem('cg-signin'); } catch (er) {}
-        if (e && (e.code === 'auth/credential-already-in-use' || e.code === 'auth/email-already-in-use')) { try { if (await useCredential(e)) return; } catch (er) {} }
-        if (back) alert(authMsg(e));
-      });
-    fbAuth.onAuthStateChanged(u => { onUser(u); });
+    // update 2.3: every device is logged out of its old account once (the creator's stays), so everyone starts with a new code
+    let acctReset = false;
+    try { if (localStorage.getItem('cg-acct') !== ACCT_EPOCH) { localStorage.setItem('cg-acct', ACCT_EPOCH); acctReset = true; } } catch (e) {}
+    fbAuth.onAuthStateChanged(u => {
+      if (acctReset) { acctReset = false; if (u && u.uid !== CREATOR_UID) { fbAuth.signOut(); return; } }
+      onUser(u);
+    });
   } else setTimeout(() => { if (!checkedOnce) { checkedOnce = true; startupChecks(); } }, 0);
 
   function rowsHtml(rows, emptyMsg) {
@@ -5618,8 +5529,7 @@
     return `${Math.floor(mins / 60)}h ${mins % 60}m`;
   }
   let boardMode = 'daily';
-  const guestNote = () => fbUser ? '' : fbGuest ? '<div class="tnote" style="margin-top:10px">Finish a round and your score goes up here with just your name. <button class="main sm" data-signin="1">Get a player code</button> to save your progress too.</div>'
-    : '<div class="tnote" style="margin-top:10px"><button class="main sm" data-signin="1">🔑 Player code</button><br>to post your scores online</div>';
+  const guestNote = () => fbUser ? '' : '<div class="tnote" style="margin-top:10px">Setting up your player code… <button class="main sm" data-signin="1">👤 Player code</button></div>';
   async function fillBoard(c) {
     const box = $('boardBox'); if (!box) return;
     if (!ONLINE) { box.innerHTML = boardHtml(c); return; }
@@ -5646,7 +5556,7 @@
   // ---- Today's tournaments: one card on the Play tab listing the leader of every daily tournament ----
   let tourCache = null, tourOpen = false, tourDraw = null;
   let tourLoading = false;
-  try { const t = JSON.parse(localStorage.getItem('cg-tour')); if (t && t.res) { t.res.ctp = t.ctp; tourCache = { day: t.day, at: t.at, res: t.res }; } } catch (e) {}
+  try { const t = JSON.parse(localStorage.getItem('cg-tour6')); if (t && t.res) { t.res.ctp = t.ctp; tourCache = { day: t.day, at: t.at, res: t.res }; } } catch (e) {}
   async function renderTourCard(load) {
     const el = $('tourCard'); if (!el) return;
     if (!ONLINE) { el.innerHTML = ''; return; }
@@ -5676,7 +5586,7 @@
       const cs = await ctpRef(day).orderBy('yd').limit(3).get();
       res.ctp = clean(cs.docs.map(d => Object.assign({ pid: d.id }, d.data()))).sort((a, b) => a.yd - b.yd || a.date - b.date)[0] || null;
       tourCache = { day, at: Date.now(), res }; tourLoading = false;
-      try { localStorage.setItem('cg-tour', JSON.stringify({ day, at: tourCache.at, res, ctp: res.ctp })); } catch (e) {}
+      try { localStorage.setItem('cg-tour6', JSON.stringify({ day, at: tourCache.at, res, ctp: res.ctp })); } catch (e) {}
       if ($('tourCard') === el) draw(res);
     } catch (e) { tourLoading = false; el.innerHTML = ''; }
   }
@@ -5825,9 +5735,6 @@
       strokes: scores.slice(0, n).reduce((a, v) => a + (v || 0), 0), aces: roundAces | 0, m: Math.round((Date.now() - roundStart) / 60000), at: Date.now() };
     if (!sendFlag(f)) flagQ.push(f);
   }
-  function swingCheck() {}
-  function aceCheck() {}
-  function econCheck() {}
   function startupChecks() { showBanned(); }
 
   // ================= Play Friends: friend codes, 1v1 wagers, 2v2 and Foursomes (Firebase) =================
@@ -5870,24 +5777,22 @@
   }
   function refundBuyIn(id) {
     const rec = save.mp[id]; if (!rec || !rec.paid || rec.started || rec.settled) return;
-    if (rec.wager) { paid(rec.wager); save.coins += rec.wager; }
+    if (rec.wager) { save.coins += rec.wager; }
     delete save.mp[id]; persist(); $('homeCoins').textContent = money(save.coins);
   }
   const teamsOf = m => [m.t0, m.t1, m.t2, m.t3].slice(0, m.nt || 2).map(t => t || []);
   const FMT_HOW = { stroke: 'Lowest total strokes wins.', scramble: 'Everyone hits, the team plays the best ball every shot.',
     alt: 'Teammates take turns hitting one ball (tee shots rotate).', best: 'Everyone plays their own ball; the team takes the best score on each hole.' };
-  const PLAYOFF_MAX = 9, INVITE_HOURS = 12;
+  const PLAYOFF_MAX = 9;
   const CODE_CH = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const newCode = () => Array.from({ length: 6 }, () => CODE_CH[Math.floor(Math.random() * CODE_CH.length)]).join('');
-  const CREATOR_CODE = 'CREATOR';   // the creator's own friend code (only the creator's account can claim it)
-  const cleanCode = v => { const c = String(v || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); return c === CREATOR_CODE ? c : c.slice(0, 6); };
+  const cleanCode = v => String(v || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
   const FP = (...p) => new firebase.firestore.FieldPath(...p);
   const matchRef = id => fbDb.collection('matches').doc(id);
-  const inboxRef = uid => fbDb.collection('inbox').doc(uid).collection('items');
   const r2 = v => Math.round(v * 100) / 100;
   save.friends = save.friends || []; save.mp = save.mp || {};
   let mpForm = { mode: 1, fmt: 'stroke', cid: 'pines', n: 3, wager: 0 };
-  let inbox = [], inboxUnsub = null, pendingLink = null, mpMsg = { t: '', ok: false };
+  let pendingLink = null, mpMsg = { t: '', ok: false };
   try {
     const q = new URLSearchParams(location.search), j = cleanCode(q.get('join'));
     if (j) pendingLink = { join: j };
@@ -5912,7 +5817,6 @@
     send(0);
   }
 
-  // ---- The inbox (no longer used: friends were taken out) ----
   let codeErr = '';
   // friendly wording for online errors (the old "Something went wrong" didn't say why)
   function netErr(e) {
@@ -5921,25 +5825,6 @@
     if (c === 'permission-denied') return banned() ? "You're banned from online play." : "The server said no to that. Reload the game and try again.";
     if (c === 'unavailable' || c === 'deadline-exceeded' || !navigator.onLine) return "Couldn't reach the server. Check the Wi-Fi and try again.";
     return 'Something went wrong. Reload the game and try again.';
-  }
-  // Invites are only watched while you're on the home screen with the game open (not during a round or with the game
-  // in the background), and only the newest 10, to save Firebase reads. Coming back to the home screen picks up anything new.
-  // (Oct 20 2026: friends were taken out. Matches are joined with the 6-character match code or an invite link, so the
-  //  inbox isn't watched any more, which also saves Firebase reads.)
-  const inboxWanted = () => false;
-  function syncInbox() { if (inboxWanted() ? !inboxUnsub : inboxUnsub) listenInbox(); }
-  document.addEventListener('visibilitychange', () => syncInbox());
-  function listenInbox() {
-    if (inboxUnsub) { inboxUnsub(); inboxUnsub = null; }
-    if (!fbUser) inbox = [];
-    if (!inboxWanted()) return;
-    inboxUnsub = inboxRef(fbUser.uid).orderBy('at', 'desc').limit(10).onSnapshot(s => {
-      const old = Date.now() - INVITE_HOURS * 3600e3;
-      inbox = s.docs.map(d => Object.assign({ id: d.id }, d.data()));
-      inbox.filter(x => x.at < old).forEach(x => inboxRef(fbUser.uid).doc(x.id).delete().catch(() => {}));
-      inbox = inbox.filter(x => x.at >= old);
-      renderMpCard();
-    }, () => {});
   }
   async function shareLink(url, text) {
     try { if (navigator.share) { await navigator.share({ title: 'Red & Gold Golf', text, url }); return ''; } }
@@ -5950,7 +5835,6 @@
   const siteUrl = () => location.origin + location.pathname;
 
   async function mpOnAuth() {
-    listenInbox();
     if (!fbUser) { renderMpCard(); if (tab === 'match') renderMatchTab(); return; }
     if (pendingLink) {
       const pl = pendingLink; pendingLink = null;
@@ -6297,7 +6181,7 @@
     const tie = res.win === -1, won = !res.coop && res.win === MP.team, split = tie && winners.includes(MP.team);
     const prize = winners.includes(MP.team) ? Math.floor(pot / winners.reduce((a, t) => a + MP.teams[t].length, 0)) : 0;
     if (!rec.settled) {
-      rec.settled = 1; paid(prize + holeMoney); save.coins += prize + holeMoney;
+      rec.settled = 1; save.coins += prize + holeMoney;
       save.stats.earnedTotal += holeMoney + Math.max(0, prize - m.wager);
       save.stats.mpWins = (save.stats.mpWins || 0) + (won ? 1 : 0); save.stats.mpPlayed = (save.stats.mpPlayed || 0) + 1;
       // big pots, and pots won because the other side quit, are how money gets passed between accounts: flag them for review
@@ -6335,7 +6219,7 @@
       : !MP && save.mpActive && fbUser ? `<div class="mpnote"><span>⛳ Match <b>${esc(save.mpActive)}</b> in progress</span><button class="main sm" data-mprejoin="1">Rejoin</button></div>` : '';
     // (Oct 28 2026) cleaner and more condensed: one yellow button opens every match option (1v1, 2v2, foursome, join by code)
     box.innerHTML = `<div class="mpc mpslim"><div class="ctag">⚔️ PLAY FRIENDS · HEAD TO HEAD</div>
-      <button class="yelBtn" data-mpopen="1" style="width:100%;margin-top:8px">Browse match options ›</button>${active}</div>`;
+      <button class="main sm" data-mpopen="1" style="width:100%;margin-top:8px">Browse match options ›</button>${active}</div>`;
   }
   $('mpCard').addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b) return;
@@ -6350,8 +6234,8 @@
     const back = '<button class="back" data-mpback="1">← Back</button>';
     if (!ONLINE) { box.innerHTML = back + '<div class="empty">Play Friends needs the internet. Check your connection and reload.</div>'; return; }
     if (!fbUser) {
-      box.innerHTML = back + `<div class="mpbox"><div class="lh">PLAY FRIENDS</div><div class="cm" style="font-size:14px;color:var(--cream);margin-bottom:10px">Get a free player code (or sign in with yours) to create or join matches with a match code and settle wagers.${pendingLink ? ` <b style="color:var(--gold-l)">You'll join match ${pendingLink.join} right after.</b>` : ''}</div>
-        <button class="main" data-signin="1" style="width:100%">🔑 Player code</button></div>`;
+      box.innerHTML = back + `<div class="mpbox"><div class="lh">PLAY FRIENDS</div><div class="cm" style="font-size:14px;color:var(--cream);margin-bottom:10px">Your player code is still being set up. Tap below to get it (or log in with yours), then create or join matches with a match code.${pendingLink ? ` <b style="color:var(--gold-l)">You'll join match ${pendingLink.join} right after.</b>` : ''}</div>
+        <button class="main" data-signin="1" style="width:100%">👤 Player code</button></div>`;
       return;
     }
     if (MP && MP.doc && !MP.started) return renderLobby(box, back);
@@ -6552,6 +6436,9 @@
             <div class="logoBtns"><label class="ghost sm upl">📷 ${cl.img ? 'Change picture' : 'Upload picture'}<input type="file" id="logoFile" accept="image/*"></label>
             ${cl.img ? '<button class="ghost sm" data-logoclear="1">Remove picture</button>' : ''}</div>
             <div class="gnote">Your picture goes in a round badge on the front of the bag, with your words running down it.</div></div>` : '')
+        + `<div class="lh" style="margin-top:12px">Homeroom tag<b>${save.hr ? (save.bagHr ? 'HR ' + save.hr : 'Off') : '—'}</b></div>`
+        + (save.hr ? `<div class="opts"><button data-baghr="1" class="${save.bagHr ? 'on' : ''}">🏫 HR ${save.hr}</button><button data-baghr="0" class="${save.bagHr ? '' : 'on'}">No tag</button></div><div class="gnote">Free: puts "HR ${save.hr}" near the bottom of your bag.</div>`
+          : '<div class="gnote">Pick your homeroom (above) to put "HR" and your letter on your bag.</div>')
         + buyBar()
       : `<div class="lh">${label}<b>${swName(BAG_SWATCHES[bPart], G[bPart])}</b></div>` + swRow('data-bcol', bPart === 'body' ? bodies : BAG_SWATCHES[bPart], G[bPart], label, bPart === 'body' ? null : 'bag-' + bPart)
         + (bPart === 'body' ? `<div class="gnote">Unlock more bag colors by earning achievements (🏆 Awards tab).</div>` : '') + buyBar();
@@ -6694,7 +6581,8 @@
   function renderGolfer() {
     $('gName').value = save.name || '';
     $('handBox').innerHTML = `<div class="nameRow" style="margin-top:12px">I swing</div><div class="opts" style="margin-top:6px"><button data-hand="r" class="${save.lefty ? '' : 'on'}">🏌️ Right-handed</button><button data-hand="l" class="${save.lefty ? 'on' : ''}">🏌️ Left-handed</button></div>`;
-    $('hrBox').innerHTML = `<div class="nameRow" style="margin-top:12px">🏫 Homeroom (Weekly Homeroom Cup)</div><div class="hrchips" style="margin-top:6px">${HOMEROOMS.map(h => `<button data-ghr="${h}" class="${save.hr === h ? 'on' : ''}">${h}</button>`).join('')}</div>`;
+    $('hrBox').innerHTML = save.hr ? `<div class="nameRow" style="margin-top:12px">🏫 Homeroom</div><div class="hrlock" style="margin-top:6px">Homeroom <b>${save.hr}</b> 🔒 <small>(can't be changed)</small></div>`
+      : `<div class="nameRow" style="margin-top:12px">🏫 Pick your homeroom (can't be changed later)</div><div class="hrchips" style="margin-top:6px">${HOMEROOMS.map(h => `<button data-ghr="${h}">${h}</button>`).join('')}</div>`;
     $('badgeBox').innerHTML = badgesHtml();
     const own = ownedBadges(), mb = myBadge();
     $('gBadge').innerHTML = own.map(b => `<button class="bmed${mb === b.id ? ' on' : ''}" data-bpop="${b.id}" title="${esc(b.name)}">${b.icon}</button>`).join('');
@@ -6745,6 +6633,7 @@
     if (d.badge != null) { if (!d.badge || hasBadge(d.badge)) { save.badge = d.badge; save.badgeAuto = 1; persist(); } renderGolfer(); return; }
     if (d.hand) { save.lefty = d.hand === 'l'; persist(); golfer.paintFor = ''; renderGolfer(); return; }
     if (d.ghr) { setHomeroom(d.ghr); renderGolfer(); return; }
+    if (d.baghr) { save.bagHr = d.baghr === '1'; persist(); setTimeout(cloudSaveSoon, 0); applyBag(playerBagMats, save.gbag); applyBag(previewBagMats, save.gbag); renderGolfer(); return; }
     if (d.gtab) gTab = d.gtab;
     else if (d.preset != null) {
       const pr = LOOK_PRESETS[+d.preset];
@@ -7080,7 +6969,7 @@
   }
   $('resetBtn').addEventListener('click', () => {
     if (!confirm('Reset ALL money, upgrades and stats? This cannot be undone.')) return;
-    const keep = { name: save.name, look: save.look, gbag: save.gbag, pid: save.pid, uid: save.uid, tourney: save.tourney, ownedLook: save.ownedLook, ui: save.ui, migClassic: save.migClassic, migSchoolBag: save.migSchoolBag, ballLook: save.ballLook, friends: save.friends, friendCode: save.friendCode, mp: save.mp }; save = Object.assign(freshSave(), keep); loadBag(); persist();
+    const keep = { name: save.name, look: save.look, gbag: save.gbag, pid: save.pid, uid: save.uid, tourney: save.tourney, ownedLook: save.ownedLook, ui: save.ui, ballLook: save.ballLook, mp: save.mp }; save = Object.assign(freshSave(), keep); loadBag(); persist();
     previewCourse(COURSES[0]); setTab('stats');
   });
 
@@ -7175,7 +7064,6 @@
     $('home').classList.remove('hidden'); slidesOn(true); hideHosts();
     rollEgg();
     setTab(tab);
-    syncInbox();
   }
   // ---- Very rare messages on the back of the home screen (each one has a 0.01% chance every time you come home) ----
   const EGGS = ['bro ryz was here', 'Mr gallery is a goat', 'RIP Mr. Pisani', 'Cafeteria Christian is unmatched', 'Go to AI Club'];
@@ -7197,7 +7085,6 @@
     if (save.live) delete save.live;
     presence(c.id); track('round_start', { course: c.id });
     $('home').classList.add('hidden'); $('final').classList.add('hidden'); slidesOn(false);
-    syncInbox();
     loadHole(0);
   }
 
@@ -7223,7 +7110,7 @@
     $('earnBox').innerHTML = lines;
 
     const wasLocked = COURSES.filter(c => !isUnlocked(c)).map(c => c.id);
-    paid(total); save.coins += total; s.earnedTotal += total;
+    save.coins += total; s.earnedTotal += total;
     if (!course.mini && !roundCut) { s.rounds++; s.strokesTotal += ts; s.parTotal += tp; if (rel < 0) s.underPar++; }
     if (!roundCut && !cupGuest) s.roundsBy[course.id] = (s.roundsBy[course.id] || 0) + 1;   // a cup round on a locked course doesn't unlock it
     let mastersLine = '';
@@ -7268,9 +7155,9 @@
       try {
         const rank = await postOnline(c.id, entry);
         box.innerHTML = (rank ? `🏆 You're <b style="color:var(--gold-l)">#${rank}</b> in today's ${esc(c.name)} tournament as <b>${esc(boardName())}</b>!` : 'Score posted online.')
-          + (fbUser ? '' : '<br><small>Playing as a guest · get a free player code (Golfer tab) to keep your progress on every device</small>');
+          + (fbUser ? '' : '<br><small>Playing as a guest · tap the 👤 player icon to get your player code and keep your progress</small>');
       } catch (e) {
-        if (!meUser()) { box.innerHTML = '<button id="postBtn">🔑 Use a player code to post this score</button>'; $('postBtn').onclick = () => signIn(); return; }
+        if (!meUser()) { box.innerHTML = '<button id="postBtn">👤 Get your player code to post this score</button>'; $('postBtn').onclick = () => signIn(); return; }
         box.innerHTML = 'Couldn\'t post online. <button id="retryPost">Retry</button>'; $('retryPost').onclick = post;
       }
     };
@@ -7293,7 +7180,7 @@
       pay = Math.max(0, ctpPay(ft) - ctpPay(old == null ? null : old * 3));
       st.best = yd; line = old == null ? "Today's best!" : 'New best today!';
     }
-    if (pay) { paid(pay); save.coins += pay; save.stats.earnedTotal += pay; }
+    if (pay) { save.coins += pay; save.stats.earnedTotal += pay; }
     let unlockLine = '';
     if (ft != null && ft <= CTP_UNLOCK_FT && !unlocked('senior')) { save.unlocks.senior = true; unlockLine = '🔓 You unlocked the Senior Sweater! Wear it from the Golfer tab.'; }
     if (yd === 0) { save.badges.ace = 1; postAce(course, 0, hole);
@@ -7388,7 +7275,7 @@
     if (ring) {
       const mult = (1 + 0.1 * Math.min(5, S.streak)) * (1 + RANGE_REUSE_PCT * (S.reuse || 0)), pay = Math.round(rangePay(ring, t.d) * mult);
       got = Math.max(0, Math.min(pay, RANGE_DAY_CAP - day.earned)); if (got < pay) S.capped = true;
-      if (got) { paid(got); save.coins += got; save.stats.earnedTotal += got; day.earned += got; S.earned += got; }
+      if (got) { save.coins += got; save.stats.earnedTotal += got; day.earned += got; S.earned += got; }
       S.streak++; S.bestStreak = Math.max(S.bestStreak, S.streak); S.hits++;
       if (ring === 3) { S.holed++; day.holed++; }
     } else S.streak = 0;
@@ -7593,7 +7480,6 @@
   const cupWeeksRef = () => fbDb.collection('hrcupWeeks');
   const fmtAvg = v => v == null ? '—' : v.toFixed(1);
   const fmtWeek = id => { const d = new Date(id + 'T12:00:00Z'); return `Week of ${d.getUTCMonth() + 1}/${d.getUTCDate()}/${String(d.getUTCFullYear()).slice(2)}`; };
-  const fmtWhen = ms => new Date(ms).toLocaleString('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: '2-digit' });
   const untilTxt = ms => { const m = Math.max(0, Math.round((ms - Date.now()) / 60000)); return m >= 1440 ? `${Math.floor(m / 1440)}d ${Math.floor(m % 1440 / 60)}h` : m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m`; };
   // only official rounds count: the week's course, a full 18, posted inside the window, a real homeroom, not banned
   function cupRows(docs, w) {
@@ -7601,7 +7487,7 @@
     return docs.map(d => { const f = d.data ? d.data({ serverTimestamps: 'estimate' }) : d; return { uid: d.id || f.uid, name: f.name, hr: f.hr, strokes: f.strokes, rel: f.rel, att: f.att | 0, cid: f.cid,
         t: f.t && f.t.toMillis ? f.t.toMillis() : (typeof f.t === 'number' ? f.t : 0) }; })
       .filter(r => HOMEROOMS.includes(r.hr) && Number.isInteger(r.strokes) && r.strokes >= CUP_HOLES && r.cid === cid && !bannedSet.has(r.uid)
-        && (!r.t || (r.t >= w.start - 120000 && r.t <= w.lock)));
+        && (!r.t || (r.t >= w.start - 120000 && r.t >= SEASON_START && r.t <= w.lock)));
   }
 
   // ---- live scores: one listener while the cup screen is open (first load = 1 read per golfer, then 1 per change) ----
@@ -7718,11 +7604,11 @@
       <div class="cn">${esc(c.name)}</div><div class="cm">18 holes · par ${c.par} · your best round of the week counts · each homeroom's 20 lowest scores make its team average</div>
       <div class="cm" style="color:#FFE08A;margin-top:3px">${status}</div>
       <div class="cm" style="margin-top:3px">${save.hr ? `You: <b>${hrLabel(save.hr)}</b>${mine && mine.rank ? ` · team rank #${mine.rank}` : ''}${save.cupMine && save.cupMine.week === w.id ? ` · best ${save.cupMine.strokes}(${fmtRel(save.cupMine.rel)})` : ''}` : '👉 Pick your homeroom to play for your team'}</div>
-      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? '<button class="yelBtn" data-cupplay="1">Play cup round ›</button>' : ''}<button class="main sm" data-cupgo="1">Leaderboards ›</button></div></div>`;
+      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? '<button class="main sm" data-cupplay="1">Play cup round ›</button>' : ''}<button class="main sm" data-cupgo="1">Leaderboards ›</button></div></div>`;
   }
   function playCup() {
     const w = cupWeek();
-    if (!save.hr) { cupView = 'pick'; setTab('cup'); return; }
+    if (!save.hr) { setTab('cup'); return; }
     if (w.phase !== 'live') { alert('The Homeroom Cup is locked until Monday 7:00 AM. You can still play the course for practice from the course list.'); return; }
     startRound(cupCourse());
   }
@@ -7762,12 +7648,12 @@
       <div class="cddesc">Spirit Day showdown: all 13 homerooms on <b>${esc(c ? c.name : '')}</b> (18 holes, par ${c ? c.par : 72}). Your best full round from Monday 7:00 AM to Friday 2:40 PM is your official score. Each homeroom's ${CUP_MAX} lowest scores make its team average, and the lowest average wins. Homerooms need ${CUP_MIN} players to qualify.</div>
       <div class="chips" style="margin:8px 0"><span>${status}</span>${frozen ? '<span><button class="linkBtn" data-cuplive="1">Back to this week</button></span>' : ''}</div>`;
     // homeroom picker (yours)
-    if (cupView === 'pick' || !save.hr) {
-      head += `<div class="gcard" style="margin:8px 0 12px"><div class="sect" style="margin:0 0 6px">${save.hr ? 'CHANGE YOUR HOMEROOM' : 'PICK YOUR HOMEROOM'}</div>${hrPicker(save.hr, 'myhr')}
-        <div class="tnote" style="text-align:left">Once you post a cup score, your homeroom is set for that week. Changing it starts counting next week.</div></div>`;
+    if (!save.hr) {
+      head += `<div class="gcard" style="margin:8px 0 12px"><div class="sect" style="margin:0 0 6px">PICK YOUR HOMEROOM</div>${hrPicker('', 'myhr')}
+        <div class="tnote" style="text-align:left">Pick carefully: your homeroom can't be changed after you pick it.</div></div>`;
     }
-    if (!frozen && w.phase === 'live') head += `<div style="display:flex;gap:8px;margin:0 0 10px;flex-wrap:wrap"><button class="yelBtn" data-cupplay="1">⛳ Play cup round ›</button>${save.hr ? `<button class="ghost sm" data-cuppick="1">Your homeroom: ${save.hr} ✎</button>` : ''}</div>`;
-    head += `<div class="seg"><button data-cv="teams" class="${cupView === 'teams' ? 'on' : ''}">🏫 TEAMS</button><button data-cv="hr" class="${cupView === 'hr' || cupView === 'pick' ? 'on' : ''}">HOMEROOMS</button><button data-cv="school" class="${cupView === 'school' ? 'on' : ''}">SCHOOL-WIDE</button><button data-cv="past" class="${cupView === 'past' ? 'on' : ''}">🏆 WINNERS</button></div>`;
+    if (!frozen && w.phase === 'live') head += `<div style="display:flex;gap:8px;margin:0 0 10px;flex-wrap:wrap"><button class="main sm" data-cupplay="1">⛳ Play cup round ›</button>${save.hr ? `<span class="hrlock">🏫 Your homeroom: <b>${save.hr}</b> 🔒</span>` : ''}</div>`;
+    head += `<div class="seg"><button data-cv="teams" class="${cupView === 'teams' ? 'on' : ''}">🏫 TEAMS</button><button data-cv="hr" class="${cupView === 'hr' ? 'on' : ''}">HOMEROOMS</button><button data-cv="school" class="${cupView === 'school' ? 'on' : ''}">SCHOOL-WIDE</button><button data-cv="past" class="${cupView === 'past' ? 'on' : ''}">🏆 WINNERS</button></div>`;
     if (cupView === 'past') { box.innerHTML = head + pastHtml(); loadCupPast(); return; }
     const rows = frozen ? frozen.rows : cupLive && cupLive.week === w.id ? cupLive.rows : null;
     if (!frozen) cupListen();
@@ -7810,12 +7696,13 @@
     if (b.dataset.cv) { if (b.dataset.cv === 'past') cupFrozen = null; cupView = b.dataset.cv; renderCup(); return; }
     if (b.dataset.cuphr) { cupHr = b.dataset.cuphr; cupView = 'hr'; renderCup(); return; }
     if (b.dataset.myhr) { setHomeroom(b.dataset.myhr); cupHr = save.hr; cupView = 'hr'; renderCup(); return; }
-    if (b.dataset.cuppick) { cupView = 'pick'; renderCup(); return; }
     if (b.dataset.cupplay) { playCup(); return; }
     if (b.dataset.cupweek) { openPastWeek(b.dataset.cupweek); return; }
   });
+  // your homeroom is picked once and can never be changed
   function setHomeroom(h) {
-    if (!HOMEROOMS.includes(h)) return;
+    if (!HOMEROOMS.includes(h) || save.hr) return;
+    if (!confirm(`Join Homeroom ${h}?\n\nYou can't change your homeroom after this.`)) return;
     save.hr = h; persist(); setTimeout(cloudSaveSoon, 0); renderCupCard(); track('homeroom_set', { hr: h });
   }
   document.addEventListener('click', e => {
@@ -7855,26 +7742,6 @@
   let admView = 'players', admCid = 'pines', admMode = 'daily';
   // Creator's Pick for the golfers who helped with the game. The creator's device hands these out on its own when exactly
   // one golfer in the player directory has that first name (otherwise use "Find a player" and tap 🎁).
-  const GIFT_TODO = ['Frank', 'Freddy', 'Gilroy', 'Aiden'];
-  let giftBusy = false;
-  async function autoGifts() {
-    if (!isCreator() || !fbDb || giftBusy) return;
-    save.giftsGiven = save.giftsGiven || {};
-    const left = GIFT_TODO.filter(n => !save.giftsGiven[n]); if (!left.length) return;
-    giftBusy = true;
-    try {
-      for (const n of left) {
-        const q = n.toLowerCase(), snap = await fbDb.collection('players').where('n', '>=', q).where('n', '<=', q + '\uf8ff').limit(10).get();
-        const hits = snap.docs.filter(d => String(d.data().n || '').split(/\s+/)[0] === q);
-        if (hits.length !== 1) continue;
-        const ref = fbDb.collection('gifts').doc(hits[0].id);
-        if (!(await ref.get()).exists) await ref.set({ name: hits[0].data().name || n, at: Date.now() });
-        save.giftsGiven[n] = hits[0].id;
-      }
-      persist();
-    } catch (e) {}
-    giftBusy = false;
-  }
   const admTabs = [['players', '🔎 Find a player'], ['aces', '🎯 Holes in one'], ['reviews', '📋 Scorecard review'], ['flags', '🎯 Ace flags'], ['bans', '⛔ Bans'], ['boards', '🏆 Leaderboards']];
   let admFlagDocs = {};
   // One flagged round's scorecard: the card the flag carried (holes played so far), plus the final card of that round if it came in
@@ -7955,38 +7822,15 @@
   let admQ = '', admFound = null, admGifted = {}, admMoneyOnly = 'ace';
   // Find a player: the whole player directory is loaded once (one read per golfer, remembered for 6 hours on this device)
   // and searched right here, so any part of a name matches ("coll" finds "John Collins").
-  const DIR_KEY = 'cg-admdir', DIR_TTL = 6 * 3600e3;
+  const DIR_KEY = 'cg-admdir6', DIR_TTL = 6 * 3600e3;
   let admDir = null, admNote = '';
   try { const c = JSON.parse(localStorage.getItem(DIR_KEY)); if (c && Date.now() - c.at < DIR_TTL) admDir = c; } catch (e) {}
   async function admLoadDir(force) {
     if (admDir && !force && Date.now() - admDir.at < DIR_TTL) return admDir;
-    const [ps, gs] = await Promise.all([fbDb.collection('players').limit(3000).get(), fbDb.collection('gifts').get()]);
-    admDir = { at: Date.now(), rows: ps.docs.map(d => Object.assign({ uid: d.id }, d.data())), gifts: gs.docs.map(d => d.id) };
+    const [ps, gs] = await Promise.all([fbDb.collection('players').where('at', '>=', SEASON_START).limit(3000).get(), fbDb.collection('gifts').get()]);
+    admDir = { at: Date.now(), rows: ps.docs.map(d => Object.assign({ uid: d.id }, d.data())), gifts: gs.docs.map(d => d.id) };   // (only golfers since the fresh start)
     try { localStorage.setItem(DIR_KEY, JSON.stringify(admDir)); } catch (e) {}
     return admDir;
-  }
-  // One-time catch-up: golfers who played before the directory existed are added from the old "last seen" notes,
-  // friend codes and the leaderboards (the creator's device does this once; a few hundred reads and writes, one time).
-  async function admBackfill() {
-    const found = new Map(), add = (uid, name, g, at) => {
-      name = String(name || '').trim(); if (!uid || !name || name.toLowerCase() === 'player' || name.length > 14 || nameProblem(name)) return;
-      const o = found.get(uid); if (!o || (at || 0) > (o.at || 0)) found.set(uid, { name, g: !!(g || (o && o.g)), at: at || (o && o.at) || 0 });
-    };
-    const tries = [
-      fbDb.collection('presence').limit(3000).get().then(s => s.docs.forEach(d => { const x = d.data(); add(d.id, x.name, x.google, x.lastMs); })),
-      fbDb.collection('codes').limit(3000).get().then(s => s.docs.forEach(d => { const x = d.data(); add(x.uid, x.name, true, 0); })),
-      ...COURSES.concat([MINI]).map(c => scoresRef(c.id).limit(1000).get().then(s => s.docs.forEach(d => { const x = d.data(); add(d.id, x.name, false, x.date); }))),
-    ];
-    await Promise.all(tries.map(p => p.catch(() => {})));
-    const have = new Set(((await admLoadDir()) || { rows: [] }).rows.map(r => r.uid));
-    const todo = [...found.entries()].filter(([uid]) => !have.has(uid));
-    for (let i = 0; i < todo.length; i += 400) {
-      const b = fbDb.batch();
-      todo.slice(i, i + 400).forEach(([uid, p]) => b.set(fbDb.collection('players').doc(uid), { name: p.name, n: p.name.toLowerCase(), g: p.g, at: Math.round(p.at || Date.now()) }));
-      await b.commit();
-    }
-    save.dirBackfill = 2; persist();
-    return todo.length;
   }
   async function admSearch(q) {
     admQ = String(q || '').trim().toLowerCase();
@@ -8004,16 +7848,11 @@
     admSyncBans().catch(() => {});   // quietly takes newly banned golfers off the boards
     try {
       if (admView === 'players') {
-        if ((save.dirBackfill | 0) < 2) {
-          v.innerHTML = '<div class="empty">Adding everyone who\'s played to the player list (one time only)…</div>';
-          try { const n = await admBackfill(); admNote = `Added ${n} golfer${n === 1 ? '' : 's'} who played before the player list existed.`; } catch (e) { admNote = 'Couldn\'t add older golfers yet (' + esc(e.code || e.message || 'error') + '). Make sure the newest firestore.rules are published.'; }
-          await admLoadDir(true);
-        }
         const dir = await admLoadDir(), rows = admFound || [];
         v.innerHTML = `<div class="mprow"><input class="mpin" id="admQ" placeholder="Type any part of a name" value="${esc(admQ)}" autocomplete="off" spellcheck="false"><button class="main sm" data-adm-search="1">Search</button></div>
           <div class="gnote" style="margin:8px 0 0">${dir.rows.length.toLocaleString()} golfers in the list${admNote ? ' · ' + admNote : ''} · <button class="linkbtn" data-adm-refresh="1">Refresh list</button></div>
           <div class="mplist" style="margin-top:10px">${admFound == null ? '<div class="empty">Type any part of a name to give them Creator\'s Pick or ban them.</div>'
-            : rows.length ? rows.map(p => `<div class="mpli"><div class="nm"><b>${admGifted[p.uid] ? '🎁 ' : ''}${esc(p.name || 'Golfer')}</b><small>${p.g ? 'Google' : 'Guest'} · ${p.at ? 'joined ' + fmtDate(p.at) : ''} · ID ${esc(p.uid.slice(0, 6))}</small></div>
+            : rows.length ? rows.map(p => `<div class="mpli"><div class="nm"><b>${admGifted[p.uid] ? '🎁 ' : ''}${esc(p.name || 'Golfer')}</b><small>${p.g ? 'Code' : 'Guest'} · ${p.at ? 'joined ' + fmtDate(p.at) : ''} · ID ${esc(p.uid.slice(0, 6))}</small></div>
               <button class="${admGifted[p.uid] ? 'ghost' : 'main'} sm" data-adm-gift="${p.uid}" data-n="${esc(p.name || '')}">${admGifted[p.uid] ? 'Take back 🎁' : 'Give 🎁'}</button><button class="ghost sm" data-adm-ban="${p.uid}" data-n="${esc(p.name || '')}">Ban</button></div>`).join('')
             : `<div class="empty">No golfers with "${esc(admQ)}" in their name.</div>`}</div>
           <div class="tnote">🎁 = Creator's Pick, for golfers who helped make the game or had a suggestion added. Everyone who has played with a name is in the list; new golfers are added when they pick a name.</div>`;
@@ -8060,7 +7899,6 @@
           <div class="tnote">Banned golfers are taken off every leaderboard (all-time, daily tournaments and Closest to the Pin) and their holes in one are hidden. 📋 shows the scorecards they had.</div>
           <div class="tnote">Unbanning lets them play again the next time their game checks in (within about 15 minutes). Their old scores don't come back.</div>`;
       } else if (admView === 'boards') {
-        await autoGifts();
         const list = COURSES.concat([MINI]);
         const rows = await fetchBoard(admCid, admMode === 'daily' ? etDay() : null, 25);
         v.innerHTML = `<div class="opts" style="flex-wrap:wrap;margin-bottom:8px">${list.map(c => `<button data-adm-cid="${c.id}" class="${admCid === c.id ? 'on' : ''}" style="flex:0 1 auto">${esc(c.name)}</button>`).join('')}</div>
@@ -8134,7 +7972,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.10.28', NEWS_NUM = '2.2';
+  const NEWS_VER = '2026.10.28c', NEWS_NUM = '2.3';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -8156,7 +7994,7 @@
     ['🏞️', '<b>Farbor Lake is now Faerber Lake.</b> Your scores and best rounds there are all still there.'],
     ['🔑', '<b>Google sign-in works better on iPad.</b>'],
   ];
-  const NEWS = [
+  const NEWS_22 = [
     ['🏫', '<b>Spirit Day · Weekly Homeroom Cup:</b> pick your homeroom (Golfer tab) and play the week\'s 18-hole cup course. Each homeroom\'s 20 lowest scores make its team average, light green shows whose scores count, and the winner is announced Friday at 2:42 PM. Homeroom leaderboards, a school-wide board and past winners with a podium.'],
     ['🔑', '<b>Player codes instead of Google sign-in:</b> get a free 12-character code in the Golfer tab and type it on any device to keep your progress. No passwords, no email.'],
     ['🏌️', '<b>The Driving Range is free</b>, with up to $1,000 a day in range money.'],
@@ -8167,8 +8005,16 @@
     ['💲', '<b>Rounder shop prices</b> ($1,000 instead of $1,050), cleaner Play Friends card, and scores now show strokes too, like 68(-3).'],
   ];
   // Every update so far, newest first (shown under "Previous updates"). Only things players can see.
+  const NEWS = [
+    ['🆕', '<b>Fresh start:</b> everyone begins again with new progress, badges and empty leaderboards (all-time and daily).'],
+    ['👤', '<b>Player codes (XXXX-XXXX):</b> every golfer gets one automatically. Tap the 👤 player icon at the top right to see yours, or Log in with a code from another device. Google sign-in is gone.'],
+    ['🏫', '<b>Homerooms are permanent</b> once you pick one, and you can put <b>HR</b> and your letter on your golf bag (Golfer > Golf Bag > Logo).'],
+    ['⛳', '<b>New hole names</b> at Meribah, Brothers Hollow, Hearst Executive and Flyers Presidential.'],
+    ['🎨', '<b>Every gold button looks the same</b> now, and the welcome screen points you to 3C, the daily challenges and the Homeroom Cup.'],
+  ];
   const UPDATES = [
-    ['2.2', 'Oct 28, 2026', NEWS.map(n => n[1])],
+    ['2.3', 'Oct 28, 2026', NEWS.map(n => n[1])],
+    ['2.2', 'Oct 28, 2026', NEWS_22.map(n => n[1])],
     ['2.1', 'Oct 27, 2026', NEWS_21.map(n => n[1])],
     ['2.0', 'Oct 20, 2026', NEWS_20.map(n => n[1]).concat(['<b>Update pop-up:</b> if a new update comes out while the game is open, you get a pop-up to reload and get it'])],
     ['1.6', 'Oct 20, 2026', ['Aim putts exactly with the ◀ AIM ▶ buttons or the arrow keys', 'No more wind on putts', '🔥 Momentum: 3 holes in a row with no bogey boosts your payouts',
@@ -8238,16 +8084,20 @@
     $('newsPop').classList.remove('hidden');
   }
   $('newsOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('newsPop').classList.add('hidden'); save.newsVer = NEWS_VER; persist(); });
-  if (isNewGolfer && (save.noteVer | 0) < 3) {
-    $('resetNote').classList.remove('hidden');   // brand new: the welcome, which points them at the 3C Par Three
-    save.newsVer = NEWS_VER;                       // (they don't need a list of changes)
+  // the welcome: brand-new golfers and everyone starting over after a reset (it points them at 3C, the daily challenges or the cup)
+  if ((isNewGolfer || save.resetNote) && (save.noteVer | 0) < 4) {
+    if (save.resetNote && !isNewGolfer) $('welcomeSub').innerHTML = '<b style="color:var(--gold-l)">Fresh start!</b> Everyone begins again today with a new player code. Pick how you want to start:';
+    $('resetNote').classList.remove('hidden');
+    save.newsVer = NEWS_VER;                       // (they don't need a list of changes too)
   } else {
-    save.noteVer = Math.max(3, save.noteVer | 0);
+    save.noteVer = Math.max(4, save.noteVer | 0);
     if (save.newsVer !== NEWS_VER) showNews();
   }
-  $('resetOk').addEventListener('click', () => {
-    ensureAudio(); sfx.click(); $('resetNote').classList.add('hidden'); delete save.resetNote; save.noteVer = 3; persist();
-    const p3 = courseById('par3'); if (p3) openCourse(p3);
+  $('resetNote').addEventListener('click', e => {
+    const b = e.target.closest('[data-welc]'); if (!b) return;
+    ensureAudio(); sfx.click(); $('resetNote').classList.add('hidden'); delete save.resetNote; save.noteVer = 4; persist();
+    const w = b.dataset.welc;
+    if (w === 'par3') { const p3 = courseById('par3'); if (p3) openCourse(p3); } else setTab(w);
   });
   // anything already earned by older saves is granted quietly
   AWARDS.forEach(a => { if (!save.awards[a.id] && awardDone(a)) save.awards[a.id] = Date.now(); });
