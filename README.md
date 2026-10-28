@@ -34,6 +34,10 @@ Daily Closest to the Pin: 14 layouts (island, long and tight, bunker gauntlet, c
 
 Gold Star Mini Golf was reworked on Oct 20 2026 (par 41: 13 par 2s and 5 par 3s). Golfers were birdieing the old par 3s, so every hole was balanced with a computer golfer that takes thousands of simulated putts per hole: a good player now averages about 2.1 to 2.4 on the par 2s and 2.6 to 3.1 on the par 3s (Zig Zag, Windmill Alley, Snake Pass, The Slalom and the Grand Gold Star finale).
 
+## Fresh start (Oct 28 2026)
+
+Everyone started over: `RESET_EPOCH` is 2 (all progress and names wiped on every device and in the cloud the next time the game opens), Leaderboard Season 5 (`SEASON = '_s5'`) started with empty boards, and anyone still signed in with Google (except the creator) is signed out. Old data stays in Firebase but is ignored.
+
 ## Spirit Day · Weekly Homeroom Cup
 
 (Added Oct 28 2026.) Every week the 13 homerooms (A, B, C, D, E, F, G, H, J, K, L, M, N; there is no Homeroom I) play for the cup on one 18-hole course. The course rotates each week (Meribah, Brothers Hollow, Hearst Executive, Deans Valley, Chami Links Black) and everyone can play it, even if it's still locked for them (playing the cup doesn't unlock it).

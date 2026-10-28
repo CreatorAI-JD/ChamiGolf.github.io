@@ -1339,7 +1339,8 @@
   const SAVE_KEY = 'fairwayclub-save';
   // FULL RESET (Oct 14 2026): bumping this wipes every player's progress (money, gear, stats, unlocks, awards) on every
   // device and in the cloud the next time they open the game. Names, sign-ins, friends and settings are kept.
-  const RESET_EPOCH = 1, RESET_KEEP = ['noteVer', 'name', 'pid', 'uid', 'friendCode', 'friends', 'ui', 'lefty', 'signinDay', 'badgeAuto', 'migClassic', 'migSchoolBag'];
+  // (Oct 28 2026, epoch 2) FRESH START for everyone: progress, names and old Google sign-ins are all wiped. Only screen settings are kept.
+  const RESET_EPOCH = 2, RESET_KEEP = ['ui', 'lefty', 'migClassic', 'migSchoolBag'];
   const resetSave = old => { const k = {}; RESET_KEEP.forEach(x => { if (old && old[x] !== undefined) k[x] = old[x]; }); return Object.assign(freshSave(), k, { epoch: RESET_EPOCH, mtime: 0, resetNote: 1 }); };
   const freshStats = () => ({ rounds: 0, holes: 0, aces: 0, eagles: 0, birdies: 0, pars: 0, shots: 0, perfects: 0,
     longest: 0, earnedTotal: 0, strokesTotal: 0, parTotal: 0, roundsBy: {}, bestBy: {},
@@ -5074,7 +5075,8 @@
   const serverTime = () => firebase.firestore.FieldValue.serverTimestamp();
   // Leaderboard season: the full reset started fresh boards (old scores stay in the database, they just aren't shown).
   // (Oct 20 2026, season 4: every leaderboard was reset again along with the Gold Star Mini Golf rework.)
-  const SEASON = '_s4', SEASON_START = 1792553700000;   // every board (courses, daily tournaments, Closest to the Pin, aces) starts over here
+  // (Oct 28 2026, season 5) fresh start: every board starts empty again (old scores stay in the database, hidden)
+  const SEASON = '_s5', SEASON_START = 1793160000000;   // every board (courses, daily tournaments, Closest to the Pin, aces) starts over here
   const inSeason = r => (r.date || 0) >= SEASON_START;
   if (save.lbSeason !== SEASON) {   // this device's own boards and remembered bests start over too (mini golf's par changed, so its best does as well)
     save.lbSeason = SEASON; save.board = {}; save.posted = {}; if (save.stats.bestBy) delete save.stats.bestBy.mini;
@@ -5234,7 +5236,7 @@
   // One row per golfer per board: their best score. Ties go to whoever posted it first.
   // Firebase's free plan allows 50,000 reads a day, so boards are remembered for 5 minutes (even through a reload)
   // and only a few rows past what's shown are read. Your own new score is added into the remembered board.
-  const BOARD_TTL = 300000, BOARD_KEY = 'cg-boards-s4';
+  const BOARD_TTL = 300000, BOARD_KEY = 'cg-boards-s5';
   const boardCache = new Map();
   try { const o = JSON.parse(localStorage.getItem(BOARD_KEY)) || {}; for (const k in o) if (Date.now() - o[k].at < BOARD_TTL) boardCache.set(k, o[k]); } catch (e) {}
   const storeBoards = () => { try { const o = {}; boardCache.forEach((v, k) => { if (Date.now() - v.at < BOARD_TTL) o[k] = v; }); localStorage.setItem(BOARD_KEY, JSON.stringify(o)); } catch (e) {} };
@@ -5575,6 +5577,11 @@
   function countSignin() { const d = etDay(); if (save.signinDay !== d) { save.signinDay = d; persist(); bumpDaily({ signins: 1 }); } }
   let checkedOnce = false;
   async function onUser(u) {
+    // (Oct 28 2026 fresh start) old Google sign-ins are signed out on every device; only the creator keeps Google
+    if (u && !u.isAnonymous && fbAuth) {
+      const pv = (u.providerData || []).map(p => p && p.providerId);
+      if (pv.includes('google.com') && !pv.includes('password') && String(u.email || '').toLowerCase() !== CREATOR_EMAIL) { fbAuth.signOut(); return; }
+    }
     if (u && u.isAnonymous) { fbGuest = u; fbUser = null; } else { fbUser = u || null; fbGuest = null; }
     cloudReady = false; renderAcct();
     if (fbUser) { await syncFromCloud(); renderAcct(); countSignin(); }
@@ -8156,6 +8163,7 @@
     ['🚁', '<b>Aerial view:</b> tap AERIAL to lift the camera high above the ball. The camera now glides smoothly to every new shot.'],
     ['⛳', '<b>3C Par Three is 6 holes</b> and <b>TPC Saragosa is 9 holes</b> (new: Opening Drive, Long Nine and Lakeside). Both have fresh leaderboards.'],
     ['🏌️‍♂️', '<b>More clubs:</b> Blaze, Glacier and Phantom drivers, a 7 Wood, 4 Hybrid, Wide Sole 6 Iron, Tour 9 Iron, 48° and 58° wedges and a Tour Blade putter. Every driver has its own colour.'],
+    ['🆕', '<b>Fresh start:</b> everyone starts over from scratch, and Google sign-in is gone. Get a free player code in the Golfer tab to save your new progress.'],
     ['💲', '<b>Rounder shop prices</b> ($1,000 instead of $1,050), cleaner Play Friends card, and scores now show strokes too, like 68(-3).'],
   ];
   // Every update so far, newest first (shown under "Previous updates"). Only things players can see.
