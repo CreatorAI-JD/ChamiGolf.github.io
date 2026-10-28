@@ -19,12 +19,12 @@ Play it at https://chamigolf.github.io/ (or on the Netlify copy for Wi-Fi that b
 - Golf ball colours are free: pick a preset or mix any colour in Golfer > Ball with the colour mixer (big hue/shade pad, brightness, R/G/B sliders with +/- buttons and number boxes, a colour code box and quick swatches). Alignment lines still cost money. The same mixer makes custom outfit colours ($1,050 each, bought once).
 - On the first tee, Mr. Haslbaur (3C Par Three) and Mr. Garner (Chami Links Crimson) pop up in the bottom-left corner with a word of encouragement (tap to dismiss; they leave after your tee shot).
 - Hole payouts: hole-in-one $1,500 · albatross $1,000 · eagle $250 · birdie $100 · par $25 · bogey or worse $0.
-- Driving Range (Play tab): a $1,000 day pass (Eastern time) covers every bucket that day. A bucket of 30 balls and eight target greens from 50 to 270 yds, each with a bucket in the middle. In the bucket pays $105 to $303 (by distance), inside the inner ring $17 to $40, on the target green $10 to $17, and every target hit in a row adds +10% (up to +50%). "Another bucket" reuses the bucket: +5% per reuse and the streak carries on, up to 10 reuses in a row; after that it's a fresh bucket again. Range money is capped at $2,250 a day. Floating money, cash-register sounds, confetti for a bucket and a summary card at the end.
+- Driving Range (Play tab): free (Oct 28 2026), with range money capped at $1,000 a day (Eastern time). A bucket of 30 balls and eight target greens from 50 to 270 yds, each with a bucket in the middle. In the bucket pays $105 to $303 (by distance), inside the inner ring $17 to $40, on the target green $10 to $17, and every target hit in a row adds +10% (up to +50%). "Another bucket" reuses the bucket: +5% per reuse and the streak carries on, up to 10 reuses in a row; after that it's a fresh bucket again. Range money is capped at $1,000 a day. Floating money, cash-register sounds, confetti for a bucket and a summary card at the end.
 - Updates: the What's New pop-up shows the update number, and "📜 Previous updates" (also under Stats) lists every update.
 
 ## Courses
 
-3C Par Three (where everyone starts) → Chami Links Crimson (6 holes) → Chami Links Gold (Bethpage Black's front nine, 9 holes) → Chami Links Black (all 18 holes of Bethpage Black, the hardest course), plus TPC Saragosa, Faerber Lake, Meribah Country Club, Brothers Hollow and Deans Valley (its 18th hole is Room 23), Gold Star Mini Golf, the Driving Range and the Daily Closest to the Pin.
+3C Par Three (6 holes, where everyone starts) → Chami Links Crimson (6 holes) → Chami Links Gold (Bethpage Black's front nine, 9 holes) → Chami Links Black (all 18 holes of Bethpage Black, the hardest course), plus TPC Saragosa (9 holes), Faerber Lake, Meribah Country Club, Brothers Hollow and Deans Valley (its 18th hole is Room 23), Gold Star Mini Golf, the Driving Range and the Daily Closest to the Pin.
 
 New on Oct 27 2026: **Founders Park** (9 holes, autumn parkland, unlocks after Chami Links Crimson), **Hearst Executive** (18 short holes, mostly par 3s, a city course at dusk, after TPC Saragosa), **Darby Beach** (9 seaside links holes, after Faerber Lake) and **Flyers Presidential** (9 long, tight championship holes, after Chami Links Gold). Each has its own leaderboard and Daily Tournament. (Faerber Lake was called Farbor Lake: its internal id is still `farbor`, so every old score and stat carried over.)
 
@@ -34,16 +34,30 @@ Daily Closest to the Pin: 14 layouts (island, long and tight, bunker gauntlet, c
 
 Gold Star Mini Golf was reworked on Oct 20 2026 (par 41: 13 par 2s and 5 par 3s). Golfers were birdieing the old par 3s, so every hole was balanced with a computer golfer that takes thousands of simulated putts per hole: a good player now averages about 2.1 to 2.4 on the par 2s and 2.6 to 3.1 on the par 3s (Zig Zag, Windmill Alley, Snake Pass, The Slalom and the Grand Gold Star finale).
 
+## Spirit Day · Weekly Homeroom Cup
+
+(Added Oct 28 2026.) Every week the 13 homerooms (A, B, C, D, E, F, G, H, J, K, L, M, N; there is no Homeroom I) play for the cup on one 18-hole course. The course rotates each week (Meribah, Brothers Hollow, Hearst Executive, Deans Valley, Chami Links Black) and everyone can play it, even if it's still locked for them (playing the cup doesn't unlock it).
+
+- Pick a homeroom in the Golfer tab or on the cup screen (Play tab > Weekly Homeroom Cup). Once you post a cup score your homeroom is set for that week.
+- Your official score is your best full 18-hole round on the cup course from **Monday 7:00 AM to Friday 2:40 PM** (Eastern). Every finished round counts as an attempt.
+- A homeroom's **team average** = the average of its **20 lowest** official scores (all of them if it has 10 to 19). Under 10 valid scores = **Not Qualified** (provisional average, can't win). Lowest average wins.
+- **Ties** (at the 20-player cutoff and everywhere else) go to whoever posted that score first (the server's time stamp), then by player ID. Nobody can change either one.
+- Screens: Teams (standings), Homerooms (one leaderboard per homeroom, with the 20 counting scores shaded light green and the team average, valid players, scoring positions, status, team rank and gap to the leader on top), School-wide (everyone, no shading) and Winners (podium of the homerooms with the most wins plus every past winner; tap a week for its final boards).
+- Scores lock Friday 2:40 PM; the winner pops up for everyone at 2:42 PM. About an hour later the first game to open the cup saves the final standings to `hrcupWeeks/` (the history never changes after that). A new cup starts Monday 7:00 AM.
+- Firestore: `hrcup/{monday}/scores/{uid}` (one row per golfer) and `hrcupWeeks/{monday}` (+ `/full/players`). Nicknames for homerooms can go in `HR_NAMES` in index.html. The cup's maths is one function, `cupCalc()`, used by every board, the green shading and the averages.
+
 ## Clubs and upgrades
 
 - Each club has three upgrades, up to level 5 each: Power (+4% distance), Accuracy (+1.6% gold zone, and misses 8% straighter) and Control (needle 12% slower). Levels cost $400 / $900 / $1,800 / $3,500 / $6,000 (Power 20% more). A stat can only go one level past the club's lowest stat.
-- Lots of club models to buy in every slot, and club colours (buy a colour once, paint any club).
+- Lots of club models to buy in every slot (more added Oct 28 2026: Blaze, Glacier and Phantom drivers, 7 Wood, 4 Hybrid, Wide Sole 6 Iron, Tour 9 Iron, 48° and 58° wedges, Tour Blade putter). Every driver has its own head colour. Club colours (buy a colour once, paint any club; Stock = the club's own colour).
+- Shop prices are rounded to flat numbers (`flatPrice()` in index.html): $1,050 → $1,000 and so on.
 - Customization is 30% off (Oct 20 2026): outfit colours, outfits, club colours, ball lines and the custom bag logo ($5,000, not part of the sale). `LOOK_SALE` in index.html sets the discount.
 
 ## Online
 
 - Daily Tournaments for every course, mini golf and Closest to the Pin. No sign-in needed to post: you just need a name (anyone still called "Player" is asked for one).
-- Sign in with Google to save progress to the cloud and play friends. Progress follows your Google account to every device: the game checks for newer progress whenever you come back to it (and never saves an older copy over a newer one), and Golfer > account has a ☁️ Sync now button with the last sync time. Guest progress stays on that one device.
+- **Player codes (Oct 28 2026, replaces Google sign-in):** Golfer tab > Get my player code makes a unique 12-character code (like `ABCD-2345-EFGH`, no 0/O/1/I/L). Type it on any device to sign in: no password, no email. Under the hood it's a Firebase email/password account (`p-<code>@players.chamigolf.app`), so cloud saves, leaderboards and the rules work as before. A guest who makes a code keeps their account and scores. Progress follows the code to every device: the game checks for newer progress whenever you come back to it (and never saves an older copy over a newer one), and Golfer > account has a ☁️ Sync now button. Guest progress stays on that one device.
+- Google sign-in is only kept for the creator (small "Creator sign-in" link in the Golfer tab), because the creator tools and the rules check the creator's Google account.
 - Premium badges (Creator's Pick, Daily Champion, Hole in One) show next to your name on the leaderboards. Only the Creator's Pick tile shows how many golfers have it. Creator's Pick goes to golfers who helped make the game or had a suggestion added.
 - Daily Champion counts your wins: the number of days you finished 1st (any Daily Tournament or Closest to the Pin) shows next to the 🏆, in the header, in the Golfer tab and next to your name on every leaderboard.
 - Leaderboard Season 4 started Oct 20 2026: every board (all-time, daily tournaments, Closest to the Pin and holes in one) starts fresh. Old scores stay in the database but aren't shown. To start another season, change `SEASON` and `SEASON_START` in index.html.
@@ -51,6 +65,8 @@ Gold Star Mini Golf was reworked on Oct 20 2026 (par 41: 13 par 2s and 5 par 3s)
 - Reloaded mid-round? Keep playing, finish the round early (paid for the holes you played), or quit.
 
 ## Play Friends
+
+The Play tab card has one yellow **Browse match options** button that opens every option (1v1, 2v2, foursome, join with a match code).
 
 - Sign in, create a match and send your friends the 6-character match code (or tap Share invite link in the lobby). Friend lists and friend codes were taken out on Oct 20 2026: everything is joined by code.
 - **1v1**: stroke play for a wager ($0 up to what you have), 3, 6 or 9 holes. Tied? Sudden-death playoff holes.
@@ -97,7 +113,8 @@ On, with Measurement ID `G-4D02FQ9XMJ` (`GA_ID` in index.html). Players online, 
 
 ## Firebase setup
 
-1. Publish the rules in `firestore.rules` (Firebase console > Firestore Database > Rules > Publish). **Publish them again for update 2.1 (Oct 27 2026)**: it ignores old auto-bans, removes appeals and adds `reviews/` (Scorecard review). Until you do, golfers who were auto-banned still can't post scores and low rounds can't be sent for review. **Publish them again for update 2.0 (Oct 20 2026)**: it adds appeals, scorecards on cheat flags, the hard-ban mark and the Daily Champion win count. (Until you do, appeals can't be sent; scores and flags still post without the new fields.)
+1. Publish the rules in `firestore.rules` (Firebase console > Firestore Database > Rules > Publish). **Publish them again for update 2.2 (Oct 28 2026)**: it adds the Weekly Homeroom Cup (`hrcup/`, `hrcupWeeks/`). Until you do, cup scores can't be posted.
+   **Also for 2.2: turn on player codes:** Firebase console > Authentication > Sign-in method > **Email/Password** > Enable (leave "Email link" off). Until you do, "Get my player code" shows an error. **Publish them again for update 2.1 (Oct 27 2026)**: it ignores old auto-bans, removes appeals and adds `reviews/` (Scorecard review). Until you do, golfers who were auto-banned still can't post scores and low rounds can't be sent for review. **Publish them again for update 2.0 (Oct 20 2026)**: it adds appeals, scorecards on cheat flags, the hard-ban mark and the Daily Champion win count. (Until you do, appeals can't be sent; scores and flags still post without the new fields.)
 2. Turn on guest sign-in: Firebase console > Authentication > Sign-in method > **Anonymous** > Enable. (Without it, only Google-signed-in players can post scores.)
 
 ChamiCards will be back.

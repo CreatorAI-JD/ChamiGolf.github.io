@@ -64,6 +64,7 @@
   .pill{position:fixed;top:calc(env(safe-area-inset-top) + 99px);height:36px;padding:0 14px;border-radius:999px;border:2px solid var(--gold);
         background:var(--red-dd);color:var(--gold);font:800 12px Inter,sans-serif;letter-spacing:.08em;cursor:pointer}
   #viewBtn{right:10px} #exitBtn{left:10px}
+  #aerBtn{right:10px;top:calc(env(safe-area-inset-top) + 141px)}
   #pinBox{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 99px);background:rgba(69,6,15,.85);border:1px solid var(--gold);
           border-radius:999px;padding:6px 14px;font:700 15px Oswald,sans-serif;letter-spacing:.04em;pointer-events:none;white-space:nowrap}
   #pinBox b{color:var(--gold-l)}
@@ -409,6 +410,10 @@
     font:800 13px Inter,sans-serif;letter-spacing:.04em;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden}
   #acctBtn.in{padding:0;width:38px;font:700 18px Oswald,sans-serif}
   #acctBtn img{width:100%;height:100%;object-fit:cover}
+  .pcodeBig{margin:12px auto 8px;padding:12px 10px;border-radius:14px;background:#111;border:2px dashed var(--gold-l);color:var(--gold-l);
+    font:700 26px/1 'Courier New',monospace;letter-spacing:.12em;text-align:center;user-select:all;-webkit-user-select:all}
+  .pcode{font-family:'Courier New',monospace;color:var(--gold-l);letter-spacing:.06em;user-select:all;-webkit-user-select:all}
+  button.linkBtn{background:none;border:0;padding:0;color:#f3d7a8;opacity:.75;text-decoration:underline;font:600 11px Inter,sans-serif;cursor:pointer}
   .acctCard{margin:14px 2px 0;padding:12px 14px;border-radius:14px;background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.45)}
   .acctCard .an{font:700 18px Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em}
   .acctCard .am{font-size:12px;color:#f3d7a8;margin:3px 0 10px;word-break:break-word}
@@ -486,6 +491,50 @@
   .mpc .cn{font:700 23px/1.1 Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em;margin:3px 0 4px}
   .mpc .cm{font-size:12px;color:#fff;opacity:.9}
   .mpbtns{display:flex;gap:8px;margin-top:10px}
+  /* ---- Weekly Homeroom Cup ---- */
+  .cupc{background:linear-gradient(135deg,#1f6b3a,#7A0C1D 62%,#45060F);border:2px solid var(--gold-l);border-radius:18px;padding:12px;margin:8px 0 4px;box-shadow:0 8px 24px rgba(0,0,0,.4);cursor:pointer}
+  .cupc .ctag{font:800 10px Inter;letter-spacing:.16em;color:var(--gold-l)}
+  .cupc .cn{font:700 23px/1.1 Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em;margin:3px 0 4px}
+  .cupc .cm{font-size:12px;color:#fff;opacity:.92}
+  .cupc .act{margin-top:8px}
+  .cupc .act button{flex:1 1 auto;padding:8px 10px;font-size:13px}
+  .playSide .cupc{padding:9px 10px;margin:6px 0;border-radius:14px}
+  .playSide .cupc .cn{font-size:17px;margin:2px 0}
+  .playSide .cupc .cm{font-size:11px;margin:2px 0}
+  .hrchips{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:4px;margin:4px 0 10px}
+  .hrchips button{padding:8px 0;border-radius:10px;border:2px solid rgba(242,193,78,.45);background:var(--red-dd);color:#fff;font:700 15px Oswald,sans-serif;cursor:pointer;min-width:0}
+  .hrchips button.on{border-color:var(--gold-l);background:#6d0a1a;color:var(--gold-l)}
+  @media (max-width:560px){ .hrchips{grid-template-columns:repeat(7,minmax(0,1fr))} .hcol{display:none} }
+  .hrhead{background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.45);border-radius:14px;padding:10px 12px;margin:0 0 8px}
+  .hrhead.nq{border-color:rgba(255,160,140,.6)}
+  .nqtag{display:inline-block;margin:4px 0 2px;padding:3px 10px;border-radius:999px;background:rgba(255,120,100,.18);border:1px solid rgba(255,160,140,.7);color:#ffd0c4;font:800 11px Inter;letter-spacing:.04em}
+  .hrhead .hrt{font:700 22px Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em}
+  .hrstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 10px;margin:6px 0}
+  @media (max-width:560px){ .hrstats{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  .hrstats div{display:flex;flex-direction:column;min-width:0}
+  .hrstats span{font:700 10px Inter;letter-spacing:.08em;text-transform:uppercase;color:#c9a98a}
+  .hrstats b{font:700 16px Oswald,sans-serif;color:var(--gold-l)}
+  .hrstats b small{font:600 11px Inter;color:#f3d7a8}
+  .hrleg{font-size:12px;color:#f3d7a8;margin-top:4px;line-height:1.4}
+  .hrleg i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px;background:#dcefd6;border:1px solid #a9d39f}
+  /* light green = this score currently counts toward the team average (soft pale green, dark text so it stays easy to read) */
+  .board tr.cnt td{background:#dcefd6;color:#1d3b20;border-bottom:1px solid #c5e2bd}
+  .board tr.cnt td.rk{color:#2e6b34}
+  .board tr.cnt.me td{background:#cfe9c6;color:#12301a;font-weight:700}
+  .cupPodium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:8px 0 4px}
+  .pod{flex:1;max-width:120px;text-align:center}
+  .pod .pn{font:700 30px Oswald,sans-serif;color:#fff}
+  .pod .pw{font:700 12px Inter;color:var(--gold-l);margin-bottom:4px}
+  .pod .pb{border-radius:10px 10px 0 0;background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);font:800 20px Oswald,sans-serif;padding-top:6px}
+  .pod.p1 .pb{height:84px} .pod.p2 .pb{height:60px;filter:saturate(.35) brightness(1.1)} .pod.p3 .pb{height:44px;filter:sepia(.6) hue-rotate(-20deg) brightness(.9)}
+  .pod.empty .pb{opacity:.35}
+  .cupPodium.sm .pod .pn{font-size:22px} .cupPodium.sm .pod.p1 .pb{height:56px} .cupPodium.sm .pod.p2 .pb{height:40px} .cupPodium.sm .pod.p3 .pb{height:28px}
+  button.pastw{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;width:100%;text-align:left;padding:10px 12px;margin:0 0 6px;border-radius:12px;
+    border:1px solid rgba(242,193,78,.4);background:rgba(79,7,18,.85);color:#f3d7a8;font:600 13px Inter,sans-serif;cursor:pointer}
+  button.pastw b{color:var(--gold-l)}
+  button.yelBtn{background:linear-gradient(180deg,#ffe14d,#f5b800);color:#3a2600;border:0;border-radius:999px;padding:9px 14px;font:800 13px Inter,sans-serif;
+    letter-spacing:.02em;cursor:pointer;box-shadow:0 3px 0 #a37a00;white-space:nowrap}
+  button.yelBtn:active{transform:translateY(2px);box-shadow:0 1px 0 #a37a00}
   .mpbtns button{flex:1;padding:10px 6px}
   .mpnote{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;background:rgba(0,0,0,.3);border:1px solid rgba(242,193,78,.5);border-radius:12px;padding:8px 10px;font-size:13px;color:var(--cream)}
   .mpnote b{color:var(--gold-l)}
@@ -760,6 +809,7 @@
 <div id="moBox" style="display:none"></div>
 <div id="mpBar" style="display:none"></div>
 <button class="pill" id="viewBtn">MAP</button>
+<button class="pill" id="aerBtn">🚁 AERIAL</button>
 <div id="side" style="display:none">
   <button class="shead" id="sideToggle"><span>🗺️ GREEN &amp; HOLE MAP</span><b>▾</b></button>
   <div class="sbody">
@@ -810,18 +860,20 @@
   <main class="hbody">
     <div class="wrap">
       <div id="err" class="hidden">Your browser couldn't start 3D graphics. Try Chrome or Safari with hardware acceleration turned on.</div>
-      <section id="tab-play"><aside class="playSide"><div id="aceBar"></div><div id="mpCard"></div><div id="ctpCard"></div><div id="rangeCard"></div><div id="tourCard"></div></aside>
+      <section id="tab-play"><aside class="playSide"><div id="aceBar"></div><div id="cupCard"></div><div id="mpCard"></div><div id="ctpCard"></div><div id="rangeCard"></div><div id="tourCard"></div></aside>
         <div class="playMain"><div class="sect">CHOOSE A COURSE</div><div id="courseList"></div></div></section>
       <section id="tab-admin" class="hidden"><div id="adminBody"></div></section>
       <section id="tab-course" class="hidden"><div id="courseDetail"></div></section>
       <section id="tab-ctp" class="hidden"><div id="ctpDetail"></div></section>
       <section id="tab-match" class="hidden"><div id="matchBody"></div></section>
+      <section id="tab-cup" class="hidden"><div id="cupBody"></div></section>
       <section id="tab-golfer" class="hidden">
         <div class="gwrap">
           <div class="gleft">
             <div class="gstage"><canvas id="gPrev"></canvas><div class="gbadges" id="gBadge"></div></div>
             <label class="nameRow">Name on the leaderboard<input id="gName" maxlength="14" autocomplete="off" spellcheck="false"></label>
             <div id="gNameWarn" class="nameWarn hidden"></div>
+            <div id="hrBox"></div>
             <div id="handBox"></div>
             <div id="badgeBox"></div>
             <div id="acctBox"></div>
@@ -871,6 +923,26 @@
   </div>
 </div>
 
+<!-- ===== Player code sign-in (Oct 28 2026: replaces Google sign-in for players) ===== -->
+<div id="codeOv" class="overlay hidden" style="z-index:41">
+  <div class="card">
+    <h2>🔑 Player code</h2>
+    <div class="sub" style="font-size:14px;line-height:1.45">No passwords and no email. Your player code <b>is</b> your account: type it on any device to pick up right where you left off.</div>
+    <div id="coBody"></div>
+    <div class="mpmsg" id="coMsg"></div>
+    <div class="btns" style="margin-top:10px"><button class="ghost" id="coClose">Close</button></div>
+  </div>
+</div>
+
+<!-- ===== Weekly Homeroom Cup winner (Friday 2:42 PM) ===== -->
+<div id="cupWin" class="overlay hidden" style="z-index:34">
+  <div class="card news">
+    <h2>🏫 Spirit Day Homeroom Cup</h2>
+    <div id="cupWinBody"></div>
+    <div class="btns" style="margin-top:14px"><button class="main" id="cupWinGo">See the standings</button><button class="ghost" id="cupWinOk">Close</button></div>
+  </div>
+</div>
+
 <!-- ===== Banned ===== -->
 <div id="bannedOv" class="overlay hidden" style="z-index:60">
   <div class="card">
@@ -915,6 +987,7 @@
     <div class="earn" id="earnBox"></div>
     <div class="best" id="bestLine"></div>
     <div class="postBox" id="postBox"></div>
+    <div class="postBox" id="cupPostBox"></div>
     <div class="btns">
       <button class="main" id="againBtn">Play again</button>
       <button class="ghost" id="homeBtn">Home</button>
@@ -1081,11 +1154,11 @@
   //   spin   extra backspin (ball checks up)     rough  share of distance kept from the rough (default 85%)
   const SLOTS = ['Driver', 'Fairway wood', 'Long iron', 'Mid iron', 'Short iron', 'Wedge', 'Scoring wedge', 'Putter'];
   const MODELS = [
-    { id: 'driver', slot: 0, name: 'Driver', short: 'DR', price: 0, carry: 240, roll: 0.12, loft: 24, spread: 3.2, speed: 1.25, zone: 0.09, curve: 1.1,
+    { id: 'driver', slot: 0, col: '#1d1d22', name: 'Driver', short: 'DR', price: 0, carry: 240, roll: 0.12, loft: 24, spread: 3.2, speed: 1.25, zone: 0.09, curve: 1.1,
       desc: 'The starter driver. Long, with an average needle.' },
-    { id: 'titan', slot: 0, name: 'Titan Driver', short: 'TD', price: 1500, carry: 262, roll: 0.14, loft: 22, spread: 3.6, speed: 1.5, zone: 0.075, curve: 1.3,
+    { id: 'titan', slot: 0, col: '#8a1222', name: 'Titan Driver', short: 'TD', price: 1500, carry: 262, roll: 0.14, loft: 22, spread: 3.6, speed: 1.5, zone: 0.075, curve: 1.3,
       desc: 'Most power in the game. Fast needle, small gold zone and wild misses.' },
-    { id: 'laser', slot: 0, name: 'Laser Driver', short: 'LD', price: 1100, carry: 245, roll: 0.11, loft: 25, spread: 2.4, speed: 1.05, zone: 0.12, curve: 0.75,
+    { id: 'laser', slot: 0, col: '#1f6fd1', name: 'Laser Driver', short: 'LD', price: 1100, carry: 245, roll: 0.11, loft: 25, spread: 2.4, speed: 1.05, zone: 0.12, curve: 0.75,
       desc: 'Fairway finder. Slower needle, bigger gold zone, misses curve less.' },
     { id: 'wood3', slot: 1, name: '3 Wood', short: '3W', price: 0, carry: 215, roll: 0.10, loft: 26, spread: 2.9, speed: 1.15, zone: 0.09, curve: 1.0,
       desc: 'Second-longest club. Safer than the driver on tight holes.' },
@@ -1118,11 +1191,11 @@
     { id: 'longputt', slot: 7, name: 'Long Putter', short: 'LP', price: 900, carry: 42, putter: true, spread: 1, speed: 0.7, zone: 0.13,
       desc: 'Reaches 42 yds for long lag putts across big greens.' },
     // ---- more models (pricier, for players with money to spend) ----
-    { id: 'minidr', slot: 0, name: 'Mini Driver', short: 'MD', price: 2500, carry: 230, roll: 0.1, loft: 25, spread: 2.2, speed: 0.98, zone: 0.125, curve: 0.7,
+    { id: 'minidr', slot: 0, col: '#2f8f5a', name: 'Mini Driver', short: 'MD', price: 2500, carry: 230, roll: 0.1, loft: 25, spread: 2.2, speed: 0.98, zone: 0.125, curve: 0.7,
       desc: 'A smaller head: 10 yds shorter than the starter, but easy to time and it misses small.' },
-    { id: 'thunder', slot: 0, name: 'Thunder Driver', short: 'TH', price: 12000, carry: 270, roll: 0.13, loft: 21, spread: 3.9, speed: 1.62, zone: 0.068, curve: 1.4,
+    { id: 'thunder', slot: 0, col: '#ffd21f', name: 'Thunder Driver', short: 'TH', price: 12000, carry: 270, roll: 0.13, loft: 21, spread: 3.9, speed: 1.62, zone: 0.068, curve: 1.4,
       desc: 'The longest club in the game. Lightning-fast needle and a tiny gold zone: only for pure strikers.' },
-    { id: 'tourdr', slot: 0, name: 'Tour Pro Driver', short: 'TP', price: 25000, carry: 256, roll: 0.12, loft: 23, spread: 2.5, speed: 1.15, zone: 0.105, curve: 0.8,
+    { id: 'tourdr', slot: 0, col: '#eeeeea', name: 'Tour Pro Driver', short: 'TP', price: 25000, carry: 256, roll: 0.12, loft: 23, spread: 2.5, speed: 1.15, zone: 0.105, curve: 0.8,
       desc: 'The best all-round driver: long, forgiving and straight. Priced like it.' },
     { id: 'wood5', slot: 1, name: '5 Wood', short: '5W', price: 1200, carry: 200, roll: 0.08, loft: 29, spread: 2.5, speed: 1.0, zone: 0.11, curve: 0.8,
       desc: 'Higher and softer than the 3 wood. Easy to hit off the fairway.' },
@@ -1150,13 +1223,36 @@
       desc: 'Straight up, straight down. The best flop shots in the game.' },
     { id: 'claw', slot: 7, name: 'Claw Putter', short: 'CP', price: 3500, carry: 32, putter: true, spread: 1, speed: 0.62, zone: 0.15,
       desc: 'A steady stroke: slow needle and a wide gold zone.' },
+    // ---- (Oct 28 2026) more variety: new models in every slot, and every driver has its own head colour ----
+    { id: 'blaze', slot: 0, col: '#e2541b', name: 'Blaze Driver', short: 'BZ', price: 4000, carry: 250, roll: 0.12, loft: 23, spread: 2.9, speed: 1.2, zone: 0.1, curve: 0.95,
+      desc: 'A hot orange head: 10 yds past the starter with an easy-to-read needle.' },
+    { id: 'glacier', slot: 0, col: '#8fd3f4', name: 'Glacier Driver', short: 'GL', price: 9000, carry: 258, roll: 0.1, loft: 22, spread: 2.7, speed: 1.32, zone: 0.09, curve: 0.85,
+      desc: 'Ice-blue and low-spin: long, and the misses stay cool and straight.' },
+    { id: 'phantom', slot: 0, col: '#6a3fb5', name: 'Phantom Driver', short: 'PH', price: 18000, carry: 264, roll: 0.15, loft: 22, spread: 3.0, speed: 1.4, zone: 0.085, curve: 1.0,
+      desc: 'A purple stealth head with the most roll of any driver. Quick needle.' },
+    { id: 'wood7', slot: 1, col: '#2a3a5c', name: '7 Wood', short: '7W', price: 2500, carry: 190, roll: 0.07, loft: 32, spread: 2.2, speed: 0.95, zone: 0.12, curve: 0.7, rough: 0.9,
+      desc: 'High and soft, the easiest wood in the bag. Keeps 90% from the rough.' },
+    { id: 'hybrid4', slot: 2, col: '#3d4148', name: '4 Hybrid', short: '4H', price: 3000, carry: 198, roll: 0.08, loft: 29, spread: 2.3, speed: 1.0, zone: 0.11, curve: 0.75, rough: 0.95,
+      desc: 'Long-iron distance that launches easily. Keeps 95% from the rough.' },
+    { id: 'game6', slot: 3, name: 'Wide Sole 6 Iron', short: 'W6', price: 2000, carry: 168, roll: 0.06, loft: 31, spread: 2.1, speed: 0.85, zone: 0.125, curve: 0.6,
+      desc: 'Game-improvement iron: the slowest needle and biggest gold zone of any 6 iron.' },
+    { id: 'pitch9', slot: 4, name: 'Tour 9 Iron', short: 'T9', price: 5000, carry: 140, roll: 0.03, loft: 37, spread: 1.9, speed: 0.98, zone: 0.1, curve: 0.5, spin: 0.25,
+      desc: 'Lots of spin and pinpoint distance control into the green.' },
+    { id: 'w48', slot: 5, name: '48° Wedge', short: '48', price: 3000, carry: 115, roll: 0.02, loft: 37, spread: 1.8, speed: 0.86, zone: 0.12, curve: 0.45, spin: 0.25,
+      desc: 'A forgiving full-swing wedge that checks up fast.' },
+    { id: 'w58', slot: 6, name: '58° Wedge', short: '58', price: 3500, carry: 68, roll: 0.01, loft: 52, spread: 1.6, speed: 0.82, zone: 0.13, curve: 0.33, spin: 0.4, sand: true,
+      desc: 'Soft, high pitches and easy splashes out of the sand.' },
+    { id: 'tblade', slot: 7, name: 'Tour Blade Putter', short: 'TB', price: 6000, carry: 34, putter: true, spread: 1, speed: 0.58, zone: 0.16,
+      desc: 'A classic blade with a slow needle and a wide gold zone.' },
     { id: 'goldputt', slot: 7, name: 'Gold Putter', short: 'GP', price: 15000, carry: 38, putter: true, spread: 1, speed: 0.5, zone: 0.19,
       desc: 'Solid gold. The slowest needle and widest gold zone of any putter.' },
   ];
   // Customization sale (Oct 20 2026): every outfit colour, outfit, club colour, ball line and the custom bag logo costs 30% less.
-  const LOOK_SALE = 0.7, salePrice = n => n > 0 ? Math.max(50, Math.round(n * LOOK_SALE / 50) * 50) : 0;
+  // (Oct 28 2026) Every shop price is a flat, round number: $1,050 → $1,000, $1,260 → $1,500 and so on.
+  const flatPrice = n => n <= 0 ? 0 : n < 100 ? Math.max(50, Math.round(n / 50) * 50) : n < 1000 ? Math.round(n / 100) * 100 : n < 10000 ? Math.round(n / 500) * 500 : Math.round(n / 1000) * 1000;
+  const LOOK_SALE = 0.7, salePrice = n => n > 0 ? flatPrice(n * LOOK_SALE) : 0;
   // Club head colours (bought once, then any club can wear them). Chrome is the default.
-  const CLUB_COLORS = [['Chrome', '', 0], ['Black', '#1d1d22', 600], ['Gunmetal', '#53575e', 900], ['Red', '#B3122B', 1200], ['Navy', '#1f2c4d', 1200],
+  const CLUB_COLORS = [['Stock', '', 0], ['Black', '#1d1d22', 600], ['Gunmetal', '#53575e', 900], ['Red', '#B3122B', 1200], ['Navy', '#1f2c4d', 1200],
     ['Green', '#1f5a34', 1500], ['Copper', '#b8733a', 2000], ['White', '#f2f2ee', 2500], ['Gold', '#e5b740', 5000]].map(([n, h, p]) => [n, h, salePrice(p)]);
   const modelById = id => MODELS.find(m => m.id === id);
   const STARTER_BAG = ['driver', 'wood3', 'iron4', 'iron6', 'iron8', 'pw', 'sw', 'putter'];
@@ -1398,6 +1494,12 @@
     ['clyellow', 'clblack'].forEach(id => { delete save.board[id]; if (save.stats.bestBy) delete save.stats.bestBy[id]; if (save.live && save.live.cid === id) delete save.live;
       for (const k in save.posted || {}) if (k.split('|')[1] === id) delete save.posted[k]; });
   }
+  // Oct 28 2026: 3C Par Three became 6 holes and TPC Saragosa 9, so their old bests and boards start over
+  if (!save.migLen1028) {
+    save.migLen1028 = 1;
+    ['par3', 'coast'].forEach(id => { delete save.board[id]; if (save.stats.bestBy) delete save.stats.bestBy[id]; if (save.live && save.live.cid === id) delete save.live;
+      for (const k in save.posted || {}) if (k.split('|')[1] === id) delete save.posted[k]; });
+  }
   if (!save.pid) save.pid = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36));
   if (!save.tourney) save.tourney = {};   // { 'YYYY-MM-DD': { courseId: true } } days this device entered, prize not yet checked
   function loadBag() { CLUBS.length = 0; save.bag.forEach(id => CLUBS.push(modelById(id))); }
@@ -1423,7 +1525,7 @@
   const UP_COSTS = [400, 900, 1800, 3500, 6000], BALL_COSTS = [600, 1500, 3000, 5000, 7500, 10000, 15000];
   const TRACKS = [['p', 'Power'], ['a', 'Accuracy'], ['c', 'Control']];
   const upOf = c => { const u = save.up[c.id] || {}; return { p: u.p | 0, a: u.a | 0, c: u.c | 0 }; };
-  const upCost = (c, k, lv) => Math.round(UP_COSTS[lv] * (k === 'p' ? 1.2 : 1));
+  const upCost = (c, k, lv) => flatPrice(UP_COSTS[lv] * (k === 'p' ? 1.2 : 1));
   const PWR_STEP = 0.04, ACC_STEP = 0.016, CTL_STEP = 0.88, ACC_TRIM = 0.08;
   const tracksOf = c => c.putter ? TRACKS.filter(t => t[0] !== 'p') : TRACKS;
   const lvOf = c => { const u = upOf(c), ts = tracksOf(c); return Math.min(...ts.map(t => u[t[0]])); };   // the club's "level" = its lowest track
@@ -1588,18 +1690,16 @@
   const DBC = (n, nm, par, y, o) => own(R(DBD, 'Darby Beach', n, nm, par, y, Object.assign({ ts: 44, t: [52, 52], tr: 6 }, o)));
   const FXC = (n, nm, par, y, o) => own(R(FXD, 'Flyers Presidential', n, nm, par, y, Object.assign({ ts: 26, t: [42, 42] }, o)));
   const COURSES = [
-    { id: 'par3', name: '3C Par Three', teeCol: '#f2f2ee', desc: 'Where everyone starts. Nine short par 3s to learn your irons, your wedges and your putting.', wind: 6,
+    { id: 'par3', name: '3C Par Three', teeCol: '#f2f2ee', desc: 'Where everyone starts. Six short par 3s to learn your irons, your wedges and your putting.', wind: 6,
       pal: Object.assign({}, CL_PAL, { sky: ['#4a9be0', '#c4e3f6', '#f2f8fc'], green: '#8fe086', fair: '#6cc761' }),
       holes: [
+        // (Oct 28 2026) 3C Par Three is now 6 holes
         P3(1, 'First Bell', 110, { bk: [['g-6', 16, 6, 7]] }),
         P3(2, 'Homeroom', 135, { wt: [['g-40', -14, 14, 11]], bk: [['g+8', -12, 5, 6]] }),
         P3(3, 'Pop Quiz', 95, { g: [11, 13], bk: [['g-10', -9, 5, 5], ['g-10', 9, 5, 5], ['g+10', 0, 5, 6]] }),
-        P3(4, 'Study Hall', 150, { p: [[0, 0], [18, 150]], bk: [['g-8', -16, 6, 8], ['g+4', 15, 5, 7]] }),
-        P3(5, 'Lunch Period', 125, { wt: [[0.5, 30, 26, 11]], bk: [['g-4', -16, 6, 7]] }),
-        P3(6, 'Lab Day', 165, { p: [[0, 0], [-15, 165]], g: [14, 20], bk: [['g-6', -17, 6, 9], ['g+12', 0, 5, 9]] }),
-        P3(7, 'Hall Pass', 105, { fw: [], wt: [['g-24', 0, 5, 26]], bk: [['g+6', 13, 5, 6]] }),
-        P3(8, 'Final Exam', 160, { fw: [], g: [12, 16], wt: [['g-30', 0, 12, 30]], bk: [['g-4', -15, 5, 7], ['g+6', 13, 5, 6]] }),
-        P3(9, 'Last Bell', 140, { bk: [['g-10', -15, 6, 8], ['g-10', 15, 6, 8]] }),
+        P3(4, 'Lunch Period', 125, { wt: [[0.5, 30, 26, 11]], bk: [['g-4', -16, 6, 7]] }),
+        P3(5, 'Final Exam', 160, { fw: [], g: [12, 16], wt: [['g-30', 0, 12, 30]], bk: [['g-4', -15, 5, 7], ['g+6', 13, 5, 6]] }),
+        P3(6, 'Last Bell', 140, { bk: [['g-10', -15, 6, 8], ['g-10', 15, 6, 8]] }),
       ] },
     { id: 'pines', name: 'Chami Links Crimson', unlock: 'par3', teeCol: '#B3122B', desc: 'The original Chami Links, from the crimson tees. Wide, friendly parkland modeled on Bethpage Black. Learn your yardages here.', wind: 8,
       pal: CL_PAL,
@@ -1622,10 +1722,13 @@
       pal: { outer: '#6f8f4a', rough: '#8fa54f', fairEdge: '#6fae55', fair: '#7cc663', fringe: '#6dbd5c', green: '#93de86', sand: '#f8eecd', sandRim: '#806a3a',
              tee: '#80d070', far: 0x3f6f35, sky: ['#2f86d6', '#a9d8f5', '#f3f9fb'], fog: 0xdcecf5, sun: 0xfff6e0, leaves: [0x3e6b3a, 0x4b7a40, 0x35602f], style: 'pine' },
       holes: [
+        TPC(1, 'Opening Drive', 4, 423, { p: [[0, 0], [0, 250], [30, 423]], wt: [[0.5, -46, 70, 14]], bk: [['v1', 26, 10, 7], ['g-10', 15, 6, 8]] }),
         TPC(4, 'Lagoon Left', 4, 384, { p: [[0, 0], [0, 240], [-40, 384]], wt: [['g-30', -36, 40, 16]], bk: [['g+2', 18, 6, 9], ['v1', 26, 10, 6]] }),
         TPC(8, 'Long Iron', 3, 237, { fw: [['g-55', 'g-14', 30]], bk: [['g-4', -19, 6, 9], ['g-6', 19, 6, 9]], wt: [[0.45, 40, 40, 14]] }),
+        TPC(9, 'Long Nine', 5, 583, { p: [[0, 0], [0, 280], [-50, 420], [-40, 583]], fw: [[0.07, 0.55, 42], [0.66, 0.95, 36]], bk: [['v1', 26, 10, 7], ['v2+20', 0, 6, 26], ['g-12', -15, 6, 8]], wd: [['v1-30', -60, 22, 5]] }),
         TPC(11, 'Risk & Reward', 5, 558, { p: [[0, 0], [0, 250], [90, 360], [60, 558]], fw: [[0.07, 0.48, 44], [0.62, 0.94, 36]],
           wt: [['v2-20', -40, 60, 22]], bk: [['v1', -26, 10, 7], ['g-14', 18, 8, 6], ['g+10', -12, 6, 8]], wd: [['v1+10', 60, 22, 5]] }),
+        TPC(13, 'Lakeside', 3, 181, { fw: [['g-40', 'g-14', 28]], wt: [['g+0', -26, 18, 26]], bk: [['g-6', 17, 6, 8], ['g+10', 0, 5, 7]] }),
         TPC(16, 'The Oak', 5, 523, { p: [[0, 0], [0, 270], [-70, 523]], wt: [['g-40', 40, 75, 22]], cl: [['v1', -26, 1, 14]], bk: [['g+4', -18, 7, 9]] }),
         TPC(17, 'Island Green', 3, 137, { g: [12, 16], wt: [['g+0', 0, 32, 38]], t: [58, 58] }),
         TPC(18, 'Water Left', 4, 462, { p: [[0, 0], [0, 230], [-110, 420]], wt: [['v1+40', -50, 70, 40]], t: [0, 50], bk: [['g-6', 20, 7, 8], ['v1', 30, 12, 7]] }),
@@ -1986,7 +2089,7 @@
   // 50% more than before. "Another bucket" reuses your bucket: each reuse in a row adds +5% (and keeps your 🔥 streak), up to
   // 10 reuses; after that the next bucket is a fresh one again (payouts back to the base, starting at $10 on the target green).
   // The daily cap went up by the same 50% ($1,500 -> $2,250).
-  const RANGE_BALLS = 30, RANGE_DAY_CAP = 2250, BUCKET_R = 0.85, RANGE_PASS = 1000, RANGE_REUSE_MAX = 10, RANGE_REUSE_PCT = 0.05;
+  const RANGE_BALLS = 30, RANGE_DAY_CAP = 1000, BUCKET_R = 0.85, RANGE_PASS = 1000, RANGE_REUSE_MAX = 10, RANGE_REUSE_PCT = 0.05;
   const RANGE_SPOTS = [[50, -12, '#F2C14E'], [80, 14, '#ff6b7d'], [110, -16, '#7cc6ff'], [140, 10, '#FFE08A'], [170, -8, '#c9a6ff'],
     [200, 18, '#7be08a'], [235, -14, '#ffad5a'], [270, 6, '#ffffff']];
   const rangeHole = (() => {
@@ -2116,6 +2219,8 @@
   }
   const gauss = () => (Math.random() + Math.random() + Math.random() + Math.random() - 2) * 1.73;
   const fmtRel = r => r === 0 ? 'E' : (r > 0 ? '+' + r : '' + r);
+  // (Oct 28 2026) scores show the strokes next to the score to par, like 68(-3)
+  const fmtScore = r => r && r.strokes ? `${r.strokes}(${fmtRel(r.rel)})` : fmtRel(r ? r.rel : 0);
   const money = n => '$' + n.toLocaleString();
   // ---- Name filter: no inappropriate names on leaderboards, friend codes or matches ----
   // Catches l33t spellings (sh1t, f@ck), stretched letters (fuuuck), spaces/dots between letters,
@@ -2188,7 +2293,7 @@
   try { renderer = window.THREE ? new THREE.WebGLRenderer({ canvas: glCanvas, antialias: true }) : null; } catch (e) { renderer = null; }
   if (!renderer) {
     $('err').classList.remove('hidden');
-    ['hud', 'bar', 'viewBtn', 'exitBtn', 'pinBox'].forEach(id => $(id).classList.add('hidden'));
+    ['hud', 'bar', 'viewBtn', 'aerBtn', 'exitBtn', 'pinBox'].forEach(id => $(id).classList.add('hidden'));
     return;
   }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -2493,7 +2598,9 @@
   applyLook(playerMats, save.look);
   // club head colour for the club in your hands (Chrome = the stock look)
   const clubColOf = c => (c && save.clubCol[c.id]) || '';
-  function paintClub(m, c) { const col = clubColOf(c); m.headW.color.set(col || 0x1d1d22); m.headI.color.set(col || 0xc9cdd3); }
+  // the club's own head colour (every driver has one) shows when it isn't painted
+  const clubLook = c => clubColOf(c) || (c && c.col) || '';
+  function paintClub(m, c) { const col = clubColOf(c), own = c && c.col; m.headW.color.set(col || own || 0x1d1d22); m.headI.color.set(col || (own && c.slot > 1 ? own : 0) || 0xc9cdd3); }
   // left-handed golfers are a mirror image: they stand on the other side of the ball
   const hand = () => save.lefty ? -1 : 1;
 
@@ -3562,6 +3669,11 @@
       return 3;
     }
     const dx = Math.cos(aimAng), dy = Math.sin(aimAng);
+    if (viewMode === 'aerial') {   // (Oct 28 2026) Aerial view: the camera rises high above and behind the ball, looking down the shot
+      const ahead = Math.min(stockNow(), distToPin()) * 0.5;
+      dPos.set(ball.x - dx * 24, 40, ball.y - dy * 24); dLook.set(ball.x + dx * ahead, 0, ball.y + dy * ahead);
+      return 4;
+    }
     if (CLUBS[clubIdx].putter) {
       const ahead = Math.min(distToPin(), 10) * 0.6;
       dPos.set(ball.x - dx * 4, 1.6, ball.y - dy * 4); dLook.set(ball.x + dx * ahead, 0, ball.y + dy * ahead);
@@ -3622,7 +3734,14 @@
     if ($('bar').classList.contains('open')) { wheelOpen(false); return; }
     if (state !== 'ready' || introT > 0) return;
     try { glCanvas.setPointerCapture(e.pointerId); } catch (_) {}
-    if (viewMode === 'overview') {
+    if (viewMode === 'aerial') {   // aerial: press the ball to swing, or tap the ground to aim there
+      const ab = ballScreen();
+      if (!ab.behind && Math.hypot(e.clientX - ab.x, e.clientY - ab.y) < 70) {
+        ptr = { mode: 'swing', x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, t0: performance.now() };
+        swing = { power: 0, phase: 0, o: -1, lat: 0 }; state = 'swinging'; return;
+      }
+    }
+    if (viewMode === 'overview' || viewMode === 'aerial') {
       ptr = { mode: 'map' };
       const p = rayGround(e); if (p) aimAng = Math.atan2(p.z - ball.y, p.x - ball.x);
       return;
@@ -3686,6 +3805,7 @@
   });
   if (save.ui.wheelMin) { $('bar').classList.add('min'); $('cMin').textContent = '+'; }
   $('viewBtn').addEventListener('click', () => { if (state !== 'ready') return; viewMode = viewMode === 'overview' ? 'normal' : 'overview'; sfx.click(); });
+  $('aerBtn').addEventListener('click', () => { if (state !== 'ready' || introT > 0) return; viewMode = viewMode === 'aerial' ? 'normal' : 'aerial'; sfx.click(); });
   $('exitBtn').addEventListener('click', () => {
     if (course.range) { if (confirm('Leave the range? You keep everything you earned.')) rangeEnd(true); return; }
     if (MP && MP.started) { if (confirm(MP.doc && MP.doc.wager ? `Leave the match? Your team forfeits and you lose your ${money(MP.doc.wager)} wager.` : 'Leave the match? Your team forfeits.')) mpQuit(); return; }
@@ -4392,9 +4512,30 @@
     aimMat.dashSize = c.putter ? 0.275 : 1.6; aimMat.gapSize = c.putter ? 0.16 : 1.1; aimMat.opacity = c.putter ? 1 : 0.95;
     aimLine.computeLineDistances();
   }
+  // (Oct 28 2026) Smooth shot-to-shot camera: when the ball stops (or the view changes), the camera glides from wherever it
+  // ended up to the next spot along an eased path with a gentle rise, instead of snapping toward it.
+  let glide = null, camPrevState = '', camPrevView = 'normal', camPrevIntro = 0;
+  const easeIO = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+  function startGlide(dur) { glide = { t: 0, d: dur, p: camPos.clone(), l: camLook.clone() }; }
   function syncScene(time, dt) {
-    const k = desiredCam(time), a = 1 - Math.exp(-dt * k);
-    camPos.lerp(dPos, a); camLook.lerp(dLook, a); placeCamera(dt);
+    if (viewMode === 'aerial' && state !== 'ready' && state !== 'swinging' && state !== 'striking') viewMode = 'normal';
+    const moving = s => s === 'flying' || s === 'rolling' || s === 'sinking' || s === 'penalty' || s === 'rangeWait' || s === 'holeDone' || s === 'wait';
+    if (state === 'ready' && moving(camPrevState)) startGlide(1.6);
+    else if (viewMode !== camPrevView && state === 'ready') startGlide(1.1);
+    else if (camPrevIntro > 0 && introT <= 0 && state === 'ready') startGlide(1.6);
+    camPrevState = state; camPrevView = viewMode; camPrevIntro = introT;
+    const k = desiredCam(time);
+    if (glide && (state === 'ready' || state === 'swinging' || state === 'striking')) {
+      glide.t += dt; const u = Math.min(1, glide.t / glide.d), e = easeIO(u);
+      camPos.lerpVectors(glide.p, dPos, e); camLook.lerpVectors(glide.l, dLook, e);
+      camPos.y += Math.sin(Math.PI * u) * Math.min(8, glide.p.distanceTo(dPos) * 0.12);
+      if (u >= 1) glide = null;
+    } else {
+      glide = null;
+      const a = 1 - Math.exp(-dt * k);
+      camPos.lerp(dPos, a); camLook.lerp(dLook, a);
+    }
+    placeCamera(dt);
     scene.fog.near = 320 + camera.position.y * 1.6; scene.fog.far = scene.fog.near + 950;
 
     const h = flight ? flight.hgt : (ball.z || 0);
@@ -4758,7 +4899,7 @@
   function updateHud() {
     const playing = hole && state !== 'title' && state !== 'finished';
     ['hud', 'bar', 'viewBtn', 'exitBtn', 'pinBox'].forEach(id => $(id).style.display = playing ? '' : 'none');
-    if (!playing) { $('nudge').style.display = 'none'; $('moBox').style.display = 'none'; }
+    if (!playing) { $('nudge').style.display = 'none'; $('moBox').style.display = 'none'; $('aerBtn').style.display = 'none'; }
     $('mpBar').style.display = playing && MP && MP.started && state !== 'mpCard' ? '' : 'none';
     if (!playing) { $('side').style.display = 'none'; $('pinMark').style.display = 'none'; hideHosts(); return; }
     if (hostShown && strokes > 0) hideHosts();   // the teacher leaves once you've hit your tee shot
@@ -4805,6 +4946,9 @@
     $('viewBtn').classList.toggle('disabled', !ready);
     $('exitBtn').classList.toggle('disabled', !(ready || state === 'flying' || state === 'rolling' || state === 'wait' || state === 'rangeWait'));
     setText('viewBtn', viewMode === 'overview' ? 'BACK' : 'MAP');
+    { const showA = !!hole && !hole.mini && !course.ctp && !CLUBS[clubIdx].putter && viewMode !== 'overview';
+      $('aerBtn').style.display = showA ? '' : 'none'; $('aerBtn').classList.toggle('disabled', !ready || introT > 0);
+      setText('aerBtn', viewMode === 'aerial' ? '⬇ BACK' : '🚁 AERIAL'); }
     { const mo = course.ctp || course.range || (MP && MP.started) ? 0 : momentumPct(streak);
       $('moBox').style.display = mo ? '' : 'none'; if (mo) setText('moBox', `🔥 MOMENTUM +${mo}% · ${streak} HOLES NO BOGEY`); }
     $('nudge').style.display = ready && CLUBS[clubIdx].putter && viewMode === 'normal' && introT <= 0 ? 'flex' : 'none';
@@ -4823,11 +4967,13 @@
   let tab = 'play';
   function setTab(t) {
     tab = t;
-    const navTab = t === 'course' || t === 'match' || t === 'ctp' ? 'play' : t;
+    const navTab = t === 'course' || t === 'match' || t === 'ctp' || t === 'cup' ? 'play' : t;
+    if (t !== 'cup') cupStop();
     document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === navTab));
-    ['play', 'course', 'ctp', 'match', 'golfer', 'clubs', 'awards', 'stats', 'admin'].forEach(n => $('tab-' + n).classList.toggle('hidden', n !== t));
+    ['play', 'course', 'ctp', 'match', 'cup', 'golfer', 'clubs', 'awards', 'stats', 'admin'].forEach(n => $('tab-' + n).classList.toggle('hidden', n !== t));
+    if (t === 'cup') renderCup();
     if (t === 'match') renderMatchTab();
-    if (t === 'play') { renderCourses(); renderMpCard(); renderTourCard(); renderAceBar(); }
+    if (t === 'play') { renderCourses(); renderMpCard(); renderCupCard(); renderTourCard(); renderAceBar(); }
     if (t === 'admin') renderAdmin();
     if (t === 'course') renderCourse();
     if (t === 'ctp') renderCtpTab();
@@ -4859,8 +5005,8 @@
   function boardHtml(c, limit = 10) {
     const rows = (save.board[c.id] || []).slice(0, limit);
     if (!rows.length) return '<div class="empty">No rounds yet. Finish a round here to post the first score.</div>';
-    return `<table class="board"><tr><th></th><th>GOLFER</th><th>STROKES</th><th>SCORE</th></tr>` + rows.map((r, i) =>
-      `<tr class="${r === lastEntry || (lastEntry && r.date === lastEntry.date) ? 'me' : ''}"><td class="rk">${i + 1}</td><td>${esc(r.name)}<div style="font-size:11px;color:#c9a98a">${fmtDate(r.date)}</div></td><td>${r.strokes}</td><td><b>${fmtRel(r.rel)}</b></td></tr>`).join('') + '</table>';
+    return `<table class="board"><tr><th></th><th>GOLFER</th><th>SCORE</th></tr>` + rows.map((r, i) =>
+      `<tr class="${r === lastEntry || (lastEntry && r.date === lastEntry.date) ? 'me' : ''}"><td class="rk">${i + 1}</td><td>${esc(r.name)}<div style="font-size:11px;color:#c9a98a">${fmtDate(r.date)}</div></td><td><b>${fmtScore(r)}</b></td></tr>`).join('') + '</table>';
   }
   function renderCourse() {
     const c = course, open = isUnlocked(c), best = save.stats.bestBy[c.id], played = save.stats.roundsBy[c.id] || 0;
@@ -4869,7 +5015,7 @@
     $('courseDetail').innerHTML = `<button class="back" data-cback="1">← All courses</button>
       <div class="cdname">${c.name}</div><div class="cddesc">${c.desc}</div>
       <div class="chips"><span><b>${c.holes.length}</b> holes</span><span>Par <b>${c.par}</b></span><span><b>${c.yds.toLocaleString()}</b> yds</span>
-        ${c.mini ? '<span>⭐ Putter only</span>' : `<span>Wind up to <b>${c.wind}</b> mph</span>`}<span>Best <b>${best == null ? '—' : fmtRel(best)}</b></span><span>Played <b>${played}</b></span></div>
+        ${c.mini ? '<span>⭐ Putter only</span>' : `<span>Wind up to <b>${c.wind}</b> mph</span>`}<span>Best <b>${best == null ? '—' : `${c.par + best}(${fmtRel(best)})`}</b></span><span>Played <b>${played}</b></span></div>
       <div class="cdbtns">${open ? `<button class="main" data-tee="1">${c.mini ? 'Start mini golf' : 'Tee off'}</button>` : `<div class="lock" style="flex:1">🔒 Finish a round at ${courseById(c.unlock).name} to unlock</div>`}
         ${c.mini ? '' : '<button class="ghost" data-chclubs="1">Change clubs</button>'}</div>
       ${c.mini ? '<div style="font-size:12px;color:#f3d7a8;text-align:center">Par 41 · Max 7 strokes a hole · Payouts: 2 under $60 · 1 under (an ace on a par 2) $30 · par $10</div>'
@@ -4907,7 +5053,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.27b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.10.28';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). The rules check this email too.
   const CREATOR_EMAIL = 'jamesondoyle11@gmail.com';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -4935,8 +5081,9 @@
     if (save.live && save.live.cid === 'mini') delete save.live;
   }
   // Chami Links Gold (now 9 holes) and Chami Links Black (now 18 holes) changed length on Oct 20 2026, so they got fresh boards.
-  const BOARD_ID = { clyellow: 'clyellow9', clblack: 'clblack18' }, BOARD_FROM = '2026-10-20';
-  const boardId = (cid, day) => day && day < BOARD_FROM ? cid : (BOARD_ID[cid] || cid);
+  // (Oct 28 2026) 3C Par Three became 6 holes and TPC Saragosa 9, so they got fresh boards too.
+  const BOARD_ID = { clyellow: ['clyellow9', '2026-10-20'], clblack: ['clblack18', '2026-10-20'], par3: ['par3h6', '2026-10-28'], coast: ['coast9', '2026-10-28'] };
+  const boardId = (cid, day) => { const b = BOARD_ID[cid]; return b && !(day && day < b[1]) ? b[0] : cid; };
   const scoresRef = (cid, day) => day ? fbDb.collection('courses').doc(boardId(cid, day) + SEASON).collection('days').doc(day).collection('scores')
     : fbDb.collection('courses').doc(boardId(cid) + SEASON).collection('scores');
   const ctpRef = day => fbDb.collection('ctp').doc(day).collection('shots');
@@ -5187,7 +5334,7 @@
             if (place >= 0) wins.push({ day, label: 'Closest to the Pin', place, prize: CTP_PRIZES[place], score: top[place].yd === 0 ? 'Ace' : fmtFt(top[place].yd) });
           } else {
             const top = await fetchBoard(cid, day, 3), place = top.findIndex(r => r.pid === uid), c = courseById(cid);
-            if (place >= 0) wins.push({ day, label: c ? c.name : 'a course', place, prize: DAILY_PRIZES[place], score: fmtRel(top[place].rel) });
+            if (place >= 0) wins.push({ day, label: c ? c.name : 'a course', place, prize: DAILY_PRIZES[place], score: fmtScore(top[place]) });
           }
           delete save.tourney[day][cid];
         }
@@ -5227,7 +5374,8 @@
     if (cred) { await fbAuth.signInWithCredential(cred); return true; }
     return false;
   }
-  async function signIn() {
+  // Google sign-in is only kept for the creator's account (the creator tools and the rules check the creator's Google email).
+  async function googleSignIn() {
     if (!fbAuth) { alert('Online features could not load. Check your internet connection and reload.'); return; }
     const p = new firebase.auth.GoogleAuthProvider();
     p.setCustomParameters({ prompt: 'select_account' });
@@ -5249,7 +5397,91 @@
       if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') alert(authMsg(e));
     }
   }
-  function signOut() { if (fbAuth) fbAuth.signOut(); }
+  // ---- (Oct 28 2026) Player codes: every golfer gets a unique 12-character code instead of a Google sign-in ----
+  // Under the hood the code is a Firebase email/password account (p-<code>@players.chamigolf.app), so the uid, cloud save,
+  // leaderboards and the security rules all work exactly as before. Nobody types a password or an email.
+  // (Creator: Firebase console > Authentication > Sign-in method > Email/Password > Enable.)
+  const CODE_ABC = '23456789ABCDEFGHJKMNPQRSTUVWXYZ', CODE_LEN = 12, CODE_DOMAIN = '@players.chamigolf.app';
+  const fmtCode = c => (c || '').match(/.{1,4}/g).join('-');
+  const cleanPCode = v => String(v || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+  const codeOk = c => c.length === CODE_LEN && [...c].every(ch => CODE_ABC.includes(ch));
+  const codeEmail = c => 'p-' + c.toLowerCase() + CODE_DOMAIN, codePass = c => 'cg-' + c + '-golf';
+  function newPCode() {
+    let out = '';
+    while (out.length < CODE_LEN) { const b = new Uint8Array(16); crypto.getRandomValues(b); for (const x of b) if (x < 248 && out.length < CODE_LEN) out += CODE_ABC[x % 31]; }
+    return out;
+  }
+  // the code a signed-in golfer uses (read back from the account itself, so it's never stored anywhere else)
+  function myCode() {
+    if (!fbUser) return '';
+    const emails = [fbUser.email].concat((fbUser.providerData || []).map(p => p && p.email));
+    const e = emails.find(x => x && x.endsWith(CODE_DOMAIN));
+    return e ? e.slice(2, -CODE_DOMAIN.length).toUpperCase() : '';
+  }
+  let codeFresh = '';   // a code that was just made: shown big until the golfer says they wrote it down
+  function codeMsg(t, ok) { const m = $('coMsg'); if (m) { m.textContent = t || ''; m.classList.toggle('ok', !!ok); } }
+  function pcodeErr(e) {
+    const c = (e && e.code) || '';
+    if (['auth/invalid-credential', 'auth/user-not-found', 'auth/wrong-password', 'auth/invalid-login-credentials', 'auth/invalid-email'].includes(c)) return "That code doesn't match an account. Check it and try again.";
+    if (c === 'auth/too-many-requests') return 'Too many tries. Wait a few minutes and try again.';
+    if (c === 'auth/operation-not-allowed') return "Player codes aren't switched on yet. (Creator: Firebase console > Authentication > Sign-in method > Email/Password > Enable.)";
+    if (c === 'auth/network-request-failed') return 'Could not reach the server. Check the Wi-Fi and try again.';
+    if (c === 'auth/requires-recent-login') return 'Sign out and back in, then try again.';
+    return 'That did not work: ' + ((e && (e.message || e.code)) || 'unknown error');
+  }
+  function renderCodeOv() {
+    const box = $('coBody'); if (!box) return;
+    const mine = myCode();
+    if (codeFresh || (fbUser && mine)) {
+      const c = codeFresh || mine;
+      box.innerHTML = `<div class="pcodeBig">${fmtCode(c)}</div>
+        <div class="sub" style="font-size:13px">${codeFresh ? '<b style="color:var(--gold-l)">Write this down or take a picture of it now.</b> It\'s the only way to get back into your account on another device.' : 'This is your player code. Type it on any device to sign in.'}</div>
+        <div class="btns" style="margin-top:8px"><button class="ghost sm" data-cocopy="1">📋 Copy code</button>${codeFresh ? '<button class="main sm" data-codone="1">I wrote it down ✓</button>' : ''}</div>`;
+      return;
+    }
+    const canMake = !isCreator();
+    box.innerHTML = `${canMake ? `<button class="main" data-comake="1" style="width:100%;margin-top:6px">✨ ${fbUser ? 'Get a player code for this account' : 'Create my player code'}</button>
+        <div class="tnote" style="margin:6px 0 2px">${fbGuest ? 'Your progress and leaderboard scores on this device move into the new code.' : 'Your progress on this device moves into the new code.'}</div>` : ''}
+      <div class="lh" style="margin-top:14px">ALREADY HAVE A CODE?</div>
+      <div class="mprow"><input class="mpin" id="coIn" maxlength="14" placeholder="XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="main sm" data-cogo="1">Sign in</button></div>`;
+  }
+  function signIn() {
+    if (!fbAuth) { alert('Online features could not load. Check your internet connection and reload.'); return; }
+    codeMsg(''); renderCodeOv(); $('codeOv').classList.remove('hidden');
+  }
+  async function makeCode() {
+    const cur = fbAuth.currentUser, code = newPCode(), cred = firebase.auth.EmailAuthProvider.credential(codeEmail(code), codePass(code));
+    codeMsg('Making your code…', true);
+    try {
+      if (cur) { const r = await cur.linkWithCredential(cred); codeFresh = code; await onUser(r.user); }   // keeps the same account (and its scores)
+      else { codeFresh = code; await fbAuth.createUserWithEmailAndPassword(codeEmail(code), codePass(code)); }
+      track('player_code_created'); codeMsg(''); renderCodeOv(); renderAcct();
+    } catch (e) { codeFresh = ''; codeMsg(pcodeErr(e)); }
+  }
+  async function useCode(raw) {
+    const c = cleanPCode(raw);
+    if (!codeOk(c)) { codeMsg(`A player code is ${CODE_LEN} letters and numbers, like ${fmtCode('ABCD2345EFGH')}.`); return; }
+    if (myCode() === c) { codeMsg("You're already signed in with that code.", true); return; }
+    codeMsg('Signing in…', true);
+    try { await fbAuth.signInWithEmailAndPassword(codeEmail(c), codePass(c)); codeMsg(''); $('codeOv').classList.add('hidden'); toastQ.push({ a: { icon: '🔑', label: 'WELCOME BACK', name: 'Signed in with your player code' } }); nextToast(); }
+    catch (e) { codeMsg(pcodeErr(e)); }
+  }
+  $('codeOv').addEventListener('click', async e => {
+    const b = e.target.closest('button'); if (!b) return;
+    ensureAudio(); sfx.click();
+    if (b.id === 'coClose') { $('codeOv').classList.add('hidden'); return; }
+    if (b.dataset.comake) { b.disabled = true; await makeCode(); return; }
+    if (b.dataset.cogo) { await useCode(($('coIn') || {}).value); return; }
+    if (b.dataset.codone) { codeFresh = ''; $('codeOv').classList.add('hidden'); renderAcct(); return; }
+    if (b.dataset.cocopy) { const c = fmtCode(codeFresh || myCode()); try { await navigator.clipboard.writeText(c); codeMsg('Copied ' + c, true); } catch (er) { codeMsg(c, true); } }
+  });
+  $('codeOv').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'coIn') useCode(e.target.value); });
+  function signOut() {
+    if (!fbAuth) return;
+    const c = myCode();
+    if (!confirm(c ? `Sign out? To sign back in you'll need your player code:\n\n${fmtCode(c)}` : 'Sign out?')) return;
+    fbAuth.signOut();
+  }
   const userDoc = () => fbDb.collection('users').doc(fbUser.uid);
   // Cloud save (Google sign-in only). To stay inside Firebase's free daily write limit it's only sent at a few moments:
   // when a round ends, after buying something or collecting winnings, and when the game is closed or put in the background.
@@ -5301,7 +5533,7 @@
     }
     cloudReady = true; cloudMtime = cm;
     save.uid = fbUser.uid;
-    if (!save.name || save.name === 'Player') save.name = boardName();
+    if ((!save.name || save.name === 'Player') && fbUser.displayName) save.name = boardName();   // (player-code accounts get asked for a name instead)
     persist();
     // only send this device's copy up when it's newer than the cloud's (or there's nothing up there yet)
     if (!cloud || (save.mtime || 0) > cm || !mine) { cloudSaveSoon(); } else { cloudSyncAt = Date.now(); }
@@ -5309,17 +5541,19 @@
   }
   function acctHtml() {
     if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and sign-in couldn\'t load. Check your connection and reload.</div></div>';
-    const gbtn = `<button class="gsign" data-signin="1"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.1C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6c4.5-4.2 6.9-10.3 6.9-17.7z"/><path fill="#FBBC05" d="M10.6 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.1C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.7-6c-2.1 1.4-4.9 2.3-8.2 2.3-6.2 0-11.5-4.1-13.4-9.9l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>Sign in with Google</button>`;
-    if (!fbUser) return `<div class="acctCard"><div class="an">${fbGuest ? 'Playing as a guest' : 'Play online'}</div><div class="am">${fbGuest ? 'Your scores go on the online leaderboards with just your name, no sign-in needed. Sign in to save your progress to the cloud, play on any device and play friends with a match code.'
-      : 'Sign in to save your progress to the cloud, play on any device, and post scores to the online leaderboards, Daily Tournaments and Closest to the Pin.'}</div>${gbtn}</div>`;
-    return `<div class="acctCard"><div class="an">${esc(fbUser.displayName || 'Signed in')}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${esc(fbUser.email || '')}<br>${cloudReady ? `☁️ Progress saved to your account${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}<br><small>Sign in with this Google account on any device to keep playing where you left off.</small>` : 'Syncing…'}</div>
-      <button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>☁️ Sync now</button> <button class="ghost sm" data-signout="1">Sign out</button></div>`;
+    const cbtn = `<button class="main" data-signin="1" style="width:100%">🔑 Get my player code / sign in</button>`;
+    const glink = '<div style="margin-top:8px"><button class="linkBtn" data-gsignin="1">Creator sign-in</button></div>';
+    if (!fbUser) return `<div class="acctCard"><div class="an">${fbGuest ? 'Playing as a guest' : 'Play online'}</div><div class="am">${fbGuest ? 'Your scores go on the online leaderboards with just your name. Get a free player code to save your progress, play on any device and play friends. No password or email needed.'
+      : 'Get a free player code to save your progress, play on any device, and post scores to the online leaderboards, Daily Tournaments and Closest to the Pin.'}</div>${cbtn}${glink}</div>`;
+    const code = myCode();
+    return `<div class="acctCard"><div class="an">${esc(code ? boardName() : (fbUser.displayName || 'Signed in'))}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `🔑 Player code <b class="pcode">${fmtCode(code)}</b> <button class="linkBtn" data-signin="1">show</button>` : esc(fbUser.email || '')}<br>${cloudReady ? `☁️ Progress saved to your account${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}<br><small>${code ? 'Type your player code on any device to keep playing where you left off.' : 'Get a player code to sign in on other devices without Google.'}</small>` : 'Syncing…'}</div>
+      ${!code && !isCreator() ? '<button class="main sm" data-signin="1">🔑 Get a player code</button> ' : ''}<button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>☁️ Sync now</button> <button class="ghost sm" data-signout="1">Sign out</button></div>`;
   }
   function renderAcct() {
     const b = $('acctBtn');
     if (b) {
       b.classList.toggle('hidden', !ONLINE);
-      b.innerHTML = fbUser ? (fbUser.photoURL ? `<img src="${esc(fbUser.photoURL)}" alt="" referrerpolicy="no-referrer">` : esc((fbUser.displayName || '?')[0])) : 'Sign in';
+      b.innerHTML = fbUser ? (fbUser.photoURL ? `<img src="${esc(fbUser.photoURL)}" alt="" referrerpolicy="no-referrer">` : esc((boardName() || fbUser.displayName || '?')[0])) : '🔑 Code';
       b.classList.toggle('in', !!fbUser);
     }
     if ($('adminBtn')) $('adminBtn').classList.toggle('hidden', !isCreator());
@@ -5327,11 +5561,13 @@
     if ($('acctBox')) $('acctBox').innerHTML = acctHtml();
   }
   document.addEventListener('click', e => {
-    const t = e.target.closest('[data-signin],[data-signout],[data-cloudsync],#acctBtn,#adminBtn'); if (!t) return;
+    const t = e.target.closest('[data-signin],[data-gsignin],[data-signout],[data-cloudsync],#acctBtn,#adminBtn'); if (!t) return;
+    if (t.closest('#codeOv')) return;
     ensureAudio(); sfx.click();
     if (t.id === 'adminBtn') { if (isCreator()) setTab('admin'); return; }
     if (t.dataset.cloudsync != null) { t.disabled = true; t.textContent = 'Syncing…'; recheckCloud(true); setTimeout(() => { flushCloud(); renderAcct(); }, 2500); return; }
     if (t.dataset.signout != null) signOut();
+    else if (t.dataset.gsignin != null) googleSignIn();
     else if (t.id === 'acctBtn' && fbUser) setTab('golfer');
     else signIn();
   });
@@ -5366,8 +5602,8 @@
 
   function rowsHtml(rows, emptyMsg) {
     if (!rows.length) return `<div class="empty">${emptyMsg}</div>`;
-    return `<table class="board"><tr><th></th><th>GOLFER</th><th>STROKES</th><th>SCORE</th></tr>` + rows.map((r, i) =>
-      `<tr class="${r.pid === meUid() ? 'me' : ''}"><td class="rk">${i + 1}</td><td>${badgeHtml(r.badge, r.wins)}${esc(r.name)}<div style="font-size:11px;color:#c9a98a">${fmtDate(r.date)}</div></td><td>${r.strokes}</td><td><b>${fmtRel(r.rel)}</b></td></tr>`).join('') + '</table>';
+    return `<table class="board"><tr><th></th><th>GOLFER</th><th>SCORE</th></tr>` + rows.map((r, i) =>
+      `<tr class="${r.pid === meUid() ? 'me' : ''}"><td class="rk">${i + 1}</td><td>${badgeHtml(r.badge, r.wins)}${esc(r.name)}<div style="font-size:11px;color:#c9a98a">${fmtDate(r.date)}</div></td><td><b>${fmtScore(r)}</b></td></tr>`).join('') + '</table>';
   }
   function resetsIn() {
     const now = new Date(), et = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
@@ -5375,8 +5611,8 @@
     return `${Math.floor(mins / 60)}h ${mins % 60}m`;
   }
   let boardMode = 'daily';
-  const guestNote = () => fbUser ? '' : fbGuest ? '<div class="tnote" style="margin-top:10px">Finish a round and your score goes up here with just your name. <button class="main sm" data-signin="1">Sign in with Google</button> to save your progress too.</div>'
-    : '<div class="tnote" style="margin-top:10px"><button class="main sm" data-signin="1">Sign in with Google</button><br>to post your scores online</div>';
+  const guestNote = () => fbUser ? '' : fbGuest ? '<div class="tnote" style="margin-top:10px">Finish a round and your score goes up here with just your name. <button class="main sm" data-signin="1">Get a player code</button> to save your progress too.</div>'
+    : '<div class="tnote" style="margin-top:10px"><button class="main sm" data-signin="1">🔑 Player code</button><br>to post your scores online</div>';
   async function fillBoard(c) {
     const box = $('boardBox'); if (!box) return;
     if (!ONLINE) { box.innerHTML = boardHtml(c); return; }
@@ -5389,7 +5625,7 @@
         html = rowsHtml(today, 'No rounds today yet. Finish a round to take the lead!')
           + `<div class="tnote">Top 3 win 🥇 <b>${money(DAILY_PRIZES[0])}</b> · 🥈 <b>${money(DAILY_PRIZES[1])}</b> · 🥉 <b>${money(DAILY_PRIZES[2])}</b></div>`
           + `<div class="tnote">Resets at midnight ET (in ${resetsIn()})</div>`
-          + (yest.length ? `<div class="tnote">Yesterday's winner: ${badgeHtml(yest[0].badge, yest[0].wins)}<b>${esc(yest[0].name)}</b> (${fmtRel(yest[0].rel)})</div>` : '');
+          + (yest.length ? `<div class="tnote">Yesterday's winner: ${badgeHtml(yest[0].badge, yest[0].wins)}<b>${esc(yest[0].name)}</b> ${fmtScore(yest[0])}</div>` : '');
       } else {
         html = rowsHtml(await fetchBoard(c.id), 'No rounds yet. Finish a round here to post the first score.');
       }
@@ -5411,7 +5647,7 @@
     const draw = res => {
       const rows = list.map((c, i) => {
         const r = res && res[i], open = c.mini || isUnlocked(c);
-        return `<button class="trow" data-tc="${c.id}"><span class="tc">${c.mini ? '⭐ ' : ''}${esc(c.name)}${open ? '' : ' 🔒'}</span><span class="tl">${!res ? (tourLoading ? '…' : '—') : r ? `${badgeHtml(r.badge, r.wins)}${esc(r.name)} <b>${fmtRel(r.rel)}</b>` : '<i>No leader yet</i>'}</span></button>`;
+        return `<button class="trow" data-tc="${c.id}"><span class="tc">${c.mini ? '⭐ ' : ''}${esc(c.name)}${open ? '' : ' 🔒'}</span><span class="tl">${!res ? (tourLoading ? '…' : '—') : r ? `${badgeHtml(r.badge, r.wins)}${esc(r.name)} <b>${fmtScore(r)}</b>` : '<i>No leader yet</i>'}</span></button>`;
       }).join('');
       const cr = res && res.ctp;
       const ctpRow = `<button class="trow" data-tc="ctp"><span class="tc">🎯 Closest to the Pin</span><span class="tl">${!res ? (tourLoading ? '…' : '—') : cr ? `${badgeHtml(cr.badge, cr.wins)}${esc(cr.name)} <b>${cr.yd === 0 ? 'Ace!' : fmtFt(cr.yd)}</b>` : '<i>No leader yet</i>'}</span></button>`;
@@ -6090,10 +6326,9 @@
     const box = $('mpCard'); if (!box) return;
     const active = MP && !MP.started ? `<div class="mpnote"><span>⏳ You're in match <b>${MP.id}</b></span><button class="main sm" data-mpopen="1">Lobby</button></div>`
       : !MP && save.mpActive && fbUser ? `<div class="mpnote"><span>⛳ Match <b>${esc(save.mpActive)}</b> in progress</span><button class="main sm" data-mprejoin="1">Rejoin</button></div>` : '';
-    box.innerHTML = `<div class="mpc"><div class="ctag">⚔️ PLAY FRIENDS</div><div class="cn">Head to head</div>
-      <div class="mpbtns"><button class="main sm" data-mpmode="1">1v1</button><button class="main sm" data-mpmode="2">2v2</button><button class="main sm" data-mpmode="4">Foursome</button></div>
-      ${active}
-      <div class="mpbtns"><button class="ghost sm" data-mpopen="1">🔑 Join with a match code</button></div></div>`;
+    // (Oct 28 2026) cleaner and more condensed: one yellow button opens every match option (1v1, 2v2, foursome, join by code)
+    box.innerHTML = `<div class="mpc mpslim"><div class="ctag">⚔️ PLAY FRIENDS · HEAD TO HEAD</div>
+      <button class="yelBtn" data-mpopen="1" style="width:100%;margin-top:8px">Browse match options ›</button>${active}</div>`;
   }
   $('mpCard').addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b) return;
@@ -6108,8 +6343,8 @@
     const back = '<button class="back" data-mpback="1">← Back</button>';
     if (!ONLINE) { box.innerHTML = back + '<div class="empty">Play Friends needs the internet. Check your connection and reload.</div>'; return; }
     if (!fbUser) {
-      box.innerHTML = back + `<div class="mpbox"><div class="lh">PLAY FRIENDS</div><div class="cm" style="font-size:14px;color:var(--cream);margin-bottom:10px">Sign in to create or join matches with a match code and settle wagers.${pendingLink ? ` <b style="color:var(--gold-l)">You'll join match ${pendingLink.join} right after.</b>` : ''}</div>
-        <button class="main" data-signin="1" style="width:100%">Sign in with Google</button></div>`;
+      box.innerHTML = back + `<div class="mpbox"><div class="lh">PLAY FRIENDS</div><div class="cm" style="font-size:14px;color:var(--cream);margin-bottom:10px">Get a free player code (or sign in with yours) to create or join matches with a match code and settle wagers.${pendingLink ? ` <b style="color:var(--gold-l)">You'll join match ${pendingLink.join} right after.</b>` : ''}</div>
+        <button class="main" data-signin="1" style="width:100%">🔑 Player code</button></div>`;
       return;
     }
     if (MP && MP.doc && !MP.started) return renderLobby(box, back);
@@ -6452,6 +6687,7 @@
   function renderGolfer() {
     $('gName').value = save.name || '';
     $('handBox').innerHTML = `<div class="nameRow" style="margin-top:12px">I swing</div><div class="opts" style="margin-top:6px"><button data-hand="r" class="${save.lefty ? '' : 'on'}">🏌️ Right-handed</button><button data-hand="l" class="${save.lefty ? 'on' : ''}">🏌️ Left-handed</button></div>`;
+    $('hrBox').innerHTML = `<div class="nameRow" style="margin-top:12px">🏫 Homeroom (Weekly Homeroom Cup)</div><div class="hrchips" style="margin-top:6px">${HOMEROOMS.map(h => `<button data-ghr="${h}" class="${save.hr === h ? 'on' : ''}">${h}</button>`).join('')}</div>`;
     $('badgeBox').innerHTML = badgesHtml();
     const own = ownedBadges(), mb = myBadge();
     $('gBadge').innerHTML = own.map(b => `<button class="bmed${mb === b.id ? ' on' : ''}" data-bpop="${b.id}" title="${esc(b.name)}">${b.icon}</button>`).join('');
@@ -6501,6 +6737,7 @@
     pendingBuy = null;
     if (d.badge != null) { if (!d.badge || hasBadge(d.badge)) { save.badge = d.badge; save.badgeAuto = 1; persist(); } renderGolfer(); return; }
     if (d.hand) { save.lefty = d.hand === 'l'; persist(); golfer.paintFor = ''; renderGolfer(); return; }
+    if (d.ghr) { setHomeroom(d.ghr); renderGolfer(); return; }
     if (d.gtab) gTab = d.gtab;
     else if (d.preset != null) {
       const pr = LOOK_PRESETS[+d.preset];
@@ -6661,7 +6898,7 @@
       const open = isUnlocked(c), best = save.stats.bestBy[c.id], played = save.stats.roundsBy[c.id] || 0;
       // compact cards (the full description is on the course page), so more of the course behind them shows
       const meta = `${c.holes.length} holes · Par ${c.par} · ${c.yds.toLocaleString()} yds`;
-      const rec = !open ? `🔒 Beat ${courseById(c.unlock).name}` : best == null ? 'Not played yet' : `Best ${fmtRel(best)} · ${played} played`;
+      const rec = !open ? `🔒 Beat ${courseById(c.unlock).name}` : best == null ? 'Not played yet' : `Best ${c.par + best}(${fmtRel(best)}) · ${played} played`;
       return `<div class="course mini-c${c.id === course.id ? ' sel' : ''}${open ? '' : ' locked'}" data-pick="${c.id}">
         <div class="thumb" style="background-image:url('${courseThumb(c)}');${open ? '' : 'filter:grayscale(.8) brightness(.6)'}"></div>
         <div class="ci"><div class="cn">${c.name}</div><div class="cm">${meta}</div><div class="cm rec">${rec}</div></div>
@@ -6703,7 +6940,7 @@
   }
   // little club-head drawings for the bag rack (painted with the club's colour)
   function clubIcon(c, col) {
-    const cc = col != null ? col : clubColOf(c), g = cc || '#FFE08A', d = cc ? 'rgba(0,0,0,.45)' : '#C9962B', s = '#e9e4d6';
+    const cc = col != null ? col : clubLook(c), g = cc || '#FFE08A', d = cc ? 'rgba(0,0,0,.45)' : '#C9962B', s = '#e9e4d6';
     if (!c) return `<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="15" fill="#fff" stroke="#C9962B" stroke-width="2"/>${[[19, 19], [27, 18], [24, 25], [17, 27], [30, 26], [22, 32], [29, 32]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.8" fill="#d7d2c4"/>`).join('')}</svg>`;
     const shaft = `<path d="M38 4 L26 30" stroke="${s}" stroke-width="2.4" stroke-linecap="round"/>`;
     if (c.putter) return `<svg viewBox="0 0 48 48">${shaft}<rect x="8" y="29" width="24" height="9" rx="${c.id === 'mallet' || c.id === 'claw' ? 4.5 : 1.5}" fill="${g}" stroke="${d}" stroke-width="1.5"/><path d="M14 33h12" stroke="${d}" stroke-width="1.5"/></svg>`;
@@ -6746,7 +6983,7 @@
       const curCol = clubColOf(eq);
       const cols = CLUB_COLORS.map(([n, hex, pr]) => {
         const own = ownsClubCol(hex), on = (hex || '') === curCol;
-        const bg = hex || 'linear-gradient(135deg,#f4f6f8,#9aa0a8 55%,#e8ebee)';
+        const bg = hex || (eq.col ? eq.col : 'linear-gradient(135deg,#f4f6f8,#9aa0a8 55%,#e8ebee)');
         return `<button data-ccol="${hex}" title="${n}" aria-label="${n} club${own ? '' : ', costs ' + money(pr)}" class="${on ? 'on' : ''}${own ? '' : ' buy'}" style="background:${bg}">${own ? '' : `<em>${pr >= 1000 ? '$' + pr / 1000 + 'k' : '$' + pr}</em>`}</button>`;
       }).join('');
       const cb = clubColBuy, colBar = cb ? `<div class="buybar"><span class="bsw" style="background:${cb.hex}"></span><div class="bi"><b>${cb.name} club colour</b><span>${money(cb.price)} · works on every club · You have ${money(save.coins)}</span></div>`
@@ -6831,7 +7068,7 @@
     $('statTiles').innerHTML = tiles.map(([v, l]) => `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
     $('bestRows').innerHTML = COURSES.map(c => {
       const b = s.bestBy[c.id];
-      return `<div><span>${c.name}</span><b>${b == null ? (isUnlocked(c) ? 'Not played' : '🔒 Locked') : `${fmtRel(b)} (${c.par + b})`}</b></div>`;
+      return `<div><span>${c.name}</span><b>${b == null ? (isUnlocked(c) ? 'Not played' : '🔒 Locked') : `${c.par + b}(${fmtRel(b)})`}</b></div>`;
     }).join('');
   }
   $('resetBtn').addEventListener('click', () => {
@@ -6941,11 +7178,13 @@
     el.textContent = hit || ''; el.classList.toggle('hidden', !hit);
   }
 
+  let cupGuest = false;
   function startRound(c) {
     if (banned()) { showBanned(); return; }
     ensureAudio();
     course = c; HOLES = c.holes; if (!c.ctp && !c.range) save.course = c.id; persist();
     applyCourseLook(c);
+    cupGuest = !c.ctp && !c.range && !c.mini && !isUnlocked(c);   // playing the Homeroom Cup course before it's unlocked
     scores = []; earned = []; firstShot = save.stats.rounds === 0; roundAces = 0; roundStart = Date.now(); roundCut = false; streak = 0;
     rStat = { shots: 0, perf: 0, eagles: 0, chips: 0, perfRun: 0 }; roundFlags = 0;
     if (save.live) delete save.live;
@@ -6979,7 +7218,7 @@
     const wasLocked = COURSES.filter(c => !isUnlocked(c)).map(c => c.id);
     paid(total); save.coins += total; s.earnedTotal += total;
     if (!course.mini && !roundCut) { s.rounds++; s.strokesTotal += ts; s.parTotal += tp; if (rel < 0) s.underPar++; }
-    if (!roundCut) s.roundsBy[course.id] = (s.roundsBy[course.id] || 0) + 1;
+    if (!roundCut && !cupGuest) s.roundsBy[course.id] = (s.roundsBy[course.id] || 0) + 1;   // a cup round on a locked course doesn't unlock it
     let mastersLine = '';
     if (course.id === MASTERS_CID && !roundCut && HOLES.length >= course.holes.length && rel <= MASTERS_REL && !unlocked('masters')) {
       save.unlocks.masters = true; OUTFIT_PARTS.forEach(k => { const p = LOOK_PRESETS.find(x => x.lock === 'masters'); if (p.look[k]) grantC(k, p.look[k]); });
@@ -7003,24 +7242,28 @@
     if (newly.length) line += ` · 🔓 ${newly.map(c => c.name).join(', ')} unlocked!`;
     persist();
     $('bestLine').textContent = `${line}${mastersLine} · Bank: ${money(save.coins)}`;
-    showPostBox(course, roundCut ? null : lastEntry);
+    $('cupPostBox').innerHTML = '';
+    const cupEntry = lastEntry && cupEligible(course, HOLES.length, roundCut) ? { strokes: ts, rel, cid: course.id } : null;
+    showPostBox(course, roundCut ? null : lastEntry, cupEntry);
     checkAwards();
     $('final').classList.remove('hidden');
   }
 
-  function showPostBox(c, entry) {
+  function showPostBox(c, entry, cupEntry) {
     const box = $('postBox');
     if (!ONLINE || !entry || banned()) { box.innerHTML = ''; return; }
+    let cupSent = false;
     // No sign-in needed: post as a guest with your name. Still called "Player"? You're asked for a name first.
     const post = async () => {
       if (!(await ensureName())) { box.innerHTML = '<button id="postBtn">Pick a name to post this score</button>'; $('postBtn').onclick = post; return; }
+      if (cupEntry && !cupSent) { cupSent = true; cupPostUI(cupEntry); }
       box.textContent = 'Posting to the online leaderboard…';
       try {
         const rank = await postOnline(c.id, entry);
         box.innerHTML = (rank ? `🏆 You're <b style="color:var(--gold-l)">#${rank}</b> in today's ${esc(c.name)} tournament as <b>${esc(boardName())}</b>!` : 'Score posted online.')
-          + (fbUser ? '' : '<br><small>Playing as a guest · sign in with Google (Golfer tab) to keep your progress on every device</small>');
+          + (fbUser ? '' : '<br><small>Playing as a guest · get a free player code (Golfer tab) to keep your progress on every device</small>');
       } catch (e) {
-        if (!meUser()) { box.innerHTML = '<button id="postBtn">Sign in with Google to post this score</button>'; $('postBtn').onclick = async () => { await signIn(); if (fbUser) post(); }; return; }
+        if (!meUser()) { box.innerHTML = '<button id="postBtn">🔑 Use a player code to post this score</button>'; $('postBtn').onclick = () => signIn(); return; }
         box.innerHTML = 'Couldn\'t post online. <button id="retryPost">Retry</button>'; $('retryPost').onclick = post;
       }
     };
@@ -7085,8 +7328,8 @@
 
   // ---- Driving Range: a bucket of balls, targets, money and a summary at the end ----
   let rangeS = null, rangeT = 0, rangeFx = [], rangeManual = false, rangeChain = null;
-  const rangePaidToday = () => rangeDay().pass === true;
-  // the $1,000 day pass: paid once per day (Eastern time), then every bucket that day is free
+  // (Oct 28 2026) the Driving Range is free: no day pass, but range money is capped at $1,000 a day (Eastern time)
+  const rangePaidToday = () => true;
   function buyRangePass() {
     if (rangePaidToday()) return true;
     if (save.coins < RANGE_PASS) { alert(`The Driving Range costs ${money(RANGE_PASS)} for the day. You have ${money(save.coins)}: play a round or two and come back!`); return false; }
@@ -7201,8 +7444,8 @@
       <div class="ci"><div class="ctag">🏌️ DRIVING RANGE · PRACTICE</div><div class="cn">Hit the buckets</div>
         <div class="cm">${RANGE_BALLS} balls · 8 targets from 50 to 270 yds · drop one in a bucket for up to ${money(top)}</div>
         <div class="cm" style="color:#FFE08A;margin-top:3px">Today: ${money(d.earned)} of ${money(RANGE_DAY_CAP)} · 🪣 ${d.holed || 0} in the bucket all-time</div>
-        <div class="cm" style="margin-top:3px">${d.pass ? '✅ Day pass bought: every bucket is free today' : `🎟️ Day pass: ${money(RANGE_PASS)} (covers every bucket today)`}</div>
-        <div class="act"><button class="main sm" data-range="1">${d.pass ? 'Grab a bucket ›' : `Buy pass · ${money(RANGE_PASS)} ›`}</button></div></div></div>`;
+        <div class="cm" style="margin-top:3px">${d.earned >= RANGE_DAY_CAP ? '✅ Today\'s range money is maxed out: buckets are still free for practice' : '🆓 Free to play · earn up to ' + money(RANGE_DAY_CAP) + ' a day'}</div>
+        <div class="act"><button class="main sm" data-range="1">Grab a bucket ›</button></div></div></div>`;
   }
   $('rangeCard').addEventListener('click', e => { if (e.target.closest('[data-range]')) { ensureAudio(); sfx.click(); startRange(); } });
   $('ctpHome').addEventListener('click', () => { ensureAudio(); sfx.click(); showHome(); setTab('ctp'); });
@@ -7275,6 +7518,329 @@
 
   $('againBtn').addEventListener('click', () => startRound(course));
   $('homeBtn').addEventListener('click', () => { showHome(); setTab('course'); });
+
+  // ================= Spirit Day · Weekly Homeroom Cup (Oct 28 2026) =================
+  // Every week each of the 13 homerooms (A-H, J-N: there is no Homeroom I) plays for the cup on one 18-hole course.
+  //  · The week runs Monday 7:00 AM to Friday 2:40 PM (Eastern). Scores lock at 2:40 PM and the winner is announced at 2:42 PM.
+  //  · Each golfer's official score is their best full 18-hole round on the cup course that week (hrcup/{week}/scores/{uid}).
+  //  · A homeroom's team average is the average of its 20 lowest official scores (all of them if it has 10-19).
+  //    Fewer than 10 valid scores = Not Qualified (the average is only provisional and it can't win).
+  //  · Ties at the cutoff (and everywhere else) are broken by who posted that score first (the server's time stamp), then
+  //    by player ID. Neither can be changed by a golfer, so nobody can move themselves in or out of the scoring 20.
+  //  · Team averages, the green "counts" highlight and every leaderboard all come from the same cupCalc() below.
+  //  · After the lock, the first game to open the cup writes the final standings to hrcupWeeks/{week} (the history,
+  //    which never changes again). The live scores stay in the database too.
+  const HOMEROOMS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N'];   // Homeroom I never appears
+  const HR_NAMES = {};   // optional nicknames, e.g. { H: 'Mr. Smith' } → "Homeroom H · Mr. Smith"
+  const hrLabel = hr => `Homeroom ${hr}${HR_NAMES[hr] ? ' · ' + HR_NAMES[hr] : ''}`;
+  const CUP_MAX = 20, CUP_MIN = 10, CUP_HOLES = 18;
+  // the cup course rotates every week through the 18-hole courses (everyone can play it, locked or not)
+  const CUP_ROTATION = ['meribah', 'hollow', 'hearst', 'valley', 'clblack'], CUP_EPOCH = '2026-10-26';
+  // <cupTime>
+  const etParts = ms => {
+    const o = {}; new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', weekday: 'short' }).formatToParts(new Date(ms)).forEach(p => { o[p.type] = p.value; });
+    return { y: +o.year, m: +o.month, d: +o.day, h: +o.hour % 24, mi: +o.minute, s: +o.second, wd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(o.weekday) };
+  };
+  const etOffset = ms => { const p = etParts(ms); return Date.UTC(p.y, p.m - 1, p.d, p.h, p.mi, p.s) - Math.floor(ms / 1000) * 1000; };
+  const etToUtc = (y, m, d, h, mi) => { const g = Date.UTC(y, m - 1, d, h, mi); return g - etOffset(g - etOffset(g)); };
+  // the cup week that "now" belongs to (before Monday 7:00 AM it's still last week's, showing final results)
+  function cupWeek(now = Date.now()) {
+    const p = etParts(now);
+    let mon = Date.UTC(p.y, p.m - 1, p.d) - ((p.wd + 6) % 7) * 864e5;
+    const at = (days, h, mi) => { const d = new Date(mon + days * 864e5); return etToUtc(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate(), h, mi); };
+    if (now < at(0, 7, 0)) mon -= 7 * 864e5;
+    const id = new Date(mon).toISOString().slice(0, 10);
+    return { id, start: at(0, 7, 0), lock: at(4, 14, 40), announce: at(4, 14, 42), next: at(7, 7, 0),
+      phase: now < at(4, 14, 40) ? 'live' : now < at(4, 14, 42) ? 'locked' : 'final' };
+  }
+  // </cupTime>
+  // <cupCalc>
+  // rows: [{ uid, name, hr, strokes, rel, t, att }] (one per golfer, their official best). Never changes the input order.
+  function cupCalc(rows, homerooms, max, min) {
+    const cmp = (a, b) => a.strokes - b.strokes || a.t - b.t || (a.uid < b.uid ? -1 : a.uid > b.uid ? 1 : 0);
+    const teams = homerooms.map(hr => {
+      const list = rows.filter(r => r.hr === hr).map(r => Object.assign({}, r)).sort(cmp);
+      const n = list.length, filled = Math.min(max, n);
+      list.forEach((r, i) => { r.hrRank = i + 1; r.counts = i < max; r.place = i > 0 && list[i - 1].strokes === r.strokes ? list[i - 1].place : i + 1;
+        r.tie = (i > 0 && list[i - 1].strokes === r.strokes) || (i < n - 1 && list[i + 1].strokes === r.strokes); });
+      const total = list.slice(0, filled).reduce((a, r) => a + r.strokes, 0);
+      return { hr, list, n, filled, total, avg: filled ? total / filled : null, qualified: n >= min, rank: null, diff: null };
+    });
+    const byAvg = (a, b) => a.avg - b.avg || b.n - a.n || (a.hr < b.hr ? -1 : 1);
+    const q = teams.filter(t => t.qualified).sort(byAvg);
+    q.forEach((t, i) => { t.rank = i + 1; });
+    const lead = q.length ? q[0].avg : null;
+    teams.forEach(t => { t.diff = lead != null && t.avg != null ? t.avg - lead : null; });
+    const rest = teams.filter(t => !t.qualified).sort((a, b) => (a.avg == null) - (b.avg == null) || (a.avg == null ? (a.hr < b.hr ? -1 : 1) : byAvg(a, b)));
+    const school = rows.filter(r => homerooms.includes(r.hr)).map(r => Object.assign({}, r)).sort(cmp);
+    school.forEach((r, i) => { r.rank = i + 1; r.place = i > 0 && school[i - 1].strokes === r.strokes ? school[i - 1].place : i + 1; r.tie = (i > 0 && school[i - 1].strokes === r.strokes) || (i < school.length - 1 && school[i + 1].strokes === r.strokes); });
+    return { teams, order: q.concat(rest), school, winner: q.length ? q[0].hr : '' };
+  }
+  // </cupCalc>
+  const cupCalcNow = rows => cupCalc(rows, HOMEROOMS, CUP_MAX, CUP_MIN);
+  const weekIndex = id => Math.round((Date.parse(id + 'T12:00:00Z') - Date.parse(CUP_EPOCH + 'T12:00:00Z')) / (7 * 864e5));
+  const cupCourseFor = id => courseById(CUP_ROTATION[((weekIndex(id) % CUP_ROTATION.length) + CUP_ROTATION.length) % CUP_ROTATION.length]);
+  const cupCourse = () => cupCourseFor(cupWeek().id);
+  const cupRef = week => fbDb.collection('hrcup').doc(week).collection('scores');
+  const cupWeeksRef = () => fbDb.collection('hrcupWeeks');
+  const fmtAvg = v => v == null ? '—' : v.toFixed(1);
+  const fmtWeek = id => { const d = new Date(id + 'T12:00:00Z'); return `Week of ${d.getUTCMonth() + 1}/${d.getUTCDate()}/${String(d.getUTCFullYear()).slice(2)}`; };
+  const fmtWhen = ms => new Date(ms).toLocaleString('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: '2-digit' });
+  const untilTxt = ms => { const m = Math.max(0, Math.round((ms - Date.now()) / 60000)); return m >= 1440 ? `${Math.floor(m / 1440)}d ${Math.floor(m % 1440 / 60)}h` : m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m`; };
+  // only official rounds count: the week's course, a full 18, posted inside the window, a real homeroom, not banned
+  function cupRows(docs, w) {
+    const cid = cupCourseFor(w.id).id;
+    return docs.map(d => { const f = d.data ? d.data({ serverTimestamps: 'estimate' }) : d; return { uid: d.id || f.uid, name: f.name, hr: f.hr, strokes: f.strokes, rel: f.rel, att: f.att | 0, cid: f.cid,
+        t: f.t && f.t.toMillis ? f.t.toMillis() : (typeof f.t === 'number' ? f.t : 0) }; })
+      .filter(r => HOMEROOMS.includes(r.hr) && Number.isInteger(r.strokes) && r.strokes >= CUP_HOLES && r.cid === cid && !bannedSet.has(r.uid)
+        && (!r.t || (r.t >= w.start - 120000 && r.t <= w.lock)));
+  }
+
+  // ---- live scores: one listener while the cup screen is open (first load = 1 read per golfer, then 1 per change) ----
+  let cupLive = null, cupUnsub = null, cupErr = '';
+  function cupListen() {
+    if (!ONLINE || !fbDb) return;
+    const w = cupWeek();
+    if (cupUnsub && cupLive && cupLive.week === w.id) return;
+    cupStop();
+    cupLive = { week: w.id, rows: null };
+    loadBanList().then(() => {
+      cupUnsub = cupRef(w.id).onSnapshot(snap => {
+        cupErr = ''; cupLive = { week: w.id, rows: cupRows(snap.docs, w), at: Date.now() };
+        cupMaybeArchive(w); if (tab === 'cup') renderCup(); renderCupCard();
+      }, () => { cupErr = 'Couldn\'t load the cup leaderboards. Check the Wi-Fi and try again.'; if (tab === 'cup') renderCup(); });
+    });
+  }
+  function cupStop() { if (cupUnsub) { try { cupUnsub(); } catch (e) {} } cupUnsub = null; }
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cupStop(); else if (tab === 'cup' && !$('home').classList.contains('hidden')) cupListen(); });
+
+  // ---- posting: called after a full round on the cup course ----
+  async function postCup(entry) {
+    const w = cupWeek(), now = Date.now();
+    if (now < w.start || now >= w.lock) return { closed: true };
+    const u = await ensureOnlineUser(), uid = u.uid, ref = cupRef(w.id).doc(uid);
+    const snap = await ref.get(), old = snap.exists ? snap.data() : null;
+    const better = !old || entry.strokes < old.strokes;
+    const doc = { name: boardName(), uid, hr: old && HOMEROOMS.includes(old.hr) ? old.hr : save.hr, cid: entry.cid, date: now,
+      strokes: better ? entry.strokes : old.strokes, rel: better ? entry.rel : old.rel, att: old ? (old.att | 0) + 1 : 1, t: better ? serverTime() : old.t };
+    await ref.set(doc);
+    save.cupMine = { week: w.id, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, att: doc.att }; persist();
+    return { improved: better, first: !old, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, att: doc.att, moved: doc.hr !== save.hr };
+  }
+  const cupEligible = (c, n, cut) => !cut && !c.mini && !c.ctp && !c.range && !(MP && MP.started) && n === CUP_HOLES && c.id === cupCourse().id;
+  function cupPostUI(entry) {
+    const box = $('cupPostBox'); if (!box) return;
+    if (!ONLINE || banned()) { box.innerHTML = ''; return; }
+    const w = cupWeek();
+    if (w.phase !== 'live') { box.innerHTML = '🏫 The Homeroom Cup is locked for the week. This round doesn\'t count, but it still goes on the course boards.'; return; }
+    if (!save.hr) { box.innerHTML = '🏫 <b>Pick your homeroom</b> to have rounds like this count for the Weekly Homeroom Cup. <button class="main sm" data-cupgo="1">Pick homeroom</button>'; return; }
+    box.textContent = '🏫 Sending your round to the Homeroom Cup…';
+    postCup(entry).then(r => {
+      if (r.closed) { box.textContent = '🏫 The Homeroom Cup is locked for the week.'; return; }
+      box.innerHTML = `🏫 <b>${hrLabel(r.hr)}</b> · ${r.improved ? (r.first ? 'First cup round posted' : '⬆️ New official best') : 'Official best stays'} <b style="color:var(--gold-l)">${r.strokes}(${fmtRel(r.rel)})</b> · attempt ${r.att}`
+        + (r.moved ? `<br><small>Your score counts for ${hrLabel(r.hr)} this week (homerooms lock once you post). Your new homeroom starts next week.</small>` : '')
+        + ' <button class="ghost sm" data-cupgo="1">Cup standings ›</button>';
+      if (cupLive && cupLive.week === w.id && !cupUnsub) cupLive = null;
+    }).catch(() => { box.innerHTML = '🏫 Couldn\'t send this round to the Homeroom Cup. <button class="ghost sm" data-cupretry="1">Retry</button>'; box.querySelector('[data-cupretry]').onclick = () => cupPostUI(entry); });
+  }
+
+  // ---- history: the final standings, saved once after each week locks ----
+  let cupPast = null, cupPastLoading = false, cupArchTried = {};
+  function cupSummary(w, rows) {
+    const res = cupCalcNow(rows), c = cupCourseFor(w.id);
+    return { head: { week: w.id, cid: c.id, course: c.name, par: c.par, winner: res.winner, at: serverTime(),
+        teams: res.order.map(t => ({ hr: t.hr, avg: t.avg == null ? null : Math.round(t.avg * 1000) / 1000, n: t.n, filled: t.filled, q: t.qualified, rank: t.rank })) },
+      full: { list: res.school.map((r, i) => ({ u: r.uid, n: String(r.name || 'Golfer').slice(0, 14), h: r.hr, s: r.strokes, r: r.rel | 0, a: r.att | 0, i })) } };
+  }
+  async function cupArchive(w, rows) {
+    if (cupArchTried[w.id] || !fbDb) return; cupArchTried[w.id] = 1;
+    try {
+      const ex = await cupWeeksRef().doc(w.id).get(); if (ex.exists) return;
+      const s = cupSummary(w, rows);
+      await cupWeeksRef().doc(w.id).collection('full').doc('players').set(s.full);
+      await cupWeeksRef().doc(w.id).set(s.head);
+      cupPast = null;
+    } catch (e) { /* the rules only take it a little after the lock: someone else's game will save it */ }
+  }
+  // (the rules only accept the record a little after 2:42 PM in winter time, so it waits an hour: every game shows the same final standings meanwhile)
+  const archiveDue = w => Date.now() > w.announce + 3720e3;
+  function cupMaybeArchive(w) { if (w.phase === 'final' && cupLive && cupLive.week === w.id && cupLive.rows && archiveDue(w)) cupArchive(w, cupLive.rows); }
+  async function loadCupPast() {
+    if (cupPast || cupPastLoading || !fbDb) return;
+    cupPastLoading = true;
+    try {
+      const snap = await cupWeeksRef().orderBy('week', 'desc').limit(52).get();
+      cupPast = snap.docs.map(d => d.data()).filter(d => d.week);
+      // the last finished week was never saved (nobody opened the cup after it locked): save it now
+      const now = cupWeek();
+      if (now.phase === 'final' && archiveDue(now) && !cupPast.some(d => d.week === now.id) && !cupArchTried[now.id]) {
+        const s = await cupRef(now.id).get(); const rows = cupRows(s.docs, now);
+        if (rows.length) { await cupArchive(now, rows); cupPastLoading = false; return loadCupPast(); }
+      }
+      const prev = cupWeek(now.start - 864e5 * 3);
+      if (!cupPast.some(d => d.week === prev.id) && Date.now() > prev.announce + 3720e3 && !cupArchTried[prev.id]) {
+        const s = await cupRef(prev.id).get(); const rows = cupRows(s.docs, prev);
+        if (rows.length) { await cupArchive(prev, rows); cupPastLoading = false; return loadCupPast(); }
+      }
+    } catch (e) { cupPast = cupPast || []; }
+    cupPastLoading = false;
+    if (tab === 'cup') renderCup();
+  }
+  let cupFrozen = null;   // a past week's final boards (from its saved record)
+  async function openPastWeek(id) {
+    try {
+      const [h, f] = await Promise.all([cupWeeksRef().doc(id).get(), cupWeeksRef().doc(id).collection('full').doc('players').get()]);
+      if (!h.exists) return;
+      const list = (f.exists && f.data().list) || [];
+      cupFrozen = { head: h.data(), rows: list.map(p => ({ uid: p.u, name: p.n, hr: p.h, strokes: p.s, rel: p.r, att: p.a, t: p.i })) };
+      cupView = 'hr'; cupHr = cupFrozen.head.winner || cupHr; renderCup();
+    } catch (e) { alert('Couldn\'t load that week.'); }
+  }
+
+  // ---- the Play tab card ----
+  function renderCupCard() {
+    const box = $('cupCard'); if (!box) return;
+    if (!ONLINE) { box.innerHTML = ''; return; }
+    const w = cupWeek(), c = cupCourseFor(w.id);
+    const res = cupLive && cupLive.week === w.id && cupLive.rows ? cupCalcNow(cupLive.rows) : null;
+    const mine = res && save.hr ? res.teams.find(t => t.hr === save.hr) : null;
+    const status = w.phase === 'live' ? `⏱️ Scores lock Fri 2:40 PM (in ${untilTxt(w.lock)})` : w.phase === 'locked' ? '🔒 Scores locked · winner announced at 2:42 PM'
+      : `🏆 ${res && res.winner ? hrLabel(res.winner) + ' won this week!' : 'Final standings are in!'} Next cup: Mon 7:00 AM`;
+    box.innerHTML = `<div class="cupc" data-cupgo="1" role="button"><div class="ctag">🏫 SPIRIT DAY · WEEKLY HOMEROOM CUP</div>
+      <div class="cn">${esc(c.name)}</div><div class="cm">18 holes · par ${c.par} · your best round of the week counts · each homeroom's 20 lowest scores make its team average</div>
+      <div class="cm" style="color:#FFE08A;margin-top:3px">${status}</div>
+      <div class="cm" style="margin-top:3px">${save.hr ? `You: <b>${hrLabel(save.hr)}</b>${mine && mine.rank ? ` · team rank #${mine.rank}` : ''}${save.cupMine && save.cupMine.week === w.id ? ` · best ${save.cupMine.strokes}(${fmtRel(save.cupMine.rel)})` : ''}` : '👉 Pick your homeroom to play for your team'}</div>
+      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? '<button class="yelBtn" data-cupplay="1">Play cup round ›</button>' : ''}<button class="main sm" data-cupgo="1">Leaderboards ›</button></div></div>`;
+  }
+  function playCup() {
+    const w = cupWeek();
+    if (!save.hr) { cupView = 'pick'; setTab('cup'); return; }
+    if (w.phase !== 'live') { alert('The Homeroom Cup is locked until Monday 7:00 AM. You can still play the course for practice from the course list.'); return; }
+    startRound(cupCourse());
+  }
+
+  // ---- the cup screen ----
+  let cupView = 'teams', cupHr = '';
+  function hrPicker(cur, attr) {
+    return `<div class="hrchips">${HOMEROOMS.map(h => `<button data-${attr}="${h}" class="${h === cur ? 'on' : ''}">${h}</button>`).join('')}</div>`;
+  }
+  function cupBoardRows(t, frozen) {
+    if (!t.list.length) return '<div class="empty">No official scores from this homeroom yet.</div>';
+    return `<table class="board hrb"><tr><th></th><th>GOLFER</th><th>BEST</th><th class="hcol">TRIES</th><th>COUNTS</th></tr>` + t.list.map(r =>
+      `<tr class="${r.counts ? 'cnt' : ''}${r.uid === meUid() ? ' me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}</td>`
+      + `<td><b>${r.strokes}(${fmtRel(r.rel)})</b></td><td class="hcol">${r.att || '—'}</td><td>${r.counts ? '✅' : '—'}</td></tr>`).join('') + '</table>';
+  }
+  function hrHeader(t, res, frozen) {
+    const status = t.qualified ? 'Qualified' : 'Not Qualified';
+    const lead = res.order.find(x => x.rank === 1);
+    const diff = !t.qualified && t.avg == null ? '—' : t.rank === 1 ? 'Leading' : t.diff == null ? '—' : '+' + t.diff.toFixed(1);
+    return `<div class="hrhead${t.qualified ? '' : ' nq'}"><div class="hrt">${hrLabel(t.hr)}${frozen && res.winner === t.hr ? ' 🏆' : ''}</div>
+      ${t.qualified ? '' : `<div class="nqtag">Not Qualified — Needs at least ${CUP_MIN} players</div>`}
+      <div class="hrstats"><div><span>Team average</span><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></div><div><span>Valid participants</span><b>${t.n}</b></div>
+        <div><span>Scoring positions</span><b>${t.filled} of ${CUP_MAX}</b></div><div><span>Status</span><b>${status}</b></div>
+        <div><span>Team rank</span><b>${t.rank ? '#' + t.rank : '—'}</b></div><div><span>Behind the leader</span><b>${diff}${lead && t.rank !== 1 && t.diff != null ? ` <small>(${hrLabel(lead.hr).replace('Homeroom ', 'HR ')})</small>` : ''}</b></div></div>
+      <div class="hrleg"><i></i>Light green = score ${frozen ? 'counted' : 'currently counts'} toward the team average${t.n > CUP_MAX ? ` (the ${CUP_MAX} lowest of ${t.n}; the other ${t.n - CUP_MAX} still show but don't count)` : t.n ? ' (every valid score counts until a homeroom has more than 20)' : ''}.</div>
+      ${t.qualified ? '' : `<div class="hrleg" style="color:#ffb3a6">*Provisional: ${t.n ? 'these scores would be used, but ' : ''}a homeroom needs ${CUP_MIN} valid scores to qualify and can't win the cup until then.</div>`}</div>`;
+  }
+  function renderCup() {
+    const box = $('cupBody'); if (!box) return;
+    const back = '<button class="back" data-cupback="1">← Back</button>';
+    if (!ONLINE) { box.innerHTML = back + '<div class="empty">The Homeroom Cup needs the internet. Check your connection and reload.</div>'; return; }
+    const w = cupWeek(), frozen = cupFrozen, c = frozen ? courseById(frozen.head.cid) || cupCourseFor(frozen.head.week) : cupCourseFor(w.id);
+    if (!cupHr) cupHr = save.hr || 'A';
+    const status = frozen ? `📜 Final results · ${fmtWeek(frozen.head.week)}` : w.phase === 'live' ? `⏱️ Live · scores lock Fri 2:40 PM (in ${untilTxt(w.lock)})`
+      : w.phase === 'locked' ? '🔒 Scores locked at 2:40 PM · the winner is announced at 2:42 PM' : `🏁 Final · next cup starts Mon 7:00 AM (in ${untilTxt(w.next)})`;
+    let head = `${back}<div class="cdname">🏫 Weekly Homeroom Cup</div>
+      <div class="cddesc">Spirit Day showdown: all 13 homerooms on <b>${esc(c ? c.name : '')}</b> (18 holes, par ${c ? c.par : 72}). Your best full round from Monday 7:00 AM to Friday 2:40 PM is your official score. Each homeroom's ${CUP_MAX} lowest scores make its team average, and the lowest average wins. Homerooms need ${CUP_MIN} players to qualify.</div>
+      <div class="chips" style="margin:8px 0"><span>${status}</span>${frozen ? '<span><button class="linkBtn" data-cuplive="1">Back to this week</button></span>' : ''}</div>`;
+    // homeroom picker (yours)
+    if (cupView === 'pick' || !save.hr) {
+      head += `<div class="gcard" style="margin:8px 0 12px"><div class="sect" style="margin:0 0 6px">${save.hr ? 'CHANGE YOUR HOMEROOM' : 'PICK YOUR HOMEROOM'}</div>${hrPicker(save.hr, 'myhr')}
+        <div class="tnote" style="text-align:left">Once you post a cup score, your homeroom is set for that week. Changing it starts counting next week.</div></div>`;
+    }
+    if (!frozen && w.phase === 'live') head += `<div style="display:flex;gap:8px;margin:0 0 10px;flex-wrap:wrap"><button class="yelBtn" data-cupplay="1">⛳ Play cup round ›</button>${save.hr ? `<button class="ghost sm" data-cuppick="1">Your homeroom: ${save.hr} ✎</button>` : ''}</div>`;
+    head += `<div class="seg"><button data-cv="teams" class="${cupView === 'teams' ? 'on' : ''}">🏫 TEAMS</button><button data-cv="hr" class="${cupView === 'hr' || cupView === 'pick' ? 'on' : ''}">HOMEROOMS</button><button data-cv="school" class="${cupView === 'school' ? 'on' : ''}">SCHOOL-WIDE</button><button data-cv="past" class="${cupView === 'past' ? 'on' : ''}">🏆 WINNERS</button></div>`;
+    if (cupView === 'past') { box.innerHTML = head + pastHtml(); loadCupPast(); return; }
+    const rows = frozen ? frozen.rows : cupLive && cupLive.week === w.id ? cupLive.rows : null;
+    if (!frozen) cupListen();
+    if (!rows) { box.innerHTML = head + `<div class="empty">${cupErr || 'Loading the cup…'}</div>`; return; }
+    const res = cupCalcNow(rows);
+    let body = '';
+    if (cupView === 'teams') {
+      body = `<table class="board"><tr><th></th><th>HOMEROOM</th><th>AVG</th><th class="hcol">PLAYERS</th><th>STATUS</th></tr>` + res.order.map(t =>
+        `<tr class="${t.hr === save.hr ? 'me' : ''}" data-cuphr="${t.hr}" style="cursor:pointer"><td class="rk">${t.rank || '—'}</td><td><b>${t.hr}</b>${t.rank === 1 ? ' 🏆' : ''}<div style="font-size:11px;color:#c9a98a">${t.filled} of ${CUP_MAX} scoring spots${t.rank > 1 && t.diff != null ? ` · +${t.diff.toFixed(1)}` : ''}</div></td>`
+        + `<td><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></td><td class="hcol">${t.n}</td><td style="font-size:12px">${t.qualified ? '✅ Qualified' : `Needs ${CUP_MIN - t.n} more`}</td></tr>`).join('') + '</table>'
+        + `<div class="tnote">Tap a homeroom to see its players. *Provisional average: fewer than ${CUP_MIN} players.</div>`;
+    } else if (cupView === 'school') {
+      body = !res.school.length ? '<div class="empty">No official scores yet this week. Be the first!</div>'
+        : `<table class="board"><tr><th></th><th>GOLFER</th><th>HR</th><th>BEST</th></tr>` + res.school.map(r =>
+          `<tr class="${r.uid === meUid() ? 'me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}</td><td><b>${r.hr}</b></td><td><b>${r.strokes}(${fmtRel(r.rel)})</b></td></tr>`).join('') + '</table>';
+    } else {
+      const t = res.teams.find(x => x.hr === cupHr) || res.teams[0];
+      body = hrPicker(t.hr, 'cuphr') + hrHeader(t, res, !!frozen) + cupBoardRows(t, !!frozen)
+        + '<div class="tnote">Ties are broken by who posted the score first, then by player ID, so the scoring 20 can\'t be gamed.</div>';
+    }
+    box.innerHTML = head + body;
+  }
+  function pastHtml() {
+    if (!cupPast) return '<div class="empty">Loading past winners…</div>';
+    const done = cupPast.filter(d => d.winner);
+    if (!done.length) return '<div class="empty">No finished cups yet. The first winner is crowned Friday at 2:42 PM.</div>';
+    const wins = {}; done.forEach(d => { wins[d.winner] = (wins[d.winner] || 0) + 1; });
+    const top = Object.keys(wins).sort((a, b) => wins[b] - wins[a] || (done.find(d => d.winner === a).week > done.find(d => d.winner === b).week ? -1 : 1)).slice(0, 3);
+    const step = (i, cls) => top[i] ? `<div class="pod ${cls}"><div class="pn">${top[i]}</div><div class="pw">${wins[top[i]]} win${wins[top[i]] === 1 ? '' : 's'}</div><div class="pb">${i + 1}</div></div>` : `<div class="pod ${cls} empty"><div class="pb">${i + 1}</div></div>`;
+    return `<div class="sect">MOST CUP WINS</div><div class="cupPodium">${step(1, 'p2')}${step(0, 'p1')}${step(2, 'p3')}</div>
+      <div class="sect" style="margin-top:14px">PAST WINNERS</div><div class="rows">${done.map(d => { const t = (d.teams || []).find(x => x.hr === d.winner);
+        return `<button class="pastw" data-cupweek="${d.week}"><span>${fmtWeek(d.week)} · ${esc(d.course || '')}</span><b>🏆 ${hrLabel(d.winner)}${t && t.avg != null ? ` · ${t.avg.toFixed(1)}` : ''}</b></button>`; }).join('')}</div>
+      <div class="tnote">Tap a week to see its final homeroom leaderboards.</div>`;
+  }
+  $('cupBody') && $('cupBody').addEventListener('click', e => {
+    const b = e.target.closest('button,[data-cuphr]'); if (!b) return;
+    ensureAudio(); sfx.click();
+    if (b.dataset.cupback) { cupFrozen = null; setTab('play'); return; }
+    if (b.dataset.cuplive) { cupFrozen = null; cupView = 'teams'; renderCup(); return; }
+    if (b.dataset.cv) { if (b.dataset.cv === 'past') cupFrozen = null; cupView = b.dataset.cv; renderCup(); return; }
+    if (b.dataset.cuphr) { cupHr = b.dataset.cuphr; cupView = 'hr'; renderCup(); return; }
+    if (b.dataset.myhr) { setHomeroom(b.dataset.myhr); cupHr = save.hr; cupView = 'hr'; renderCup(); return; }
+    if (b.dataset.cuppick) { cupView = 'pick'; renderCup(); return; }
+    if (b.dataset.cupplay) { playCup(); return; }
+    if (b.dataset.cupweek) { openPastWeek(b.dataset.cupweek); return; }
+  });
+  function setHomeroom(h) {
+    if (!HOMEROOMS.includes(h)) return;
+    save.hr = h; persist(); setTimeout(cloudSaveSoon, 0); renderCupCard(); track('homeroom_set', { hr: h });
+  }
+  document.addEventListener('click', e => {
+    const t = e.target.closest('[data-cupgo],[data-cupplay]'); if (!t || t.closest('#cupBody')) return;
+    ensureAudio(); sfx.click();
+    if (t.dataset.cupplay) { e.stopPropagation(); playCup(); return; }
+    $('final').classList.add('hidden');
+    if (!$('home').classList.contains('hidden')) { cupFrozen = null; setTab('cup'); } else { showHome(); cupFrozen = null; setTab('cup'); }
+  });
+
+  // ---- 2:42 PM Friday: announce the winner (once per golfer per week, never mid-round) ----
+  async function checkCupAnnounce() {
+    if (!ONLINE || !fbDb || inRound() || $('home').classList.contains('hidden')) return;
+    const w = cupWeek();
+    if (w.phase !== 'final' || save.cupSeen === w.id) return;
+    save.cupSeen = w.id; persist();
+    try {
+      await loadBanList();
+      const rows = cupLive && cupLive.week === w.id && cupLive.rows ? cupLive.rows : cupRows((await cupRef(w.id).get()).docs, w);
+      const res = cupCalcNow(rows), top = res.order.filter(t => t.rank).slice(0, 3);
+      if (!rows.length) return;
+      if (archiveDue(w)) cupArchive(w, rows);
+      $('cupWinBody').innerHTML = res.winner ? `<div class="tipBig">🏆 ${hrLabel(res.winner)} wins the Spirit Day Homeroom Cup!</div>
+          <div class="cupPodium sm">${[1, 0, 2].map(i => top[i] ? `<div class="pod p${i + 1}"><div class="pn">${top[i].hr}</div><div class="pw">${fmtAvg(top[i].avg)}</div><div class="pb">${i + 1}</div></div>` : `<div class="pod p${i + 1} empty"><div class="pb">${i + 1}</div></div>`).join('')}</div>
+          <div class="sub">${esc(cupCourseFor(w.id).name)} · team average of the ${CUP_MAX} lowest scores${save.hr ? ` · ${hrLabel(save.hr)}: ${(() => { const m = res.teams.find(t => t.hr === save.hr); return m && m.rank ? '#' + m.rank : 'not qualified'; })()}` : ''}</div>`
+        : `<div class="sub">No homeroom reached ${CUP_MIN} players this week, so there's no winner. Rally your homeroom for next week!</div>`;
+      $('cupWin').classList.remove('hidden'); try { sfx.perfect(); } catch (e) {} if (res.winner && res.winner === save.hr) burst(200);
+    } catch (e) { save.cupSeen = ''; }
+  }
+  setInterval(() => { checkCupAnnounce(); if (tab === 'play' && !$('home').classList.contains('hidden')) renderCupCard(); if (tab === 'cup' && !$('home').classList.contains('hidden') && !cupFrozen && cupWeek().id !== (cupLive && cupLive.week)) { cupStop(); renderCup(); } }, 30000);
+  $('cupWinOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('cupWin').classList.add('hidden'); });
+  $('cupWinGo').addEventListener('click', () => { ensureAudio(); sfx.click(); $('cupWin').classList.add('hidden'); cupFrozen = null; cupView = 'teams'; setTab('cup'); });
 
   // ================= Creator tools (only for the creator's Google account; the rules enforce this too) =================
   // Kept small to stay inside Firebase's free plan: cheat flags, bans and the leaderboards (remove a score, ban, Creator's Pick).
@@ -7561,7 +8127,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.10.27', NEWS_NUM = '2.1';
+  const NEWS_VER = '2026.10.28', NEWS_NUM = '2.2';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -7573,7 +8139,7 @@
     ['🔑', '<b>Play Friends uses match codes now.</b> Create a match and send your friends the 6-character code (or the invite link). Friend lists are gone.'],
     ['☁️', '<b>Progress follows your Google account better:</b> it checks for newer progress whenever you come back to the game, and there\'s a <b>Sync now</b> button in the Golfer tab.'],
   ];
-  const NEWS = [
+  const NEWS_21 = [
     ['⛳', '<b>Four new courses:</b> Founders Park (autumn parkland), Hearst Executive (18 short holes in the city at dusk), Darby Beach (seaside links) and Flyers Presidential (a long, tight championship nine). Each has its own leaderboard and Daily Tournament.'],
     ['🎯', '<b>A different Daily Closest to the Pin every day:</b> 14 layouts (peninsula, redan, postage stamp, forest chute, big drop, desert waste and more), uphill and downhill tees that play longer or shorter, calm to gusty wind and a new pin spot every day.'],
     ['🌳', '<b>Trees play like real trees:</b> only the trunk sends the ball back. Through the leaves it can catch a branch and drop, or carry on slowed down.'],
@@ -7583,9 +8149,19 @@
     ['🏞️', '<b>Farbor Lake is now Faerber Lake.</b> Your scores and best rounds there are all still there.'],
     ['🔑', '<b>Google sign-in works better on iPad.</b>'],
   ];
+  const NEWS = [
+    ['🏫', '<b>Spirit Day · Weekly Homeroom Cup:</b> pick your homeroom (Golfer tab) and play the week\'s 18-hole cup course. Each homeroom\'s 20 lowest scores make its team average, light green shows whose scores count, and the winner is announced Friday at 2:42 PM. Homeroom leaderboards, a school-wide board and past winners with a podium.'],
+    ['🔑', '<b>Player codes instead of Google sign-in:</b> get a free 12-character code in the Golfer tab and type it on any device to keep your progress. No passwords, no email.'],
+    ['🏌️', '<b>The Driving Range is free</b>, with up to $1,000 a day in range money.'],
+    ['🚁', '<b>Aerial view:</b> tap AERIAL to lift the camera high above the ball. The camera now glides smoothly to every new shot.'],
+    ['⛳', '<b>3C Par Three is 6 holes</b> and <b>TPC Saragosa is 9 holes</b> (new: Opening Drive, Long Nine and Lakeside). Both have fresh leaderboards.'],
+    ['🏌️‍♂️', '<b>More clubs:</b> Blaze, Glacier and Phantom drivers, a 7 Wood, 4 Hybrid, Wide Sole 6 Iron, Tour 9 Iron, 48° and 58° wedges and a Tour Blade putter. Every driver has its own colour.'],
+    ['💲', '<b>Rounder shop prices</b> ($1,000 instead of $1,050), cleaner Play Friends card, and scores now show strokes too, like 68(-3).'],
+  ];
   // Every update so far, newest first (shown under "Previous updates"). Only things players can see.
   const UPDATES = [
-    ['2.1', 'Oct 27, 2026', NEWS.map(n => n[1])],
+    ['2.2', 'Oct 28, 2026', NEWS.map(n => n[1])],
+    ['2.1', 'Oct 27, 2026', NEWS_21.map(n => n[1])],
     ['2.0', 'Oct 20, 2026', NEWS_20.map(n => n[1]).concat(['<b>Update pop-up:</b> if a new update comes out while the game is open, you get a pop-up to reload and get it'])],
     ['1.6', 'Oct 20, 2026', ['Aim putts exactly with the ◀ AIM ▶ buttons or the arrow keys', 'No more wind on putts', '🔥 Momentum: 3 holes in a row with no bogey boosts your payouts',
       'Stronger, cheaper club upgrades (Power, Accuracy, Control)', 'Chami Links Black became a full 18 holes and Chami Links Gold the front nine', 'Cleaner scorecards']],
