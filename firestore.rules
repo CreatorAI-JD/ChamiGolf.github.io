@@ -158,6 +158,25 @@ service cloud.firestore {
       allow delete: if isMe(uid) || isAdmin();
     }
 
+    // Homeroom member counts (update 2.4): picking a homeroom leaves one note per member and adds 1 to meta/hrCounts in the same write.
+    match /hrMembers/{hr}/who/{uid} {
+      allow read: if true;
+      allow create: if isMe(uid) && hr in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N'] && request.resource.data.keys().hasOnly(['at']);
+      allow delete: if isAdmin();
+    }
+    function bumpHr(k) {
+      let before = resource == null ? {} : resource.data;
+      let keys = resource == null ? request.resource.data.keys() : request.resource.data.diff(resource.data).affectedKeys();
+      return k in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N'] && keys.hasOnly([k]) && request.resource.data[k] == before.get(k, 0) + 1
+        && !exists(/databases/$(database)/documents/hrMembers/$(k)/who/$(request.auth.uid))
+        && existsAfter(/databases/$(database)/documents/hrMembers/$(k)/who/$(request.auth.uid));
+    }
+    match /meta/hrCounts {
+      allow read: if true;
+      allow write: if isAdmin() || (request.auth != null && notBanned() && (bumpHr('A') || bumpHr('B') || bumpHr('C') || bumpHr('D') || bumpHr('E') || bumpHr('F') || bumpHr('G')
+        || bumpHr('H') || bumpHr('J') || bumpHr('K') || bumpHr('L') || bumpHr('M') || bumpHr('N')));
+    }
+
     // One small counter doc for the badge tiles: a golfer can only add 1, and only in the same write that creates
     // their own badge note above (so each golfer counts once). The creator can fix it with "Recount badge holders".
     function bumpBadge(k) {

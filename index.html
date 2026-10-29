@@ -480,6 +480,15 @@
   .howlist b{color:var(--gold-l)}
   .awbar{height:10px;border-radius:5px;background:rgba(255,255,255,.12);overflow:hidden;margin:0 2px 12px}
   .awbar b{display:block;height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l))}
+  .awgrp{margin:0 0 8px;border:1px solid rgba(242,193,78,.4);border-radius:14px;background:rgba(69,6,15,.6);overflow:hidden}
+  .awgrp summary{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;list-style:none;color:var(--gold-l)}
+  .awgrp summary::-webkit-details-marker{display:none}
+  .awgrp summary::after{content:'▾';margin-left:4px;transition:transform .15s}
+  .awgrp[open] summary::after{transform:rotate(180deg)}
+  .awgrp summary .ico{width:22px;height:22px}
+  .awgrp summary b{flex:1;font:700 17px Oswald,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#fff}
+  .awgrp summary span{font:700 13px Inter;color:var(--gold-l)}
+  .awgrp .awlist{padding:0 10px 10px}
   .awlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
   .aw{display:flex;gap:10px;align-items:flex-start;background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.25);border-radius:14px;padding:10px 12px;opacity:.82}
   .aw.done{border-color:var(--gold);background:linear-gradient(180deg,rgba(142,15,34,.95),rgba(79,7,18,.95));opacity:1}
@@ -562,6 +571,9 @@
   .hrlock b{color:var(--gold-l);font:700 16px Oswald,sans-serif}
   .hrchips{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:4px;margin:4px 0 10px}
   .hrchips button{padding:8px 0;border-radius:10px;border:2px solid rgba(242,193,78,.45);background:var(--red-dd);color:#fff;font:700 15px Oswald,sans-serif;cursor:pointer;min-width:0}
+  .hrchips.cnt{grid-template-columns:repeat(auto-fill,minmax(74px,1fr))}
+  .hrchips.cnt button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 2px;font-size:19px}
+  .hrchips button small{font:700 10px Inter;letter-spacing:0;opacity:.8;white-space:nowrap}
   .hrchips button.on{border-color:var(--gold-l);background:#6d0a1a;color:var(--gold-l)}
   @media (max-width:560px){ .hrchips{grid-template-columns:repeat(7,minmax(0,1fr))} .hcol{display:none} }
   .hrhead{background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.45);border-radius:14px;padding:10px 12px;margin:0 0 8px}
@@ -1133,14 +1145,14 @@
 <div id="resetNote" class="overlay hidden">
   <div class="card">
     <h2>Welcome</h2>
-    <div class="sub" id="welcomeSub" style="font-size:14px;line-height:1.5">Pick how you want to start:</div>
+    <div class="sub" id="welcomeSub" style="font-size:14px;line-height:1.5"><b style="color:var(--gold-l);font-size:17px">…or welcome back!</b><br>Pick how you want to start:</div>
     <div class="welcome">
       <button class="wopt" data-welc="par3"><span data-ic="flag"></span><div><b>Play the 3C Par Three</b><small>Where everyone starts. Six short holes, and beating it unlocks the other courses.</small></div></button>
       <button class="wopt" data-welc="ctp"><span data-ic="target"></span><div><b>Daily challenges</b><small>Closest to the Pin and a Daily Tournament on every course. New every day, top 3 win money.</small></div></button>
       <button class="wopt" data-welc="cup"><span data-ic="school"></span><div><b>Spirit Day Homeroom Cup</b><small>Pick your homeroom and play this week's 18-hole course for your team. Prizes for every member in the top 3 homerooms.</small></div></button>
     </div>
     <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">Your <b>member code</b> is under the member icon at the top right. Use it to log in on any device.</div>
-    <div class="btns" id="welcomeUpd" style="margin-top:8px;display:none"><button class="ghost sm" data-updates="1">See everything that changed</button></div>
+    <div class="btns" style="margin-top:10px;flex-wrap:wrap"><button class="main" data-welc="home">Continue to the Home Screen ›</button><button class="ghost sm" id="welcomeUpd" data-updates="1" style="display:none">See everything that changed</button></div>
   </div>
 </div>
 
@@ -1576,6 +1588,18 @@
     ['mini1', '⭐', 'Mini Champ', 'Finish Gold Star Mini Golf', s => [s.roundsBy.mini || 0, 1], 200],
     ['miniace', '🌠', 'Mini Ace', 'Hole a mini golf hole in 1 (doesn\'t count as a real hole in one)', s => [s.miniAces, 1], 150],
     ['miniunder', '🏆', 'Mini Master', 'Finish Gold Star Mini Golf under par', s => [s.bestBy.mini != null && s.bestBy.mini < 0 ? 1 : 0, 1], 600],
+    // (update 2.4) more achievements
+    ['rounds250', '🏅', 'Lifer', 'Finish 250 rounds', s => [s.rounds, 250], 5000],
+    ['drive275', '💥', 'Bomber', 'Hit a 275-yard drive', s => [s.longest, 275], 600],
+    ['putt25x', '🎱', 'Lag Master', 'Hole 25 putts from 10+ yards', s => [s.longPutts, 25], 3000],
+    ['chip25', '🪶', 'Soft Hands', 'Hole out from off the green 25 times', s => [s.chipIns, 25], 3500],
+    ['underpar25', '📉', 'Under the Number', 'Finish 25 rounds under par', s => [s.underPar, 25], 6000],
+    ['mini10', '🎡', 'Regular at the Mini', 'Finish Gold Star Mini Golf 10 times', s => [s.roundsBy.mini || 0, 10], 800],
+    ['bucket10', '🪣', 'Bucket Pro', 'Drop 10 balls in a bucket at the Driving Range', s => [(save.range && save.range.holed) | 0, 10], 700],
+    ['bucket50', '🧺', 'Range Rat', 'Drop 50 balls in a bucket at the Driving Range', s => [(save.range && save.range.holed) | 0, 50], 2500],
+    ['homeroom', '🏫', 'School Spirit', 'Pick your homeroom', s => [save.hr ? 1 : 0, 1], 100],
+    ['cup1', '🎽', 'Team Member', 'Play a Homeroom Cup round for your homeroom', s => [s.cupRounds | 0, 1], 300],
+    ['cup10', '📣', 'Spirit Leader', 'Play 10 Homeroom Cup rounds', s => [s.cupRounds | 0, 10], 2000],
   ].map(([id, icon, name, how, prog, pay]) => ({ id, icon, name, how, prog, pay }));
   const awardDone = a => { const [h, n] = a.prog(st$()); return h >= n; };
   const hasAward = id => !!save.awards[id];
@@ -5167,7 +5191,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.29d';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.10.29e';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5636,7 +5660,7 @@
     if (u && u.isAnonymous) { fbGuest = u; fbUser = null; } else { fbUser = u || null; fbGuest = null; }
     cloudReady = false; renderAcct();
     if (fbUser) { await syncFromCloud(); renderAcct(); }
-    if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); claimCupPrizes(); flushFlags(); loadBanList(); }
+    if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); claimCupPrizes(); registerHr(); flushFlags(); loadBanList(); }
     if (!checkedOnce && (u || !fbAuth)) { checkedOnce = true; startupChecks(); }
     mpOnAuth();
     // every golfer gets a member code automatically (a quiet guest account is the fallback if that can't be made right now)
@@ -7118,18 +7142,36 @@
     persist(); renderClubs(); $('homeCoins').textContent = money(save.coins);
   });
 
+  // (update 2.4) achievements are grouped into drop-down sections, so members can find the ones for what they like to play
+  const AWARD_GROUPS = [
+    ['rounds', 'flag', 'Rounds & courses', ['round1', 'rounds25', 'rounds100', 'rounds250', 'holes500', 'explorer', 'valley', 'masters', 'blackTees', 'underpar1', 'underpar10', 'underpar25']],
+    ['scoring', 'trophy', 'Birdies, eagles & aces', ['par100', 'birdie1', 'birdie25', 'birdie100', 'eagle1', 'eagle10', 'eagle50', 'albatross', 'ace1', 'ace5']],
+    ['short', 'target', 'Short game & putting', ['chip1', 'chip10', 'chip25', 'sand1', 'putt10', 'putt10x', 'putt25x']],
+    ['power', 'club', 'Driving & striking', ['drive250', 'drive275', 'drive300', 'perfect100', 'perfect1000', 'perfect10000']],
+    ['modes', 'star', 'Challenges, range & mini golf', ['stiff', 'bucket10', 'bucket50', 'mini1', 'miniace', 'miniunder', 'mini10']],
+    ['cup', 'school', 'Homeroom Cup', ['homeroom', 'cup1', 'cup10']],
+    ['money', 'gift', 'Money', ['earn10k', 'earn100k']],
+  ];
+  const awOpen = {};
   function renderAwards() {
     const got = AWARDS.filter(a => hasAward(a.id)).length;
-    const rows = AWARDS.map(a => {
+    const card = a => {
       const [h, n] = a.prog(st$()), done = hasAward(a.id), bag = BAG_PRESETS.find(p => p.award === a.id);
       const pct = Math.min(100, Math.round(Math.min(h, n) / n * 100));
       const prog = n > 1 ? `${Math.min(h, n).toLocaleString()} / ${n.toLocaleString()}` : (done ? 'Done' : 'Not yet');
       const reward = [a.pay ? money(a.pay) : '', bag ? `${bag.name} bag` : '', a.id === 'stiff' ? 'Senior Sweater' : ''].filter(Boolean).join(' · ');
       return `<div class="aw${done ? ' done' : ''}"><div class="ai">${done ? a.icon : ico('lock')}</div><div class="ab"><div class="an">${a.name}</div><div class="ad">${a.how}</div>
         <div class="ap"><i><b style="width:${done ? 100 : pct}%"></b></i><span>${prog}</span></div>${reward ? `<div class="ar">Reward: ${reward}</div>` : ''}</div></div>`;
+    };
+    const listed = new Set(AWARD_GROUPS.flatMap(g => g[3])), groups = AWARD_GROUPS.concat([['other', 'star', 'More', AWARDS.filter(a => !listed.has(a.id)).map(a => a.id)]]);
+    const secs = groups.map(([k, ic, name, ids]) => {
+      const list = ids.map(id => AWARDS.find(a => a.id === id)).filter(Boolean); if (!list.length) return '';
+      const have = list.filter(a => hasAward(a.id)).length;
+      return `<details class="awgrp" data-awg="${k}"${awOpen[k] ? ' open' : ''}><summary>${ico(ic)}<b>${name}</b><span>${have} / ${list.length}</span></summary><div class="awlist">${list.map(card).join('')}</div></details>`;
     }).join('');
     $('awardsBody').innerHTML = `<div class="sect" style="display:flex;justify-content:space-between">ACHIEVEMENTS<span>${got} / ${AWARDS.length}</span></div>
-      <div class="awbar"><b style="width:${Math.round(got / AWARDS.length * 100)}%"></b></div><div class="awlist">${rows}</div>`;
+      <div class="awbar"><b style="width:${Math.round(got / AWARDS.length * 100)}%"></b></div>${secs}`;
+    $('awardsBody').querySelectorAll('details').forEach(d => d.addEventListener('toggle', () => { awOpen[d.dataset.awg] = d.open; }));
   }
   function renderStats() {
     const s = save.stats;
@@ -7722,7 +7764,7 @@
     const doc = { name: boardName(), uid, hr: old && HOMEROOMS.includes(old.hr) ? old.hr : save.hr, cid: entry.cid, date: now,
       strokes: better ? entry.strokes : old.strokes, rel: better ? entry.rel : old.rel, att: old ? (old.att | 0) + 1 : 1, t: better ? serverTime() : old.t };
     await ref.set(doc);
-    save.cupMine = { week: w.id, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, att: doc.att }; persist();
+    save.cupMine = { week: w.id, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, att: doc.att }; save.stats.cupRounds = (save.stats.cupRounds | 0) + 1; persist(); checkAwards();
     return { improved: better, first: !old, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, att: doc.att, moved: doc.hr !== save.hr };
   }
   const cupEligible = (c, n, cut) => !cut && !c.mini && !c.ctp && !c.range && !(MP && MP.started) && n === CUP_HOLES && c.id === cupCourse().id;
@@ -7819,8 +7861,8 @@
 
   // ---- the cup screen ----
   let cupView = 'teams', cupHr = '';
-  function hrPicker(cur, attr) {
-    return `<div class="hrchips">${HOMEROOMS.map(h => `<button data-${attr}="${h}" class="${h === cur ? 'on' : ''}">${h}</button>`).join('')}</div>`;
+  function hrPicker(cur, attr, counts) {
+    return `<div class="hrchips${counts ? ' cnt' : ''}">${HOMEROOMS.map(h => `<button data-${attr}="${h}" class="${h === cur ? 'on' : ''}">${h}${counts ? `<small>${hrMembers(h) == null ? '…' : membersTxt(hrMembers(h))}</small>` : ''}</button>`).join('')}</div>`;
   }
   function cupBoardRows(t, frozen) {
     if (!t.list.length) return '<div class="empty">No official scores from this homeroom yet.</div>';
@@ -7834,7 +7876,7 @@
     const diff = !t.qualified && t.avg == null ? '—' : t.rank === 1 ? 'Leading' : t.diff == null ? '—' : '+' + t.diff.toFixed(1);
     return `<div class="hrhead${t.qualified ? '' : ' nq'}"><div class="hrt">${hrLabel(t.hr)}${frozen && res.winner === t.hr ? ' · winner' : ''}</div>
       ${t.qualified ? '' : `<div class="nqtag">Not Qualified — Needs at least ${CUP_MIN} members</div>`}
-      <div class="hrstats"><div><span>Team average</span><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></div><div><span>Valid participants</span><b>${t.n}</b></div>
+      <div class="hrstats"><div><span>Members</span><b>${hrMembers(t.hr) == null ? '—' : hrMembers(t.hr)}</b></div><div><span>Team average</span><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></div><div><span>Valid participants</span><b>${t.n}</b></div>
         <div><span>Scoring positions</span><b>${t.filled} of ${CUP_MAX}</b></div><div><span>Status</span><b>${status}</b></div>
         <div><span>Team rank</span><b>${t.rank ? '#' + t.rank : '—'}</b></div><div><span>Behind the leader</span><b>${diff}${lead && t.rank !== 1 && t.diff != null ? ` <small>(${hrLabel(lead.hr).replace('Homeroom ', 'HR ')})</small>` : ''}</b></div></div>
       <div class="hrleg"><i></i>Light green = score ${frozen ? 'counted' : 'currently counts'} toward the team average${t.n > CUP_MAX ? ` (the ${CUP_MAX} lowest of ${t.n}; the other ${t.n - CUP_MAX} still show but don't count)` : t.n ? ' (every valid score counts until a homeroom has more than 20)' : ''}.</div>
@@ -7867,9 +7909,10 @@
     if (!rows) { done(`<div class="empty">${cupErr || 'Loading the cup…'}</div>`); return; }
     const res = cupCalcNow(rows);
     if (cupView === 'teams') {
+      loadHrCounts();
       done(res.order.map(t => `<button class="sprow${t.rank === 1 ? ' lead' : ''}${t.hr === save.hr ? ' mine' : ''}" data-cuphr="${t.hr}">
           <span class="sprk">${t.rank || '–'}</span><span class="spbadge">${t.hr}</span>
-          <span class="spinfo"><b>${hrLabel(t.hr)}${t.hr === save.hr ? ' · you' : ''}</b><small>${t.n} member${t.n === 1 ? '' : 's'} · ${t.filled}/${CUP_MAX} scoring${t.rank > 1 && t.diff != null ? ` · +${t.diff.toFixed(1)}` : ''}</small></span>
+          <span class="spinfo"><b>${hrLabel(t.hr)}${t.hr === save.hr ? ' · you' : ''}</b><small>${hrMembers(t.hr) == null ? '' : membersTxt(hrMembers(t.hr)) + ' · '}${t.n} score${t.n === 1 ? '' : 's'} · ${t.filled}/${CUP_MAX} scoring${t.rank > 1 && t.diff != null ? ` · +${t.diff.toFixed(1)}` : ''}</small></span>
           <span class="spavg"><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b><small>${t.qualified ? 'avg' : t.n ? `needs ${CUP_MIN - t.n} more` : 'no scores'}</small></span></button>`).join('')
         + `<div class="spsmall">Tap a homeroom to see its members. *Not qualified yet (fewer than ${CUP_MIN} members).</div>`);
     } else if (cupView === 'school') {
@@ -7878,7 +7921,8 @@
           `<tr class="${r.uid === meUid() ? 'me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}</td><td><b>${r.hr}</b></td><td><b>${r.strokes}(${fmtRel(r.rel)})</b></td></tr>`).join('') + '</table>');
     } else {
       const t = res.teams.find(x => x.hr === cupHr) || res.teams[0];
-      done(hrPicker(t.hr, 'cuphr') + hrHeader(t, res, !!frozen) + cupBoardRows(t, !!frozen)
+      loadHrCounts();
+      done(hrPicker(t.hr, 'cuphr', true) + hrHeader(t, res, !!frozen) + cupBoardRows(t, !!frozen)
         + '<div class="spsmall">Ties go to whoever posted the score first, then by member ID, so the scoring 20 can\'t be gamed.</div>');
     }
   }
@@ -7906,10 +7950,29 @@
     if (b.dataset.cupweek) { openPastWeek(b.dataset.cupweek); return; }
   });
   // your homeroom is picked once and can never be changed
+  // ---- How many members each homeroom has (shown as "# members"): when a member picks a homeroom their game adds a tiny
+  // note (hrMembers/{hr}/who/{uid}) and +1 to one counter doc (meta/hrCounts) in the same write, so reading every count is 1 read.
+  let hrCounts = null, hrCountsAt = 0;
+  async function loadHrCounts(force) {
+    if (!ONLINE || !fbDb || (!force && hrCounts && Date.now() - hrCountsAt < 120000)) return hrCounts;
+    try { const d = await fbDb.collection('meta').doc('hrCounts').get(); hrCounts = d.exists ? d.data() : {}; hrCountsAt = Date.now(); } catch (e) { hrCounts = hrCounts || {}; }
+    if (tab === 'cup' && !$('home').classList.contains('hidden')) renderCup();
+    return hrCounts;
+  }
+  async function registerHr() {
+    const u = meUser(); if (!u || !fbDb || !save.hr || save.hrReg === u.uid + ':' + save.hr) return;
+    const who = fbDb.collection('hrMembers').doc(save.hr).collection('who').doc(u.uid), cnt = fbDb.collection('meta').doc('hrCounts');
+    try {
+      if (!(await who.get()).exists) { const b = fbDb.batch(); b.set(who, { at: Date.now() }); b.set(cnt, { [save.hr]: firebase.firestore.FieldValue.increment(1) }, { merge: true }); await b.commit(); }
+      save.hrReg = u.uid + ':' + save.hr; persist(); loadHrCounts(true);
+    } catch (e) {}
+  }
+  const hrMembers = hr => hrCounts ? (hrCounts[hr] | 0) : null;
+  const membersTxt = n => `${n} member${n === 1 ? '' : 's'}`;
   function setHomeroom(h) {
     if (!HOMEROOMS.includes(h) || save.hr) return;
     if (!confirm(`Join Homeroom ${h}?\n\nYou can't change your homeroom after this.`)) return;
-    save.hr = h; persist(); setTimeout(cloudSaveSoon, 0); renderCupCard(); track('homeroom_set', { hr: h });
+    save.hr = h; persist(); setTimeout(cloudSaveSoon, 0); renderCupCard(); track('homeroom_set', { hr: h }); checkAwards(); registerHr();
   }
   document.addEventListener('click', e => {
     const t = e.target.closest('[data-cupgo],[data-cupplay]'); if (!t || t.closest('#cupBody')) return;
@@ -8348,7 +8411,7 @@
   // the welcome: brand-new golfers and everyone starting over after a reset (it points them at 3C, the daily challenges or the cup)
   if ((save.noteVer | 0) < 5) {
     if (!isNewGolfer || save.resetNote || hadSave) {
-      $('welcomeSub').innerHTML = '<b style="color:var(--gold-l);font-size:17px">Welcome back!</b><br>A LOT has changed: a whole new experience is here. Pick how you want to start:';
+      $('welcomeSub').innerHTML = '<b style="color:var(--gold-l);font-size:17px">…or welcome back!</b><br>A LOT has changed: a whole new experience is here. Pick how you want to start:';
       $('welcomeUpd').style.display = '';
     }
     $('resetNote').classList.remove('hidden');
@@ -8361,7 +8424,7 @@
     const b = e.target.closest('[data-welc]'); if (!b) return;
     ensureAudio(); sfx.click(); $('resetNote').classList.add('hidden'); delete save.resetNote; save.noteVer = 5; persist();
     const w = b.dataset.welc;
-    if (w === 'par3') { const p3 = courseById('par3'); if (p3) openCourse(p3); } else setTab(w);
+    if (w === 'par3') { const p3 = courseById('par3'); if (p3) openCourse(p3); } else setTab(w === 'home' ? 'play' : w);
     setTimeout(firstName, 400);
   });
   // anything already earned by older saves is granted quietly
