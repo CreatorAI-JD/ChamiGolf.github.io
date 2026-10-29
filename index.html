@@ -992,11 +992,11 @@
   </div>
 </div>
 
-<!-- ===== Player code sign-in (Oct 28 2026: replaces Google sign-in for players) ===== -->
+<!-- ===== Member code sign-in (Oct 28 2026: replaces Google sign-in for players) ===== -->
 <div id="codeOv" class="overlay hidden" style="z-index:41">
   <div class="card">
-    <h2>Player code</h2>
-    <div class="sub" style="font-size:14px;line-height:1.45">No passwords and no email. Your player code <b>is</b> your account: type it on any device to pick up right where you left off.</div>
+    <h2>Member code</h2>
+    <div class="sub" style="font-size:14px;line-height:1.45">No passwords and no email. Your member code <b>is</b> your account: type it on any device to pick up right where you left off.</div>
     <div id="coBody"></div>
     <div class="mpmsg" id="coMsg"></div>
     <div class="btns" style="margin-top:10px"><button class="ghost" id="coClose">Close</button></div>
@@ -1137,9 +1137,9 @@
     <div class="welcome">
       <button class="wopt" data-welc="par3"><span data-ic="flag"></span><div><b>Play the 3C Par Three</b><small>Where everyone starts. Six short holes, and beating it unlocks the other courses.</small></div></button>
       <button class="wopt" data-welc="ctp"><span data-ic="target"></span><div><b>Daily challenges</b><small>Closest to the Pin and a Daily Tournament on every course. New every day, top 3 win money.</small></div></button>
-      <button class="wopt" data-welc="cup"><span data-ic="school"></span><div><b>Spirit Day Homeroom Cup</b><small>Pick your homeroom and play this week's 18-hole course for your team. Prizes for every player in the top 3 homerooms.</small></div></button>
+      <button class="wopt" data-welc="cup"><span data-ic="school"></span><div><b>Spirit Day Homeroom Cup</b><small>Pick your homeroom and play this week's 18-hole course for your team. Prizes for every member in the top 3 homerooms.</small></div></button>
     </div>
-    <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">Your <b>player code</b> is under the player icon at the top right. Use it to log in on any device.</div>
+    <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">Your <b>member code</b> is under the member icon at the top right. Use it to log in on any device.</div>
     <div class="btns" id="welcomeUpd" style="margin-top:8px;display:none"><button class="ghost sm" data-updates="1">See everything that changed</button></div>
   </div>
 </div>
@@ -1285,7 +1285,7 @@
     { id: 'iron4', slot: 2, name: '4 Iron', short: '4i', price: 0, carry: 195, roll: 0.08, loft: 28, spread: 2.7, speed: 1.1, zone: 0.085, curve: 0.95,
       desc: 'Long approach shots and par 3s.' },
     { id: 'blade4', slot: 2, name: 'Tour Blade 4 Iron', short: 'T4', price: 900, carry: 204, roll: 0.08, loft: 28, spread: 2.1, speed: 1.3, zone: 0.07, curve: 0.9,
-      desc: 'Players iron: longer and straighter, but the timing is tough.' },
+      desc: 'A tour iron: longer and straighter, but the timing is tough.' },
     { id: 'iron6', slot: 3, name: '6 Iron', short: '6i', price: 0, carry: 170, roll: 0.06, loft: 30, spread: 2.5, speed: 1.0, zone: 0.095, curve: 0.8,
       desc: 'The all-round mid iron.' },
     { id: 'forged6', slot: 3, name: 'Forged 6 Iron', short: 'F6', price: 600, carry: 176, roll: 0.06, loft: 31, spread: 2.2, speed: 0.95, zone: 0.11, curve: 0.7,
@@ -1455,7 +1455,7 @@
 
   // ================= Save data =================
   const SAVE_KEY = 'fairwayclub-save';
-  // FULL RESET (Oct 14 2026): bumping this wipes every player's progress (money, gear, stats, unlocks, awards) on every
+  // FULL RESET (Oct 14 2026): bumping this wipes every member's progress (money, gear, stats, unlocks, awards) on every
   // device and in the cloud the next time they open the game. Names, sign-ins, friends and settings are kept.
   // (Oct 28 2026, epoch 2) FRESH START for everyone: progress, names and old Google sign-ins are all wiped. Only screen settings are kept.
   const RESET_EPOCH = 3, RESET_KEEP = ['ui', 'lefty'];
@@ -1464,7 +1464,7 @@
     longest: 0, earnedTotal: 0, strokesTotal: 0, parTotal: 0, roundsBy: {}, bestBy: {},
     albatross: 0, chipIns: 0, sandHoles: 0, longPutts: 0, underPar: 0, miniAces: 0 });
   const freshSave = () => ({ coins: 0, lv: {}, up: {}, ball: 0, course: 'par3', stats: freshStats(), bag: STARTER_BAG.slice(), owned: STARTER_BAG.slice(),
-    name: 'Player', look: Object.assign({}, LOOK_PRESETS[0].look), gbag: Object.assign({}, BAG_PRESETS[0].bag), board: {}, awards: {}, unlocks: {}, ownedLook: {},
+    name: 'Member', look: Object.assign({}, LOOK_PRESETS[0].look), gbag: Object.assign({}, BAG_PRESETS[0].bag), board: {}, awards: {}, unlocks: {}, ownedLook: {},
     clubCol: {}, badges: {}, badge: '', lefty: false, epoch: RESET_EPOCH });
   // ---- Anti-cheat: a fingerprint of everything money can buy. Editing the save by hand breaks it. ----
   const canon = v => v && typeof v === 'object' ? (Array.isArray(v) ? '[' + v.map(canon).join(',') + ']'
@@ -2332,7 +2332,7 @@
     return '';
   }
   const safeName = (n, fallback = 'Golfer') => (n && !nameProblem(n) ? String(n).trim().slice(0, 14) : fallback);
-  if (save.name && nameProblem(save.name)) save.name = 'Player';
+  if (save.name && nameProblem(save.name)) save.name = 'Member';
   const DEG = Math.PI / 180;
 
   // ================= Sound =================
@@ -5149,7 +5149,7 @@
   });
   function recordScore(rel, strokes) {
     const list = save.board[course.id] || (save.board[course.id] = []);
-    const entry = { name: safeName(save.name, 'Player'), rel, strokes, date: Date.now() };
+    const entry = { name: safeName(save.name, 'Member'), rel, strokes, date: Date.now() };
     list.push(entry); list.sort((a, b) => a.rel - b.rel || a.date - b.date);
     const rank = list.indexOf(entry) + 1;
     save.board[course.id] = list.slice(0, 10); lastEntry = entry;
@@ -5167,7 +5167,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.29c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.10.29d';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5189,7 +5189,7 @@
   // Leaderboard season: the full reset started fresh boards (old scores stay in the database, they just aren't shown).
   // (Oct 20 2026, season 4: every leaderboard was reset again along with the Gold Star Mini Golf rework.)
   // (Oct 28 2026, season 5) fresh start: every board starts empty again (old scores stay in the database, hidden)
-  // (update 2.3, Oct 28 2026 7 PM ET, season 6) everyone started over again with new player codes
+  // (update 2.3, Oct 28 2026 7 PM ET, season 6) everyone started over again with new member codes
   const SEASON = '_s6', SEASON_START = 1793228400000;   // every board (courses, daily tournaments, Closest to the Pin, aces) starts over here
   const inSeason = r => (r.date || 0) >= SEASON_START;
   if (save.lbSeason !== SEASON) {   // this device's own boards and remembered bests start over too (mini golf's par changed, so its best does as well)
@@ -5211,8 +5211,8 @@
   const meUser = () => fbUser || fbGuest;
   const meUid = () => { const u = meUser(); return u ? u.uid : ''; };
   const isCreator = () => !!(fbUser && fbUser.uid === CREATOR_UID);
-  const needsName = () => !save.name || String(save.name).trim().toLowerCase() === 'player' || !!nameProblem(save.name);
-  const boardName = () => safeName(save.name && save.name !== 'Player' && !nameProblem(save.name) ? save.name : 'Golfer');
+  const needsName = () => !save.name || ['player', 'member'].includes(String(save.name).trim().toLowerCase()) || !!nameProblem(save.name);
+  const boardName = () => safeName(save.name && !['Player', 'Member'].includes(save.name) && !nameProblem(save.name) ? save.name : 'Golfer');
   const ago = ms => { const s = Math.max(0, (Date.now() - ms) / 1000); return s < 90 ? 'just now' : s < 3600 ? `${Math.round(s / 60)}m ago` : s < 86400 ? `${Math.round(s / 3600)}h ago` : `${Math.round(s / 86400)}d ago`; };
 
   // ---- Badges: a small icon next to your name on the leaderboards. Earn them, then equip one in the Golfer tab. ----
@@ -5325,12 +5325,12 @@
   function askName(why) {
     return new Promise(res => {
       const ov = $('nameAsk'), inp = $('naIn'), warn = $('naWarn');
-      $('naSub').textContent = why || 'Your name is still "Player". Pick a name to show up on the leaderboards.';
-      inp.value = save.name && save.name !== 'Player' ? save.name : ''; warn.classList.add('hidden');
+      $('naSub').textContent = why || 'You don\'t have a name yet. Pick one to show up on the leaderboards.';
+      inp.value = save.name && !['Player', 'Member'].includes(save.name) ? save.name : ''; warn.classList.add('hidden');
       ov.classList.remove('hidden'); setTimeout(() => { try { inp.focus(); } catch (e) {} }, 60);
       const done = ok => { ov.classList.add('hidden'); $('naOk').onclick = $('naNo').onclick = inp.onkeydown = null; ensureAudio(); sfx.click(); res(ok); };
       $('naOk').onclick = () => {
-        const v = inp.value.trim().slice(0, 14), bad = nameProblem(v) || (v.toLowerCase() === 'player' ? 'Pick a name other than Player' : '');
+        const v = inp.value.trim().slice(0, 14), bad = nameProblem(v) || (['player', 'member'].includes(v.toLowerCase()) ? 'Pick your own name' : '');
         if (bad) { warn.textContent = bad; warn.classList.remove('hidden'); return; }
         save.name = v; persist(); if ($('gName')) $('gName').value = v; presence(); flushAces(); done(true);
       };
@@ -5466,7 +5466,7 @@
   }
   $('prizeOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('prize').classList.add('hidden'); });
 
-  // ---- Accounts (update 2.3): every golfer has a player code, XXXX-XXXX ----
+  // ---- Accounts (update 2.3): every golfer has a member code, XXXX-XXXX ----
   // A code is a Firebase email/password account under the hood (p-<code>@players.chamigolf.app, with a password made from
   // the code), so nobody types a password or an email. The game makes one for every golfer automatically; the 👤 player
   // icon (top right) shows your code and has the Log in button for using a code from another device.
@@ -5500,11 +5500,11 @@
   function renderCodeOv() {
     const box = $('coBody'); if (!box) return;
     const mine = myCode();
-    box.innerHTML = (mine ? `<div class="lh">YOUR PLAYER CODE</div><div class="pcodeBig">${fmtCode(mine)}</div>
+    box.innerHTML = (mine ? `<div class="lh">YOUR MEMBER CODE</div><div class="pcodeBig">${fmtCode(mine)}</div>
         <div class="sub" style="font-size:13px">${codeFresh === mine ? '<b style="color:var(--gold-l)">Write this down or take a picture of it.</b> ' : ''}Type this code on any device to play as you.</div>
         <div class="btns" style="margin-top:6px"><button class="ghost sm" data-cocopy="1">${ico('copy')} Copy code</button></div>`
-      : makingCode ? '<div class="sub">Making your player code…</div>'
-      : `<div class="sub">You don't have a player code yet.</div><button class="main" data-comake="1" style="width:100%">Get my player code</button>`)
+      : makingCode ? '<div class="sub">Making your member code…</div>'
+      : `<div class="sub">You don't have a member code yet.</div><button class="main" data-comake="1" style="width:100%">Get my member code</button>`)
       + `<div class="lh" style="margin-top:14px">LOG IN WITH A CODE</div>
       <div class="mprow"><input class="mpin" id="coIn" maxlength="9" placeholder="XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="main sm" data-cogo="1">Log in</button></div>
       <div class="tnote" style="text-align:left">Logging in switches this device to that code's progress.</div>`;
@@ -5532,13 +5532,13 @@
       }
     }
     makingCode = false;
-    if (ok) { await onUser(fbAuth.currentUser); toastQ.push({ a: { icon: ico('user'), label: 'YOUR PLAYER CODE', name: fmtCode(codeFresh), pay: 0 } }); nextToast(); }
+    if (ok) { await onUser(fbAuth.currentUser); toastQ.push({ a: { icon: ico('user'), label: 'YOUR MEMBER CODE', name: fmtCode(codeFresh), pay: 0 } }); nextToast(); }
     renderCodeOv(); renderAcct();
     return ok;
   }
   async function useCode(raw) {
     const c = cleanPCode(raw);
-    if (!codeOk(c)) { codeMsg('A player code is 8 letters and numbers, like ABCD-2345.'); return; }
+    if (!codeOk(c)) { codeMsg('A member code is 8 letters and numbers, like ABCD-2345.'); return; }
     if (myCode() === c) { codeMsg("You're already logged in with that code.", true); return; }
     codeMsg('Logging in…', true);
     try { await fbAuth.signInWithEmailAndPassword(codeEmail(c), codePass(c)); codeMsg(''); $('codeOv').classList.add('hidden'); toastQ.push({ a: { icon: ico('key'), label: 'WELCOME BACK', name: 'Logged in as ' + fmtCode(c) } }); nextToast(); }
@@ -5610,14 +5610,14 @@
     if (tab === 'golfer') renderAcct();
   }
   function acctHtml() {
-    if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and player codes couldn\'t load. Check your connection and reload.</div></div>';
+    if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and member codes couldn\'t load. Check your connection and reload.</div></div>';
     const code = myCode();
-    return `<div class="acctCard"><div class="an">${ico('user')} ${esc(boardName())}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `Player code <b class="pcode">${fmtCode(code)}</b>` : makingCode ? 'Making your player code…' : 'No player code yet'}${cloudReady ? `<br>Progress saved to your code${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}` : ''}</div>
+    return `<div class="acctCard"><div class="an">${ico('user')} ${esc(boardName())}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `Member code <b class="pcode">${fmtCode(code)}</b>` : makingCode ? 'Making your member code…' : 'No member code yet'}${cloudReady ? `<br>Progress saved to your code${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}` : ''}</div>
       <button class="main sm" data-signin="1">${ico('user')} ${code ? 'My code' : 'Get my code'}</button> <button class="ghost sm" data-login="1">${ico('key')} Log in</button>${fbUser ? ` <button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>${ico('cloud')} Sync now</button>` : ''}</div>`;
   }
   function renderAcct() {
     const b = $('acctBtn');
-    if (b) { b.classList.toggle('hidden', !ONLINE); b.innerHTML = ico('user'); b.title = myCode() ? 'Your player code: ' + fmtCode(myCode()) : 'Player code'; b.classList.add('in'); }
+    if (b) { b.classList.toggle('hidden', !ONLINE); b.innerHTML = ico('user'); b.title = myCode() ? 'Your member code: ' + fmtCode(myCode()) : 'Member code'; b.classList.add('in'); }
     if ($('adminBtn')) $('adminBtn').classList.toggle('hidden', !isCreator());
     renderHeadBadges();
     if ($('acctBox')) $('acctBox').innerHTML = acctHtml();
@@ -5639,7 +5639,7 @@
     if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); claimCupPrizes(); flushFlags(); loadBanList(); }
     if (!checkedOnce && (u || !fbAuth)) { checkedOnce = true; startupChecks(); }
     mpOnAuth();
-    // every golfer gets a player code automatically (a quiet guest account is the fallback if that can't be made right now)
+    // every golfer gets a member code automatically (a quiet guest account is the fallback if that can't be made right now)
     if (fbAuth && !fbUser && !autoTried) { autoTried = true; makeCode(true).then(ok => { if (!ok && !meUser()) ensureOnlineUser().catch(() => { if (!checkedOnce) { checkedOnce = true; startupChecks(); } }); }); }
     if (!$('home').classList.contains('hidden')) {
       if (tab === 'course') fillBoard(course); if (tab === 'ctp') renderCtpTab(); if (tab === 'golfer') renderGolfer();
@@ -5668,7 +5668,7 @@
     return `${Math.floor(mins / 60)}h ${mins % 60}m`;
   }
   let boardMode = 'daily';
-  const guestNote = () => fbUser ? '' : '<div class="tnote" style="margin-top:10px">Setting up your player code… <button class="main sm" data-signin="1">Player code</button></div>';
+  const guestNote = () => fbUser ? '' : '<div class="tnote" style="margin-top:10px">Setting up your member code… <button class="main sm" data-signin="1">Member code</button></div>';
   async function fillBoard(c) {
     const box = $('boardBox'); if (!box) return;
     if (!ONLINE) { box.innerHTML = boardHtml(c); return; }
@@ -5779,7 +5779,7 @@
   // ---- Analytics: Google Analytics only (free, unlimited, and it doesn't use up Firebase's free daily limits) ----
   // presence() marks where the golfer is; bumpDaily() counts things (rounds, aces, sign-ins, new players, CTP shots).
   function presence(where) { if (where && where !== 'home') track('play_course', { course: String(where).slice(0, 20) }); regPlayer(); }
-  // Player directory for the creator's "Find a player" search: one tiny record per golfer, written only when it's new
+  // Player directory for the creator's "Find a member" search: one tiny record per golfer, written only when it's new
   // or their name changes (not every visit), so it barely touches Firebase's free limits.
   let regTimer = null;
   function regPlayer() {
@@ -6397,8 +6397,8 @@
     const back = '<button class="back" data-mpback="1">← Back</button>';
     if (!ONLINE) { box.innerHTML = back + '<div class="empty">Play Friends needs the internet. Check your connection and reload.</div>'; return; }
     if (!fbUser) {
-      box.innerHTML = back + `<div class="mpbox"><div class="lh">PLAY FRIENDS</div><div class="cm" style="font-size:14px;color:var(--cream);margin-bottom:10px">Your player code is still being set up. Tap below to get it (or log in with yours), then create or join matches with a match code.${pendingLink ? ` <b style="color:var(--gold-l)">You'll join match ${pendingLink.join} right after.</b>` : ''}</div>
-        <button class="main" data-signin="1" style="width:100%">Player code</button></div>`;
+      box.innerHTML = back + `<div class="mpbox"><div class="lh">PLAY FRIENDS</div><div class="cm" style="font-size:14px;color:var(--cream);margin-bottom:10px">Your member code is still being set up. Tap below to get it (or log in with yours), then create or join matches with a match code.${pendingLink ? ` <b style="color:var(--gold-l)">You'll join match ${pendingLink.join} right after.</b>` : ''}</div>
+        <button class="main" data-signin="1" style="width:100%">Member code</button></div>`;
       return;
     }
     if (MP && MP.doc && !MP.started) return renderLobby(box, back);
@@ -7359,9 +7359,9 @@
       try {
         const rank = await postOnline(c.id, entry);
         box.innerHTML = (rank ? `You're <b style="color:var(--gold-l)">#${rank}</b> in today's ${esc(c.name)} tournament as <b>${esc(boardName())}</b>!` : 'Score posted online.')
-          + (fbUser ? '' : '<br><small>Playing as a guest · tap the player icon to get your player code and keep your progress</small>');
+          + (fbUser ? '' : '<br><small>Playing as a guest · tap the member icon to get your member code and keep your progress</small>');
       } catch (e) {
-        if (!meUser()) { box.innerHTML = '<button id="postBtn">Get your player code to post this score</button>'; $('postBtn').onclick = () => signIn(); return; }
+        if (!meUser()) { box.innerHTML = '<button id="postBtn">Get your member code to post this score</button>'; $('postBtn').onclick = () => signIn(); return; }
         box.innerHTML = 'Couldn\'t post online. <button id="retryPost">Retry</button>'; $('retryPost').onclick = post;
       }
     };
@@ -7624,7 +7624,7 @@
   //  · A homeroom's team average is the average of its 20 lowest official scores (all of them if it has 10-19).
   //    Fewer than 10 valid scores = Not Qualified (the average is only provisional and it can't win).
   //  · Ties at the cutoff (and everywhere else) are broken by who posted that score first (the server's time stamp), then
-  //    by player ID. Neither can be changed by a golfer, so nobody can move themselves in or out of the scoring 20.
+  //    by member ID. Neither can be changed by a golfer, so nobody can move themselves in or out of the scoring 20.
   //  · Team averages, the green "counts" highlight and every leaderboard all come from the same cupCalc() below.
   //  · After the lock, the first game to open the cup writes the final standings to hrcupWeeks/{week} (the history,
   //    which never changes again). The live scores stay in the database too.
@@ -7833,14 +7833,14 @@
     const lead = res.order.find(x => x.rank === 1);
     const diff = !t.qualified && t.avg == null ? '—' : t.rank === 1 ? 'Leading' : t.diff == null ? '—' : '+' + t.diff.toFixed(1);
     return `<div class="hrhead${t.qualified ? '' : ' nq'}"><div class="hrt">${hrLabel(t.hr)}${frozen && res.winner === t.hr ? ' · winner' : ''}</div>
-      ${t.qualified ? '' : `<div class="nqtag">Not Qualified — Needs at least ${CUP_MIN} players</div>`}
+      ${t.qualified ? '' : `<div class="nqtag">Not Qualified — Needs at least ${CUP_MIN} members</div>`}
       <div class="hrstats"><div><span>Team average</span><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></div><div><span>Valid participants</span><b>${t.n}</b></div>
         <div><span>Scoring positions</span><b>${t.filled} of ${CUP_MAX}</b></div><div><span>Status</span><b>${status}</b></div>
         <div><span>Team rank</span><b>${t.rank ? '#' + t.rank : '—'}</b></div><div><span>Behind the leader</span><b>${diff}${lead && t.rank !== 1 && t.diff != null ? ` <small>(${hrLabel(lead.hr).replace('Homeroom ', 'HR ')})</small>` : ''}</b></div></div>
       <div class="hrleg"><i></i>Light green = score ${frozen ? 'counted' : 'currently counts'} toward the team average${t.n > CUP_MAX ? ` (the ${CUP_MAX} lowest of ${t.n}; the other ${t.n - CUP_MAX} still show but don't count)` : t.n ? ' (every valid score counts until a homeroom has more than 20)' : ''}.</div>
       ${t.qualified ? '' : `<div class="hrleg" style="color:#ffb3a6">*Provisional: ${t.n ? 'these scores would be used, but ' : ''}a homeroom needs ${CUP_MIN} valid scores to qualify and can't win the cup until then.</div>`}</div>`;
   }
-  const CUP_PAY = [2500, 1500, 750], CUP_MVP_PAY = 750;   // every player in the top 3 homerooms · the best player of every other homeroom
+  const CUP_PAY = [2500, 1500, 750], CUP_MVP_PAY = 750;   // every member in the top 3 homerooms · the best member of every other homeroom
   function renderCup() {
     const box = $('cupBody'); if (!box) return;
     const back = '<button class="back" data-cupback="1">← Back</button>';
@@ -7856,9 +7856,9 @@
       ${frozen ? '<div class="spnote">Showing a past week. <button class="linkBtn" data-cuplive="1">Back to this week</button></div>' : ''}
       ${save.hr ? '' : `<div class="sppick"><div class="sph">Pick your homeroom</div>${hrPicker('', 'myhr')}<div class="spsmall">Pick carefully: it can't be changed later.</div></div>`}
       <div class="spbar">${!frozen && w.phase === 'live' ? '<button class="main sm" data-cupplay="1">Play cup round ›</button>' : ''}${save.hr ? `<span class="spme"><i>${save.hr}</i>Your homeroom ${ico('lock')}</span>` : ''}</div>
-      <div class="spprize"><div><b>${money(CUP_PAY[0])}</b><span>every player · 1st place</span></div><div><b>${money(CUP_PAY[1])}</b><span>every player · 2nd</span></div>
-        <div><b>${money(CUP_PAY[2])}</b><span>every player · 3rd</span></div><div><b>${money(CUP_MVP_PAY)}</b><span>best player in every other homeroom</span></div></div>
-      <details class="sphow"><summary>How it works</summary><p>Your best full 18-hole round on this week's course (Monday 7:00 AM to Friday 2:40 PM) is your official score. Each homeroom's ${CUP_MAX} lowest scores make its team average and the lowest average wins. A homeroom needs ${CUP_MIN} players to qualify. Prizes are paid when the winner is announced Friday at 2:42 PM (the next time you open the game).</p></details>
+      <div class="spprize"><div><b>${money(CUP_PAY[0])}</b><span>every member · 1st place</span></div><div><b>${money(CUP_PAY[1])}</b><span>every member · 2nd</span></div>
+        <div><b>${money(CUP_PAY[2])}</b><span>every member · 3rd</span></div><div><b>${money(CUP_MVP_PAY)}</b><span>best member in every other homeroom</span></div></div>
+      <details class="sphow"><summary>How it works</summary><p>Your best full 18-hole round on this week's course (Monday 7:00 AM to Friday 2:40 PM) is your official score. Each homeroom's ${CUP_MAX} lowest scores make its team average and the lowest average wins. A homeroom needs ${CUP_MIN} members to qualify. Prizes are paid when the winner is announced Friday at 2:42 PM (the next time you open the game).</p></details>
       <div class="spnav">${[['teams', 'trophy', 'Standings'], ['hr', 'school', 'Homerooms'], ['school', 'users', 'Everyone'], ['past', 'star', 'Past winners']].map(([v, i, n]) => `<button data-cv="${v}" class="${cupView === v ? 'on' : ''}">${ico(i)}<span>${n}</span></button>`).join('')}</div>`;
     const done = inner => { box.innerHTML = html + `<div class="spbody">${inner}</div></div>`; };
     if (cupView === 'past') { done(pastHtml()); loadCupPast(); return; }
@@ -7869,9 +7869,9 @@
     if (cupView === 'teams') {
       done(res.order.map(t => `<button class="sprow${t.rank === 1 ? ' lead' : ''}${t.hr === save.hr ? ' mine' : ''}" data-cuphr="${t.hr}">
           <span class="sprk">${t.rank || '–'}</span><span class="spbadge">${t.hr}</span>
-          <span class="spinfo"><b>${hrLabel(t.hr)}${t.hr === save.hr ? ' · you' : ''}</b><small>${t.n} player${t.n === 1 ? '' : 's'} · ${t.filled}/${CUP_MAX} scoring${t.rank > 1 && t.diff != null ? ` · +${t.diff.toFixed(1)}` : ''}</small></span>
+          <span class="spinfo"><b>${hrLabel(t.hr)}${t.hr === save.hr ? ' · you' : ''}</b><small>${t.n} member${t.n === 1 ? '' : 's'} · ${t.filled}/${CUP_MAX} scoring${t.rank > 1 && t.diff != null ? ` · +${t.diff.toFixed(1)}` : ''}</small></span>
           <span class="spavg"><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b><small>${t.qualified ? 'avg' : t.n ? `needs ${CUP_MIN - t.n} more` : 'no scores'}</small></span></button>`).join('')
-        + `<div class="spsmall">Tap a homeroom to see its players. *Not qualified yet (fewer than ${CUP_MIN} players).</div>`);
+        + `<div class="spsmall">Tap a homeroom to see its members. *Not qualified yet (fewer than ${CUP_MIN} members).</div>`);
     } else if (cupView === 'school') {
       done(!res.school.length ? '<div class="empty">No official scores yet this week. Be the first!</div>'
         : `<table class="board spt2"><tr><th></th><th>GOLFER</th><th>HR</th><th>BEST</th></tr>` + res.school.map(r =>
@@ -7879,7 +7879,7 @@
     } else {
       const t = res.teams.find(x => x.hr === cupHr) || res.teams[0];
       done(hrPicker(t.hr, 'cuphr') + hrHeader(t, res, !!frozen) + cupBoardRows(t, !!frozen)
-        + '<div class="spsmall">Ties go to whoever posted the score first, then by player ID, so the scoring 20 can\'t be gamed.</div>');
+        + '<div class="spsmall">Ties go to whoever posted the score first, then by member ID, so the scoring 20 can\'t be gamed.</div>');
     }
   }
   function pastHtml() {
@@ -7933,7 +7933,7 @@
       $('cupWinBody').innerHTML = res.winner ? `<div class="tipBig">${hrLabel(res.winner)} wins the Spirit Day Homeroom Cup!</div>
           <div class="cupPodium sm">${[1, 0, 2].map(i => top[i] ? `<div class="pod p${i + 1}"><div class="pn">${top[i].hr}</div><div class="pw">${fmtAvg(top[i].avg)}</div><div class="pb">${i + 1}</div></div>` : `<div class="pod p${i + 1} empty"><div class="pb">${i + 1}</div></div>`).join('')}</div>
           <div class="sub">${esc(cupCourseFor(w.id).name)} · team average of the ${CUP_MAX} lowest scores${save.hr ? ` · ${hrLabel(save.hr)}: ${(() => { const m = res.teams.find(t => t.hr === save.hr); return m && m.rank ? '#' + m.rank : 'not qualified'; })()}` : ''}</div>`
-        : `<div class="sub">No homeroom reached ${CUP_MIN} players this week, so there's no winner. Rally your homeroom for next week!</div>`;
+        : `<div class="sub">No homeroom reached ${CUP_MIN} members this week, so there's no winner. Rally your homeroom for next week!</div>`;
       $('cupWin').classList.remove('hidden'); try { sfx.perfect(); } catch (e) {} if (res.winner && res.winner === save.hr) burst(200);
       claimCupPrizes();
     } catch (e) { save.cupSeen = ''; }
@@ -7951,7 +7951,7 @@
     if (archiveDue(w) && rows.length) await cupArchive(w, rows);
     return rows;
   }
-  // ---- Cup prizes: every player in the top 3 homerooms ($2,500 / $1,500 / $750 each) and the best player of every other
+  // ---- Cup prizes: every member in the top 3 homerooms ($2,500 / $1,500 / $750 each) and the best member of every other
   // homeroom ($750). Paid once per week, the next time the game is open after Friday 2:42 PM.
   let cupClaiming = false;
   async function claimCupPrizes() {
@@ -7966,7 +7966,7 @@
         if (me) {
           const res = cupCalcNow(rows), t = res.teams.find(x => x.hr === me.hr);
           if (t && t.rank && t.rank <= 3) { pay += CUP_PAY[t.rank - 1]; why.push(`${hrLabel(t.hr)} finished ${['1st', '2nd', '3rd'][t.rank - 1]}: <b>${money(CUP_PAY[t.rank - 1])}</b>`); }
-          if (t && res.winner && t.hr !== res.winner && t.list[0] && t.list[0].uid === uid) { pay += CUP_MVP_PAY; why.push(`Best player in ${hrLabel(t.hr)}: <b>${money(CUP_MVP_PAY)}</b>`); }
+          if (t && res.winner && t.hr !== res.winner && t.list[0] && t.list[0].uid === uid) { pay += CUP_MVP_PAY; why.push(`Best member in ${hrLabel(t.hr)}: <b>${money(CUP_MVP_PAY)}</b>`); }
         }
         save.cupPaid[w.id] = pay;
         if (pay) {
@@ -7987,8 +7987,8 @@
   // Player counts, players online and rounds per day come from Google Analytics instead (free, and it doesn't use Firebase).
   let admView = 'players', admCid = 'pines', admMode = 'daily';
   // Creator's Pick for the golfers who helped with the game. The creator's device hands these out on its own when exactly
-  // one golfer in the player directory has that first name (otherwise use "Find a player" and tap 🎁).
-  const admTabs = [['players', '🔎 Find a player'], ['aces', '🎯 Holes in one'], ['reviews', '📋 Scorecard review'], ['flags', '🚩 Flags'], ['bans', '⛔ Bans'], ['boards', '🏆 Leaderboards']];
+  // one golfer in the player directory has that first name (otherwise use "Find a member" and tap 🎁).
+  const admTabs = [['players', '🔎 Find a member'], ['aces', '🎯 Holes in one'], ['reviews', '📋 Scorecard review'], ['flags', '🚩 Flags'], ['bans', '⛔ Bans'], ['boards', '🏆 Leaderboards']];
   let admFlagDocs = {};
   // One flagged round's scorecard: the card the flag carried (holes played so far), plus the final card of that round if it came in
   function admRoundCard(id) {
@@ -8062,11 +8062,11 @@
       });
     } catch (e) {}
     $('acBody').innerHTML = (info.length ? `<div class="tnote" style="text-align:left">${info.join('<br>')}</div>` : '')
-      + (got.length ? got.map(g => cardBlock(g.k, g.title)).join('') : '<div class="empty">No scorecards for this golfer yet. (Cards are kept from Oct 20 2026 on: they come up with a ban, with ace and score flags, and in Google players\' cloud saves.)</div>')
+      + (got.length ? got.map(g => cardBlock(g.k, g.title)).join('') : '<div class="empty">No scorecards for this golfer yet. (Cards are kept from Oct 20 2026 on: they come up with a ban, with ace and score flags, and in members\' cloud saves.)</div>')
       + (flagTxt.length ? `<div class="sect" style="margin-top:12px">FLAGS</div><div class="mplist">${flagTxt.join('')}</div>` : '');
   }
   let admQ = '', admFound = null, admGifted = {}, admMoneyOnly = 'check';
-  // Find a player: the whole player directory is loaded once (one read per golfer, remembered for 6 hours on this device)
+  // Find a member: the whole player directory is loaded once (one read per golfer, remembered for 6 hours on this device)
   // and searched right here, so any part of a name matches ("coll" finds "John Collins").
   const DIR_KEY = 'cg-admdir6', DIR_TTL = 6 * 3600e3;
   let admDir = null, admNote = '';
@@ -8128,7 +8128,7 @@
           + `<div class="mplist">${s.docs.map(d => { const f = d.data(), gone = bannedSet.has(f.uid), hasCard = !!f.card || cardsFromText(f.detail).length > 0; return `<div class="mpli"><div class="nm"><b>${esc(f.name || 'Golfer')}</b> ${gone ? '<span class="pill2 r">banned</span>' : f.kind === 'check' ? '<span class="pill2 r">not posted</span>' : f.kind === 'ace' ? '<span class="pill2 g">🎯 ace</span>' : f.kind === 'round' ? '<span class="pill2 g">final card</span>' : '<span class="pill2">flagged</span>'}<small>${esc(f.kind || '')}: ${prettyDetail(f.detail)}${f.card ? ` · 📋 hole ${f.card.h}/${f.card.n}` : ''} · ${f.at ? ago(f.at) : ''}${f.google ? ' · Google' : ' · guest'}</small></div>
           ${hasCard ? `<button class="main sm" data-adm-round="${d.id}" title="This round's scorecard">📋 Round</button>` : ''}<button class="ghost sm" data-adm-cards="${f.uid}" data-n="${esc(f.name || '')}" title="All of this golfer's scorecards">📋 All</button><button class="ghost sm" data-adm-dismiss="${d.id}">Dismiss</button>${gone ? '' : `<button class="main sm" data-adm-ban="${f.uid}" data-n="${esc(f.name || '')}">Ban</button>`}</div>`; }).join('') || '<div class="empty">No cheat flags here. 🎉</div>'}</div>
           <div class="tnote">📋 Round shows the scorecard of the round that was flagged (and its final card once the round is over); 📋 All shows every scorecard the golfer has. Every hole in one is logged here with its card. 🚩 Rounds not posted = rounds the game's checks stopped from going online (impossible hole scores, totals that don't add up, fewer strokes than swings, impossibly fast rounds) and saves edited by hand. Nobody is banned automatically: ban only if it looks like real cheating. Low rounds go to 📋 Scorecard review.</div>
-          <div class="tnote">Players online, players per day and rounds played are in Google Analytics (it's free and doesn't use up Firebase).</div>`;
+          <div class="tnote">Members online, members per day and rounds played are in Google Analytics (it's free and doesn't use up Firebase).</div>`;
       } else if (admView === 'reviews') {
         // every round of -9 or better over 9 holes (-18 or better over 18), with the whole scorecard, for the creator to look over
         const snap = await fbDb.collection('reviews').orderBy('at', 'desc').limit(80).get();
@@ -8242,24 +8242,24 @@
   ];
   const NEWS_22 = [
     ['🏫', '<b>Spirit Day · Weekly Homeroom Cup:</b> pick your homeroom (Golfer tab) and play the week\'s 18-hole cup course. Each homeroom\'s 20 lowest scores make its team average, light green shows whose scores count, and the winner is announced Friday at 2:42 PM. Homeroom leaderboards, a school-wide board and past winners with a podium.'],
-    ['🔑', '<b>Player codes instead of Google sign-in:</b> get a free 12-character code in the Golfer tab and type it on any device to keep your progress. No passwords, no email.'],
+    ['🔑', '<b>Member codes instead of Google sign-in:</b> get a free 12-character code in the Golfer tab and type it on any device to keep your progress. No passwords, no email.'],
     ['🏌️', '<b>The Driving Range is free</b>, with up to $1,000 a day in range money.'],
     ['🚁', '<b>Aerial view:</b> tap AERIAL to lift the camera high above the ball. The camera now glides smoothly to every new shot.'],
     ['⛳', '<b>3C Par Three is 6 holes</b> and <b>TPC Saragosa is 9 holes</b> (new: Opening Drive, Long Nine and Lakeside). Both have fresh leaderboards.'],
     ['🏌️‍♂️', '<b>More clubs:</b> Blaze, Glacier and Phantom drivers, a 7 Wood, 4 Hybrid, Wide Sole 6 Iron, Tour 9 Iron, 48° and 58° wedges and a Tour Blade putter. Every driver has its own colour.'],
-    ['🆕', '<b>Fresh start:</b> everyone starts over from scratch, and Google sign-in is gone. Get a free player code in the Golfer tab to save your new progress.'],
+    ['🆕', '<b>Fresh start:</b> everyone starts over from scratch, and Google sign-in is gone. Get a free member code in the Golfer tab to save your new progress.'],
     ['💲', '<b>Rounder shop prices</b> ($1,000 instead of $1,050), cleaner Play Friends card, and scores now show strokes too, like 68(-3).'],
   ];
   // Every update so far, newest first (shown under "Previous updates"). Only things players can see.
   const NEWS_23 = [
     ['🆕', '<b>Fresh start:</b> everyone begins again with new progress, badges and empty leaderboards (all-time and daily).'],
-    ['👤', '<b>Player codes (XXXX-XXXX):</b> every golfer gets one automatically. Tap the 👤 player icon at the top right to see yours, or Log in with a code from another device. Google sign-in is gone.'],
+    ['👤', '<b>Member codes (XXXX-XXXX):</b> every golfer gets one automatically. Tap the 👤 member icon at the top right to see yours, or Log in with a code from another device. Google sign-in is gone.'],
     ['🏫', '<b>Homerooms are permanent</b> once you pick one, and you can put <b>HR</b> and your letter on your golf bag (Golfer > Golf Bag > Logo).'],
     ['⛳', '<b>New hole names</b> at Meribah, Brothers Hollow, Hearst Executive and Flyers Presidential.'],
     ['🎨', '<b>Every gold button looks the same</b> now, and the welcome screen points you to 3C, the daily challenges and the Homeroom Cup.'],
   ];
   const NEWS = [
-    ['school', '<b>Spirit Day Homeroom Cup prizes:</b> every player in the 1st, 2nd and 3rd place homerooms gets $2,500, $1,500 or $750, and the best player in every other homeroom gets $750. The cup screen has a whole new look.'],
+    ['school', '<b>Spirit Day Homeroom Cup prizes:</b> every member in the 1st, 2nd and 3rd place homerooms gets $2,500, $1,500 or $750, and the best member in every other homeroom gets $750. The cup screen has a whole new look.'],
     ['battery', '<b>Battery saver</b> (Golfer tab): 30 fps, no shadows, no camera fly-ins (it cuts straight to your golfer) and a still home screen.'],
     ['flag', '<b>Divots:</b> irons and wedges take a strip of turf. Every hole on a course page has an <b>Aerial</b> button.'],
     ['user', '<b>Spin your golfer</b> with your finger in the Golfer tab.'],
