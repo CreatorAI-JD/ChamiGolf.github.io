@@ -5161,7 +5161,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.29';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.10.29b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -8306,7 +8306,13 @@
       <ul>${items.map(t => `<li>${t}</li>`).join('')}</ul></div>`).join('');
     $('updPop').classList.remove('hidden');
   }
-  $('updClose').addEventListener('click', () => { ensureAudio(); sfx.click(); $('updPop').classList.add('hidden'); });
+  $('updClose').addEventListener('click', () => { ensureAudio(); sfx.click(); $('updPop').classList.add('hidden'); setTimeout(firstName, 300); });
+  // (update 2.4) no name yet? Right after the welcome and the update notes, ask for one (it's what shows on every leaderboard)
+  function firstName() {
+    if (!needsName() || inRound() || !$('nameAsk').classList.contains('hidden') || popOpen() || !$('updPop').classList.contains('hidden') || !$('liveOv').classList.contains('hidden')) return;
+    $('naOk').textContent = 'Save';
+    askName('Pick the name everyone will see on the leaderboards and in the Homeroom Cup.').then(() => { $('naOk').textContent = 'Save & post'; });
+  }
   document.addEventListener('click', e => { if (e.target.closest && e.target.closest('[data-updates]')) { ensureAudio(); sfx.click(); showUpdates(); } });
   const TIPS = {
     clubs: ['Upgrade your clubs', 'Spend your winnings here to <b>upgrade your clubs</b>: more <b>Power</b> to hit it farther, more <b>Accuracy</b> for a bigger gold zone, and more <b>Control</b> for a steadier swing. You can buy brand new clubs too.'],
@@ -8327,7 +8333,7 @@
     $('newsNum').textContent = `Update ${NEWS_NUM}`;
     $('newsPop').classList.remove('hidden');
   }
-  $('newsOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('newsPop').classList.add('hidden'); save.newsVer = NEWS_VER; persist(); });
+  $('newsOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('newsPop').classList.add('hidden'); save.newsVer = NEWS_VER; persist(); setTimeout(firstName, 300); });
   // the welcome: brand-new golfers and everyone starting over after a reset (it points them at 3C, the daily challenges or the cup)
   if ((save.noteVer | 0) < 5) {
     if (!isNewGolfer || save.resetNote || hadSave) {
@@ -8338,13 +8344,14 @@
     save.newsVer = NEWS_VER;                       // (they don't need a list of changes too)
   } else {
     save.noteVer = Math.max(5, save.noteVer | 0);
-    if (save.newsVer !== NEWS_VER) showNews();
+    if (save.newsVer !== NEWS_VER) showNews(); else setTimeout(firstName, 900);   // nothing to show first: ask for a name right away
   }
   $('resetNote').addEventListener('click', e => {
     const b = e.target.closest('[data-welc]'); if (!b) return;
     ensureAudio(); sfx.click(); $('resetNote').classList.add('hidden'); delete save.resetNote; save.noteVer = 5; persist();
     const w = b.dataset.welc;
     if (w === 'par3') { const p3 = courseById('par3'); if (p3) openCourse(p3); } else setTab(w);
+    setTimeout(firstName, 400);
   });
   // anything already earned by older saves is granted quietly
   AWARDS.forEach(a => { if (!save.awards[a.id] && awardDone(a)) save.awards[a.id] = Date.now(); });
