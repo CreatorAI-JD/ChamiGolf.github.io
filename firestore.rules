@@ -75,7 +75,7 @@ service cloud.firestore {
         && d.hr in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N']
         && d.cid is string && d.cid.size() < 20
         && d.strokes is int && d.strokes >= 18 && d.strokes < 400
-        && d.rel is int && d.rel > -60 && d.rel < 340
+        && d.rel is int && d.rel >= -18 && d.rel < 340 && d.strokes - d.rel >= 54 && d.strokes - d.rel <= 76   // (an 18-hole par 54 to 76 course; 18 under at most)
         && d.att is int && d.att > 0 && d.att < 10000 && recent(d.date);
     }
     match /hrcup/{week}/scores/{uid} {
@@ -91,7 +91,7 @@ service cloud.firestore {
     // hrcupWeeks/{week}: the final standings, saved once by the first game that opens the cup after the week locks.
     // Never changed after that (only the creator can fix or remove one).
     function cupFinal(week) { return week.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
-      && request.time > weekStart(week) + duration.value(115, 'h') + duration.value(42, 'm'); }
+      && request.time > weekStart(week) + duration.value(114, 'h') + duration.value(42, 'm'); }   // (Friday 2:42 PM EDT; the game waits for 2:42 PM Eastern itself)
     match /hrcupWeeks/{week} {
       allow read: if true;
       allow create: if request.auth != null && notBanned() && cupFinal(week) && request.resource.data.week == week

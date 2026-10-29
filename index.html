@@ -148,6 +148,8 @@
     text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 18px rgba(0,0,0,.35);-webkit-text-stroke:1px rgba(0,0,0,.18)}
   #slides .egg.hidden{display:none}
   @media (prefers-reduced-motion:reduce){#slides .slide.kb0,#slides .slide.kb1{animation:none}}
+  .saver #slides .slide.kb0,.saver #slides .slide.kb1{animation:none}
+  .saver *{transition-duration:0s!important}
   @keyframes kb0{from{transform:scale(1.02) translate(-1.5%,1%)}to{transform:scale(1.14) translate(1.5%,-1%)}}
   @keyframes kb1{from{transform:scale(1.14) translate(1.5%,0)}to{transform:scale(1.03) translate(-1.5%,1%)}}
   .slideCap{flex:1;min-width:0;text-align:center;font:800 11px Inter;letter-spacing:.14em;text-transform:uppercase;color:#f3d7a8;
@@ -166,11 +168,16 @@
            padding:12px 20px 12px 14px;border-radius:999px;border:2px solid var(--gold-l);cursor:pointer;
            background:linear-gradient(180deg,#d6262f,#7A0C1D);color:#fff;font:700 18px Oswald,sans-serif;letter-spacing:.05em;text-transform:uppercase;
            box-shadow:0 6px 18px rgba(0,0,0,.45),0 0 0 4px rgba(242,193,78,.18)}
-  .miniBtn span{font-size:22px;line-height:1}
+  .miniBtn span{font-size:22px;line-height:1;display:inline-flex}
+  .miniBtn span .ico{width:22px;height:22px}
   .miniBtn:active{transform:scale(.96)}
   .tabs{display:flex;background:linear-gradient(0deg,#3a050d,#5c0815);border-top:2px solid var(--gold);padding:6px 6px calc(env(safe-area-inset-bottom) + 6px)}
   .tabs button{flex:1;background:none;border:0;color:#d9b98a;padding:6px 0;cursor:pointer;border-radius:12px;font:700 11px Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase}
-  .tabs button .ic{display:block;font-size:20px;margin-bottom:3px}
+  .tabs button .ic{display:block;font-size:20px;margin-bottom:3px;height:22px}
+  .tabs button .ic .ico{width:22px;height:22px}
+  .ico{width:1.15em;height:1.15em;vertical-align:-.2em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .md{display:inline-flex;align-items:center;justify-content:center;width:1.35em;height:1.35em;border-radius:50%;font:800 .72em/1 Inter,sans-serif;font-style:normal;color:#3a2600;vertical-align:-.15em;margin-right:2px}
+  .md1{background:linear-gradient(180deg,#ffe58f,#d4a017)} .md2{background:linear-gradient(180deg,#f2f2f2,#a9adb5)} .md3{background:linear-gradient(180deg,#f0c39a,#b06a33)}
   .tabs button.on{color:var(--gold-l);background:rgba(242,193,78,.12)}
 
   .course{display:flex;gap:12px;align-items:stretch;background:linear-gradient(180deg,rgba(142,15,34,.9),rgba(79,7,18,.95));border:2px solid rgba(242,193,78,.55);
@@ -293,7 +300,8 @@
   button.ghost.sm{padding:6px 14px;font-size:14px}
   .gstage{position:relative;height:300px;border-radius:18px;overflow:hidden;border:2px solid rgba(242,193,78,.55);
           background:radial-gradient(ellipse at 50% 85%,#4f9d48 0%,#2f6f30 45%,#3f8fd6 46%,#b9dcf3 100%)}
-  #gPrev{width:100%;height:100%;display:block}
+  #gPrev{width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}
+  .gstage .spinHint{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font:700 11px Inter;letter-spacing:.08em;color:#fff;background:rgba(0,0,0,.35);padding:3px 10px;border-radius:999px;pointer-events:none}
   .nameRow{display:block;font:800 10px Inter;letter-spacing:.16em;color:var(--gold);margin:14px 2px 0;text-transform:uppercase}
   .nameRow input{display:block;width:100%;margin-top:6px;padding:11px 14px;border-radius:12px;border:2px solid rgba(242,193,78,.55);background:var(--red-dd);
                  color:#fff;font:700 18px Oswald,sans-serif;letter-spacing:.03em;-webkit-user-select:text;user-select:text;touch-action:auto}
@@ -443,6 +451,8 @@
   .holes{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
   .holes .hm{display:block;height:84px;border-radius:7px;background:#2f6f30 center/contain no-repeat;margin:0 4px 6px}
   @media (max-width:420px){.holes{grid-template-columns:repeat(3,1fr)}}
+  .aerHole{display:block;margin:5px auto 0;padding:3px 8px;border-radius:999px;border:1px solid var(--gold);background:transparent;color:var(--gold-l);font:800 9px Inter;letter-spacing:.08em;cursor:pointer}
+  #aerialOv img{width:100%;border-radius:14px;border:2px solid var(--gold);display:block;background:#2f6f30;aspect-ratio:16/10;object-fit:cover}
   .holes div{background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.3);border-radius:10px;padding:7px 2px;text-align:center;font-size:11px;color:#f3d7a8}
   .holes b{display:block;font:700 16px Oswald,sans-serif;color:var(--gold-l)}
   .holes .hn{display:block;font-size:10px;color:#fff;opacity:.8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 3px}
@@ -490,6 +500,55 @@
   .mpc .cm{font-size:12px;color:#fff;opacity:.9}
   .mpbtns{display:flex;gap:8px;margin-top:10px}
   /* ---- Weekly Homeroom Cup ---- */
+  /* ---- Spirit Day Homeroom Cup screen: its own navy-and-green school-spirit look ---- */
+  .spirit{background:linear-gradient(160deg,#10224d 0%,#0f2f45 45%,#0d3b2c 100%);border:2px solid var(--gold-l);border-radius:22px;padding:16px;color:#eef3ff;
+    box-shadow:0 14px 34px rgba(0,0,0,.45);margin-top:6px}
+  .sphero{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .spk{font:800 11px Inter;letter-spacing:.22em;color:var(--gold-l)}
+  .spt{font:700 34px/1 Oswald,sans-serif;text-transform:uppercase;letter-spacing:.03em;color:#fff;margin:2px 0 4px}
+  .spc{font-size:13px;color:#c8d6f2}
+  .spclock{display:grid;grid-template-columns:auto auto;align-items:center;column-gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:10px 14px}
+  .spclock .ico{grid-row:span 2;width:26px;height:26px;color:var(--gold-l)}
+  .spclock b{font:700 24px/1 Oswald,sans-serif;color:#fff}
+  .spclock span{font-size:11px;color:#c8d6f2}
+  .spnote{margin-top:10px;font-size:13px;color:#c8d6f2}
+  .sppick{margin-top:12px;background:rgba(255,255,255,.07);border-radius:14px;padding:10px 12px}
+  .sph{font:700 16px Oswald,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:var(--gold-l);margin-bottom:6px}
+  .spsmall{font-size:12px;color:#c8d6f2;margin-top:8px;line-height:1.4}
+  .spbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+  .spme{display:inline-flex;align-items:center;gap:8px;font:600 13px Inter;color:#dfe8fb}
+  .spme i{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--gold-l);color:#10224d;font:700 17px Oswald;font-style:normal}
+  .spprize{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+  @media (max-width:640px){ .spprize{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  .spprize div{background:rgba(0,0,0,.22);border:1px solid rgba(242,193,78,.35);border-radius:12px;padding:8px 10px}
+  .spprize b{display:block;font:700 19px Oswald,sans-serif;color:var(--gold-l)}
+  .spprize span{font-size:11px;color:#c8d6f2;line-height:1.3}
+  .sphow{margin-top:10px;font-size:13px;color:#dfe8fb}
+  .sphow summary{cursor:pointer;font-weight:700;color:var(--gold-l)}
+  .sphow p{margin:6px 0 0;line-height:1.5}
+  .spnav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:14px 0 10px;background:rgba(0,0,0,.25);padding:5px;border-radius:16px}
+  .spnav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:0;border-radius:12px;background:transparent;color:#c8d6f2;font:700 11px Inter;letter-spacing:.05em;text-transform:uppercase;cursor:pointer}
+  .spnav button .ico{width:20px;height:20px}
+  .spnav button.on{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:#10224d}
+  .spbody .board{background:rgba(6,16,38,.55);border-color:rgba(255,255,255,.18)}
+  .spbody .hrhead{background:rgba(6,16,38,.55);border-color:rgba(255,255,255,.2)}
+  .spirit .hrchips button{background:rgba(6,16,38,.6);border-color:rgba(255,255,255,.25)}
+  .spirit .hrchips button.on{background:var(--gold-l);color:#10224d;border-color:var(--gold-l)}
+  .sprow{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;margin:0 0 6px;border-radius:14px;border:1px solid rgba(255,255,255,.16);
+    background:rgba(6,16,38,.5);color:#eef3ff;cursor:pointer;font:inherit}
+  .sprow.lead{border-color:var(--gold-l);background:linear-gradient(90deg,rgba(242,193,78,.22),rgba(6,16,38,.5))}
+  .sprow.mine{box-shadow:inset 3px 0 0 var(--gold-l)}
+  .sprk{width:22px;text-align:center;font:700 18px Oswald,sans-serif;color:var(--gold-l)}
+  .spbadge{width:38px;height:38px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#10224d;font:700 20px Oswald,sans-serif}
+  .sprow.lead .spbadge{background:var(--gold-l)}
+  .spinfo{flex:1;min-width:0;display:flex;flex-direction:column}
+  .spinfo b{font:700 15px Inter;color:#fff}
+  .spinfo small,.spavg small{font-size:11px;color:#c8d6f2}
+  .spavg{display:flex;flex-direction:column;align-items:flex-end}
+  .spavg b{font:700 22px Oswald,sans-serif;color:#fff}
+  .cupc{background:linear-gradient(150deg,#10224d,#0f2f45 55%,#0d3b2c)!important}
+  .cuprow{display:flex;gap:10px;align-items:center;margin-top:4px}
+  .cuphr{width:40px;height:40px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gold-l);color:#10224d;font:700 22px Oswald,sans-serif}
   .cupc{background:linear-gradient(135deg,#1f6b3a,#7A0C1D 62%,#45060F);border:2px solid var(--gold-l);border-radius:18px;padding:12px;margin:8px 0 4px;box-shadow:0 8px 24px rgba(0,0,0,.4);cursor:pointer}
   .cupc .ctag{font:800 10px Inter;letter-spacing:.16em;color:var(--gold-l)}
   .cupc .cn{font:700 23px/1.1 Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em;margin:3px 0 4px}
@@ -644,7 +703,8 @@
   .welcome{display:flex;flex-direction:column;gap:8px;margin-top:8px}
   .wopt{display:flex;align-items:center;gap:12px;text-align:left;padding:11px 12px;border-radius:14px;border:2px solid rgba(242,193,78,.55);background:rgba(69,6,15,.75);color:#fff;cursor:pointer;font:inherit}
   .wopt:active{transform:translateY(1px)}
-  .wopt span{font-size:28px;flex:none}
+  .wopt span{flex:none;display:flex;color:var(--gold-l)}
+  .wopt span .ico{width:30px;height:30px}
   .wopt b{display:block;font:700 18px Oswald,sans-serif;color:var(--gold-l);text-transform:uppercase;letter-spacing:.03em}
   .wopt small{display:block;font-size:12px;color:#f3d7a8;line-height:1.35;margin-top:2px}
   .tipBig{margin:6px 0 12px;padding:10px 12px;border-radius:12px;background:rgba(242,193,78,.16);border:1px solid rgba(242,193,78,.55);font:700 17px/1.3 Inter,sans-serif;color:#FFE08A;text-align:center}
@@ -780,7 +840,7 @@
   .trow .tl{flex:none;font:600 13px Inter;white-space:nowrap}
   .trow .tl b{color:var(--gold-l);margin-left:4px}.trow .tl i{opacity:.65;font-size:12px}
   .cardsBack{margin:26px auto 6px;text-align:center;font:700 20px Oswald,sans-serif;letter-spacing:.05em;color:var(--gold-l);opacity:.92}
-  #adminBtn{flex:none;height:38px;width:38px;border-radius:50%;border:2px solid var(--gold);background:var(--red-dd);font-size:18px;cursor:pointer;padding:0}
+  #adminBtn{flex:none;height:38px;width:38px;border-radius:50%;border:2px solid var(--gold);background:var(--red-dd);font-size:18px;cursor:pointer;padding:0;color:var(--gold-l);display:flex;align-items:center;justify-content:center}
   .wrapseg{flex-wrap:wrap}.wrapseg button{flex:1 1 30%}
   .pill2{display:inline-block;font:800 9px Inter;letter-spacing:.1em;padding:2px 6px;border-radius:999px;background:rgba(66,133,244,.35);color:#dce8ff;vertical-align:2px;text-transform:uppercase}
   .pill2.g{background:rgba(255,255,255,.15);color:#ddd}.pill2.r{background:rgba(255,80,80,.35);color:#ffd2d2}
@@ -812,9 +872,9 @@
 <div id="moBox" style="display:none"></div>
 <div id="mpBar" style="display:none"></div>
 <button class="pill" id="viewBtn">MAP</button>
-<button class="pill" id="aerBtn">🚁 AERIAL</button>
+<button class="pill" id="aerBtn">AERIAL</button>
 <div id="side" style="display:none">
-  <button class="shead" id="sideToggle"><span>🗺️ GREEN &amp; HOLE MAP</span><b>▾</b></button>
+  <button class="shead" id="sideToggle"><span>GREEN &amp; HOLE MAP</span><b>▾</b></button>
   <div class="sbody">
     <div class="ghd"><span id="gHead">Green</span><span id="gSlope"></span></div>
     <canvas id="greenCv" width="356" height="252"></canvas>
@@ -854,16 +914,16 @@
       <div style="min-width:0"><div class="bname" id="gameName">Red &amp; Gold Golf</div><div class="tag">CHAMPIONSHIP GOLF</div></div>
     </div>
     <div class="slideCap" id="slideCap"></div>
-    <button id="adminBtn" class="hidden" title="Creator tools">🛡️</button>
+    <button id="adminBtn" class="hidden" title="Creator tools" data-ic="shield"></button>
     <div class="hbadges" id="hBadges"></div>
     <button id="acctBtn" class="hidden">Sign in</button>
     <div class="coins" id="homeCoins">$0</div>
   </header>
-  <button class="miniBtn" id="miniBtn"><span>⭐</span>Mini Golf</button>
+  <button class="miniBtn" id="miniBtn"><span data-ic="star"></span>Mini Golf</button>
   <main class="hbody">
     <div class="wrap">
       <div id="err" class="hidden">Your browser couldn't start 3D graphics. Try Chrome or Safari with hardware acceleration turned on.</div>
-      <section id="tab-play"><aside class="playSide"><div id="aceBar"></div><div id="cupCard"></div><div id="mpCard"></div><div id="ctpCard"></div><div id="rangeCard"></div><div id="tourCard"></div></aside>
+      <section id="tab-play"><aside class="playSide"><div id="aceBar"></div><div id="mpCard"></div><div id="ctpCard"></div><div id="cupCard"></div><div id="rangeCard"></div><div id="tourCard"></div></aside>
         <div class="playMain"><div class="sect">CHOOSE A COURSE</div><div id="courseList"></div></div></section>
       <section id="tab-admin" class="hidden"><div id="adminBody"></div></section>
       <section id="tab-course" class="hidden"><div id="courseDetail"></div></section>
@@ -873,7 +933,7 @@
       <section id="tab-golfer" class="hidden">
         <div class="gwrap">
           <div class="gleft">
-            <div class="gstage"><canvas id="gPrev"></canvas><div class="gbadges" id="gBadge"></div></div>
+            <div class="gstage"><canvas id="gPrev"></canvas><div class="spinHint">DRAG TO SPIN</div><div class="gbadges" id="gBadge"></div></div>
             <label class="nameRow">Name on the leaderboard<input id="gName" maxlength="14" autocomplete="off" spellcheck="false"></label>
             <div id="gNameWarn" class="nameWarn hidden"></div>
             <div id="hrBox"></div>
@@ -882,7 +942,7 @@
             <div id="acctBox"></div>
           </div>
           <div class="gright">
-            <div class="gtabs" id="gTabs"><button data-gtab="outfit" class="on">👔 Outfit</button><button data-gtab="bag">⛳ Golf Bag</button><button data-gtab="ball">⚪ Ball</button></div>
+            <div class="gtabs" id="gTabs"><button data-gtab="outfit" class="on"><i data-ic="shirt"></i> Outfit</button><button data-gtab="bag"><i data-ic="bag"></i> Golf Bag</button><button data-gtab="ball"><i data-ic="ball"></i> Ball</button></div>
             <div id="gPanel"></div>
           </div>
         </div>
@@ -897,7 +957,7 @@
         <div class="sect">BEST ROUNDS</div>
         <div class="rows" id="bestRows"></div>
         <div id="howBody"></div>
-        <button class="ghost" data-updates="1" style="display:block;margin:16px auto 0">📜 Update history</button>
+        <button class="ghost" data-updates="1" style="display:block;margin:16px auto 0">Update history</button>
         <button class="reset" id="resetBtn">Reset all progress</button>
         <div class="cardsBack">🃏 ChamiCards will be back</div>
       </section>
@@ -905,11 +965,11 @@
   </main>
   <div class="disclaim" style="flex:none;padding:6px 0">Not affiliated with Chaminade High School in any way.</div>
   <nav class="tabs">
-    <button data-tab="play" class="on"><span class="ic">⛳</span>Play</button>
-    <button data-tab="golfer"><span class="ic">👔</span>Golfer</button>
-    <button data-tab="clubs"><span class="ic">🏌️</span>Clubs</button>
-    <button data-tab="awards"><span class="ic">🏆</span>Awards</button>
-    <button data-tab="stats"><span class="ic">📊</span>Stats</button>
+    <button data-tab="play" class="on"><span class="ic" data-ic="flag"></span>Play</button>
+    <button data-tab="golfer"><span class="ic" data-ic="user"></span>Golfer</button>
+    <button data-tab="clubs"><span class="ic" data-ic="club"></span>Clubs</button>
+    <button data-tab="awards"><span class="ic" data-ic="trophy"></span>Awards</button>
+    <button data-tab="stats"><span class="ic" data-ic="chart"></span>Stats</button>
   </nav>
 </div>
 
@@ -929,7 +989,7 @@
 <!-- ===== Player code sign-in (Oct 28 2026: replaces Google sign-in for players) ===== -->
 <div id="codeOv" class="overlay hidden" style="z-index:41">
   <div class="card">
-    <h2>👤 Player code</h2>
+    <h2>Player code</h2>
     <div class="sub" style="font-size:14px;line-height:1.45">No passwords and no email. Your player code <b>is</b> your account: type it on any device to pick up right where you left off.</div>
     <div id="coBody"></div>
     <div class="mpmsg" id="coMsg"></div>
@@ -940,16 +1000,26 @@
 <!-- ===== Weekly Homeroom Cup winner (Friday 2:42 PM) ===== -->
 <div id="cupWin" class="overlay hidden" style="z-index:34">
   <div class="card news">
-    <h2>🏫 Spirit Day Homeroom Cup</h2>
+    <h2>Spirit Day Homeroom Cup</h2>
     <div id="cupWinBody"></div>
     <div class="btns" style="margin-top:14px"><button class="main" id="cupWinGo">See the standings</button><button class="ghost" id="cupWinOk">Close</button></div>
+  </div>
+</div>
+
+<!-- ===== Aerial view of one hole (course page) ===== -->
+<div id="aerialOv" class="overlay hidden" style="z-index:42">
+  <div class="card" style="max-width:760px;width:calc(100% - 24px)">
+    <h2 id="aerTitle">Aerial view</h2>
+    <div class="sub" id="aerSub"></div>
+    <img id="aerImg" alt="Aerial view of the hole">
+    <div class="btns" style="margin-top:12px"><button class="ghost sm" id="aerPrev">‹ Hole</button><button class="main sm" id="aerClose">Close</button><button class="ghost sm" id="aerNext">Hole ›</button></div>
   </div>
 </div>
 
 <!-- ===== Banned ===== -->
 <div id="bannedOv" class="overlay hidden" style="z-index:60">
   <div class="card">
-    <h2>⛔ Banned</h2>
+    <h2>Banned</h2>
     <div class="sub">The creator has banned this account, so it can't play or post scores.</div>
     <div class="sub" id="banWhy" style="color:var(--gold-l)"></div>
   </div>
@@ -1001,13 +1071,13 @@
 <!-- ===== Round in progress (after the page was reloaded mid-round) ===== -->
 <div id="liveOv" class="overlay hidden">
   <div class="card" style="max-width:640px;width:calc(100% - 24px)">
-    <h2>Round in progress ⛳</h2>
+    <h2>Round in progress</h2>
     <div class="sub" id="liveSub"></div>
     <div class="livesc" id="liveCard"></div>
     <div class="btns" style="flex-wrap:wrap">
       <button class="main" id="liveGo">▶ Keep playing</button>
-      <button class="ghost" id="liveFin">🏁 Finish round</button>
-      <button class="ghost" id="liveQuit">✕ Quit round</button>
+      <button class="ghost" id="liveFin">Finish round</button>
+      <button class="ghost" id="liveQuit">Quit round</button>
     </div>
     <div class="tnote" style="margin-top:8px">Finish round = end it now and get paid for the holes you played (it won't go on the leaderboards).</div>
   </div>
@@ -1056,31 +1126,32 @@
 <!-- ===== Welcome to Chami Golf (first time only) ===== -->
 <div id="resetNote" class="overlay hidden">
   <div class="card">
-    <h2>Welcome to Red &amp; Gold Golf! ⛳</h2>
+    <h2>Welcome</h2>
     <div class="sub" id="welcomeSub" style="font-size:14px;line-height:1.5">Pick how you want to start:</div>
     <div class="welcome">
-      <button class="wopt" data-welc="par3"><span>⛳</span><div><b>Play the 3C Par Three</b><small>Where everyone starts. Six short holes, and beating it unlocks the other courses.</small></div></button>
-      <button class="wopt" data-welc="ctp"><span>🎯</span><div><b>Daily challenges</b><small>Closest to the Pin and a Daily Tournament on every course. New every day, top 3 win money.</small></div></button>
-      <button class="wopt" data-welc="cup"><span>🏫</span><div><b>Weekly Homeroom Cup</b><small>Pick your homeroom and play this week's 18-hole course for your team. Winner announced Friday 2:42 PM.</small></div></button>
+      <button class="wopt" data-welc="par3"><span data-ic="flag"></span><div><b>Play the 3C Par Three</b><small>Where everyone starts. Six short holes, and beating it unlocks the other courses.</small></div></button>
+      <button class="wopt" data-welc="ctp"><span data-ic="target"></span><div><b>Daily challenges</b><small>Closest to the Pin and a Daily Tournament on every course. New every day, top 3 win money.</small></div></button>
+      <button class="wopt" data-welc="cup"><span data-ic="school"></span><div><b>Spirit Day Homeroom Cup</b><small>Pick your homeroom and play this week's 18-hole course for your team. Prizes for every player in the top 3 homerooms.</small></div></button>
     </div>
-    <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">👤 Your <b>player code</b> is under the player icon at the top right. Use it to log in on any device.<br>Swipe to aim, press the ball and pull back, and let go in the gold zone.</div>
+    <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">Your <b>player code</b> is under the player icon at the top right. Use it to log in on any device.</div>
+    <div class="btns" id="welcomeUpd" style="margin-top:8px;display:none"><button class="ghost sm" data-updates="1">See everything that changed</button></div>
   </div>
 </div>
 
 <!-- ===== What's new (shown once per update; only things players can see) ===== -->
 <div id="newsPop" class="overlay hidden" style="z-index:31">
   <div class="card news">
-    <h2>What's new ⛳</h2>
+    <h2>What's new</h2>
     <div class="sub" id="newsNum" style="color:var(--gold-l);font-weight:800;letter-spacing:.08em"></div>
     <ul id="newsList"></ul>
-    <div class="btns" style="margin-top:14px"><button class="main" id="newsOk">Let's play</button><button class="ghost" data-updates="1">📜 Previous updates</button></div>
+    <div class="btns" style="margin-top:14px"><button class="main" id="newsOk">Let's play</button><button class="ghost" data-updates="1">Previous updates</button></div>
   </div>
 </div>
 
 <!-- ===== A newer version is out (reload to get it) ===== -->
 <div id="updReady" class="overlay hidden" style="z-index:33">
   <div class="card news">
-    <h2>🔄 Update ready</h2>
+    <h2>Update ready</h2>
     <div class="sub" id="updReadyNum" style="color:var(--gold-l);font-weight:800"></div>
     <div class="sub" style="font-size:15px;line-height:1.5">Reload the game to get the newest version. Your progress is saved.</div>
     <div class="btns" style="margin-top:14px"><button class="main" id="updReload">Reload now</button><button class="ghost" id="updLater">Later</button></div>
@@ -1090,7 +1161,7 @@
 <!-- ===== Every update so far ===== -->
 <div id="updPop" class="overlay hidden" style="z-index:32">
   <div class="card news" style="max-width:600px;width:calc(100% - 24px)">
-    <h2>📜 Updates</h2>
+    <h2>Updates</h2>
     <div id="updList" style="max-height:62vh;overflow-y:auto;text-align:left;margin-top:8px"></div>
     <div class="btns" style="margin-top:14px"><button class="main" id="updClose">Close</button></div>
   </div>
@@ -1115,7 +1186,7 @@
 </div>
 <div id="prize" class="overlay hidden">
   <div class="card">
-    <h2>Tournament winnings! 🏆</h2>
+    <h2>Tournament winnings!</h2>
     <div class="sub" id="prizeBody"></div>
     <div class="btns"><button class="main" id="prizeOk">Collect</button></div>
   </div>
@@ -1125,6 +1196,42 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
+  // ---- Icons (update 2.4): simple line icons in the game's gold, instead of emoji scattered around the menus ----
+  const ICONS = {
+    flag: '<path d="M6 21V3"/><path d="M6 4h11l-3 4 3 4H6"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',
+    users: '<circle cx="8.5" cy="8" r="3.2"/><circle cx="16.5" cy="9" r="2.6"/><path d="M2.5 20c.6-3.4 3-5.5 6-5.5s5.4 2.1 6 5.5"/><path d="M15 14.6c2.8-.3 5.4 1.6 6.3 4.8"/>',
+    club: '<path d="M17 2.5 9.5 18"/><path d="M9.5 18 5 19.2l.7 2.3h4.6"/>',
+    trophy: '<path d="M7 4h10v4.5a5 5 0 0 1-10 0z"/><path d="M7 6H4.5a3 3 0 0 0 3 4.4M17 6h2.5a3 3 0 0 1-3 4.4"/><path d="M12 13.5V17M8 21h8M9 17h6v4H9z"/>',
+    chart: '<path d="M4 20V11M10 20V5M16 20v-7M2 20h20"/>',
+    shield: '<path d="M12 3 20 6v6c0 5-3.6 8-8 9-4.4-1-8-4-8-9V6z"/>',
+    target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3"/>',
+    school: '<path d="M3 21h18M5 21V10l7-4.5 7 4.5v11"/><path d="M10 21v-5h4v5M12 5.5V2.5l3 1-3 1"/>',
+    ball: '<circle cx="12" cy="9" r="5.5"/><path d="M10 14.5h4l-1 6.5h-2z"/><path d="M10 7.5h.01M13 6.5h.01M12 10h.01"/>',
+    star: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+    key: '<circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16.5 6.5l2.5 2.5"/>',
+    lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    copy: '<rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M4.5 15.5v-10a1 1 0 0 1 1-1h10"/>',
+    cloud: '<path d="M7 18.5h10.5a4 4 0 0 0 .3-8A6 6 0 0 0 6.2 9.6 4.5 4.5 0 0 0 7 18.5z"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+    map: '<path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z"/><path d="M9 4v13.5M15 6.5V20"/>',
+    up: '<path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/>',
+    plane: '<path d="M2.5 13.5 21 6l-3 13-6-4.5-3.5 4v-6z"/>',
+    battery: '<rect x="2.5" y="7" width="17" height="10" rx="2"/><path d="M22 10.5v3M6 10.5v3M9.5 10.5v3"/>',
+    book: '<path d="M4 4.5h6a2 2 0 0 1 2 2V20a2 2 0 0 0-2-2H4zM20 4.5h-6a2 2 0 0 0-2 2V20a2 2 0 0 1 2-2h6z"/>',
+    gift: '<rect x="3.5" y="9" width="17" height="11.5" rx="1.5"/><path d="M2.5 9h19M12 9v11.5M12 9c-1.5-4-6-4-5-1.5S12 9 12 9zm0 0c1.5-4 6-4 5-1.5S12 9 12 9z"/>',
+    fire: '<path d="M12 21c-4 0-6.5-2.6-6.5-6.2C5.5 10.5 9 8.5 10 4c2.6 2 3.6 4.6 3.4 6.6 1-.6 1.7-1.6 2-3 1.8 1.7 3.1 4.2 3.1 7.2 0 3.6-2.5 6.2-6.5 6.2z"/>',
+    bag: '<path d="M8 7V5.5a4 4 0 0 1 8 0V7"/><rect x="4.5" y="7" width="15" height="14" rx="2"/>',
+    shirt: '<path d="m8 3-5 3 2 4 2.5-1V21h9V9l2.5 1 2-4-5-3c-.6 1.6-2 2.5-4 2.5S8.6 4.6 8 3z"/>',
+    tag: '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.3"/>',
+    camera: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8.5 7 10 4h4l1.5 3"/><circle cx="12" cy="13.5" r="3.5"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18"/>',
+    refresh: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>',
+  };
+  const ico = (n, cls) => `<svg class="ico${cls ? ' ' + cls : ''}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n] || ''}</svg>`;
+  const medal = i => `<i class="md md${i + 1}">${i + 1}</i>`;
+  document.querySelectorAll('[data-ic]').forEach(el => { el.innerHTML = ico(el.dataset.ic); });
 
   // Change this to rename the game everywhere.
   const GAME_NAME = 'Red & Gold Golf';
@@ -2256,15 +2363,20 @@
   };
 
   // ================= 3D setup =================
+  // Battery saver (update 2.4, Golfer tab): 30 fps (15 when idle), normal-resolution drawing, no shadows or edge smoothing,
+  // no camera fly-ins or glides (it cuts straight to the golfer), no confetti and a still home screen. Changing it reloads.
+  const SAVER = !!(save.ui && save.ui.saver);
+  const PR = SAVER ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+  if (SAVER) document.documentElement.classList.add('saver');
   const glCanvas = $('gl'), fx = $('fx'), fctx = fx.getContext('2d');
   let renderer = null;
-  try { renderer = window.THREE ? new THREE.WebGLRenderer({ canvas: glCanvas, antialias: true }) : null; } catch (e) { renderer = null; }
+  try { renderer = window.THREE ? new THREE.WebGLRenderer({ canvas: glCanvas, antialias: !SAVER }) : null; } catch (e) { renderer = null; }
   if (!renderer) {
     $('err').classList.remove('hidden');
     ['hud', 'bar', 'viewBtn', 'aerBtn', 'exitBtn', 'pinBox'].forEach(id => $(id).classList.add('hidden'));
     return;
   }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(PR);
   // iPad can drop the 3D context when the app is in the background or memory is tight; when it comes back,
   // rebuild the hole on screen so it isn't left black or with scrambled colours
   let glLost = false;
@@ -2274,7 +2386,7 @@
     try { if (builtFor && hole === builtFor.h) { applyCourseLook(builtFor.course); buildHole(builtFor.h, builtFor.course, builtFor.maxPx); placeTeeBag(); } } catch (e) {}
     renderer.shadowMap.needsUpdate = true;
   }, false);
-  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.enabled = !SAVER;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   // Battery: the sun and the trees never move, so the shadow map is only redrawn when something that casts a shadow
   // moves (the golfer, the flagstick) instead of on every frame (it means drawing every tree a second time)
@@ -2385,6 +2497,21 @@
   trailLine.frustumCulled = false; scene.add(trailLine);
   let trailN = 0;
   function trailReset() { trailN = 0; trailGeo.setDrawRange(0, 0); }
+  // ---- Divots (update 2.4): irons and wedges off the turf take a little strip of grass, left behind for the rest of the hole ----
+  const DIVOT_GEO = new THREE.CircleGeometry(1, 14), divots = [];
+  const DIVOT_MATS = [new THREE.MeshLambertMaterial({ color: 0x5a3f22, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }),
+    new THREE.MeshLambertMaterial({ color: 0x3f8b3c, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 })];
+  function addDivot(c, lie) {
+    if (!hole || hole.mini || c.putter || c.slot < 2 || !['tee', 'fairway', 'rough', 'fringe'].includes(lie)) return;
+    const dx = Math.cos(aimAng), dy = Math.sin(aimAng), px = ball.x + dx * 0.16, py = ball.y + dy * 0.16, y = surfY(px, py) + 0.006;
+    const mk = (mat, sx, sz, off, yy) => { const m = new THREE.Mesh(DIVOT_GEO, mat); m.rotation.order = 'YXZ'; m.rotation.set(-Math.PI / 2, -aimAng, 0);
+      m.scale.set(sx, sz, 1); m.position.set(px + dx * off, yy, py + dy * off); scene.add(m); divots.push(m); };
+    const big = 1 + (c.slot - 2) * 0.12;
+    mk(DIVOT_MATS[0], 0.13 * big, 0.055 * big, 0, y);                        // the scar
+    mk(DIVOT_MATS[1], 0.07 * big, 0.045 * big, 0.55 + 0.25 * Math.random(), y + 0.002);   // the flipped-out turf, just ahead
+    while (divots.length > 60) scene.remove(divots.shift());
+  }
+  function clearDivots() { divots.forEach(m => scene.remove(m)); divots.length = 0; }
   function trailPush(x, y, z) {
     if (trailN >= TRAIL_MAX) return;
     const a = trailGeo.attributes.position.array;
@@ -3586,6 +3713,7 @@
   }
   function showRating(text, color) { const r = $('rating'); r.textContent = text; r.style.color = color; r.classList.add('show'); ratingT = 1.1; }
   function burst(n) {
+    if (SAVER) return;
     for (let i = 0; i < n; i++) confetti.push({
       x: innerWidth / 2 + (Math.random() - 0.5) * 80, y: innerHeight * 0.32, vx: (Math.random() - 0.5) * 700, vy: -200 - Math.random() * 500,
       r: Math.random() * 6, s: 4 + Math.random() * 5, life: 1.8 + Math.random(), c: Math.random() < 0.5 ? '#F2C14E' : '#B3122B',
@@ -3600,10 +3728,11 @@
     buildHole(hole, course, preview ? 1300 : 2600);
     ball = { x: hole.tee.x, y: hole.tee.y, vx: 0, vy: 0 }; prev = { x: ball.x, y: ball.y };
     strokes = 0; flight = null; swing = null; ptr = null; splash = null; lastPutt = false; strike = null; swingAnim = null; driveYds = null;
-    trailReset(); closeSheet();
-    viewMode = 'normal'; introT = 1.5;
+    trailReset(); clearDivots(); closeSheet();
+    viewMode = 'normal'; introT = SAVER ? 0 : 1.5;
     readyForShot(); placeTeeBag(); placeHost();
-    overviewCam(camPos, camLook); placeCamera();
+    if (SAVER) { desiredCam(0); camPos.copy(dPos); camLook.copy(dLook); placeCamera(); }   // battery saver: no fly-in, straight to the golfer
+    else { overviewCam(camPos, camLook); placeCamera(); }
     showBanner(hole.name ? `${i + 1}. ${hole.name}` : `Hole ${i + 1}`, `Par ${hole.par} · ${hole.yds} yards${hole.after ? ' · After ' + hole.after : ''}`, 2.4);
   }
 
@@ -3828,6 +3957,7 @@
     // ks > 0 = slice side, ks < 0 = hook side (in golfer terms); R/L arrows show which way the ball actually goes.
     const hs = hand(), ks = oe * hs, ar = s => s > 0 ? '▶' : '◀';
     save.stats.shots++; rStat.shots++;
+    addDivot(c, lie);
     if (oe === 0) { rStat.perf++; rStat.perfRun++; if (rStat.perfRun === 25) cheatFlag('swings', `25 PERFECT swings in a row at ${course.name}`, false); } else rStat.perfRun = 0;
     if (oe === 0) { showRating('PERFECT!', '#FFE08A'); sfx.perfect(); save.stats.perfects++; }
     else if (c.putter) showRating(ks > 0 ? (aoe < 0.4 ? 'PUSHED A BIT' : `PUSHED ${oe > 0 ? 'RIGHT' : 'LEFT'}`) : (aoe < 0.4 ? 'PULLED A BIT' : `PULLED ${oe > 0 ? 'RIGHT' : 'LEFT'}`), aoe < 0.4 ? '#F2C14E' : '#ff6b7d');
@@ -4284,7 +4414,7 @@
     const { a, bag } = toastQ.shift(), t = $('toast');
     toastBusy = true;
     t.innerHTML = `<span class="ti">${a.icon}</span><div><div class="tl">${a.label || 'ACHIEVEMENT UNLOCKED'}</div><div class="tn">${a.name}</div>`
-      + `<div class="ts">${a.pay ? `+${money(a.pay)}` : ''}${a.pay && bag ? ' · ' : ''}${bag ? `🎒 ${bag.name} bag unlocked` : ''}</div></div>`;
+      + `<div class="ts">${a.pay ? `+${money(a.pay)}` : ''}${a.pay && bag ? ' · ' : ''}${bag ? `${bag.name} bag unlocked` : ''}</div></div>`;
     t.classList.add('show'); try { sfx.perfect(); } catch (e) {}
     setTimeout(() => { t.classList.remove('show'); setTimeout(() => { toastBusy = false; nextToast(); }, 400); }, 3200);
   }
@@ -4316,7 +4446,7 @@
     streak = d <= 0 ? streak + 1 : 0;
     const mo = momentumPct(streak), pay = base + (base && mo ? Math.max(1, Math.round(base * mo / 100)) : 0); earned[holeIdx] = pay;
     const mate = MP && MP.remote ? MP.remote : '';
-    const moTxt = mo ? ` · 🔥 Momentum +${mo}%` : hadMo ? ' · Momentum lost' : streak === MO_START - 1 ? ' · 1 more for 🔥 Momentum' : '';
+    const moTxt = mo ? ` · Momentum +${mo}%` : hadMo ? ' · Momentum lost' : streak === MO_START - 1 ? ' · 1 more for Momentum' : '';
     showBanner(term(strokes, hole.par), `${mate ? mate + ' · ' : ''}${strokes} stroke${strokes === 1 ? '' : 's'}${pay ? ` · +${money(pay)}` : ''}${moTxt}`, 2.3);
     if (d <= -1 || strokes === 1) burst(140);
     saveLive(); persist(); checkAwards();
@@ -4489,9 +4619,9 @@
   }
   // (Oct 28 2026) Smooth shot-to-shot camera: when the ball stops (or the view changes), the camera glides from wherever it
   // ended up to the next spot along an eased path with a gentle rise, instead of snapping toward it.
-  let glide = null, camPrevState = '', camPrevView = 'normal', camPrevIntro = 0;
+  let glide = null, camSnap = false, camPrevState = '', camPrevView = 'normal', camPrevIntro = 0;
   const easeIO = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
-  function startGlide(dur) { glide = { t: 0, d: dur, p: camPos.clone(), l: camLook.clone() }; }
+  function startGlide(dur) { if (SAVER) { glide = null; camSnap = true; return; } glide = { t: 0, d: dur, p: camPos.clone(), l: camLook.clone() }; }
   function syncScene(time, dt) {
     if (viewMode === 'aerial' && state !== 'ready' && state !== 'swinging' && state !== 'striking') viewMode = 'normal';
     const moving = s => s === 'flying' || s === 'rolling' || s === 'sinking' || s === 'penalty' || s === 'rangeWait' || s === 'holeDone' || s === 'wait';
@@ -4505,6 +4635,8 @@
       camPos.lerpVectors(glide.p, dPos, e); camLook.lerpVectors(glide.l, dLook, e);
       camPos.y += Math.sin(Math.PI * u) * Math.min(8, glide.p.distanceTo(dPos) * 0.12);
       if (u >= 1) glide = null;
+    } else if (camSnap) {   // battery saver: cut straight to the new spot
+      camSnap = false; camPos.copy(dPos); camLook.copy(dLook);
     } else {
       glide = null;
       const a = 1 - Math.exp(-dt * k);
@@ -4595,7 +4727,7 @@
 
   let fxDirty = true; const fxV = new THREE.Vector3();
   function drawFx(time) {
-    const d = Math.min(window.devicePixelRatio || 1, 2);
+    const d = PR;
     fctx.setTransform(d, 0, 0, d, 0, 0);
     if (!hole || state === 'title') {
       if (fxDirty || confetti.length) { fctx.clearRect(0, 0, innerWidth, innerHeight); drawConfetti(); fxDirty = confetti.length > 0; }
@@ -4923,15 +5055,15 @@
     setText('viewBtn', viewMode === 'overview' ? 'BACK' : 'MAP');
     { const showA = !!hole && !hole.mini && !course.ctp && !CLUBS[clubIdx].putter && viewMode !== 'overview';
       $('aerBtn').style.display = showA ? '' : 'none'; $('aerBtn').classList.toggle('disabled', !ready || introT > 0);
-      setText('aerBtn', viewMode === 'aerial' ? '⬇ BACK' : '🚁 AERIAL'); }
+      setText('aerBtn', viewMode === 'aerial' ? 'BACK' : 'AERIAL'); }
     { const mo = course.ctp || course.range || (MP && MP.started) ? 0 : momentumPct(streak);
-      $('moBox').style.display = mo ? '' : 'none'; if (mo) setText('moBox', `🔥 MOMENTUM +${mo}% · ${streak} HOLES NO BOGEY`); }
+      $('moBox').style.display = mo ? '' : 'none'; if (mo) setText('moBox', `MOMENTUM +${mo}% · ${streak} HOLES NO BOGEY`); }
     $('nudge').style.display = ready && CLUBS[clubIdx].putter && viewMode === 'normal' && introT <= 0 ? 'flex' : 'none';
     updateReader(); updatePinMark();
   }
 
   function resize() {
-    const w = innerWidth, h = innerHeight, d = Math.min(window.devicePixelRatio || 1, 2);
+    const w = innerWidth, h = innerHeight, d = PR;
     renderer.setSize(w, h, false);
     camera.aspect = w / h; camera.updateProjectionMatrix(); barTopPx = 0;
     fx.width = Math.round(w * d); fx.height = Math.round(h * d);
@@ -4985,18 +5117,18 @@
   }
   function renderCourse() {
     const c = course, open = isUnlocked(c), best = save.stats.bestBy[c.id], played = save.stats.roundsBy[c.id] || 0;
-    const holes = c.holes.map((h, i) => `<div><span class="hm" style="background-image:url('${holeThumb(c, i)}')"></span>HOLE ${i + 1}<b>Par ${h.par}</b>${h.yds} yds<span class="hn">${h.name || ''}</span></div>`).join('');
+    const holes = c.holes.map((h, i) => `<div><span class="hm" style="background-image:url('${holeThumb(c, i)}')"></span>HOLE ${i + 1}<b>Par ${h.par}</b>${h.yds} yds<span class="hn">${h.name || ''}</span>${c.mini ? '' : `<button class="aerHole" data-aerial="${i}">AERIAL</button>`}</div>`).join('');
     const bag = CLUBS.map(m => m.short).join(' · ');
     $('courseDetail').innerHTML = `<button class="back" data-cback="1">← All courses</button>
       <div class="cdname">${c.name}</div><div class="cddesc">${c.desc}</div>
       <div class="chips"><span><b>${c.holes.length}</b> holes</span><span>Par <b>${c.par}</b></span><span><b>${c.yds.toLocaleString()}</b> yds</span>
-        ${c.mini ? '<span>⭐ Putter only</span>' : `<span>Wind up to <b>${c.wind}</b> mph</span>`}<span>Best <b>${best == null ? '—' : `${c.par + best}(${fmtRel(best)})`}</b></span><span>Played <b>${played}</b></span></div>
-      <div class="cdbtns">${open ? `<button class="main" data-tee="1">${c.mini ? 'Start mini golf' : 'Tee off'}</button>` : `<div class="lock" style="flex:1">🔒 Finish a round at ${courseById(c.unlock).name} to unlock</div>`}
+        ${c.mini ? '<span>Putter only</span>' : `<span>Wind up to <b>${c.wind}</b> mph</span>`}<span>Best <b>${best == null ? '—' : `${c.par + best}(${fmtRel(best)})`}</b></span><span>Played <b>${played}</b></span></div>
+      <div class="cdbtns">${open ? `<button class="main" data-tee="1">${c.mini ? 'Start mini golf' : 'Tee off'}</button>` : `<div class="lock" style="flex:1">${ico('lock')} Finish a round at ${courseById(c.unlock).name} to unlock</div>`}
         ${c.mini ? '' : '<button class="ghost" data-chclubs="1">Change clubs</button>'}</div>
       ${c.mini ? '<div style="font-size:12px;color:#f3d7a8;text-align:center">Par 41 · Max 7 strokes a hole · Payouts: 2 under $60 · 1 under (an ace on a par 2) $30 · par $10</div>'
         : `<div style="font-size:12px;color:#f3d7a8;text-align:center">In your bag: ${bag}</div>`}
       <div class="sect">THE HOLES</div><div class="holes">${holes}</div>
-      ${ONLINE ? `<div class="sect">LEADERBOARD</div><div class="seg"><button data-bm="daily" class="${boardMode === 'daily' ? 'on' : ''}">🏆 DAILY TOURNAMENT</button><button data-bm="all" class="${boardMode === 'all' ? 'on' : ''}">ALL-TIME</button></div>`
+      ${ONLINE ? `<div class="sect">LEADERBOARD</div><div class="seg"><button data-bm="daily" class="${boardMode === 'daily' ? 'on' : ''}">DAILY TOURNAMENT</button><button data-bm="all" class="${boardMode === 'all' ? 'on' : ''}">ALL-TIME</button></div>`
         : '<div class="sect">LEADERBOARD · LOWEST SCORES</div>'}<div id="boardBox"></div>`;
     fillBoard(c);
   }
@@ -5004,6 +5136,7 @@
     const b = e.target.closest('button'); if (!b) return;
     ensureAudio(); sfx.click();
     if (b.dataset.bm) { boardMode = b.dataset.bm; renderCourse(); return; }
+    if (b.dataset.aerial != null) { showAerial(course, +b.dataset.aerial); return; }
     if (b.dataset.cback) setTab('play');
     else if (b.dataset.tee) startRound(course);
     else if (b.dataset.chclubs) { clubsReturn = course.id; setTab('clubs'); }
@@ -5028,7 +5161,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.28c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.10.29';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5109,7 +5242,7 @@
     const b = badgeOf(id); if (!b) return;
     const have = hasBadge(id), on = myBadge() === id, cnt = badgeCountTxt(id);
     $('bPop').innerHTML = `<div class="bpc"><div class="bpi${have ? '' : ' lk'}">${b.icon}</div><div class="bpk">PREMIUM BADGE</div><h3>${esc(b.name)}</h3>
-      <p>${esc(b.blurb || b.how)}</p><div class="bps">${have && id === 'champ' ? `🏆 <b>${champWins()}</b> daily win${champWins() === 1 ? '' : 's'} (the number shows next to the trophy on the leaderboards)<br>` : ''}${have ? (on ? '✅ Equipped: it shows next to your name on the leaderboards' : '✅ You have this badge') : '🔒 ' + esc(b.how)}${cnt && id !== 'creator' ? '<br>' + cnt : ''}</div>
+      <p>${esc(b.blurb || b.how)}</p><div class="bps">${have && id === 'champ' ? `<b>${champWins()}</b> daily win${champWins() === 1 ? '' : 's'} (the number shows next to the trophy on the leaderboards)<br>` : ''}${have ? (on ? 'Equipped: it shows next to your name on the leaderboards' : 'You have this badge') : ico('lock') + ' ' + esc(b.how)}${cnt && id !== 'creator' ? '<br>' + cnt : ''}</div>
       <div class="btns">${have ? (on ? '<button class="ghost" data-badge="">Take it off</button>' : `<button class="main" data-badge="${id}">Equip</button>`) : ''}<button class="ghost" data-bclose="1">Close</button></div></div>`;
     $('bPop').classList.remove('hidden');
   }
@@ -5317,9 +5450,9 @@
       const nFirst = wins.filter(w => w.place === 0).length;
       if (nFirst) save.stats.champWins = champWins() + nFirst;   // how many days you've won (shows next to the 🏆)
       if (firsts && !save.badges.champ) { save.badges.champ = 1; regBadges(); }
-      const medal = ['🥇 1st', '🥈 2nd', '🥉 3rd'];
+      const medal = ['1st', '2nd', '3rd'];
       $('prizeBody').innerHTML = wins.map(w => `${medal[w.place]} at ${esc(w.label)} (${w.score}) · ${w.day.slice(5).replace('-', '/')} · <b>+${money(w.prize)}</b>`).join('<br>')
-        + `<br><br>Total: <b>+${money(total)}</b>` + (firsts ? '<br><br>🏆 You earned the <b>Daily Champion</b> badge! Equip it in the Golfer tab.' : '');
+        + `<br><br>Total: <b>+${money(total)}</b>` + (firsts ? '<br><br>You earned the <b>Daily Champion</b> badge! Equip it in the Golfer tab.' : '');
       $('prize').classList.remove('hidden');
     }
     persist(); $('homeCoins').textContent = money(save.coins);
@@ -5363,10 +5496,10 @@
     const mine = myCode();
     box.innerHTML = (mine ? `<div class="lh">YOUR PLAYER CODE</div><div class="pcodeBig">${fmtCode(mine)}</div>
         <div class="sub" style="font-size:13px">${codeFresh === mine ? '<b style="color:var(--gold-l)">Write this down or take a picture of it.</b> ' : ''}Type this code on any device to play as you.</div>
-        <div class="btns" style="margin-top:6px"><button class="ghost sm" data-cocopy="1">📋 Copy code</button></div>`
+        <div class="btns" style="margin-top:6px"><button class="ghost sm" data-cocopy="1">${ico('copy')} Copy code</button></div>`
       : makingCode ? '<div class="sub">Making your player code…</div>'
-      : `<div class="sub">You don't have a player code yet.</div><button class="main" data-comake="1" style="width:100%">✨ Get my player code</button>`)
-      + `<div class="lh" style="margin-top:14px">🔑 LOG IN WITH A CODE</div>
+      : `<div class="sub">You don't have a player code yet.</div><button class="main" data-comake="1" style="width:100%">Get my player code</button>`)
+      + `<div class="lh" style="margin-top:14px">LOG IN WITH A CODE</div>
       <div class="mprow"><input class="mpin" id="coIn" maxlength="9" placeholder="XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="main sm" data-cogo="1">Log in</button></div>
       <div class="tnote" style="text-align:left">Logging in switches this device to that code's progress.</div>`;
   }
@@ -5393,7 +5526,7 @@
       }
     }
     makingCode = false;
-    if (ok) { await onUser(fbAuth.currentUser); toastQ.push({ a: { icon: '👤', label: 'YOUR PLAYER CODE', name: fmtCode(codeFresh), pay: 0 } }); nextToast(); }
+    if (ok) { await onUser(fbAuth.currentUser); toastQ.push({ a: { icon: ico('user'), label: 'YOUR PLAYER CODE', name: fmtCode(codeFresh), pay: 0 } }); nextToast(); }
     renderCodeOv(); renderAcct();
     return ok;
   }
@@ -5402,7 +5535,7 @@
     if (!codeOk(c)) { codeMsg('A player code is 8 letters and numbers, like ABCD-2345.'); return; }
     if (myCode() === c) { codeMsg("You're already logged in with that code.", true); return; }
     codeMsg('Logging in…', true);
-    try { await fbAuth.signInWithEmailAndPassword(codeEmail(c), codePass(c)); codeMsg(''); $('codeOv').classList.add('hidden'); toastQ.push({ a: { icon: '🔑', label: 'WELCOME BACK', name: 'Logged in as ' + fmtCode(c) } }); nextToast(); }
+    try { await fbAuth.signInWithEmailAndPassword(codeEmail(c), codePass(c)); codeMsg(''); $('codeOv').classList.add('hidden'); toastQ.push({ a: { icon: ico('key'), label: 'WELCOME BACK', name: 'Logged in as ' + fmtCode(c) } }); nextToast(); }
     catch (e) { codeMsg(pcodeErr(e)); }
   }
   $('codeOv').addEventListener('click', async e => {
@@ -5473,12 +5606,12 @@
   function acctHtml() {
     if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and player codes couldn\'t load. Check your connection and reload.</div></div>';
     const code = myCode();
-    return `<div class="acctCard"><div class="an">👤 ${esc(boardName())}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `Player code <b class="pcode">${fmtCode(code)}</b>` : makingCode ? 'Making your player code…' : 'No player code yet'}${cloudReady ? `<br>☁️ Progress saved to your code${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}` : ''}</div>
-      <button class="main sm" data-signin="1">👤 ${code ? 'My code' : 'Get my code'}</button> <button class="ghost sm" data-login="1">🔑 Log in</button>${fbUser ? ` <button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>☁️ Sync now</button>` : ''}</div>`;
+    return `<div class="acctCard"><div class="an">${ico('user')} ${esc(boardName())}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `Player code <b class="pcode">${fmtCode(code)}</b>` : makingCode ? 'Making your player code…' : 'No player code yet'}${cloudReady ? `<br>Progress saved to your code${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}` : ''}</div>
+      <button class="main sm" data-signin="1">${ico('user')} ${code ? 'My code' : 'Get my code'}</button> <button class="ghost sm" data-login="1">${ico('key')} Log in</button>${fbUser ? ` <button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>${ico('cloud')} Sync now</button>` : ''}</div>`;
   }
   function renderAcct() {
     const b = $('acctBtn');
-    if (b) { b.classList.toggle('hidden', !ONLINE); b.innerHTML = '👤'; b.title = myCode() ? 'Your player code: ' + fmtCode(myCode()) : 'Player code'; b.classList.add('in'); }
+    if (b) { b.classList.toggle('hidden', !ONLINE); b.innerHTML = ico('user'); b.title = myCode() ? 'Your player code: ' + fmtCode(myCode()) : 'Player code'; b.classList.add('in'); }
     if ($('adminBtn')) $('adminBtn').classList.toggle('hidden', !isCreator());
     renderHeadBadges();
     if ($('acctBox')) $('acctBox').innerHTML = acctHtml();
@@ -5497,7 +5630,7 @@
     if (u && u.isAnonymous) { fbGuest = u; fbUser = null; } else { fbUser = u || null; fbGuest = null; }
     cloudReady = false; renderAcct();
     if (fbUser) { await syncFromCloud(); renderAcct(); }
-    if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); flushFlags(); loadBanList(); }
+    if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); claimCupPrizes(); flushFlags(); loadBanList(); }
     if (!checkedOnce && (u || !fbAuth)) { checkedOnce = true; startupChecks(); }
     mpOnAuth();
     // every golfer gets a player code automatically (a quiet guest account is the fallback if that can't be made right now)
@@ -5529,7 +5662,7 @@
     return `${Math.floor(mins / 60)}h ${mins % 60}m`;
   }
   let boardMode = 'daily';
-  const guestNote = () => fbUser ? '' : '<div class="tnote" style="margin-top:10px">Setting up your player code… <button class="main sm" data-signin="1">👤 Player code</button></div>';
+  const guestNote = () => fbUser ? '' : '<div class="tnote" style="margin-top:10px">Setting up your player code… <button class="main sm" data-signin="1">Player code</button></div>';
   async function fillBoard(c) {
     const box = $('boardBox'); if (!box) return;
     if (!ONLINE) { box.innerHTML = boardHtml(c); return; }
@@ -5540,7 +5673,7 @@
       if (mode === 'daily') {
         const [today, yest] = await Promise.all([fetchBoard(c.id, day), fetchBoard(c.id, prevDay(day), 1)]);
         html = rowsHtml(today, 'No rounds today yet. Finish a round to take the lead!')
-          + `<div class="tnote">Top 3 win 🥇 <b>${money(DAILY_PRIZES[0])}</b> · 🥈 <b>${money(DAILY_PRIZES[1])}</b> · 🥉 <b>${money(DAILY_PRIZES[2])}</b></div>`
+          + `<div class="tnote">Top 3 win ${medal(0)}<b>${money(DAILY_PRIZES[0])}</b> · ${medal(1)}<b>${money(DAILY_PRIZES[1])}</b> · ${medal(2)}<b>${money(DAILY_PRIZES[2])}</b></div>`
           + `<div class="tnote">Resets at midnight ET (in ${resetsIn()})</div>`
           + (yest.length ? `<div class="tnote">Yesterday's winner: ${badgeHtml(yest[0].badge, yest[0].wins)}<b>${esc(yest[0].name)}</b> ${fmtScore(yest[0])}</div>` : '');
       } else {
@@ -5564,13 +5697,13 @@
     const draw = res => {
       const rows = list.map((c, i) => {
         const r = res && res[i], open = c.mini || isUnlocked(c);
-        return `<button class="trow" data-tc="${c.id}"><span class="tc">${c.mini ? '⭐ ' : ''}${esc(c.name)}${open ? '' : ' 🔒'}</span><span class="tl">${!res ? (tourLoading ? '…' : '—') : r ? `${badgeHtml(r.badge, r.wins)}${esc(r.name)} <b>${fmtScore(r)}</b>` : '<i>No leader yet</i>'}</span></button>`;
+        return `<button class="trow" data-tc="${c.id}"><span class="tc">${esc(c.name)}${open ? '' : ' ' + ico('lock')}</span><span class="tl">${!res ? (tourLoading ? '…' : '—') : r ? `${badgeHtml(r.badge, r.wins)}${esc(r.name)} <b>${fmtScore(r)}</b>` : '<i>No leader yet</i>'}</span></button>`;
       }).join('');
       const cr = res && res.ctp;
-      const ctpRow = `<button class="trow" data-tc="ctp"><span class="tc">🎯 Closest to the Pin</span><span class="tl">${!res ? (tourLoading ? '…' : '—') : cr ? `${badgeHtml(cr.badge, cr.wins)}${esc(cr.name)} <b>${cr.yd === 0 ? 'Ace!' : fmtFt(cr.yd)}</b>` : '<i>No leader yet</i>'}</span></button>`;
-      el.innerHTML = `<div class="tour"><div class="ctag">🏆 TODAY'S DAILY TOURNAMENTS · RESETS IN ${resetsIn()}</div>
-        <div class="cm">Every course, mini golf and Closest to the Pin has its own tournament today. Top 3 in each win 🥇 <b>${money(DAILY_PRIZES[0])}</b> · 🥈 <b>${money(DAILY_PRIZES[1])}</b> · 🥉 <b>${money(DAILY_PRIZES[2])}</b>.</div>
-        ${res || tourLoading ? '' : '<button class="main sm" data-tload="1" style="margin:4px 0 8px">👀 See today\'s leaders</button>'}
+      const ctpRow = `<button class="trow" data-tc="ctp"><span class="tc">Closest to the Pin</span><span class="tl">${!res ? (tourLoading ? '…' : '—') : cr ? `${badgeHtml(cr.badge, cr.wins)}${esc(cr.name)} <b>${cr.yd === 0 ? 'Ace!' : fmtFt(cr.yd)}</b>` : '<i>No leader yet</i>'}</span></button>`;
+      el.innerHTML = `<div class="tour"><div class="ctag">LEADERBOARDS · TODAY'S DAILY TOURNAMENTS · RESETS IN ${resetsIn()}</div>
+        <div class="cm">Every course, mini golf and Closest to the Pin has its own tournament today. Top 3 in each win ${medal(0)}<b>${money(DAILY_PRIZES[0])}</b> · ${medal(1)}<b>${money(DAILY_PRIZES[1])}</b> · ${medal(2)}<b>${money(DAILY_PRIZES[2])}</b>.</div>
+        ${res || tourLoading ? '' : '<button class="main sm" data-tload="1" style="margin:4px 0 8px">See today\'s leaders</button>'}
         <div class="trows${tourOpen ? '' : ' shut'}">${ctpRow}${rows}</div><button class="tmore" data-tmore="1">${tourOpen ? 'Show fewer ▴' : `See all ${list.length + 1} tournaments ▾`}</button></div>`;
     };
     tourDraw = draw;
@@ -5619,7 +5752,7 @@
       const rows = await fetchAces();
       const items = rows.map(r => `<span>⛳ ${badgeHtml(r.badge, r.wins)}<b>${esc(r.name)}</b> ${esc(fixName(r.course))}${r.course === 'Closest to the Pin' ? '' : ` #${r.hole}`} · ${r.yds} yds</span>`).join('');
       el.innerHTML = rows.length
-        ? `<div class="acebar"><div class="ah">🎯 HOLE-IN-ONES TODAY <b>${rows.length}</b></div><div class="tick"><div class="tk${rows.length > 2 ? ' run' : ''}">${items}${rows.length > 2 ? items : ''}</div></div></div>`
+        ? `<div class="acebar"><div class="ah">HOLE-IN-ONES TODAY <b>${rows.length}</b></div><div class="tick"><div class="tk${rows.length > 2 ? ' run' : ''}">${items}${rows.length > 2 ? items : ''}</div></div></div>`
         : '';   // stays hidden until somebody makes one
     } catch (e) { el.innerHTML = ''; }
   }
@@ -5669,9 +5802,7 @@
   try { banInfo = JSON.parse(localStorage.getItem(BAN_KEY)); } catch (e) {}
   // only a ban the creator made counts (anything the game made by itself before this update comes off right away)
   if (banInfo && !banInfo.byCreator) { banInfo = null; try { localStorage.removeItem(BAN_KEY); } catch (e) {} }
-  function okSite(hn) { return hn === 'chamigolf.github.io' || /^chamigolf(-[a-z0-9-]+)?\.vercel\.app$/.test(hn) || /\.netlify\.app$/.test(hn) || /(^|\.)redandgoldgolf\.[a-z]+$/.test(hn); }
-  function siteBanMistake(reason) { const m = /modified copy of the game was running \(([^)]+)\)/.exec(reason || ''); return !!m && okSite(m[1].toLowerCase()); }
-  const isAutoBan = d => !!d && (d.auto === true || siteBanMistake(d.reason));
+  const isAutoBan = d => !!d && d.auto === true;   // (nothing ever bans by itself, and nothing checks the website address or network)
   const banned = () => !!banInfo && !isCreator();
   function showBanned() {
     const o = $('bannedOv'); if (!o) return;
@@ -5735,7 +5866,33 @@
       strokes: scores.slice(0, n).reduce((a, v) => a + (v || 0), 0), aces: roundAces | 0, m: Math.round((Date.now() - roundStart) / 60000), at: Date.now() };
     if (!sendFlag(f)) flagQ.push(f);
   }
-  function startupChecks() { showBanned(); }
+  function startupChecks() { showBanned(); if (tamperedSave) reportRound(['the save on this device was edited outside the game'], 0, 0, true); }
+  // ---- Anti-cheat (update 2.4) ----
+  // Every finished round is checked on the device before it goes online. It NEVER bans anyone, and nothing here looks at your
+  // network or the website address, so playing through a school proxy is fine. A round that can't be real (a hole score that
+  // isn't possible, totals that don't add up, fewer strokes than swings, a whole round played impossibly fast, or a save file
+  // edited by hand) simply isn't posted to the leaderboards or the Homeroom Cup, and the creator gets a note in Creator tools > Flags.
+  // (A save edited by hand only sends the creator a note: it never blocks anything by itself.)
+  // Only the creator can ban, after looking at it. The server rules (firestore.rules) also range-check every score.
+  let saveEditNoted = false;
+  function roundProblems(ts, tp, rel) {
+    if (isCreator() || !HOLES || !HOLES.length) return [];
+    const n = HOLES.length, card = scores.slice(0, n), p = [];
+    if (card.some(v => !Number.isInteger(v) || v < 1 || v > MAX_STROKES + 3)) p.push('a hole score that isn\'t possible');
+    if (ts !== card.reduce((a, v) => a + (v || 0), 0) || rel !== ts - tp) p.push('the totals don\'t add up');
+    if (!course.mini && rStat.shots > 0 && ts < rStat.shots) p.push(`${ts} strokes but ${rStat.shots} swings`);
+    if (roundStart && Date.now() - roundStart < n * 4000) p.push(`${n} holes in ${Math.round((Date.now() - roundStart) / 1000)} seconds`);
+    return p;
+  }
+  function reportRound(probs, rel, ts, saveOnly) {
+    if (isCreator()) return;
+    if (saveOnly) { if (saveEditNoted) return; saveEditNoted = true; }
+    const f = { kind: 'check', detail: String(probs.join('; ') + (saveOnly ? '' : ` · ${course ? course.name : ''} ${fmtRel(rel)} (${ts})`)).slice(0, 140), strong: false, at: Date.now() };
+    const lc = saveOnly ? null : { c: course.id, s: packCard(scores.slice(0, HOLES.length)), h: HOLES.length, n: HOLES.length };
+    if (lc) f.card = lc;
+    if (!sendFlag(f)) flagQ.push(f);
+    track('round_not_posted', { why: probs[0] });
+  }
 
   // ================= Play Friends: friend codes, 1v1 wagers, 2v2 and Foursomes (Firebase) =================
   // Everything about a match lives in one Firestore doc (matches/{CODE}). Each golfer only appends to its
@@ -6192,7 +6349,7 @@
     }
     save.mpActive = null; persist();
     if (m.host === fbUser.uid && m.status === 'playing') matchRef(MP.id).update({ status: 'done' }).catch(() => {});
-    $('mpTitle').textContent = res.coop ? `Round complete · ${fmtRel(relOf(0, MP.n).r)}` : tie ? (split ? 'Tied · pot split' : 'You lost') : won ? (res.forfeit ? 'You win · forfeit' : 'You win! 🏆') : (res.forfeit ? 'Match forfeited' : res.win >= 0 && MP.teams.length > 2 ? `${teamLabel(res.win)} won` : 'You lost');
+    $('mpTitle').textContent = res.coop ? `Round complete · ${fmtRel(relOf(0, MP.n).r)}` : tie ? (split ? 'Tied · pot split' : 'You lost') : won ? (res.forfeit ? 'You win · forfeit' : 'You win!') : (res.forfeit ? 'Match forfeited' : res.win >= 0 && MP.teams.length > 2 ? `${teamLabel(res.win)} won` : 'You lost');
     $('mpSub').textContent = `${MP_MODES[m.mode].name} · ${fmtName(m.mode, m.fmt)} · ${MP.course.name} · ${m.n} holes${res.playoff && !tie ? ` · won on playoff hole ${res.playoff}` : ''}`;
     $('mpTable').innerHTML = matchTable();
     let lines = `<div><span>Hole payouts</span><span>${money(holeMoney)}</span></div>`;
@@ -6215,10 +6372,10 @@
   function setMsg(t, ok) { mpMsg = { t: t || '', ok: !!ok }; const e = $('mpMsg'); if (e) { e.textContent = mpMsg.t; e.className = 'mpmsg' + (mpMsg.ok ? ' ok' : ''); } }
   function renderMpCard() {
     const box = $('mpCard'); if (!box) return;
-    const active = MP && !MP.started ? `<div class="mpnote"><span>⏳ You're in match <b>${MP.id}</b></span><button class="main sm" data-mpopen="1">Lobby</button></div>`
-      : !MP && save.mpActive && fbUser ? `<div class="mpnote"><span>⛳ Match <b>${esc(save.mpActive)}</b> in progress</span><button class="main sm" data-mprejoin="1">Rejoin</button></div>` : '';
+    const active = MP && !MP.started ? `<div class="mpnote"><span>You're in match <b>${MP.id}</b></span><button class="main sm" data-mpopen="1">Lobby</button></div>`
+      : !MP && save.mpActive && fbUser ? `<div class="mpnote"><span>Match <b>${esc(save.mpActive)}</b> in progress</span><button class="main sm" data-mprejoin="1">Rejoin</button></div>` : '';
     // (Oct 28 2026) cleaner and more condensed: one yellow button opens every match option (1v1, 2v2, foursome, join by code)
-    box.innerHTML = `<div class="mpc mpslim"><div class="ctag">⚔️ PLAY FRIENDS · HEAD TO HEAD</div>
+    box.innerHTML = `<div class="mpc mpslim"><div class="ctag">PLAY FRIENDS · HEAD TO HEAD</div>
       <button class="main sm" data-mpopen="1" style="width:100%;margin-top:8px">Browse match options ›</button>${active}</div>`;
   }
   $('mpCard').addEventListener('click', async e => {
@@ -6235,7 +6392,7 @@
     if (!ONLINE) { box.innerHTML = back + '<div class="empty">Play Friends needs the internet. Check your connection and reload.</div>'; return; }
     if (!fbUser) {
       box.innerHTML = back + `<div class="mpbox"><div class="lh">PLAY FRIENDS</div><div class="cm" style="font-size:14px;color:var(--cream);margin-bottom:10px">Your player code is still being set up. Tap below to get it (or log in with yours), then create or join matches with a match code.${pendingLink ? ` <b style="color:var(--gold-l)">You'll join match ${pendingLink.join} right after.</b>` : ''}</div>
-        <button class="main" data-signin="1" style="width:100%">👤 Player code</button></div>`;
+        <button class="main" data-signin="1" style="width:100%">Player code</button></div>`;
       return;
     }
     if (MP && MP.doc && !MP.started) return renderLobby(box, back);
@@ -6250,7 +6407,7 @@
         <div class="lh">GAME</div><div class="opts">${Object.keys(MP_MODES).map(k => opt('fm', k, MP_MODES[k].name, +k === f.mode)).join('')}</div>
         <div class="lh">FORMAT</div><div class="opts">${md.fmts.map(k => opt('ff', k, fmtName(f.mode, k), k === f.fmt)).join('')}</div>
         <div class="gnote" style="margin-top:6px">${md.sub} · ${fmtHow(f.mode, f.fmt)}</div>
-        <div class="lh">COURSE</div><div class="opts">${courses.map(c => opt('fc', c.id, c.mini ? '⭐ Mini Golf' : c.name, c.id === f.cid)).join('')}</div>
+        <div class="lh">COURSE</div><div class="opts">${courses.map(c => opt('fc', c.id, c.mini ? 'Mini Golf' : c.name, c.id === f.cid)).join('')}</div>
         <div class="lh">HOLES</div><div class="opts">${[3, 6, 9].map(n => opt('fn', n, n + ' holes', n === f.n)).join('')}</div>
         ${coop ? '' : `<div class="lh">BUY-IN (EVERY GOLFER PUTS UP THE SAME) · YOU HAVE ${money(save.coins)}</div>
         <div class="mprow"><input class="mpin" id="mpWager" type="number" inputmode="numeric" min="0" max="${save.coins}" step="25" value="${f.wager}"></div>
@@ -6324,8 +6481,8 @@
   const previewMats = lookMats(), previewBagMats = bagMats();
   function golferPreview() {
     if (prev3) return prev3;
-    const r = new THREE.WebGLRenderer({ canvas: $('gPrev'), antialias: true, alpha: true });
-    r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const r = new THREE.WebGLRenderer({ canvas: $('gPrev'), antialias: !SAVER, alpha: true });
+    r.setPixelRatio(PR);
     const sc = new THREE.Scene();
     sc.add(new THREE.HemisphereLight(0xeaf4ff, 0x40602f, 0.85));
     const dl = new THREE.DirectionalLight(0xfff0d8, 0.75); dl.position.set(2.5, 4, 3); sc.add(dl);
@@ -6342,22 +6499,24 @@
     prev3 = { r, sc, cam, g, ball, bag, turn, w: 0, h: 0 };
     return prev3;
   }
+  let prevRot = 0.6, prevDirty = true, prevDrag = null;
+  $('gPrev').addEventListener('pointerdown', e => { prevDrag = { x: e.clientX, r: prevRot }; try { $('gPrev').setPointerCapture(e.pointerId); } catch (er) {} });
+  $('gPrev').addEventListener('pointermove', e => { if (!prevDrag) return; prevRot = prevDrag.r + (e.clientX - prevDrag.x) * 0.012; prevDirty = true; });
+  ['pointerup', 'pointercancel'].forEach(ev => $('gPrev').addEventListener(ev, () => { prevDrag = null; }));
+  // anything you change in the Golfer tab redraws the preview (it isn't redrawn on its own, which saves battery)
+  ['click', 'input', 'change', 'pointerup'].forEach(ev => $('tab-golfer').addEventListener(ev, () => { prevDirty = true; setTimeout(() => { prevDirty = true; }, 120); }, true));
+  $('tab-golfer').addEventListener('pointermove', e => { if (e.buttons) prevDirty = true; }, true);
   function renderPreview(time) {
     const P = golferPreview(), cv = $('gPrev'), w = cv.clientWidth, h = cv.clientHeight;
     if (!w || !h) return;
-    if (P.w !== w || P.h !== h) { P.r.setSize(w, h, false); P.cam.aspect = w / h; P.cam.updateProjectionMatrix(); P.w = w; P.h = h; }
+    if (P.w !== w || P.h !== h) { prevDirty = true; P.r.setSize(w, h, false); P.cam.aspect = w / h; P.cam.updateProjectionMatrix(); P.w = w; P.h = h; }
     const kind = clubKind(CLUBS[0]), B = P.g.B[kind];
     const hs = hand();
     P.g.root.position.set(0, 0, -B / 2 * hs); P.ball.position.set(0, 0.04, B / 2 * hs); P.g.root.scale.z = hs;
     if (P.paintFor !== CLUBS[0].id + clubColOf(CLUBS[0])) { P.paintFor = CLUBS[0].id + clubColOf(CLUBS[0]); paintClub(previewMats, CLUBS[0]); }
-    P.turn.rotation.y = time * 0.35;
-    // a slow demo swing on a loop
-    const T = time % 4, p = 1;
-    let pose = { a: 0, h: 0, t: 0 };
-    if (T > 1 && T < 2.2) pose = lerpPose(pose, backPose(false, p), easeOut((T - 1) / 1.2));
-    else if (T >= 2.2 && T < 2.36) pose = lerpPose(backPose(false, p), IMPACT, easeIn((T - 2.2) / 0.16));
-    else if (T >= 2.36) pose = lerpPose(IMPACT, finishPose(false, p), easeOut(clamp((T - 2.36) / 0.45, 0, 1)));
-    poseGolfer(P.g, kind, pose.a, pose.h, pose.t);
+    // (update 2.4) the golfer stands still at address; drag the picture with your finger to spin it round
+    P.turn.rotation.y = prevRot;
+    poseGolfer(P.g, kind, 0, 0, 0);
     P.cam.position.set(0, 1.3, 5.3); P.cam.lookAt(0, 0.8, 0);
     P.r.render(P.sc, P.cam);
   }
@@ -6372,7 +6531,7 @@
   const byCost = (arr, cost) => arr.map((x, i) => ({ x, i, c: cost(x) })).sort((a, b) => a.c - b.c || a.i - b.i).map(o => o.x);
   const swRow = (attr, list, cur, label, part) => '<div class="sw">' + (part ? byCost(list, ([, c]) => priceOf(part, c)) : list).map(([n, c]) => {
     const own = !part || ownsC(part, c), pr = part ? priceOf(part, c) : 0;
-    if (part && reservedFor(part, c)) return `<button ${attr}="${c}" title="${n} · reserved" aria-label="${label}: ${n}, reserved" class="${c.toLowerCase() === String(cur).toLowerCase() ? 'on' : ''} buy" style="background:${c}"><em>🔒</em></button>`;
+    if (part && reservedFor(part, c)) return `<button ${attr}="${c}" title="${n} · reserved" aria-label="${label}: ${n}, reserved" class="${c.toLowerCase() === String(cur).toLowerCase() ? 'on' : ''} buy" style="background:${c}"><em>${ico('lock')}</em></button>`;
     return `<button ${attr}="${c}" title="${n}${own ? '' : ' · ' + money(pr)}" aria-label="${label}: ${n}${own ? '' : ', costs ' + money(pr)}" class="${c.toLowerCase() === String(cur).toLowerCase() ? 'on' : ''}${own ? '' : ' buy'}" style="background:${c}">${own ? '' : `<em>${pr >= 1000 ? '$' + (pr / 1000) + 'k' : '$' + pr}</em>`}</button>`;
   }).join('') + '</div>';
   // the buy bar shown under the swatches when you pick something you don't own yet
@@ -6382,7 +6541,7 @@
     const b = pendingBuy, can = save.coins >= b.price;
     return `<div class="buybar"><span class="bsw" style="background:${b.swatch}"></span><div class="bi"><b>${b.title}</b><span>${money(b.price)} · You have ${money(save.coins)}</span></div>`
       + `<button class="main sm" data-buy="1"${can ? '' : ' disabled'}>${can ? 'Buy & wear' : `Need ${money(b.price - save.coins)} more`}</button></div>`
-      + (tryLook || tryBag ? '<div class="gnote">👀 Trying it on: check the preview. Buy it to wear it in your rounds.</div>' : '');
+      + (tryLook || tryBag ? '<div class="gnote">Trying it on: check the preview. Buy it to wear it in your rounds.</div>' : '');
   }
   function outfitPanel() {
     const L = save.look;
@@ -6393,13 +6552,13 @@
       return `<button class="pcard ${sameLook(L, k) ? 'on' : ''}${locked ? ' locked' : ''}" data-preset="${i}"><span class="mini">` +
         `<i style="background:${k.jacket}"></i><i style="background:linear-gradient(90deg,${k.shirt} 35%,${k.tie} 35% 65%,${k.shirt} 65%)"></i>` +
         `${k.style === 'sweater' ? `<i style="background:linear-gradient(90deg,${k.jacket} 30%,#B3122B 30% 40%,${k.trim} 40% 60%,#B3122B 60% 70%,${k.jacket} 70%);flex:.35"></i>` : ''}<i style="background:${k.pants}"></i>` +
-        `${locked ? '<b class="lk">🔒</b>' : ''}</span>${p.name}${locked ? '<small>LOCKED</small>' : forSale ? `<small>${money(p.price)}</small>` : ''}</button>`;
+        `${locked ? `<b class="lk">${ico('lock')}</b>` : ''}</span>${p.name}${locked ? '<small>LOCKED</small>' : forSale ? `<small>${money(p.price)}</small>` : ''}</button>`;
     }).join('');
-    const lockNote = gReserved ? `<div class="locknote">🔒 That jacket colour belongs to the <b>${gReserved}</b> outfit. ${gReserved === 'Green Jacket' ? UNLOCKS.masters.how : 'Buy the Gold Jacket outfit above to wear it.'}</div>`
-      : gLockMsg ? `<div class="locknote">🔒 <b>${UNLOCKS[gLockMsg].name}</b> is locked. ${UNLOCKS[gLockMsg].how}${tryLook ? '<br>👀 You\'re trying it on in the preview.' : ''}</div>` : '';
+    const lockNote = gReserved ? `<div class="locknote">${ico('lock')} That jacket colour belongs to the <b>${gReserved}</b> outfit. ${gReserved === 'Green Jacket' ? UNLOCKS.masters.how : 'Buy the Gold Jacket outfit above to wear it.'}</div>`
+      : gLockMsg ? `<div class="locknote">${ico('lock')} <b>${UNLOCKS[gLockMsg].name}</b> is locked. ${UNLOCKS[gLockMsg].how}${tryLook ? '<br>You\'re trying it on in the preview.' : ''}</div>` : '';
     const chips = LOOK_PARTS.filter(([k]) => partShown(k, L)).map(([k]) => {
       const dot = k === 'style' ? '' : `<i style="background:${L[k]}"></i>`;
-      return `<button data-gpart="${k}" class="${k === gPart ? 'on' : ''}">${dot}${k === 'style' ? (L.style === 'sweater' ? '🧶 ' : '🧥 ') + 'Top' : partLabel(k, L)}</button>`;
+      return `<button data-gpart="${k}" class="${k === gPart ? 'on' : ''}">${dot}${k === 'style' ? 'Top' : partLabel(k, L)}</button>`;
     }).join('');
     let pane;
     if (gPart === 'style') pane = `<div class="lh">Top<b>${L.style === 'sweater' ? 'Sweater' : 'Suit jacket'}</b></div><div class="opts">` +
@@ -6420,12 +6579,12 @@
       const k = p.bag, locked = !bagOpen(p);
       return `<button class="pcard ${sameLook(G, k) ? 'on' : ''}${locked ? ' locked' : ''}" data-bpreset="${i}"><span class="mini">` +
         `<i style="background:${k.covers};flex:.6"></i><i style="background:${k.trim};flex:.3"></i><i style="background:${k.panel ? `linear-gradient(90deg,${k.body} 28%,#F2C14E 28% 32%,${k.panel} 32% 68%,#F2C14E 68% 72%,${k.body} 72%)` : k.body}"></i><i style="background:${k.trim};flex:.3"></i>` +
-        `${locked ? '<b class="lk">🔒</b>' : ''}</span>${p.name}${locked ? '<small>LOCKED</small>' : ''}</button>`;
+        `${locked ? `<b class="lk">${ico('lock')}</b>` : ''}</span>${p.name}${locked ? '<small>LOCKED</small>' : ''}</button>`;
     }).join('');
     const bodies = byCost(BAG_SWATCHES.body, ([, c]) => { const bp = BAG_PRESETS.find(p => p.bag.body.toLowerCase() === c.toLowerCase()); return bp ? bagCost(bp) : 0; }).filter(([, c]) => BAG_PRESETS.some(p => bagOpen(p) && p.bag.body.toLowerCase() === c.toLowerCase()));
     const openN = BAG_PRESETS.filter(bagOpen).length;
-    const lockNote = bLockMsg ? (() => { const a = AWARDS.find(x => x.id === bLockMsg.award); return `<div class="locknote">🔒 <b>${bLockMsg.name}</b> bag is locked. Earn the <b>${a.icon} ${a.name}</b> achievement: ${a.how}.${tryBag ? '<br>👀 Trying it on in the preview.' : ''}</div>`; })() : '';
-    const chips = BAG_PARTS.map(([k, n]) => `<button data-bpart="${k}" class="${k === bPart ? 'on' : ''}">${k === 'logo' ? '🏷️ ' : `<i style="background:${G[k]}"></i>`}${n}</button>`).join('');
+    const lockNote = bLockMsg ? (() => { const a = AWARDS.find(x => x.id === bLockMsg.award); return `<div class="locknote">${ico('lock')} <b>${bLockMsg.name}</b> bag is locked. Earn the <b>${a.icon} ${a.name}</b> achievement: ${a.how}.${tryBag ? '<br>Trying it on in the preview.' : ''}</div>`; })() : '';
+    const chips = BAG_PARTS.map(([k, n]) => `<button data-bpart="${k}" class="${k === bPart ? 'on' : ''}">${k === 'logo' ? ico('tag') + ' ' : `<i style="background:${G[k]}"></i>`}${n}</button>`).join('');
     const label = BAG_PARTS.find(x => x[0] === bPart)[1];
     const ownLogo = !!save.ownedLook['bag-logo:custom'], cl = customLogo();
     const pane = bPart === 'logo'
@@ -6433,15 +6592,15 @@
         BAG_LOGOS.map(([v, n]) => `<button data-logo="${v}" class="${G.logo === v ? 'on' : ''}">${n}${v === 'custom' && !ownLogo ? `<br><small style="font:800 10px Inter;color:var(--gold)">${money(CUSTOM_LOGO_PRICE)}</small>` : ''}</button>`).join('') + '</div>'
         + (G.logo === 'custom' && ownLogo ? `<div class="logoEd">
             <label>Words on your bag<input id="logoText" maxlength="12" placeholder="e.g. YOUR NAME" value="${esc(cl.text || '')}" autocomplete="off" spellcheck="false"></label>
-            <div class="logoBtns"><label class="ghost sm upl">📷 ${cl.img ? 'Change picture' : 'Upload picture'}<input type="file" id="logoFile" accept="image/*"></label>
+            <div class="logoBtns"><label class="ghost sm upl">${ico('camera')} ${cl.img ? 'Change picture' : 'Upload picture'}<input type="file" id="logoFile" accept="image/*"></label>
             ${cl.img ? '<button class="ghost sm" data-logoclear="1">Remove picture</button>' : ''}</div>
             <div class="gnote">Your picture goes in a round badge on the front of the bag, with your words running down it.</div></div>` : '')
         + `<div class="lh" style="margin-top:12px">Homeroom tag<b>${save.hr ? (save.bagHr ? 'HR ' + save.hr : 'Off') : '—'}</b></div>`
-        + (save.hr ? `<div class="opts"><button data-baghr="1" class="${save.bagHr ? 'on' : ''}">🏫 HR ${save.hr}</button><button data-baghr="0" class="${save.bagHr ? '' : 'on'}">No tag</button></div><div class="gnote">Free: puts "HR ${save.hr}" near the bottom of your bag.</div>`
+        + (save.hr ? `<div class="opts"><button data-baghr="1" class="${save.bagHr ? 'on' : ''}">HR ${save.hr}</button><button data-baghr="0" class="${save.bagHr ? '' : 'on'}">No tag</button></div><div class="gnote">Free: puts "HR ${save.hr}" near the bottom of your bag.</div>`
           : '<div class="gnote">Pick your homeroom (above) to put "HR" and your letter on your bag.</div>')
         + buyBar()
       : `<div class="lh">${label}<b>${swName(BAG_SWATCHES[bPart], G[bPart])}</b></div>` + swRow('data-bcol', bPart === 'body' ? bodies : BAG_SWATCHES[bPart], G[bPart], label, bPart === 'body' ? null : 'bag-' + bPart)
-        + (bPart === 'body' ? `<div class="gnote">Unlock more bag colors by earning achievements (🏆 Awards tab).</div>` : '') + buyBar();
+        + (bPart === 'body' ? `<div class="gnote">Unlock more bag colors by earning achievements (Awards tab).</div>` : '') + buyBar();
     return `<div class="gcard"><div class="sect" style="display:flex;justify-content:space-between">GOLF BAGS<span>${openN} / ${BAG_PRESETS.length}</span></div><div class="pgrid">${cards}</div>${lockNote}` +
       `<div class="gnote">Your bag sits on the tee box next to you on every hole. Locked bags unlock with achievements.</div></div>` +
       `<div class="gcard"><div class="sect">CUSTOMIZE</div><div class="chiprow">${chips}</div><div class="swpane">${pane}</div></div>`;
@@ -6572,7 +6731,7 @@
     const list = shownBadges();
     const chips = list.map(b => {
       const have = hasBadge(b.id), cnt = badgeCountTxt(b.id);
-      return `<button class="bchip${cur === b.id ? ' on' : ''}${have ? '' : ' locked'}" data-bpop="${b.id}" title="${esc(b.how)}"><span>${have ? b.icon : '🔒'}</span><b>${b.name}${have && b.id === 'champ' ? ` · ${champWins()} win${champWins() === 1 ? '' : 's'}` : ''}</b><small>${have ? (cur === b.id ? 'EQUIPPED' : 'Tap for details') : esc(b.how)}</small>${cnt ? `<em class="bcnt">${cnt}</em>` : ''}</button>`;
+      return `<button class="bchip${cur === b.id ? ' on' : ''}${have ? '' : ' locked'}" data-bpop="${b.id}" title="${esc(b.how)}"><span>${have ? b.icon : ico('lock')}</span><b>${b.name}${have && b.id === 'champ' ? ` · ${champWins()} win${champWins() === 1 ? '' : 's'}` : ''}</b><small>${have ? (cur === b.id ? 'EQUIPPED' : 'Tap for details') : esc(b.how)}</small>${cnt ? `<em class="bcnt">${cnt}</em>` : ''}</button>`;
     }).join('');
     loadBadgeCounts();
     return `<div class="gcard" style="margin-top:12px"><div class="sect" style="display:flex;justify-content:space-between">PREMIUM BADGES<span>${list.filter(b => hasBadge(b.id)).length} / ${list.length}</span></div>
@@ -6580,9 +6739,11 @@
   }
   function renderGolfer() {
     $('gName').value = save.name || '';
-    $('handBox').innerHTML = `<div class="nameRow" style="margin-top:12px">I swing</div><div class="opts" style="margin-top:6px"><button data-hand="r" class="${save.lefty ? '' : 'on'}">🏌️ Right-handed</button><button data-hand="l" class="${save.lefty ? 'on' : ''}">🏌️ Left-handed</button></div>`;
-    $('hrBox').innerHTML = save.hr ? `<div class="nameRow" style="margin-top:12px">🏫 Homeroom</div><div class="hrlock" style="margin-top:6px">Homeroom <b>${save.hr}</b> 🔒 <small>(can't be changed)</small></div>`
-      : `<div class="nameRow" style="margin-top:12px">🏫 Pick your homeroom (can't be changed later)</div><div class="hrchips" style="margin-top:6px">${HOMEROOMS.map(h => `<button data-ghr="${h}">${h}</button>`).join('')}</div>`;
+    $('handBox').innerHTML = `<div class="nameRow" style="margin-top:12px">I swing</div><div class="opts" style="margin-top:6px"><button data-hand="r" class="${save.lefty ? '' : 'on'}">Right-handed</button><button data-hand="l" class="${save.lefty ? 'on' : ''}">Left-handed</button></div>`
+      + `<div class="nameRow" style="margin-top:12px">${ico('battery')} Battery saver</div><div class="opts" style="margin-top:6px"><button data-saver="1" class="${SAVER ? 'on' : ''}">On</button><button data-saver="0" class="${SAVER ? '' : 'on'}">Off</button></div>`
+      + `<div class="gnote" style="margin-top:4px">Saves battery on iPad: 30 fps, no shadows, no camera fly-ins (it cuts straight to your golfer), no confetti and a still home screen.</div>`;
+    $('hrBox').innerHTML = save.hr ? `<div class="nameRow" style="margin-top:12px">Homeroom</div><div class="hrlock" style="margin-top:6px">Homeroom <b>${save.hr}</b> ${ico('lock')} <small>(can't be changed)</small></div>`
+      : `<div class="nameRow" style="margin-top:12px">Pick your homeroom (can't be changed later)</div><div class="hrchips" style="margin-top:6px">${HOMEROOMS.map(h => `<button data-ghr="${h}">${h}</button>`).join('')}</div>`;
     $('badgeBox').innerHTML = badgesHtml();
     const own = ownedBadges(), mb = myBadge();
     $('gBadge').innerHTML = own.map(b => `<button class="bmed${mb === b.id ? ' on' : ''}" data-bpop="${b.id}" title="${esc(b.name)}">${b.icon}</button>`).join('');
@@ -6611,7 +6772,7 @@
       applyLook(previewMats, Object.assign({}, save.look, { [gPart]: hex }));   // the preview golfer wears it right away
       const res = reservedFor(gPart, hex), box = document.getElementById('cp-look'); if (!box) return;
       const warn = box.querySelector('[data-cpwarn]'), use = box.querySelector('[data-cpuse]'), owned = ownsAny(gPart, hex);
-      if (warn) { warn.style.display = res ? '' : 'none'; warn.textContent = res ? `🔒 That's too close to the ${res.name}'s colour. ${res.name === 'Green Jacket' ? 'Earn the Green Jacket outfit to wear it.' : 'Buy the Gold Jacket outfit to wear it.'}` : ''; }
+      if (warn) { warn.style.display = res ? '' : 'none'; warn.textContent = res ? `That's too close to the ${res.name}'s colour. ${res.name === 'Green Jacket' ? 'Earn the Green Jacket outfit to wear it.' : 'Buy the Gold Jacket outfit to wear it.'}` : ''; }
       if (use) { use.disabled = !!res; use.textContent = res ? 'Reserved colour' : owned ? 'Wear this colour' : `Try it on · ${money(priceOfAny(gPart, hex))}`; }
     }
   }
@@ -6633,6 +6794,13 @@
     if (d.badge != null) { if (!d.badge || hasBadge(d.badge)) { save.badge = d.badge; save.badgeAuto = 1; persist(); } renderGolfer(); return; }
     if (d.hand) { save.lefty = d.hand === 'l'; persist(); golfer.paintFor = ''; renderGolfer(); return; }
     if (d.ghr) { setHomeroom(d.ghr); renderGolfer(); return; }
+    if (d.saver) {
+      const on = d.saver === '1'; if (on === SAVER) return;
+      save.ui = save.ui || {}; save.ui.saver = on; persist();
+      if (confirm(`Battery saver ${on ? 'on' : 'off'}. The game reloads to switch it (your progress is saved).`)) location.reload();
+      else { save.ui.saver = SAVER; persist(); }
+      return;
+    }
     if (d.baghr) { save.bagHr = d.baghr === '1'; persist(); setTimeout(cloudSaveSoon, 0); applyBag(playerBagMats, save.gbag); applyBag(previewBagMats, save.gbag); renderGolfer(); return; }
     if (d.gtab) gTab = d.gtab;
     else if (d.preset != null) {
@@ -6727,7 +6895,7 @@
       return `<tr><td><b>${n}</b></td><td>${ms.map(m => `${m.name} (${m.carry}${m.putter ? ' roll' : ''})`).join('<br>')}</td></tr>`;
     }).join('');
     $('howBody').innerHTML = `
-      <div class="sect" style="margin-top:28px;font-size:16px;color:var(--gold-l)">❓ HOW TO PLAY</div>
+      <div class="sect" style="margin-top:28px;font-size:16px;color:var(--gold-l)">HOW TO PLAY</div>
       <div class="sect">THE SWING</div>
       <div class="howcard">
         <p><b>1. Aim.</b> Swipe left or right anywhere away from the ball. <b>MAP</b> shows the whole hole and you can tap it to aim.</p>
@@ -6770,12 +6938,12 @@
         <p><b>Lefty?</b> Switch to left-handed in the Golfer tab. Your golfer stands on the other side of the ball and the gauge's hook and slice sides swap.</p>
         <p><b>Greens slope.</b> On the green, the <b>Green Reader</b> (top right) shows the slope (arrows point downhill), how much the putt breaks and which way to aim. Chami Links has the gentlest greens, Deans Valley the wildest.</p>
         <p><b>Daily Closest to the Pin:</b> a brutal new par 3 every day with ${CTP_TRIES} tries. Land it within ${CTP_UNLOCK_FT} feet to unlock the Senior Sweater.</p>
-        <p><b>Gold Star Mini Golf:</b> tap the ⭐ button on the home screen for 18 holes of putt-putt.</p>
+        <p><b>Gold Star Mini Golf:</b> tap the Mini Golf button on the home screen for 18 holes of putt-putt.</p>
         <p><b>Daily Tournaments:</b> every course, mini golf and Closest to the Pin has its own tournament each day (see the Play tab). No sign-in needed: your score posts with your name. Top 3 win money at midnight ET.</p>
         <p><b>Badges:</b> earn badges (Hole in One, Daily Champion and more) and equip one in the Golfer tab. It shows next to your name on the leaderboards.</p>
         <p><b>Play fair:</b> edited saves, money the game never paid out and impossible scores get caught, and cheaters are banned.</p>
         <p><b>Hole payouts:</b> hole-in-one $1,500 · albatross $1,000 · eagle $250 · birdie $100 · par $25 · bogey or worse $0, plus a round bonus.</p>
-        <p><b>🔥 Momentum:</b> 3 holes in a row with no bogey (par or better) adds <b>+20%</b> to your hole payouts, and every hole you keep it going adds another +20%, with no limit. A bogey ends it.</p>
+        <p><b>Momentum:</b> 3 holes in a row with no bogey (par or better) adds <b>+20%</b> to your hole payouts, and every hole you keep it going adds another +20%, with no limit. A bogey ends it.</p>
         <p><b>Play Friends:</b> create a match and send your friends the 6-character match code (or the invite link), then play a 1v1 for a wager (3, 6 or 9 holes, sudden-death playoff if tied), 2v2 (scramble, alt shot or best ball) or a Foursome (own ball 1v1v1v1 for up to 4 golfers, or a 2 v 2 scramble; the host sets one buy-in everyone pays). Winners split the pot.</p>
         <p><b>Money</b> buys gear: spend it in <b>Clubs</b> on new models and upgrades. Customize your outfit and golf bag in <b>Golfer</b>.</p>
       </div>`;
@@ -6794,11 +6962,11 @@
       const open = isUnlocked(c), best = save.stats.bestBy[c.id], played = save.stats.roundsBy[c.id] || 0;
       // compact cards (the full description is on the course page), so more of the course behind them shows
       const meta = `${c.holes.length} holes · Par ${c.par} · ${c.yds.toLocaleString()} yds`;
-      const rec = !open ? `🔒 Beat ${courseById(c.unlock).name}` : best == null ? 'Not played yet' : `Best ${c.par + best}(${fmtRel(best)}) · ${played} played`;
+      const rec = !open ? `${ico('lock')} Beat ${courseById(c.unlock).name}` : best == null ? 'Not played yet' : `Best ${c.par + best}(${fmtRel(best)}) · ${played} played`;
       return `<div class="course mini-c${c.id === course.id ? ' sel' : ''}${open ? '' : ' locked'}" data-pick="${c.id}">
         <div class="thumb" style="background-image:url('${courseThumb(c)}');${open ? '' : 'filter:grayscale(.8) brightness(.6)'}"></div>
         <div class="ci"><div class="cn">${c.name}</div><div class="cm">${meta}</div><div class="cm rec">${rec}</div></div>
-        <div class="go">${open ? '›' : '🔒'}</div></div>`;
+        <div class="go">${open ? '›' : ico('lock')}</div></div>`;
     }).join('');
   }
   $('miniBtn').addEventListener('click', () => { ensureAudio(); sfx.click(); openCourse(MINI); });
@@ -6863,7 +7031,7 @@
       const rows = ts.map(([k, name]) => {
         const cur = u[k], cost = cur < MAX_LV ? upCost(eq, k, cur) : 0, open = canUpTrack(eq, k);
         const btn = cur >= MAX_LV ? '<button class="main sm" disabled>MAXED</button>'
-          : !open ? '<button class="ghost sm" disabled>🔒</button>'
+          : !open ? `<button class="ghost sm" disabled>${ico('lock')}</button>`
           : `<button class="main sm" data-up="${eq.id}" data-k="${k}"${save.coins < cost ? ' disabled' : ''}>${money(cost)}</button>`;
         return `<div class="trk"><div class="tn"><b>${name}</b><span class="pips">${pipRow(cur)}</span><small>${cur >= MAX_LV ? 'Maxed out' : !open ? `Bring the other stats to level ${cur + 1} first` : `Next: ${what[k]()}`}</small></div>${btn}</div>`;
       }).join('');
@@ -6945,8 +7113,8 @@
       const [h, n] = a.prog(st$()), done = hasAward(a.id), bag = BAG_PRESETS.find(p => p.award === a.id);
       const pct = Math.min(100, Math.round(Math.min(h, n) / n * 100));
       const prog = n > 1 ? `${Math.min(h, n).toLocaleString()} / ${n.toLocaleString()}` : (done ? 'Done' : 'Not yet');
-      const reward = [a.pay ? money(a.pay) : '', bag ? `🎒 ${bag.name} bag` : '', a.id === 'stiff' ? '👔 Senior Sweater' : ''].filter(Boolean).join(' · ');
-      return `<div class="aw${done ? ' done' : ''}"><div class="ai">${done ? a.icon : '🔒'}</div><div class="ab"><div class="an">${a.name}</div><div class="ad">${a.how}</div>
+      const reward = [a.pay ? money(a.pay) : '', bag ? `${bag.name} bag` : '', a.id === 'stiff' ? 'Senior Sweater' : ''].filter(Boolean).join(' · ');
+      return `<div class="aw${done ? ' done' : ''}"><div class="ai">${done ? a.icon : ico('lock')}</div><div class="ab"><div class="an">${a.name}</div><div class="ad">${a.how}</div>
         <div class="ap"><i><b style="width:${done ? 100 : pct}%"></b></i><span>${prog}</span></div>${reward ? `<div class="ar">Reward: ${reward}</div>` : ''}</div></div>`;
     }).join('');
     $('awardsBody').innerHTML = `<div class="sect" style="display:flex;justify-content:space-between">ACHIEVEMENTS<span>${got} / ${AWARDS.length}</span></div>
@@ -6964,7 +7132,7 @@
     $('statTiles').innerHTML = tiles.map(([v, l]) => `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
     $('bestRows').innerHTML = COURSES.map(c => {
       const b = s.bestBy[c.id];
-      return `<div><span>${c.name}</span><b>${b == null ? (isUnlocked(c) ? 'Not played' : '🔒 Locked') : `${c.par + b}(${fmtRel(b)})`}</b></div>`;
+      return `<div><span>${c.name}</span><b>${b == null ? (isUnlocked(c) ? 'Not played' : 'Locked') : `${c.par + b}(${fmtRel(b)})`}</b></div>`;
     }).join('');
   }
   $('resetBtn').addEventListener('click', () => {
@@ -6994,6 +7162,9 @@
     if (s.view === 0) {   // from behind the tee, down the hole
       const cx = tee.x - dx * 28, cz = tee.y - dy * 28, lx = tee.x + dx * L * 0.55, lz = tee.y + dy * L * 0.55;
       camera.position.set(cx, 16 + terrainH(h, cx, cz), cz); camera.lookAt(lx, terrainH(h, lx, lz), lz);
+    } else if (s.view === 2) {   // aerial: high above, looking down the whole hole from behind the tee
+      const mx = (tee.x + pin.x) / 2, mz = (tee.y + pin.y) / 2, H = Math.max(90, L * 0.75);
+      camera.position.set(mx - dx * L * 0.55, H, mz - dy * L * 0.55); camera.lookAt(mx + dx * L * 0.08, 0, mz + dy * L * 0.08);
     } else {              // approach shot view of the green, from the side
       const cx = pin.x - dx * 75 - dy * 22, cz = pin.y - dy * 75 + dx * 22;
       camera.position.set(cx, 13 + Math.max(terrainH(h, cx, cz), h.terr.greenH), cz); camera.lookAt(pin.x, h.terr.greenH, pin.y);
@@ -7009,15 +7180,30 @@
     let url = '';
     try { url = renderer.domElement.toDataURL('image/jpeg', 0.66); } catch (e) {}
     vis.forEach(([o, v]) => o.visible = v);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); resize();
+    renderer.setPixelRatio(PR); resize();
     return url;   // (the 3D scene now holds this hole; startRound rebuilds the real one)
   }
+  // (update 2.4) the AERIAL button on every hole of a course page: one still picture from high above the hole
+  const aerCache = {}; let aerAt = null;
+  function showAerial(c, i) {
+    if (!c || !c.holes[i]) return;
+    aerAt = { c, i }; const h = c.holes[i], k = c.id + ':' + i;
+    $('aerTitle').textContent = `Hole ${i + 1}${h.name ? ' · ' + h.name : ''}`;
+    $('aerSub').textContent = `${c.name} · Par ${h.par} · ${h.yds} yards`;
+    $('aerialOv').classList.remove('hidden');
+    $('aerImg').src = aerCache[k] || holeThumb(c, i);
+    if (!aerCache[k]) setTimeout(() => { const url = snapShot({ c, i, view: 2 }); if (url) { aerCache[k] = url; if (aerAt && aerAt.c === c && aerAt.i === i) $('aerImg').src = url; } }, 30);
+  }
+  $('aerClose').addEventListener('click', () => { ensureAudio(); sfx.click(); $('aerialOv').classList.add('hidden'); aerAt = null; });
+  $('aerPrev').addEventListener('click', () => { if (!aerAt) return; ensureAudio(); sfx.click(); showAerial(aerAt.c, (aerAt.i - 1 + aerAt.c.holes.length) % aerAt.c.holes.length); });
+  $('aerNext').addEventListener('click', () => { if (!aerAt) return; ensureAudio(); sfx.click(); showAerial(aerAt.c, (aerAt.i + 1) % aerAt.c.holes.length); });
   let slideIdx = -1, slideTimer = 0, slidesShown = false, lastTouch = 0, slideLayer = 0, slideMade = 0;
   ['pointerdown', 'touchstart', 'wheel'].forEach(ev => addEventListener(ev, () => { lastTouch = performance.now(); }, { passive: true, capture: true }));
   document.addEventListener('scroll', () => { lastTouch = performance.now(); }, { passive: true, capture: true });
   function slideFor(i, cb) {
     const s = SHOTS[i % SHOTS.length], k = shotKey(s);
     if (slideCache[k]) return cb(slideCache[k], s);
+    if (SAVER) { const hit = Object.keys(slideCache)[0], s2 = hit && SHOTS.find(x => shotKey(x) === hit); slideMade++; return cb(hit ? slideCache[hit] : courseThumb(s.c), s2 || s); }
     const attempt = () => {
       if (!slidesShown) return;
       // wait for a quiet moment so building the picture never interrupts scrolling or tapping
@@ -7036,6 +7222,7 @@
   function nextSlide() {
     if (!slidesShown) return;
     slideIdx = (slideIdx + 1) % SHOTS.length;
+    if (SAVER && slideMade) return;   // battery saver: one still picture, no new 3D renders
     slideFor(slideIdx, (url, s) => {
       if (!slidesShown) return;
       const els = document.querySelectorAll('#slides .slide'), el = els[slideLayer], old = els[1 - slideLayer];
@@ -7096,7 +7283,7 @@
     HOLES.forEach((h, i) => { tp += h.par; ts += scores[i]; });
     $('scoreTable').innerHTML = scorecardHtml(HOLES, scores, -1) + SC_LEGEND;
     $('finalCourse').textContent = course.name;
-    $('finalTitle').textContent = roundCut ? `Round finished early · ${HOLES.length} hole${HOLES.length === 1 ? '' : 's'}` : rel <= -2 ? 'Tour pro! 🏆' : rel <= 2 ? 'Great round!' : rel <= 8 ? 'Nice round' : 'Keep grinding';
+    $('finalTitle').textContent = roundCut ? `Round finished early · ${HOLES.length} hole${HOLES.length === 1 ? '' : 's'}` : rel <= -2 ? 'Tour pro!' : rel <= 2 ? 'Great round!' : rel <= 8 ? 'Nice round' : 'Keep grinding';
     delete save.live;
 
     const holeMoney = earned.reduce((a, b) => a + (b || 0), 0);
@@ -7104,7 +7291,7 @@
     const total = holeMoney + rb + underBonus;
     const baseMoney = HOLES.reduce((a, h, i) => a + (scores[i] == null || earned[i] == null ? 0 : course.mini ? (MINI_PAY[String(Math.max(-2, scores[i] - h.par))] || 0) : payFor(scores[i], h.par)), 0);
     const moMoney = Math.max(0, holeMoney - baseMoney);
-    let lines = `<div><span>Hole payouts</span><span>${money(holeMoney - moMoney)}</span></div>` + (moMoney ? `<div><span>🔥 Momentum bonus</span><span>${money(moMoney)}</span></div>` : '') + (roundCut ? '' : `<div><span>Round bonus</span><span>${money(rb)}</span></div>`);
+    let lines = `<div><span>Hole payouts</span><span>${money(holeMoney - moMoney)}</span></div>` + (moMoney ? `<div><span>Momentum bonus</span><span>${money(moMoney)}</span></div>` : '') + (roundCut ? '' : `<div><span>Round bonus</span><span>${money(rb)}</span></div>`);
     if (underBonus) lines += `<div><span>Under-par bonus</span><span>${money(underBonus)}</span></div>`;
     lines += `<div class="sum"><span>Earned</span><span>+${money(total)}</span></div>`;
     $('earnBox').innerHTML = lines;
@@ -7116,7 +7303,7 @@
     let mastersLine = '';
     if (course.id === MASTERS_CID && !roundCut && HOLES.length >= course.holes.length && rel <= MASTERS_REL && !unlocked('masters')) {
       save.unlocks.masters = true; OUTFIT_PARTS.forEach(k => { const p = LOOK_PRESETS.find(x => x.lock === 'masters'); if (p.look[k]) grantC(k, p.look[k]); });
-      mastersLine = ' · 🧥 GREEN JACKET UNLOCKED!'; burst(220);
+      mastersLine = ' · GREEN JACKET UNLOCKED!'; burst(220);
     }
     let line, rank = 0;
     // keep the last 15 scorecards (they go up with a ban so the creator can double-check it)
@@ -7133,12 +7320,18 @@
     }
     roundFlags = 0;
     const newly = COURSES.filter(c => wasLocked.includes(c.id) && isUnlocked(c));
-    if (newly.length) line += ` · 🔓 ${newly.map(c => c.name).join(', ')} unlocked!`;
+    if (newly.length) line += ` · Unlocked: ${newly.map(c => c.name).join(', ')} unlocked!`;
     persist();
     $('bestLine').textContent = `${line}${mastersLine} · Bank: ${money(save.coins)}`;
     $('cupPostBox').innerHTML = '';
-    const cupEntry = lastEntry && cupEligible(course, HOLES.length, roundCut) ? { strokes: ts, rel, cid: course.id } : null;
-    showPostBox(course, roundCut ? null : lastEntry, cupEntry);
+    const probs = roundCut ? [] : roundProblems(ts, tp, rel);
+    if (probs.length) {   // anti-cheat: a round that can't be real isn't posted online (nobody is banned for it)
+      reportRound(probs, rel, ts);
+      $('postBox').innerHTML = '<small>This round couldn\'t be checked, so it wasn\'t posted online. If that\'s a mistake, let the creator know.</small>';
+    } else {
+      const cupEntry = lastEntry && cupEligible(course, HOLES.length, roundCut) ? { strokes: ts, rel, cid: course.id } : null;
+      showPostBox(course, roundCut ? null : lastEntry, cupEntry);
+    }
     checkAwards();
     $('final').classList.remove('hidden');
   }
@@ -7154,10 +7347,10 @@
       box.textContent = 'Posting to the online leaderboard…';
       try {
         const rank = await postOnline(c.id, entry);
-        box.innerHTML = (rank ? `🏆 You're <b style="color:var(--gold-l)">#${rank}</b> in today's ${esc(c.name)} tournament as <b>${esc(boardName())}</b>!` : 'Score posted online.')
-          + (fbUser ? '' : '<br><small>Playing as a guest · tap the 👤 player icon to get your player code and keep your progress</small>');
+        box.innerHTML = (rank ? `You're <b style="color:var(--gold-l)">#${rank}</b> in today's ${esc(c.name)} tournament as <b>${esc(boardName())}</b>!` : 'Score posted online.')
+          + (fbUser ? '' : '<br><small>Playing as a guest · tap the player icon to get your player code and keep your progress</small>');
       } catch (e) {
-        if (!meUser()) { box.innerHTML = '<button id="postBtn">👤 Get your player code to post this score</button>'; $('postBtn').onclick = () => signIn(); return; }
+        if (!meUser()) { box.innerHTML = '<button id="postBtn">Get your player code to post this score</button>'; $('postBtn').onclick = () => signIn(); return; }
         box.innerHTML = 'Couldn\'t post online. <button id="retryPost">Retry</button>'; $('retryPost').onclick = post;
       }
     };
@@ -7182,21 +7375,21 @@
     }
     if (pay) { save.coins += pay; save.stats.earnedTotal += pay; }
     let unlockLine = '';
-    if (ft != null && ft <= CTP_UNLOCK_FT && !unlocked('senior')) { save.unlocks.senior = true; unlockLine = '🔓 You unlocked the Senior Sweater! Wear it from the Golfer tab.'; }
+    if (ft != null && ft <= CTP_UNLOCK_FT && !unlocked('senior')) { save.unlocks.senior = true; unlockLine = 'You unlocked the Senior Sweater! Wear it from the Golfer tab.'; }
     if (yd === 0) { save.badges.ace = 1; postAce(course, 0, hole);
       cheatFlag('ace', `ace in Closest to the Pin ${hole.yds}y · ${lastShot ? `${lastShot.club} ${lastShot.pct}%` : ''} · career aces ${save.stats.aces} · try ${ctpState().tries}`, false); }
     bumpDaily({ ctp: 1 });
     persist();
     checkAwards();
     const left = CTP_TRIES - st.tries;
-    $('ctpTitle').textContent = yd == null ? 'No score' : yd === 0 ? 'HOLE IN ONE! ⛳' : ft <= CTP_UNLOCK_FT ? 'Stiff! 🎯' : ft <= 30 ? 'Nice shot' : 'Keep trying';
+    $('ctpTitle').textContent = yd == null ? 'No score' : yd === 0 ? 'HOLE IN ONE!' : ft <= CTP_UNLOCK_FT ? 'Stiff!' : ft <= 30 ? 'Nice shot' : 'Keep trying';
     $('ctpSub').textContent = `${hole.name} · ${hole.yds} yds`;
     $('ctpDist').innerHTML = yd == null ? '<span>Water / out of bounds</span>' : yd === 0 ? 'IN THE CUP' : `${fmtFt(yd)}<small>from the pin</small>`;
     $('ctpInfo').innerHTML = `<div><span>Best today</span><span>${st.best == null ? '—' : st.best === 0 ? 'Ace!' : fmtFt(st.best)}</span></div>`
       + `<div><span>Tries left today</span><span>${left}</span></div>`
       + (pay ? `<div class="sum"><span>Earned</span><span>+${money(pay)}</span></div>` : '')
       + (line ? `<div style="color:var(--gold-l);margin-top:6px">${line}</div>` : '')
-      + (unlockLine ? `<div class="unl">${unlockLine}</div>` : (!unlocked('senior') ? `<div style="margin-top:6px;font-size:12px;color:#f3d7a8">Within ${CTP_UNLOCK_FT} ft unlocks the 🔒 Senior Sweater</div>` : ''));
+      + (unlockLine ? `<div class="unl">${unlockLine}</div>` : (!unlocked('senior') ? `<div style="margin-top:6px;font-size:12px;color:#f3d7a8">Within ${CTP_UNLOCK_FT} ft unlocks the Senior Sweater</div>` : ''));
     $('ctpAgain').style.display = left > 0 ? '' : 'none';
     $('ctpAgain').textContent = `Try again (${left} left)`;
     if (yd === 0 || (ft != null && ft <= CTP_UNLOCK_FT)) { burst(160); sfx.perfect(); }
@@ -7207,7 +7400,7 @@
         box.textContent = 'Posting to today\'s Closest to the Pin leaderboard…';
         try {
           const rank = await postCtp(st.best);
-          box.innerHTML = rank ? `🎯 You're <b>#${rank}</b> today · Top 3 win 🥇 ${money(CTP_PRIZES[0])} · 🥈 ${money(CTP_PRIZES[1])} · 🥉 ${money(CTP_PRIZES[2])}` : 'Posted online.';
+          box.innerHTML = rank ? `You're <b>#${rank}</b> today · Top 3 win ${medal(0)}${money(CTP_PRIZES[0])} · ${medal(1)}${money(CTP_PRIZES[1])} · ${medal(2)}${money(CTP_PRIZES[2])}` : 'Posted online.';
         } catch (e) {
           if (!meUser()) { box.innerHTML = '<button class="main sm">Sign in to post your best online</button>'; box.querySelector('button').onclick = async () => { await signIn(); if (fbUser) post(); }; }
           else box.textContent = 'Couldn\'t post online right now.';
@@ -7284,9 +7477,9 @@
     driveYds = shotD || null;
     // the feel-good part: a rating, a cash-register ding, floating money and (for a bucket) confetti
     const lbl = ['', 'ON THE GREEN', 'INNER RING!', 'IN THE BUCKET!'][ring], col = ['#fff', '#bfe9ff', '#7be08a', '#FFE08A'][ring];
-    const streakTxt = ring && S.streak >= 2 ? ` · 🔥 x${S.streak}` : '';
+    const streakTxt = ring && S.streak >= 2 ? ` · streak x${S.streak}` : '';
     if (pen) showRating('NO MONEY · OUT OF BOUNDS', '#ff6b7d');
-    else if (ring === 3) { showBanner('IN THE BUCKET! 🪣', `${t.d} yd target · ${shotD} yds${got ? ` · +${money(got)}` : ''}${streakTxt}`, 2.2); burst(170); sfx.cash(true); }
+    else if (ring === 3) { showBanner('IN THE BUCKET!', `${t.d} yd target · ${shotD} yds${got ? ` · +${money(got)}` : ''}${streakTxt}`, 2.2); burst(170); sfx.cash(true); }
     else if (ring) { showRating(`${lbl}${streakTxt}`, col); sfx.cash(false); if (S.streak >= 3) burst(40); }
     else showRating(t ? `${shotD} YDS · ${Math.round(dist)} YDS FROM THE ${t.d}` : `${shotD} YDS`, '#ffffff');
     if (ring) rangeFx.push({ x: ball.x, y: ball.y, z: terrainH(hole, ball.x, ball.y) + 1.2, text: got ? `+${money(got)}` : 'Daily range cap reached', col, t0: performance.now(), big: ring === 3 });
@@ -7313,12 +7506,12 @@
     const nextFresh = !rangeChain || rangeChain.n >= RANGE_REUSE_MAX;
     $('rangeAgain').textContent = nextFresh ? 'Fresh bucket' : `Reuse bucket (${rangeChain.n + 1}/${RANGE_REUSE_MAX}) · +${Math.round((rangeChain.n + 1) * RANGE_REUSE_PCT * 100)}%`;
     const acc = S.shots ? Math.round(S.hits / S.shots * 100) : 0;
-    $('rangeTitle').textContent = !S.shots ? 'See you next time' : S.holed >= 2 ? 'Bucket master! 🪣' : acc >= 60 ? 'Dialed in! 🎯' : acc >= 35 ? 'Nice session' : 'Keep grinding';
+    $('rangeTitle').textContent = !S.shots ? 'See you next time' : S.holed >= 2 ? 'Bucket master!' : acc >= 60 ? 'Dialed in!' : acc >= 35 ? 'Nice session' : 'Keep grinding';
     $('rangeSub').textContent = `${S.shots} ball${S.shots === 1 ? '' : 's'} hit${quit && S.left > 0 ? ` · left with ${S.left} in the bucket` : ''}`;
     $('rangeBig').innerHTML = `+${money(S.earned)}<small>earned at the range</small>`;
     $('rangeInfo').innerHTML = `<div><span>Targets hit</span><span>${S.hits} of ${S.shots} (${acc}%)</span></div>`
-      + `<div><span>🪣 In the bucket</span><span>${S.holed}</span></div>`
-      + `<div><span>🔥 Best streak</span><span>${S.bestStreak}</span></div>`
+      + `<div><span>In the bucket</span><span>${S.holed}</span></div>`
+      + `<div><span>Best streak</span><span>${S.bestStreak}</span></div>`
       + `<div><span>Closest to a bucket</span><span>${S.closest ? (S.closest.d === 0 ? 'IN!' : fmtFt(S.closest.d)) + ` (${S.closest.t} yds)` : '—'}</span></div>`
       + (S.longest ? `<div><span>Longest drive</span><span>${S.longest} yds</span></div>` : '')
       + `<div><span>Bucket</span><span>${S.reuse ? `reused ${S.reuse}/${RANGE_REUSE_MAX} (+${Math.round(S.reuse * RANGE_REUSE_PCT * 100)}%)` : 'fresh'}</span></div>`
@@ -7335,10 +7528,10 @@
     const d = rangeDay(), top = Math.max(...RANGE_SPOTS.map(x => rangePay(3, x[0])));
     box.innerHTML = `<div class="ctp" data-range="1" role="button">
       <div class="thumb" style="background-image:url('${holeThumb(RANGE, 0)}')"></div>
-      <div class="ci"><div class="ctag">🏌️ DRIVING RANGE · PRACTICE</div><div class="cn">Hit the buckets</div>
+      <div class="ci"><div class="ctag">PRACTICE</div><div class="cn">Driving Range</div>
         <div class="cm">${RANGE_BALLS} balls · 8 targets from 50 to 270 yds · drop one in a bucket for up to ${money(top)}</div>
-        <div class="cm" style="color:#FFE08A;margin-top:3px">Today: ${money(d.earned)} of ${money(RANGE_DAY_CAP)} · 🪣 ${d.holed || 0} in the bucket all-time</div>
-        <div class="cm" style="margin-top:3px">${d.earned >= RANGE_DAY_CAP ? '✅ Today\'s range money is maxed out: buckets are still free for practice' : '🆓 Free to play · earn up to ' + money(RANGE_DAY_CAP) + ' a day'}</div>
+        <div class="cm" style="color:#FFE08A;margin-top:3px">Today: ${money(d.earned)} of ${money(RANGE_DAY_CAP)} · ${d.holed || 0} in the bucket all-time</div>
+        <div class="cm" style="margin-top:3px">${d.earned >= RANGE_DAY_CAP ? 'Today\'s range money is maxed out: buckets are still free for practice' : 'Free to play · earn up to ' + money(RANGE_DAY_CAP) + ' a day'}</div>
         <div class="act"><button class="main sm" data-range="1">Grab a bucket ›</button></div></div></div>`;
   }
   $('rangeCard').addEventListener('click', e => { if (e.target.closest('[data-range]')) { ensureAudio(); sfx.click(); startRange(); } });
@@ -7364,7 +7557,7 @@
     const c = ctpCourse(), h = c.holes[0], st = ctpState(), left = CTP_TRIES - st.tries, k = h.ctpKind;
     $('ctpCard').innerHTML = `<div class="ctp" data-ctpinfo="1" role="button">
       <div class="thumb" style="background-image:url('${holeThumb(c, 0)}')"></div>
-      <div class="ci"><div class="ctag">🎯 DAILY CHALLENGE · CLOSEST TO THE PIN</div><div class="cn">${h.name}</div>
+      <div class="ci"><div class="ctag">DAILY CHALLENGE · CLOSEST TO THE PIN</div><div class="cn">${h.name}</div>
         <div class="cm">${h.yds} yds${k.elev ? ` (plays ${k.plays})` : ''} · ${k.label} · Wind ${h.fixedWind.mph} mph · <span style="color:#FFE08A">${stars(k.diff)}</span> ${DIFF_NAMES[k.diff]}</div>
         <div class="cm" style="color:#FFE08A;margin-top:3px">Best today: ${st.best == null ? '—' : st.best === 0 ? 'Ace!' : fmtFt(st.best)} · Tries left: ${left}</div>
         <div class="act"><button class="main sm" data-ctpinfo="1">Hole details & leaderboard ›</button></div></div></div>`;
@@ -7373,7 +7566,7 @@
     const c = ctpCourse(), h = c.holes[0], st = ctpState(), left = CTP_TRIES - st.tries, k = h.ctpKind;
     const pays = CTP_PAY.map(([f, m]) => `<span>${f === 0 ? 'In the cup' : `Inside ${f} ft`} <b>${money(m)}</b></span>`).join('');
     $('ctpDetail').innerHTML = `<button class="back" data-cback="1">← All courses</button>
-      <div class="ctag" style="font:800 11px Inter;letter-spacing:.16em;color:var(--gold);margin-top:6px">🎯 DAILY CHALLENGE · ${c.day}</div>
+      <div class="ctag" style="font:800 11px Inter;letter-spacing:.16em;color:var(--gold);margin-top:6px">DAILY CHALLENGE · ${c.day}</div>
       <div class="cdname">${h.name}</div><div class="cddesc">${k.about} Everyone in the world gets the same hole and the same wind today.</div>
       <div class="ctphero"><div class="hthumb" style="background-image:url('${holeThumb(c, 0)}')"></div>
       <div class="dgrid">
@@ -7383,7 +7576,7 @@
         <div><small>TRIES LEFT</small><b>${left} / ${CTP_TRIES}</b><em>New hole in ${resetsIn()}</em></div>
       </div></div>
       <div class="chips" style="margin-top:10px"><span>Your best today <b>${st.best == null ? '—' : st.best === 0 ? 'Ace!' : fmtFt(st.best)}</b></span>${pays}</div>
-      ${unlocked('senior') ? '' : `<div class="tnote" style="text-align:left;margin-top:8px">Within ${CTP_UNLOCK_FT} ft unlocks the 🔒 Senior Sweater</div>`}
+      ${unlocked('senior') ? '' : `<div class="tnote" style="text-align:left;margin-top:8px">Within ${CTP_UNLOCK_FT} ft unlocks the Senior Sweater</div>`}
       <div class="cdbtns">${left > 0 ? '<button class="main" data-ctp="1">Take your shot</button>' : '<div class="lock" style="flex:1;text-align:center">Out of tries. Come back tomorrow for a new hole.</div>'}</div>
       ${ONLINE ? `<div class="sect">TODAY'S LEADERBOARD</div><div id="ctpLb"><div class="empty">Loading today's leaders…</div></div>
       <div class="sect">YESTERDAY'S WINNERS</div><div id="ctpYest"><div class="empty">Loading…</div></div>` : '<div class="tnote" style="margin-top:14px">Leaderboards need an internet connection.</div>'}`;
@@ -7396,9 +7589,9 @@
       box.innerHTML = (rows.length ? '<table class="board"><tr><th></th><th>GOLFER</th><th>DISTANCE</th></tr>' + rows.map((r, i) =>
         `<tr class="${r.pid === meUid() ? 'me' : ''}"><td class="rk">${i + 1}</td><td>${badgeHtml(r.badge, r.wins)}${esc(r.name)}</td><td><b>${r.yd === 0 ? 'Ace!' : fmtFt(r.yd)}</b></td></tr>`).join('') + '</table>'
         : '<div class="empty">No shots posted today yet. Be the first!</div>')
-        + `<div class="tnote">Top 3 at midnight ET win 🥇 <b>${money(CTP_PRIZES[0])}</b> · 🥈 <b>${money(CTP_PRIZES[1])}</b> · 🥉 <b>${money(CTP_PRIZES[2])}</b></div>`
+        + `<div class="tnote">Top 3 at midnight ET win ${medal(0)}<b>${money(CTP_PRIZES[0])}</b> · ${medal(1)}<b>${money(CTP_PRIZES[1])}</b> · ${medal(2)}<b>${money(CTP_PRIZES[2])}</b></div>`
         + guestNote();
-      if (yb) yb.innerHTML = yest.length ? `<div class="podium">${yest.map((r, i) => `<div class="pd${i}"><span>${['🥇', '🥈', '🥉'][i]}</span><b>${badgeHtml(r.badge, r.wins)}${esc(r.name)}</b><em>${r.yd === 0 ? 'Ace!' : fmtFt(r.yd)}</em><small>won ${money(CTP_PRIZES[i])}</small></div>`).join('')}</div>`
+      if (yb) yb.innerHTML = yest.length ? `<div class="podium">${yest.map((r, i) => `<div class="pd${i}"><span>${medal(i)}</span><b>${badgeHtml(r.badge, r.wins)}${esc(r.name)}</b><em>${r.yd === 0 ? 'Ace!' : fmtFt(r.yd)}</em><small>won ${money(CTP_PRIZES[i])}</small></div>`).join('')}</div>`
         : '<div class="empty">Nobody posted a shot yesterday.</div>';
     } catch (e) { const box = $('ctpLb'); if (box) box.innerHTML = '<div class="empty">Couldn\'t reach the online leaderboard.</div>'; const yb = $('ctpYest'); if (yb) yb.innerHTML = ''; }
   }
@@ -7526,16 +7719,16 @@
     const box = $('cupPostBox'); if (!box) return;
     if (!ONLINE || banned()) { box.innerHTML = ''; return; }
     const w = cupWeek();
-    if (w.phase !== 'live') { box.innerHTML = '🏫 The Homeroom Cup is locked for the week. This round doesn\'t count, but it still goes on the course boards.'; return; }
-    if (!save.hr) { box.innerHTML = '🏫 <b>Pick your homeroom</b> to have rounds like this count for the Weekly Homeroom Cup. <button class="main sm" data-cupgo="1">Pick homeroom</button>'; return; }
-    box.textContent = '🏫 Sending your round to the Homeroom Cup…';
+    if (w.phase !== 'live') { box.innerHTML = 'The Homeroom Cup is locked for the week. This round doesn\'t count, but it still goes on the course boards.'; return; }
+    if (!save.hr) { box.innerHTML = '<b>Pick your homeroom</b> to have rounds like this count for the Weekly Homeroom Cup. <button class="main sm" data-cupgo="1">Pick homeroom</button>'; return; }
+    box.textContent = 'Sending your round to the Homeroom Cup…';
     postCup(entry).then(r => {
-      if (r.closed) { box.textContent = '🏫 The Homeroom Cup is locked for the week.'; return; }
-      box.innerHTML = `🏫 <b>${hrLabel(r.hr)}</b> · ${r.improved ? (r.first ? 'First cup round posted' : '⬆️ New official best') : 'Official best stays'} <b style="color:var(--gold-l)">${r.strokes}(${fmtRel(r.rel)})</b> · attempt ${r.att}`
+      if (r.closed) { box.textContent = 'The Homeroom Cup is locked for the week.'; return; }
+      box.innerHTML = `Homeroom Cup · <b>${hrLabel(r.hr)}</b> · ${r.improved ? (r.first ? 'First cup round posted' : 'New official best') : 'Official best stays'} <b style="color:var(--gold-l)">${r.strokes}(${fmtRel(r.rel)})</b> · attempt ${r.att}`
         + (r.moved ? `<br><small>Your score counts for ${hrLabel(r.hr)} this week (homerooms lock once you post). Your new homeroom starts next week.</small>` : '')
         + ' <button class="ghost sm" data-cupgo="1">Cup standings ›</button>';
       if (cupLive && cupLive.week === w.id && !cupUnsub) cupLive = null;
-    }).catch(() => { box.innerHTML = '🏫 Couldn\'t send this round to the Homeroom Cup. <button class="ghost sm" data-cupretry="1">Retry</button>'; box.querySelector('[data-cupretry]').onclick = () => cupPostUI(entry); });
+    }).catch(() => { box.innerHTML = 'Couldn\'t send this round to the Homeroom Cup. <button class="ghost sm" data-cupretry="1">Retry</button>'; box.querySelector('[data-cupretry]').onclick = () => cupPostUI(entry); });
   }
 
   // ---- history: the final standings, saved once after each week locks ----
@@ -7557,7 +7750,7 @@
     } catch (e) { /* the rules only take it a little after the lock: someone else's game will save it */ }
   }
   // (the rules only accept the record a little after 2:42 PM in winter time, so it waits an hour: every game shows the same final standings meanwhile)
-  const archiveDue = w => Date.now() > w.announce + 3720e3;
+  const archiveDue = w => Date.now() > w.announce + 5000;
   function cupMaybeArchive(w) { if (w.phase === 'final' && cupLive && cupLive.week === w.id && cupLive.rows && archiveDue(w)) cupArchive(w, cupLive.rows); }
   async function loadCupPast() {
     if (cupPast || cupPastLoading || !fbDb) return;
@@ -7572,7 +7765,7 @@
         if (rows.length) { await cupArchive(now, rows); cupPastLoading = false; return loadCupPast(); }
       }
       const prev = cupWeek(now.start - 864e5 * 3);
-      if (!cupPast.some(d => d.week === prev.id) && Date.now() > prev.announce + 3720e3 && !cupArchTried[prev.id]) {
+      if (!cupPast.some(d => d.week === prev.id) && Date.now() > prev.announce + 5000 && !cupArchTried[prev.id]) {
         const s = await cupRef(prev.id).get(); const rows = cupRows(s.docs, prev);
         if (rows.length) { await cupArchive(prev, rows); cupPastLoading = false; return loadCupPast(); }
       }
@@ -7598,13 +7791,13 @@
     const w = cupWeek(), c = cupCourseFor(w.id);
     const res = cupLive && cupLive.week === w.id && cupLive.rows ? cupCalcNow(cupLive.rows) : null;
     const mine = res && save.hr ? res.teams.find(t => t.hr === save.hr) : null;
-    const status = w.phase === 'live' ? `⏱️ Scores lock Fri 2:40 PM (in ${untilTxt(w.lock)})` : w.phase === 'locked' ? '🔒 Scores locked · winner announced at 2:42 PM'
-      : `🏆 ${res && res.winner ? hrLabel(res.winner) + ' won this week!' : 'Final standings are in!'} Next cup: Mon 7:00 AM`;
-    box.innerHTML = `<div class="cupc" data-cupgo="1" role="button"><div class="ctag">🏫 SPIRIT DAY · WEEKLY HOMEROOM CUP</div>
-      <div class="cn">${esc(c.name)}</div><div class="cm">18 holes · par ${c.par} · your best round of the week counts · each homeroom's 20 lowest scores make its team average</div>
-      <div class="cm" style="color:#FFE08A;margin-top:3px">${status}</div>
-      <div class="cm" style="margin-top:3px">${save.hr ? `You: <b>${hrLabel(save.hr)}</b>${mine && mine.rank ? ` · team rank #${mine.rank}` : ''}${save.cupMine && save.cupMine.week === w.id ? ` · best ${save.cupMine.strokes}(${fmtRel(save.cupMine.rel)})` : ''}` : '👉 Pick your homeroom to play for your team'}</div>
-      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? '<button class="main sm" data-cupplay="1">Play cup round ›</button>' : ''}<button class="main sm" data-cupgo="1">Leaderboards ›</button></div></div>`;
+    const status = w.phase === 'live' ? `Scores lock Fri 2:40 PM · ${untilTxt(w.lock)} left` : w.phase === 'locked' ? 'Scores locked · winner at 2:42 PM'
+      : `${res && res.winner ? hrLabel(res.winner) + ' won this week' : 'Final standings are in'} · next cup Mon 7 AM`;
+    box.innerHTML = `<div class="cupc" data-cupgo="1" role="button"><div class="ctag">SPIRIT DAY · HOMEROOM CUP</div>
+      <div class="cuprow"><div class="cuphr">${save.hr || '?'}</div><div style="min-width:0"><div class="cn">${esc(c.name)}</div>
+        <div class="cm">${status}</div>
+        <div class="cm">${save.hr ? `${hrLabel(save.hr)}${mine && mine.rank ? ` · team #${mine.rank}` : ''}${save.cupMine && save.cupMine.week === w.id ? ` · your best ${save.cupMine.strokes}(${fmtRel(save.cupMine.rel)})` : ''}` : 'Pick your homeroom to play for your team'}</div></div></div>
+      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? '<button class="main sm" data-cupplay="1">Play cup round ›</button>' : ''}<button class="ghost sm" data-cupgo="1">Standings ›</button></div></div>`;
   }
   function playCup() {
     const w = cupWeek();
@@ -7622,13 +7815,13 @@
     if (!t.list.length) return '<div class="empty">No official scores from this homeroom yet.</div>';
     return `<table class="board hrb"><tr><th></th><th>GOLFER</th><th>BEST</th><th class="hcol">TRIES</th><th>COUNTS</th></tr>` + t.list.map(r =>
       `<tr class="${r.counts ? 'cnt' : ''}${r.uid === meUid() ? ' me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}</td>`
-      + `<td><b>${r.strokes}(${fmtRel(r.rel)})</b></td><td class="hcol">${r.att || '—'}</td><td>${r.counts ? '✅' : '—'}</td></tr>`).join('') + '</table>';
+      + `<td><b>${r.strokes}(${fmtRel(r.rel)})</b></td><td class="hcol">${r.att || '—'}</td><td>${r.counts ? ico('check') : '—'}</td></tr>`).join('') + '</table>';
   }
   function hrHeader(t, res, frozen) {
     const status = t.qualified ? 'Qualified' : 'Not Qualified';
     const lead = res.order.find(x => x.rank === 1);
     const diff = !t.qualified && t.avg == null ? '—' : t.rank === 1 ? 'Leading' : t.diff == null ? '—' : '+' + t.diff.toFixed(1);
-    return `<div class="hrhead${t.qualified ? '' : ' nq'}"><div class="hrt">${hrLabel(t.hr)}${frozen && res.winner === t.hr ? ' 🏆' : ''}</div>
+    return `<div class="hrhead${t.qualified ? '' : ' nq'}"><div class="hrt">${hrLabel(t.hr)}${frozen && res.winner === t.hr ? ' · winner' : ''}</div>
       ${t.qualified ? '' : `<div class="nqtag">Not Qualified — Needs at least ${CUP_MIN} players</div>`}
       <div class="hrstats"><div><span>Team average</span><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></div><div><span>Valid participants</span><b>${t.n}</b></div>
         <div><span>Scoring positions</span><b>${t.filled} of ${CUP_MAX}</b></div><div><span>Status</span><b>${status}</b></div>
@@ -7636,45 +7829,47 @@
       <div class="hrleg"><i></i>Light green = score ${frozen ? 'counted' : 'currently counts'} toward the team average${t.n > CUP_MAX ? ` (the ${CUP_MAX} lowest of ${t.n}; the other ${t.n - CUP_MAX} still show but don't count)` : t.n ? ' (every valid score counts until a homeroom has more than 20)' : ''}.</div>
       ${t.qualified ? '' : `<div class="hrleg" style="color:#ffb3a6">*Provisional: ${t.n ? 'these scores would be used, but ' : ''}a homeroom needs ${CUP_MIN} valid scores to qualify and can't win the cup until then.</div>`}</div>`;
   }
+  const CUP_PAY = [2500, 1500, 750], CUP_MVP_PAY = 750;   // every player in the top 3 homerooms · the best player of every other homeroom
   function renderCup() {
     const box = $('cupBody'); if (!box) return;
     const back = '<button class="back" data-cupback="1">← Back</button>';
     if (!ONLINE) { box.innerHTML = back + '<div class="empty">The Homeroom Cup needs the internet. Check your connection and reload.</div>'; return; }
     const w = cupWeek(), frozen = cupFrozen, c = frozen ? courseById(frozen.head.cid) || cupCourseFor(frozen.head.week) : cupCourseFor(w.id);
     if (!cupHr) cupHr = save.hr || 'A';
-    const status = frozen ? `📜 Final results · ${fmtWeek(frozen.head.week)}` : w.phase === 'live' ? `⏱️ Live · scores lock Fri 2:40 PM (in ${untilTxt(w.lock)})`
-      : w.phase === 'locked' ? '🔒 Scores locked at 2:40 PM · the winner is announced at 2:42 PM' : `🏁 Final · next cup starts Mon 7:00 AM (in ${untilTxt(w.next)})`;
-    let head = `${back}<div class="cdname">🏫 Weekly Homeroom Cup</div>
-      <div class="cddesc">Spirit Day showdown: all 13 homerooms on <b>${esc(c ? c.name : '')}</b> (18 holes, par ${c ? c.par : 72}). Your best full round from Monday 7:00 AM to Friday 2:40 PM is your official score. Each homeroom's ${CUP_MAX} lowest scores make its team average, and the lowest average wins. Homerooms need ${CUP_MIN} players to qualify.</div>
-      <div class="chips" style="margin:8px 0"><span>${status}</span>${frozen ? '<span><button class="linkBtn" data-cuplive="1">Back to this week</button></span>' : ''}</div>`;
-    // homeroom picker (yours)
-    if (!save.hr) {
-      head += `<div class="gcard" style="margin:8px 0 12px"><div class="sect" style="margin:0 0 6px">PICK YOUR HOMEROOM</div>${hrPicker('', 'myhr')}
-        <div class="tnote" style="text-align:left">Pick carefully: your homeroom can't be changed after you pick it.</div></div>`;
-    }
-    if (!frozen && w.phase === 'live') head += `<div style="display:flex;gap:8px;margin:0 0 10px;flex-wrap:wrap"><button class="main sm" data-cupplay="1">⛳ Play cup round ›</button>${save.hr ? `<span class="hrlock">🏫 Your homeroom: <b>${save.hr}</b> 🔒</span>` : ''}</div>`;
-    head += `<div class="seg"><button data-cv="teams" class="${cupView === 'teams' ? 'on' : ''}">🏫 TEAMS</button><button data-cv="hr" class="${cupView === 'hr' ? 'on' : ''}">HOMEROOMS</button><button data-cv="school" class="${cupView === 'school' ? 'on' : ''}">SCHOOL-WIDE</button><button data-cv="past" class="${cupView === 'past' ? 'on' : ''}">🏆 WINNERS</button></div>`;
-    if (cupView === 'past') { box.innerHTML = head + pastHtml(); loadCupPast(); return; }
+    const big = frozen ? fmtWeek(frozen.head.week) : w.phase === 'live' ? untilTxt(w.lock) : w.phase === 'locked' ? 'Locked' : 'Final';
+    const sub = frozen ? 'Final results' : w.phase === 'live' ? 'until scores lock Fri 2:40 PM' : w.phase === 'locked' ? 'winner announced at 2:42 PM' : `next cup Mon 7:00 AM (${untilTxt(w.next)})`;
+    let html = `${back}<div class="spirit">
+      <div class="sphero"><div class="spl"><div class="spk">SPIRIT DAY</div><div class="spt">Homeroom Cup</div>
+          <div class="spc">${esc(c ? c.name : '')} · 18 holes · par ${c ? c.par : 72}</div></div>
+        <div class="spclock">${ico('clock')}<b>${big}</b><span>${sub}</span></div></div>
+      ${frozen ? '<div class="spnote">Showing a past week. <button class="linkBtn" data-cuplive="1">Back to this week</button></div>' : ''}
+      ${save.hr ? '' : `<div class="sppick"><div class="sph">Pick your homeroom</div>${hrPicker('', 'myhr')}<div class="spsmall">Pick carefully: it can't be changed later.</div></div>`}
+      <div class="spbar">${!frozen && w.phase === 'live' ? '<button class="main sm" data-cupplay="1">Play cup round ›</button>' : ''}${save.hr ? `<span class="spme"><i>${save.hr}</i>Your homeroom ${ico('lock')}</span>` : ''}</div>
+      <div class="spprize"><div><b>${money(CUP_PAY[0])}</b><span>every player · 1st place</span></div><div><b>${money(CUP_PAY[1])}</b><span>every player · 2nd</span></div>
+        <div><b>${money(CUP_PAY[2])}</b><span>every player · 3rd</span></div><div><b>${money(CUP_MVP_PAY)}</b><span>best player in every other homeroom</span></div></div>
+      <details class="sphow"><summary>How it works</summary><p>Your best full 18-hole round on this week's course (Monday 7:00 AM to Friday 2:40 PM) is your official score. Each homeroom's ${CUP_MAX} lowest scores make its team average and the lowest average wins. A homeroom needs ${CUP_MIN} players to qualify. Prizes are paid when the winner is announced Friday at 2:42 PM (the next time you open the game).</p></details>
+      <div class="spnav">${[['teams', 'trophy', 'Standings'], ['hr', 'school', 'Homerooms'], ['school', 'users', 'Everyone'], ['past', 'star', 'Past winners']].map(([v, i, n]) => `<button data-cv="${v}" class="${cupView === v ? 'on' : ''}">${ico(i)}<span>${n}</span></button>`).join('')}</div>`;
+    const done = inner => { box.innerHTML = html + `<div class="spbody">${inner}</div></div>`; };
+    if (cupView === 'past') { done(pastHtml()); loadCupPast(); return; }
     const rows = frozen ? frozen.rows : cupLive && cupLive.week === w.id ? cupLive.rows : null;
     if (!frozen) cupListen();
-    if (!rows) { box.innerHTML = head + `<div class="empty">${cupErr || 'Loading the cup…'}</div>`; return; }
+    if (!rows) { done(`<div class="empty">${cupErr || 'Loading the cup…'}</div>`); return; }
     const res = cupCalcNow(rows);
-    let body = '';
     if (cupView === 'teams') {
-      body = `<table class="board"><tr><th></th><th>HOMEROOM</th><th>AVG</th><th class="hcol">PLAYERS</th><th>STATUS</th></tr>` + res.order.map(t =>
-        `<tr class="${t.hr === save.hr ? 'me' : ''}" data-cuphr="${t.hr}" style="cursor:pointer"><td class="rk">${t.rank || '—'}</td><td><b>${t.hr}</b>${t.rank === 1 ? ' 🏆' : ''}<div style="font-size:11px;color:#c9a98a">${t.filled} of ${CUP_MAX} scoring spots${t.rank > 1 && t.diff != null ? ` · +${t.diff.toFixed(1)}` : ''}</div></td>`
-        + `<td><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></td><td class="hcol">${t.n}</td><td style="font-size:12px">${t.qualified ? '✅ Qualified' : `Needs ${CUP_MIN - t.n} more`}</td></tr>`).join('') + '</table>'
-        + `<div class="tnote">Tap a homeroom to see its players. *Provisional average: fewer than ${CUP_MIN} players.</div>`;
+      done(res.order.map(t => `<button class="sprow${t.rank === 1 ? ' lead' : ''}${t.hr === save.hr ? ' mine' : ''}" data-cuphr="${t.hr}">
+          <span class="sprk">${t.rank || '–'}</span><span class="spbadge">${t.hr}</span>
+          <span class="spinfo"><b>${hrLabel(t.hr)}${t.hr === save.hr ? ' · you' : ''}</b><small>${t.n} player${t.n === 1 ? '' : 's'} · ${t.filled}/${CUP_MAX} scoring${t.rank > 1 && t.diff != null ? ` · +${t.diff.toFixed(1)}` : ''}</small></span>
+          <span class="spavg"><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b><small>${t.qualified ? 'avg' : t.n ? `needs ${CUP_MIN - t.n} more` : 'no scores'}</small></span></button>`).join('')
+        + `<div class="spsmall">Tap a homeroom to see its players. *Not qualified yet (fewer than ${CUP_MIN} players).</div>`);
     } else if (cupView === 'school') {
-      body = !res.school.length ? '<div class="empty">No official scores yet this week. Be the first!</div>'
-        : `<table class="board"><tr><th></th><th>GOLFER</th><th>HR</th><th>BEST</th></tr>` + res.school.map(r =>
-          `<tr class="${r.uid === meUid() ? 'me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}</td><td><b>${r.hr}</b></td><td><b>${r.strokes}(${fmtRel(r.rel)})</b></td></tr>`).join('') + '</table>';
+      done(!res.school.length ? '<div class="empty">No official scores yet this week. Be the first!</div>'
+        : `<table class="board spt2"><tr><th></th><th>GOLFER</th><th>HR</th><th>BEST</th></tr>` + res.school.map(r =>
+          `<tr class="${r.uid === meUid() ? 'me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}</td><td><b>${r.hr}</b></td><td><b>${r.strokes}(${fmtRel(r.rel)})</b></td></tr>`).join('') + '</table>');
     } else {
       const t = res.teams.find(x => x.hr === cupHr) || res.teams[0];
-      body = hrPicker(t.hr, 'cuphr') + hrHeader(t, res, !!frozen) + cupBoardRows(t, !!frozen)
-        + '<div class="tnote">Ties are broken by who posted the score first, then by player ID, so the scoring 20 can\'t be gamed.</div>';
+      done(hrPicker(t.hr, 'cuphr') + hrHeader(t, res, !!frozen) + cupBoardRows(t, !!frozen)
+        + '<div class="spsmall">Ties go to whoever posted the score first, then by player ID, so the scoring 20 can\'t be gamed.</div>');
     }
-    box.innerHTML = head + body;
   }
   function pastHtml() {
     if (!cupPast) return '<div class="empty">Loading past winners…</div>';
@@ -7685,7 +7880,7 @@
     const step = (i, cls) => top[i] ? `<div class="pod ${cls}"><div class="pn">${top[i]}</div><div class="pw">${wins[top[i]]} win${wins[top[i]] === 1 ? '' : 's'}</div><div class="pb">${i + 1}</div></div>` : `<div class="pod ${cls} empty"><div class="pb">${i + 1}</div></div>`;
     return `<div class="sect">MOST CUP WINS</div><div class="cupPodium">${step(1, 'p2')}${step(0, 'p1')}${step(2, 'p3')}</div>
       <div class="sect" style="margin-top:14px">PAST WINNERS</div><div class="rows">${done.map(d => { const t = (d.teams || []).find(x => x.hr === d.winner);
-        return `<button class="pastw" data-cupweek="${d.week}"><span>${fmtWeek(d.week)} · ${esc(d.course || '')}</span><b>🏆 ${hrLabel(d.winner)}${t && t.avg != null ? ` · ${t.avg.toFixed(1)}` : ''}</b></button>`; }).join('')}</div>
+        return `<button class="pastw" data-cupweek="${d.week}"><span>${fmtWeek(d.week)} · ${esc(d.course || '')}</span><b>${hrLabel(d.winner)}${t && t.avg != null ? ` · ${t.avg.toFixed(1)}` : ''}</b></button>`; }).join('')}</div>
       <div class="tnote">Tap a week to see its final homeroom leaderboards.</div>`;
   }
   $('cupBody') && $('cupBody').addEventListener('click', e => {
@@ -7721,16 +7916,56 @@
     save.cupSeen = w.id; persist();
     try {
       await loadBanList();
-      const rows = cupLive && cupLive.week === w.id && cupLive.rows ? cupLive.rows : cupRows((await cupRef(w.id).get()).docs, w);
+      const rows = await cupFinalRows(w);
       const res = cupCalcNow(rows), top = res.order.filter(t => t.rank).slice(0, 3);
       if (!rows.length) return;
-      if (archiveDue(w)) cupArchive(w, rows);
-      $('cupWinBody').innerHTML = res.winner ? `<div class="tipBig">🏆 ${hrLabel(res.winner)} wins the Spirit Day Homeroom Cup!</div>
+      $('cupWinBody').innerHTML = res.winner ? `<div class="tipBig">${hrLabel(res.winner)} wins the Spirit Day Homeroom Cup!</div>
           <div class="cupPodium sm">${[1, 0, 2].map(i => top[i] ? `<div class="pod p${i + 1}"><div class="pn">${top[i].hr}</div><div class="pw">${fmtAvg(top[i].avg)}</div><div class="pb">${i + 1}</div></div>` : `<div class="pod p${i + 1} empty"><div class="pb">${i + 1}</div></div>`).join('')}</div>
           <div class="sub">${esc(cupCourseFor(w.id).name)} · team average of the ${CUP_MAX} lowest scores${save.hr ? ` · ${hrLabel(save.hr)}: ${(() => { const m = res.teams.find(t => t.hr === save.hr); return m && m.rank ? '#' + m.rank : 'not qualified'; })()}` : ''}</div>`
         : `<div class="sub">No homeroom reached ${CUP_MIN} players this week, so there's no winner. Rally your homeroom for next week!</div>`;
       $('cupWin').classList.remove('hidden'); try { sfx.perfect(); } catch (e) {} if (res.winner && res.winner === save.hr) burst(200);
+      claimCupPrizes();
     } catch (e) { save.cupSeen = ''; }
+  }
+  // The final standings of a finished week. Everyone reads the saved record (2 reads) instead of every golfer's score, so the
+  // 2:42 PM announcement doesn't use up Firebase's free daily reads. The first game to get there builds and saves the record
+  // (games wait a random few seconds first so they don't all do it at once).
+  async function cupFinalRows(w) {
+    const fromArchive = async () => { const f = await cupWeeksRef().doc(w.id).collection('full').doc('players').get();
+      return f.exists ? (f.data().list || []).map(p => ({ uid: p.u, name: p.n, hr: p.h, strokes: p.s, rel: p.r, att: p.a, t: p.i })) : null; };
+    let rows = await fromArchive().catch(() => null); if (rows) return rows;
+    if (cupLive && cupLive.week === w.id && cupLive.rows) rows = cupLive.rows;
+    else { await new Promise(r => setTimeout(r, Math.random() * 45000)); rows = await fromArchive().catch(() => null); if (rows) return rows;
+      await loadBanList(); rows = cupRows((await cupRef(w.id).get()).docs, w); }
+    if (archiveDue(w) && rows.length) await cupArchive(w, rows);
+    return rows;
+  }
+  // ---- Cup prizes: every player in the top 3 homerooms ($2,500 / $1,500 / $750 each) and the best player of every other
+  // homeroom ($750). Paid once per week, the next time the game is open after Friday 2:42 PM.
+  let cupClaiming = false;
+  async function claimCupPrizes() {
+    if (cupClaiming || !ONLINE || !fbDb || banned() || !meUser() || inRound()) return;
+    cupClaiming = true; save.cupPaid = save.cupPaid || {};
+    try {
+      const now = cupWeek(), weeks = (now.phase === 'final' ? [now] : []).concat([cupWeek(now.start - 3 * 864e5)]);
+      for (const w of weeks) {
+        if (save.cupPaid[w.id] != null || Date.now() < w.announce + 5000 || w.lock < SEASON_START) continue;
+        const rows = await cupFinalRows(w), uid = meUid(), me = rows.find(r => r.uid === uid);
+        let pay = 0; const why = [];
+        if (me) {
+          const res = cupCalcNow(rows), t = res.teams.find(x => x.hr === me.hr);
+          if (t && t.rank && t.rank <= 3) { pay += CUP_PAY[t.rank - 1]; why.push(`${hrLabel(t.hr)} finished ${['1st', '2nd', '3rd'][t.rank - 1]}: <b>${money(CUP_PAY[t.rank - 1])}</b>`); }
+          if (t && res.winner && t.hr !== res.winner && t.list[0] && t.list[0].uid === uid) { pay += CUP_MVP_PAY; why.push(`Best player in ${hrLabel(t.hr)}: <b>${money(CUP_MVP_PAY)}</b>`); }
+        }
+        save.cupPaid[w.id] = pay;
+        if (pay) {
+          save.coins += pay; save.stats.earnedTotal += pay; persist(); setTimeout(cloudSaveSoon, 0);
+          $('prizeBody').innerHTML = `<b>Spirit Day Homeroom Cup · ${fmtWeek(w.id)}</b><br>${why.join('<br>')}<br><br>Total: <b>+${money(pay)}</b>`;
+          $('prize').classList.remove('hidden'); $('homeCoins').textContent = money(save.coins);
+        } else persist();
+      }
+    } catch (e) {}
+    cupClaiming = false;
   }
   setInterval(() => { checkCupAnnounce(); if (tab === 'play' && !$('home').classList.contains('hidden')) renderCupCard(); if (tab === 'cup' && !$('home').classList.contains('hidden') && !cupFrozen && cupWeek().id !== (cupLive && cupLive.week)) { cupStop(); renderCup(); } }, 30000);
   $('cupWinOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('cupWin').classList.add('hidden'); });
@@ -7742,7 +7977,7 @@
   let admView = 'players', admCid = 'pines', admMode = 'daily';
   // Creator's Pick for the golfers who helped with the game. The creator's device hands these out on its own when exactly
   // one golfer in the player directory has that first name (otherwise use "Find a player" and tap 🎁).
-  const admTabs = [['players', '🔎 Find a player'], ['aces', '🎯 Holes in one'], ['reviews', '📋 Scorecard review'], ['flags', '🎯 Ace flags'], ['bans', '⛔ Bans'], ['boards', '🏆 Leaderboards']];
+  const admTabs = [['players', '🔎 Find a player'], ['aces', '🎯 Holes in one'], ['reviews', '📋 Scorecard review'], ['flags', '🚩 Flags'], ['bans', '⛔ Bans'], ['boards', '🏆 Leaderboards']];
   let admFlagDocs = {};
   // One flagged round's scorecard: the card the flag carried (holes played so far), plus the final card of that round if it came in
   function admRoundCard(id) {
@@ -7819,7 +8054,7 @@
       + (got.length ? got.map(g => cardBlock(g.k, g.title)).join('') : '<div class="empty">No scorecards for this golfer yet. (Cards are kept from Oct 20 2026 on: they come up with a ban, with ace and score flags, and in Google players\' cloud saves.)</div>')
       + (flagTxt.length ? `<div class="sect" style="margin-top:12px">FLAGS</div><div class="mplist">${flagTxt.join('')}</div>` : '');
   }
-  let admQ = '', admFound = null, admGifted = {}, admMoneyOnly = 'ace';
+  let admQ = '', admFound = null, admGifted = {}, admMoneyOnly = 'check';
   // Find a player: the whole player directory is loaded once (one read per golfer, remembered for 6 hours on this device)
   // and searched right here, so any part of a name matches ("coll" finds "John Collins").
   const DIR_KEY = 'cg-admdir6', DIR_TTL = 6 * 3600e3;
@@ -7874,14 +8109,14 @@
             <button class="ghost sm" data-adm-cards="${r.uid}" data-n="${esc(r.name || '')}">📋 Cards</button><button class="main sm" data-adm-ban="${r.uid}" data-n="${esc(r.name || '')}">Ban</button></div>`; }).join('') || '<div class="empty">No holes in one in the last 3 days.</div>'}</div>`;
       } else if (admView === 'flags') {
         const all = await fbDb.collection('flags').orderBy('at', 'desc').limit(80).get();
-        const s = { docs: all.docs.filter(d => { const k = d.data().kind; return admMoneyOnly === 'ace' ? k === 'ace' || k === 'aces' : admMoneyOnly === 'int' ? k === 'interference' || k === 'swings' || k === 'tamper' : admMoneyOnly ? k === 'money' : true; }) };
+        const s = { docs: all.docs.filter(d => { const k = d.data().kind; return admMoneyOnly === 'ace' ? k === 'ace' || k === 'aces' : admMoneyOnly === 'check' ? k === 'check' : admMoneyOnly === 'int' ? k === 'interference' || k === 'swings' || k === 'tamper' : admMoneyOnly ? k === 'money' : true; }) };
         admFlagDocs = {}; all.docs.forEach(d => { admFlagDocs[d.id] = d.data(); });
-        const seg = [['ace', '🎯 ACES'], ['0', 'EVERYTHING (incl. older flags)']];
+        const seg = [['check', '🚩 ROUNDS NOT POSTED'], ['ace', '🎯 ACES'], ['0', 'EVERYTHING']];
         const on = k => (k === '0' && !admMoneyOnly) || (k === '1' && admMoneyOnly === true) || k === admMoneyOnly;
         v.innerHTML = `<div class="seg wrapseg" style="margin-bottom:10px">${seg.map(([k, n]) => `<button data-adm-money="${k}" class="${on(k) ? 'on' : ''}">${n}</button>`).join('')}</div>` + (all.docs.length ? `<button class="ghost sm" data-adm-clearflags="1" style="margin-bottom:10px">🧹 Clear all flags (${all.docs.length}${all.docs.length >= 80 ? '+' : ''})</button>` : '')
-          + `<div class="mplist">${s.docs.map(d => { const f = d.data(), gone = bannedSet.has(f.uid), hasCard = !!f.card || cardsFromText(f.detail).length > 0; return `<div class="mpli"><div class="nm"><b>${esc(f.name || 'Golfer')}</b> ${gone ? '<span class="pill2 r">banned</span>' : f.kind === 'ace' ? '<span class="pill2 g">🎯 ace</span>' : f.kind === 'round' ? '<span class="pill2 g">final card</span>' : '<span class="pill2">flagged</span>'}<small>${esc(f.kind || '')}: ${prettyDetail(f.detail)}${f.card ? ` · 📋 hole ${f.card.h}/${f.card.n}` : ''} · ${f.at ? ago(f.at) : ''}${f.google ? ' · Google' : ' · guest'}</small></div>
+          + `<div class="mplist">${s.docs.map(d => { const f = d.data(), gone = bannedSet.has(f.uid), hasCard = !!f.card || cardsFromText(f.detail).length > 0; return `<div class="mpli"><div class="nm"><b>${esc(f.name || 'Golfer')}</b> ${gone ? '<span class="pill2 r">banned</span>' : f.kind === 'check' ? '<span class="pill2 r">not posted</span>' : f.kind === 'ace' ? '<span class="pill2 g">🎯 ace</span>' : f.kind === 'round' ? '<span class="pill2 g">final card</span>' : '<span class="pill2">flagged</span>'}<small>${esc(f.kind || '')}: ${prettyDetail(f.detail)}${f.card ? ` · 📋 hole ${f.card.h}/${f.card.n}` : ''} · ${f.at ? ago(f.at) : ''}${f.google ? ' · Google' : ' · guest'}</small></div>
           ${hasCard ? `<button class="main sm" data-adm-round="${d.id}" title="This round's scorecard">📋 Round</button>` : ''}<button class="ghost sm" data-adm-cards="${f.uid}" data-n="${esc(f.name || '')}" title="All of this golfer's scorecards">📋 All</button><button class="ghost sm" data-adm-dismiss="${d.id}">Dismiss</button>${gone ? '' : `<button class="main sm" data-adm-ban="${f.uid}" data-n="${esc(f.name || '')}">Ban</button>`}</div>`; }).join('') || '<div class="empty">No cheat flags here. 🎉</div>'}</div>
-          <div class="tnote">📋 Round shows the scorecard of the round that was flagged (and its final card once the round is over); 📋 All shows every scorecard the golfer has. Every hole in one is logged here with its card. (Nothing else is flagged any more: low rounds go to 📋 Scorecard review.)</div>
+          <div class="tnote">📋 Round shows the scorecard of the round that was flagged (and its final card once the round is over); 📋 All shows every scorecard the golfer has. Every hole in one is logged here with its card. 🚩 Rounds not posted = rounds the game's checks stopped from going online (impossible hole scores, totals that don't add up, fewer strokes than swings, impossibly fast rounds) and saves edited by hand. Nobody is banned automatically: ban only if it looks like real cheating. Low rounds go to 📋 Scorecard review.</div>
           <div class="tnote">Players online, players per day and rounds played are in Google Analytics (it's free and doesn't use up Firebase).</div>`;
       } else if (admView === 'reviews') {
         // every round of -9 or better over 9 holes (-18 or better over 18), with the whole scorecard, for the creator to look over
@@ -7972,7 +8207,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.10.28c', NEWS_NUM = '2.3';
+  const NEWS_VER = '2026.10.29', NEWS_NUM = '2.4';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -8005,15 +8240,24 @@
     ['💲', '<b>Rounder shop prices</b> ($1,000 instead of $1,050), cleaner Play Friends card, and scores now show strokes too, like 68(-3).'],
   ];
   // Every update so far, newest first (shown under "Previous updates"). Only things players can see.
-  const NEWS = [
+  const NEWS_23 = [
     ['🆕', '<b>Fresh start:</b> everyone begins again with new progress, badges and empty leaderboards (all-time and daily).'],
     ['👤', '<b>Player codes (XXXX-XXXX):</b> every golfer gets one automatically. Tap the 👤 player icon at the top right to see yours, or Log in with a code from another device. Google sign-in is gone.'],
     ['🏫', '<b>Homerooms are permanent</b> once you pick one, and you can put <b>HR</b> and your letter on your golf bag (Golfer > Golf Bag > Logo).'],
     ['⛳', '<b>New hole names</b> at Meribah, Brothers Hollow, Hearst Executive and Flyers Presidential.'],
     ['🎨', '<b>Every gold button looks the same</b> now, and the welcome screen points you to 3C, the daily challenges and the Homeroom Cup.'],
   ];
+  const NEWS = [
+    ['school', '<b>Spirit Day Homeroom Cup prizes:</b> every player in the 1st, 2nd and 3rd place homerooms gets $2,500, $1,500 or $750, and the best player in every other homeroom gets $750. The cup screen has a whole new look.'],
+    ['battery', '<b>Battery saver</b> (Golfer tab): 30 fps, no shadows, no camera fly-ins (it cuts straight to your golfer) and a still home screen.'],
+    ['flag', '<b>Divots:</b> irons and wedges take a strip of turf. Every hole on a course page has an <b>Aerial</b> button.'],
+    ['user', '<b>Spin your golfer</b> with your finger in the Golfer tab.'],
+    ['star', '<b>Cleaner look:</b> new icons instead of emoji, and the Play tab cards are in a new order.'],
+    ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
+  ];
   const UPDATES = [
-    ['2.3', 'Oct 28, 2026', NEWS.map(n => n[1])],
+    ['2.4', 'Oct 29, 2026', NEWS.map(n => n[1])],
+    ['2.3', 'Oct 28, 2026', NEWS_23.map(n => n[1])],
     ['2.2', 'Oct 28, 2026', NEWS_22.map(n => n[1])],
     ['2.1', 'Oct 27, 2026', NEWS_21.map(n => n[1])],
     ['2.0', 'Oct 20, 2026', NEWS_20.map(n => n[1]).concat(['<b>Update pop-up:</b> if a new update comes out while the game is open, you get a pop-up to reload and get it'])],
@@ -8065,8 +8309,8 @@
   $('updClose').addEventListener('click', () => { ensureAudio(); sfx.click(); $('updPop').classList.add('hidden'); });
   document.addEventListener('click', e => { if (e.target.closest && e.target.closest('[data-updates]')) { ensureAudio(); sfx.click(); showUpdates(); } });
   const TIPS = {
-    clubs: ['Upgrade your clubs 🏌️', 'Spend your winnings here to <b>upgrade your clubs</b>: more <b>Power</b> to hit it farther, more <b>Accuracy</b> for a bigger gold zone, and more <b>Control</b> for a steadier swing. You can buy brand new clubs too.'],
-    golfer: ['Make it yours 🎨', 'You can customize <b>everything</b> here, from your <b>outfit</b> and <b>golf bag</b> to your <b>ball</b>. Tap anything to try it on before you buy.'],
+    clubs: ['Upgrade your clubs', 'Spend your winnings here to <b>upgrade your clubs</b>: more <b>Power</b> to hit it farther, more <b>Accuracy</b> for a bigger gold zone, and more <b>Control</b> for a steadier swing. You can buy brand new clubs too.'],
+    golfer: ['Make it yours', 'You can customize <b>everything</b> here, from your <b>outfit</b> and <b>golf bag</b> to your <b>ball</b>. Tap anything to try it on before you buy.'],
   };
   save.tips = save.tips || {};
   const isNewGolfer = !hadSave && !(save.stats.rounds > 0);
@@ -8079,23 +8323,26 @@
   }
   $('tipOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('tipPop').classList.add('hidden'); });
   function showNews() {
-    $('newsList').innerHTML = NEWS.map(([i, t]) => `<li><span class="ni">${i}</span><span>${t}</span></li>`).join('');
+    $('newsList').innerHTML = NEWS.map(([i, t]) => `<li><span class="ni">${ICONS[i] ? ico(i) : i}</span><span>${t}</span></li>`).join('');
     $('newsNum').textContent = `Update ${NEWS_NUM}`;
     $('newsPop').classList.remove('hidden');
   }
   $('newsOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('newsPop').classList.add('hidden'); save.newsVer = NEWS_VER; persist(); });
   // the welcome: brand-new golfers and everyone starting over after a reset (it points them at 3C, the daily challenges or the cup)
-  if ((isNewGolfer || save.resetNote) && (save.noteVer | 0) < 4) {
-    if (save.resetNote && !isNewGolfer) $('welcomeSub').innerHTML = '<b style="color:var(--gold-l)">Fresh start!</b> Everyone begins again today with a new player code. Pick how you want to start:';
+  if ((save.noteVer | 0) < 5) {
+    if (!isNewGolfer || save.resetNote || hadSave) {
+      $('welcomeSub').innerHTML = '<b style="color:var(--gold-l);font-size:17px">Welcome back!</b><br>A LOT has changed: a whole new experience is here. Pick how you want to start:';
+      $('welcomeUpd').style.display = '';
+    }
     $('resetNote').classList.remove('hidden');
     save.newsVer = NEWS_VER;                       // (they don't need a list of changes too)
   } else {
-    save.noteVer = Math.max(4, save.noteVer | 0);
+    save.noteVer = Math.max(5, save.noteVer | 0);
     if (save.newsVer !== NEWS_VER) showNews();
   }
   $('resetNote').addEventListener('click', e => {
     const b = e.target.closest('[data-welc]'); if (!b) return;
-    ensureAudio(); sfx.click(); $('resetNote').classList.add('hidden'); delete save.resetNote; save.noteVer = 4; persist();
+    ensureAudio(); sfx.click(); $('resetNote').classList.add('hidden'); delete save.resetNote; save.noteVer = 5; persist();
     const w = b.dataset.welc;
     if (w === 'par3') { const p3 = courseById('par3'); if (p3) openCourse(p3); } else setTab(w);
   });
@@ -8123,11 +8370,11 @@
   function loop(now) {
     requestAnimationFrame(loop);
     const idle = state === 'ready' && now - lastInput > 1500 && introT <= 0 && bannerT <= 0;
-    if (now - lastFrame < (idle ? 1000 / 30 : 1000 / 60) - 2) return;
+    if (now - lastFrame < (SAVER ? (idle ? 1000 / 15 : 1000 / 30) : (idle ? 1000 / 30 : 1000 / 60)) - 2) return;
     lastFrame = now;
     const onHome = !$('home').classList.contains('hidden');
     if (onHome) {   // menus sit over the picture slideshow: skip physics and 3D rendering entirely
-      if (tab === 'golfer' && now - lastDraw > 32) { renderPreview(now / 1000); lastDraw = now; }
+      if (tab === 'golfer' && (prevDirty || now - lastDraw > 2000) && now - lastDraw > 32) { prevDirty = false; renderPreview(now / 1000); lastDraw = now; }
       last = now; return;
     }
     const dt = Math.min(0.05, (now - last) / 1000); last = now;

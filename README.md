@@ -38,6 +38,15 @@ Gold Star Mini Golf was reworked on Oct 20 2026 (par 41: 13 par 2s and 5 par 3s)
 
 Everyone started over (twice on Oct 28: once in the afternoon and again with update 2.3 at 7 PM ET). `RESET_EPOCH` is 3 (all progress, names, badges and homerooms wiped on every device and in the cloud), Leaderboard Season 6 (`SEASON = '_s6'`) started with empty all-time and daily boards, and `ACCT_EPOCH` logs every device out of its old account once so each golfer gets a brand-new player code. Old data stays in Firebase but the game ignores it (delete old users in Firebase console > Authentication > Users if you want it gone).
 
+## Update 2.4 (Oct 29 2026)
+
+- **Battery saver** (Golfer tab, `SAVER` in index.html): 30 fps (15 idle), pixel ratio 1, no shadows or anti-aliasing, no hole fly-in or camera glides (cuts straight to the golfer), no confetti, a still home screen. Switching it reloads the game.
+- **Divots** behind iron and wedge shots off the turf (`addDivot`). **Aerial** button on every hole of a course page (a still render from above).
+- **Golfer preview** stands still and is spun by dragging; it only redraws when something changes.
+- **Icons** (`ICONS`, `ico()`) replace most emoji in the menus. Play tab cards: Play Friends, Closest to the Pin, Spirit Day, Driving Range (Practice), Leaderboards.
+- **Homeroom Cup prizes** (`CUP_PAY`, `CUP_MVP_PAY`): every player in the 1st/2nd/3rd homeroom gets $2,500/$1,500/$750, and the best player of every other homeroom $750 (only when there's a winner). Paid once per week the next time the game is open after Friday 2:42 PM, from the saved final record (2 reads per golfer). The cup screen has its own navy-and-green look.
+- **Anti-cheat**: every finished round is checked before it goes online (impossible hole scores, totals that don't add up, fewer strokes than swings, a round faster than 4 seconds a hole). A round that fails isn't posted and the creator gets a "not posted" flag (Creator tools > Flags). Saves edited by hand only send a note. Nothing bans automatically and nothing looks at the network or website address, so proxies are fine. The rules also check cup scores (18 under at most, par 54 to 76).
+
 ## Hole names (update 2.3)
 
 Meribah, Brothers Hollow, Hearst Executive and Flyers Presidential use original, less corny hole names (`HOLE_NAMES` in index.html). The layouts didn't change.
