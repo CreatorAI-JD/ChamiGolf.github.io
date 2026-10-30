@@ -149,6 +149,11 @@ service cloud.firestore {
       allow read: if request.auth != null;
       allow write: if isAdmin();
     }
+    // (update 2.5) a custom creator badge's name and icon: only that member (and the creator) can read it
+    match /giftInfo/{uid} {
+      allow read: if isMe(uid) || isAdmin();
+      allow write: if isAdmin();
+    }
 
     // Badge counts: each golfer with a Hole in One or Daily Champion badge leaves a tiny note here (anyone can count them).
     match /badgeHolders/{bid}/who/{uid} {
@@ -161,7 +166,11 @@ service cloud.firestore {
     // Homeroom member counts (update 2.4): picking a homeroom leaves one note per member and adds 1 to meta/hrCounts in the same write.
     match /hrMembers/{hr}/who/{uid} {
       allow read: if true;
-      allow create: if isMe(uid) && hr in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N'] && request.resource.data.keys().hasOnly(['at']);
+      allow create: if isMe(uid) && hr in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N'] && request.resource.data.keys().hasOnly(['at', 'name'])
+        && (!('name' in request.resource.data) || (request.resource.data.name is string && request.resource.data.name.size() <= 24));
+      // (update 2.5) members list: a member can keep their own name up to date (nothing else changes)
+      allow update: if isMe(uid) && notBanned() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name'])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 24;
       allow delete: if isAdmin();
     }
     function bumpHr(k) {

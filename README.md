@@ -38,6 +38,16 @@ Gold Star Mini Golf was reworked on Oct 20 2026 (par 41: 13 par 2s and 5 par 3s)
 
 Everyone started over (twice on Oct 28: once in the afternoon and again with update 2.3 at 7 PM ET). `RESET_EPOCH` is 3 (all progress, names, badges and homerooms wiped on every device and in the cloud), Leaderboard Season 6 (`SEASON = '_s6'`) started with empty all-time and daily boards, and `ACCT_EPOCH` logs every device out of its old account once so each golfer gets a brand-new player code. Old data stays in Firebase but the game ignores it (delete old users in Firebase console > Authentication > Users if you want it gone).
 
+## Update 2.5 (Oct 29 2026)
+
+- Smaller, quicker camera glide after each shot; teachers on the home screen stand still in low battery mode.
+- Members stay signed in: the game remembers your member code and signs back in after a reload. Write your code down.
+- Homeroom Cup: "Show all members" list for each homeroom, and **Continue match** after a reload mid-round.
+- The game suggests low battery mode once.
+- Only chamigolf1.firebaseapp.com runs the game: any other address (github.io, web.app) redirects there.
+- Creator badge menu: ready-made creator badges or a custom one. Everyone sees 🎁 Creator's Pick; only the member sees their unique badge (custom details live in `giftInfo/{uid}`, readable only by that member).
+- Mini golf hole 17 (The Slalom) rebuilt with clear gate openings and an aim line.
+
 ## Update 2.4 (Oct 29 2026)
 
 - **Battery saver** (Golfer tab, `SAVER` in index.html): 30 fps (15 idle), pixel ratio 1, no shadows or anti-aliasing, no hole fly-in or camera glides (cuts straight to the golfer), no confetti, a still home screen. Switching it reloads the game.

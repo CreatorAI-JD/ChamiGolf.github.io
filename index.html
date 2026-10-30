@@ -2,6 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+/* (update 2.5) The game only runs on chamigolf1.firebaseapp.com. Every other copy (github.io, web.app, old links) sends you there.
+   Test hosts (localhost, *.test) and files opened from disk are left alone. */
+(function () {
+  var H = 'chamigolf1.firebaseapp.com', h = location.hostname || '';
+  if (!h || h === H || /^(localhost|127\.0\.0\.1|\[::1\])$|\.localhost$|\.test$/.test(h)) return;
+  window.__moved = true;
+  document.write('<div style="position:fixed;inset:0;background:#3a0a12;color:#fff;font:600 18px system-ui;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:99">Chami Golf has moved to<br>chamigolf1.firebaseapp.com<br><small style="opacity:.7">Taking you there…</small></div>');
+  location.replace('https://' + H + '/' + location.search + location.hash);
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Red &amp; Gold Golf</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -419,6 +430,7 @@
   #acctBtn.in{padding:0;width:38px;font:700 18px Oswald,sans-serif}
   .pcodeBig{margin:12px auto 8px;padding:12px 10px;border-radius:14px;background:#111;border:2px dashed var(--gold-l);color:var(--gold-l);
     font:700 26px/1 'Courier New',monospace;letter-spacing:.12em;text-align:center;user-select:all;-webkit-user-select:all}
+  .codeWarn{color:#fff;font-weight:800;background:rgba(242,193,78,.18);border-radius:6px;padding:0 4px}
   .pcode{font-family:'Courier New',monospace;color:var(--gold-l);letter-spacing:.06em;user-select:all;-webkit-user-select:all}
   button.linkBtn{background:none;border:0;padding:0;color:#f3d7a8;opacity:.75;text-decoration:underline;font:600 11px Inter,sans-serif;cursor:pointer}
   .acctCard{margin:14px 2px 0;padding:12px 14px;border-radius:14px;background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.45)}
@@ -742,6 +754,8 @@
   .hostBub::after{content:'';position:absolute;left:-8px;bottom:17px;border:6px solid transparent;border-right:9px solid #fffdf6}
   @keyframes hostBob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-4px) rotate(1deg)}}
   @media (prefers-reduced-motion:reduce){.hostCard img{animation:none}}
+  .saver .hostCard img{animation:none!important}
+  .saver .hostCard{transition:none!important}
   .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:12;background:radial-gradient(ellipse at top,rgba(122,12,29,.6),rgba(30,3,8,.88))}
   .card{background:linear-gradient(180deg,#8E0F22,#4F0712);border:2px solid var(--gold);border-radius:20px;padding:24px 22px;
         width:calc(100% - 40px);max-width:380px;max-height:calc(100vh - 40px);overflow:auto;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)}
@@ -789,6 +803,17 @@
   .hbadges{display:flex;gap:6px;flex:none}
   .hbadges .bmed{width:38px;height:38px;font-size:19px}
   @media (max-width:560px){.hbadges .bmed:not(.on){display:none}}
+  .hrlistb{text-align:center;margin:12px 0 4px}
+  .hrlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:4px 10px;margin-top:6px;max-height:340px;overflow:auto;padding:6px;border-radius:10px;background:rgba(0,0,0,.18)}
+  .hrlist div{font-size:13px;padding:4px 6px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hrlist div.me{background:rgba(255,215,90,.18)}
+  .hrlist i{font-style:normal;opacity:.55;display:inline-block;min-width:26px;font-size:11px}
+  .giftgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0}
+  .giftgrid button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:rgba(0,0,0,.2);color:inherit;font:inherit;cursor:pointer}
+  .giftgrid button.on{border-color:var(--gold-l);background:rgba(255,215,90,.15)}
+  .giftgrid button span{font-size:26px}.giftgrid button b{font-size:13px}
+  .giftcus{display:flex;gap:8px;margin-top:6px}.giftcus input{flex:1;min-width:0;padding:9px;border-radius:9px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.25);color:#fff;font:inherit}
+  .giftcus input.ic{flex:0 0 64px;text-align:center}
   .bpop{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(20,2,6,.55)}
   .bpop.hidden{display:none}
   .bpop .bpc{width:min(320px,calc(100% - 32px));text-align:center;padding:20px 18px 16px;border-radius:20px;background:linear-gradient(180deg,#8E0F22,#4F0712);border:2px solid var(--gold);box-shadow:0 20px 50px rgba(0,0,0,.6)}
@@ -1089,7 +1114,7 @@
 <!-- ===== Round in progress (after the page was reloaded mid-round) ===== -->
 <div id="liveOv" class="overlay hidden">
   <div class="card" style="max-width:640px;width:calc(100% - 24px)">
-    <h2>Round in progress</h2>
+    <h2 id="liveTitle">Round in progress</h2>
     <div class="sub" id="liveSub"></div>
     <div class="livesc" id="liveCard"></div>
     <div class="btns" style="flex-wrap:wrap">
@@ -1140,6 +1165,13 @@
 
 <!-- ===== Premium badge details (tap a badge) ===== -->
 <div id="bPop" class="bpop hidden"></div>
+<div id="giftOv" class="overlay hidden" style="z-index:46">
+  <div class="card" style="max-width:560px;width:calc(100% - 24px)">
+    <h2 id="giftTitle">Give a creator badge</h2>
+    <div id="giftBody"></div>
+    <div class="btns" style="flex-wrap:wrap"><button class="main" id="giftOk">Give badge</button><button class="ghost" id="giftTake">Take it back</button><button class="ghost" id="giftNo">Cancel</button></div>
+  </div>
+</div>
 
 <!-- ===== Welcome to Chami Golf (first time only) ===== -->
 <div id="resetNote" class="overlay hidden">
@@ -1151,7 +1183,7 @@
       <button class="wopt" data-welc="ctp"><span data-ic="target"></span><div><b>Daily challenges</b><small>Closest to the Pin and a Daily Tournament on every course. New every day, top 3 win money.</small></div></button>
       <button class="wopt" data-welc="cup"><span data-ic="school"></span><div><b>Spirit Day Homeroom Cup</b><small>Pick your homeroom and play this week's 18-hole course for your team. Prizes for every member in the top 3 homerooms.</small></div></button>
     </div>
-    <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">Your <b>member code</b> is under the member icon at the top right. Use it to log in on any device.</div>
+    <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">Your <b>member code</b> is under the member icon at the top right. <b class="codeWarn">Write it down or take a screenshot</b> so that if the site gets blocked again, you don't start over: your progress is saved to your code.</div>
     <div class="btns" style="margin-top:10px;flex-wrap:wrap"><button class="main" data-welc="home">Continue to the Home Screen ›</button><button class="ghost sm" id="welcomeUpd" data-updates="1" style="display:none">See everything that changed</button></div>
   </div>
 </div>
@@ -2037,8 +2069,10 @@
     { name: 'The Moat Bridge', par: 2, pts: rect(-3.5, 0, 3.5, 14), tee: [0, 1.2], cup: [0, 10.6], water: [[-2.05, 9.4, 1.6, 3.2], [2.05, 9.4, 1.6, 3.2]] },
     { name: 'Hills & Valleys', par: 2, pts: rect(-2.2, 0, 2.2, 15), tee: [0, 1.2], cup: [0.4, 13.4],
       mounds: [[-0.8, 4.5, 1.6, 0.24], [1, 7, 1.6, 0.26], [-0.6, 9.8, 1.4, 0.22], [0.6, 12.2, 1.3, -0.16]] },
-    { name: 'The Slalom', par: 3, pts: rect(-1.6, 0, 1.6, 16), tee: [0, 1.2], cup: [-0.9, 15],
-      walls: [[-1.6, 4, 0.2, 4], [-0.2, 7.5, 1.6, 7.5], [-1.6, 11, 0.2, 11], [-0.2, 13.6, 1.6, 13.6]] },
+    // (update 2.5) hole 17 fix: the gates overlapped the middle of the lane, so a putt could get pinned on a gate's end
+    // and the straight line from the tee ran into the first wall. Now three gates with clear openings and an aim line.
+    { name: 'The Slalom', par: 3, pts: rect(-1.8, 0, 1.8, 16), tee: [0, 1.2], cup: [-0.9, 14.6], aim: [1.0, 4.8],
+      walls: [[-1.8, 4.8, 0.05, 4.8], [-0.05, 8.6, 1.8, 8.6], [-1.8, 12.2, 0.05, 12.2]] },
     { name: 'Grand Gold Star', par: 3, pts: starPts(0, 9, 6, 2.6), tee: [0, 3.9], cup: [3.4, 7.8], water: [[0, 9.2, 1.5, 1.5]],
       posts: [[2.2, 8.6, 0.24], [2.4, 7.0, 0.24], [0, 6.6, 0.26]] },
   ];
@@ -3797,7 +3831,7 @@
       if (flight) { const L = Math.hypot(flight.ex - flight.sx, flight.ey - flight.sy) || 1; d = { x: (flight.ex - flight.sx) / L, y: (flight.ey - flight.sy) / L }; }
       else { const sp = Math.hypot(ball.vx, ball.vy); if (sp > 0.4) d = { x: ball.vx / sp, y: ball.vy / sp }; }
       lastDir = d;
-      const back = lastPutt ? 5 : 15, up = lastPutt ? 2.6 : 6 + h * 0.5;
+      const back = lastPutt ? 5 : 15, up = lastPutt ? 2.6 : 6 + h * 0.35;
       dPos.set(ball.x - d.x * back, up, ball.y - d.y * back);
       dLook.set(ball.x + d.x * 4, h * 0.75, ball.y + d.y * 4);
       return 3;
@@ -4494,12 +4528,14 @@
   let roundCut = false;   // true when a round was ended early with "Finish round"
   function saveLive() {
     if (course.ctp || (MP && MP.started) || !course.holes || holeIdx + 1 >= HOLES.length) { delete save.live; return; }
-    save.live = { cid: course.id, next: holeIdx + 1, scores: scores.slice(0, holeIdx + 1), earned: earned.slice(0, holeIdx + 1), start: roundStart, aces: roundAces, mo: streak, at: Date.now() };
+    const cupNow = !course.mini && save.hr && cupWeek().phase === 'live' && course.id === cupCourse().id;
+    save.live = { cid: course.id, next: holeIdx + 1, scores: scores.slice(0, holeIdx + 1), earned: earned.slice(0, holeIdx + 1), start: roundStart, aces: roundAces, mo: streak, at: Date.now(),
+      cup: cupNow ? cupWeek().id : 0, rs: rStat, rf: roundFlags };   // (update 2.5) a Homeroom Cup round can be continued after a reload
   }
   function clearLive() { if (save.live) { delete save.live; persist(); } }
   function liveCourse() {
     const L = save.live, c = L && (L.cid === 'mini' ? MINI : courseById(L.cid));
-    if (!c || !c.holes || !Array.isArray(L.scores) || !L.scores.length || L.next >= c.holes.length || L.scores.length !== L.next || !isUnlocked(c) && !c.mini) return null;
+    if (!c || !c.holes || !Array.isArray(L.scores) || !L.scores.length || L.next >= c.holes.length || L.scores.length !== L.next || !isUnlocked(c) && !c.mini && !(L.cup && L.cup === cupWeek().id)) return null;
     return c;
   }
   function showLive() {
@@ -4510,7 +4546,10 @@
     [HOLES, scores, holeIdx] = keep;
     $('liveSub').innerHTML = `<b>${esc(c.name)}</b> · Thru ${L.next} of ${c.holes.length} · ${tot} strokes (${fmtRel(rel)})`;
     $('liveCard').innerHTML = card;
-    $('liveGo').textContent = `▶ Keep playing (Hole ${L.next + 1})`;
+    const cup = !!(L.cup && L.cup === cupWeek().id);
+    $('liveTitle').textContent = cup ? 'Homeroom Cup round in progress' : 'Round in progress';
+    if (cup) $('liveSub').innerHTML += `<br>Playing for ${hrLabel(save.hr)}: pick up where you left off.`;
+    $('liveGo').textContent = cup ? `▶ Continue match (Hole ${L.next + 1})` : `▶ Keep playing (Hole ${L.next + 1})`;
     $('liveOv').classList.remove('hidden');
   }
   function resumeLive(finish) {
@@ -4521,6 +4560,8 @@
     course = c; HOLES = c.holes; if (!c.mini) save.course = c.id;
     applyCourseLook(c);
     scores = L.scores.slice(); earned = (L.earned || []).slice(); firstShot = false; roundAces = L.aces | 0; streak = L.mo | 0; roundStart = L.start || Date.now(); roundCut = false;
+    cupGuest = !c.mini && !isUnlocked(c);
+    if (L.rs) rStat = Object.assign({ shots: 0, perf: 0, eagles: 0, chips: 0, perfRun: 0 }, L.rs); if (L.rf != null) roundFlags = L.rf | 0;
     presence(c.id);
     $('home').classList.add('hidden'); $('final').classList.add('hidden'); slidesOn(false);
     if (finish) {   // end it here: a short round with just the holes played
@@ -4655,15 +4696,15 @@
   function syncScene(time, dt) {
     if (viewMode === 'aerial' && state !== 'ready' && state !== 'swinging' && state !== 'striking') viewMode = 'normal';
     const moving = s => s === 'flying' || s === 'rolling' || s === 'sinking' || s === 'penalty' || s === 'rangeWait' || s === 'holeDone' || s === 'wait';
-    if (state === 'ready' && moving(camPrevState)) startGlide(1.6);
-    else if (viewMode !== camPrevView && state === 'ready') startGlide(1.1);
-    else if (camPrevIntro > 0 && introT <= 0 && state === 'ready') startGlide(1.6);
+    if (state === 'ready' && moving(camPrevState)) startGlide(1.0);   // (update 2.5) a short, small glide: noticeable, not a lot of motion
+    else if (viewMode !== camPrevView && state === 'ready') startGlide(0.8);
+    else if (camPrevIntro > 0 && introT <= 0 && state === 'ready') startGlide(1.0);
     camPrevState = state; camPrevView = viewMode; camPrevIntro = introT;
     const k = desiredCam(time);
     if (glide && (state === 'ready' || state === 'swinging' || state === 'striking')) {
       glide.t += dt; const u = Math.min(1, glide.t / glide.d), e = easeIO(u);
       camPos.lerpVectors(glide.p, dPos, e); camLook.lerpVectors(glide.l, dLook, e);
-      camPos.y += Math.sin(Math.PI * u) * Math.min(8, glide.p.distanceTo(dPos) * 0.12);
+      camPos.y += Math.sin(Math.PI * u) * Math.min(2, glide.p.distanceTo(dPos) * 0.03);
       if (u >= 1) glide = null;
     } else if (camSnap) {   // battery saver: cut straight to the new spot
       camSnap = false; camPos.copy(dPos); camLook.copy(dLook);
@@ -5191,7 +5232,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.29e';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.10.29f';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5252,6 +5293,22 @@
       blurb: 'Holed a tee shot in one on a real course. Mini golf aces don\'t count.' },
   ];
   let remoteBadges = {};   // Creator's Pick is checked online, so it can't be faked
+  // (update 2.5) the creator picks which Creator's Pick a member gets. Everyone else sees the 🎁 Creator's Pick badge;
+  // only the member sees their own unique one (a custom one is labelled "Custom creator badge" and only that member can read it).
+  const GIFT_KINDS = [
+    { id: 'helper', icon: '🛠️', name: 'Game Helper', blurb: 'Helped build Chami Golf.' },
+    { id: 'idea', icon: '💡', name: 'Idea Maker', blurb: 'Had an idea added to the game.' },
+    { id: 'bug', icon: '🐞', name: 'Bug Finder', blurb: 'Found a bug and reported it so it could be fixed.' },
+    { id: 'tester', icon: '🧪', name: 'Play Tester', blurb: 'Tested new updates before everyone else.' },
+    { id: 'star', icon: '⭐', name: 'All-Star', blurb: 'A standout member of the Chami Golf community.' },
+  ];
+  function giftLook() {   // what YOUR Creator's Pick looks like to you
+    const g = remoteBadges.gift; if (!g || g === true) return null;
+    if (g.kind === 'custom' && g.label) return { icon: g.icon || '🎁', name: g.label, tag: 'CUSTOM CREATOR BADGE', blurb: `A one-of-a-kind badge the creator made just for you. Only you can see "${g.label}": everyone else sees the 🎁 Creator's Pick badge.` };
+    const k = GIFT_KINDS.find(x => x.id === g.kind);
+    return k ? { icon: k.icon, name: k.name, tag: 'CREATOR GIVEN BADGE', blurb: k.blurb + ' Given by the creator. On the leaderboards it shows as the 🎁 Creator\'s Pick badge.' } : null;
+  }
+  const myLook = b => { const g = b && b.id === 'gift' && hasBadge('gift') && giftLook(); return g ? Object.assign({}, b, { icon: g.icon, name: g.name, blurb: g.blurb, tag: g.tag }) : b; };
   const badgeOf = id => id === 'creator' ? CREATOR_BADGE : BADGES.find(b => b.id === id);
   const ownedBadges = () => (hasBadge('creator') ? [CREATOR_BADGE] : []).concat(BADGES.filter(b => hasBadge(b.id)));
   const hasBadge = id => id === 'creator' ? isCreator() : id === 'ace' ? !!(save.badges.ace || save.stats.aces > 0) : id === 'champ' ? !!save.badges.champ : !!remoteBadges[id];
@@ -5265,13 +5322,13 @@
   function renderHeadBadges() {
     const el = $('hBadges'); if (!el) return;
     const own = ownedBadges(), mb = myBadge();
-    el.innerHTML = own.map(b => `<button class="bmed${mb === b.id ? ' on' : ''}" data-bpop="${b.id}" title="${esc(b.name)}">${b.icon}${b.id === 'champ' ? `<b class="bwin">${champWins()}</b>` : ''}</button>`).join('');
+    el.innerHTML = own.map(myLook).map(b => `<button class="bmed${mb === b.id ? ' on' : ''}" data-bpop="${b.id}" title="${esc(b.name)}">${b.icon}${b.id === 'champ' ? `<b class="bwin">${champWins()}</b>` : ''}</button>`).join('');
   }
   // tap any badge: a little card about it (and equip it if it's yours)
   function showBadgePop(id) {
-    const b = badgeOf(id); if (!b) return;
+    const b = myLook(badgeOf(id)); if (!b) return;
     const have = hasBadge(id), on = myBadge() === id, cnt = badgeCountTxt(id);
-    $('bPop').innerHTML = `<div class="bpc"><div class="bpi${have ? '' : ' lk'}">${b.icon}</div><div class="bpk">PREMIUM BADGE</div><h3>${esc(b.name)}</h3>
+    $('bPop').innerHTML = `<div class="bpc"><div class="bpi${have ? '' : ' lk'}">${b.icon}</div><div class="bpk">${b.tag || 'PREMIUM BADGE'}</div><h3>${esc(b.name)}</h3>
       <p>${esc(b.blurb || b.how)}</p><div class="bps">${have && id === 'champ' ? `<b>${champWins()}</b> daily win${champWins() === 1 ? '' : 's'} (the number shows next to the trophy on the leaderboards)<br>` : ''}${have ? (on ? 'Equipped: it shows next to your name on the leaderboards' : 'You have this badge') : ico('lock') + ' ' + esc(b.how)}${cnt && id !== 'creator' ? '<br>' + cnt : ''}</div>
       <div class="btns">${have ? (on ? '<button class="ghost" data-badge="">Take it off</button>' : `<button class="main" data-badge="${id}">Equip</button>`) : ''}<button class="ghost" data-bclose="1">Close</button></div></div>`;
     $('bPop').classList.remove('hidden');
@@ -5293,7 +5350,13 @@
   async function loadRemoteBadges() {
     const u = meUser(); if (!u || !fbDb) return;
     const got = {};
-    try { const gf = await fbDb.collection('gifts').doc(u.uid).get(); if (gf.exists) got.gift = true; } catch (e) {}
+    try {
+      const gf = await fbDb.collection('gifts').doc(u.uid).get();
+      if (gf.exists) {
+        got.gift = { kind: gf.data().kind || '' };
+        if (got.gift.kind === 'custom') { try { const gi = await fbDb.collection('giftInfo').doc(u.uid).get(); if (gi.exists) Object.assign(got.gift, { label: String(gi.data().label || '').slice(0, 30), icon: String(gi.data().icon || '').slice(0, 8) }); } catch (e) {} }
+      }
+    } catch (e) {}
     remoteBadges = got;
     regBadges(); renderHeadBadges();
     if (isCreator() && !save.badgeAuto) { save.badgeAuto = 1; save.badge = 'creator'; persist(); }
@@ -5513,6 +5576,7 @@
     return codeOk(c) ? c : '';
   }
   let codeFresh = '', makingCode = false, autoTried = false;
+  const CODE_KEY = 'cg-mycode';
   function codeMsg(t, ok) { const m = $('coMsg'); if (m) { m.textContent = t || ''; m.classList.toggle('ok', !!ok); } }
   function pcodeErr(e) {
     const c = (e && e.code) || '';
@@ -5525,7 +5589,7 @@
     const box = $('coBody'); if (!box) return;
     const mine = myCode();
     box.innerHTML = (mine ? `<div class="lh">YOUR MEMBER CODE</div><div class="pcodeBig">${fmtCode(mine)}</div>
-        <div class="sub" style="font-size:13px">${codeFresh === mine ? '<b style="color:var(--gold-l)">Write this down or take a picture of it.</b> ' : ''}Type this code on any device to play as you.</div>
+        <div class="sub" style="font-size:13px"><b class="codeWarn">Write this code down or take a screenshot!</b> If the site ever gets blocked or reset, typing this code brings back all your progress. It works on any device.</div>
         <div class="btns" style="margin-top:6px"><button class="ghost sm" data-cocopy="1">${ico('copy')} Copy code</button></div>`
       : makingCode ? '<div class="sub">Making your member code…</div>'
       : `<div class="sub">You don't have a member code yet.</div><button class="main" data-comake="1" style="width:100%">Get my member code</button>`)
@@ -5636,7 +5700,7 @@
   function acctHtml() {
     if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and member codes couldn\'t load. Check your connection and reload.</div></div>';
     const code = myCode();
-    return `<div class="acctCard"><div class="an">${ico('user')} ${esc(boardName())}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `Member code <b class="pcode">${fmtCode(code)}</b>` : makingCode ? 'Making your member code…' : 'No member code yet'}${cloudReady ? `<br>Progress saved to your code${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}` : ''}</div>
+    return `<div class="acctCard"><div class="an">${ico('user')} ${esc(boardName())}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `Member code <b class="pcode">${fmtCode(code)}</b><br><b class="codeWarn">Write it down or screenshot it:</b> if the site gets blocked again, your code brings back all your progress.` : makingCode ? 'Making your member code…' : 'No member code yet'}${cloudReady ? `<br>Progress saved to your code${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}` : ''}</div>
       <button class="main sm" data-signin="1">${ico('user')} ${code ? 'My code' : 'Get my code'}</button> <button class="ghost sm" data-login="1">${ico('key')} Log in</button>${fbUser ? ` <button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>${ico('cloud')} Sync now</button>` : ''}</div>`;
   }
   function renderAcct() {
@@ -5664,7 +5728,15 @@
     if (!checkedOnce && (u || !fbAuth)) { checkedOnce = true; startupChecks(); }
     mpOnAuth();
     // every golfer gets a member code automatically (a quiet guest account is the fallback if that can't be made right now)
-    if (fbAuth && !fbUser && !autoTried) { autoTried = true; makeCode(true).then(ok => { if (!ok && !meUser()) ensureOnlineUser().catch(() => { if (!checkedOnce) { checkedOnce = true; startupChecks(); } }); }); }
+    // (update 2.5) members stay signed in: the code is remembered on this device, so if the browser ever drops the sign-in
+    // (a reload, Safari clearing site data) the game logs straight back in with it instead of making a new account
+    if (fbUser && myCode()) { try { localStorage.setItem(CODE_KEY, myCode()); } catch (e) {} }
+    if (fbAuth && !fbUser && !autoTried) {
+      autoTried = true;
+      let kept = ''; try { kept = cleanPCode(localStorage.getItem(CODE_KEY)); } catch (e) {}
+      const relog = kept && codeOk(kept) ? fbAuth.signInWithEmailAndPassword(codeEmail(kept), codePass(kept)).then(() => true, () => false) : Promise.resolve(false);
+      relog.then(back => back || makeCode(true)).then(ok => { if (!ok && !meUser()) ensureOnlineUser().catch(() => { if (!checkedOnce) { checkedOnce = true; startupChecks(); } }); });
+    }
     if (!$('home').classList.contains('hidden')) {
       if (tab === 'course') fillBoard(course); if (tab === 'ctp') renderCtpTab(); if (tab === 'golfer') renderGolfer();
       renderCtpCard(); if (tab === 'play') { renderTourCard(); renderAceBar(); }
@@ -5674,7 +5746,7 @@
     try { fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {}); } catch (e) {}
     // update 2.3: every device is logged out of its old account once (the creator's stays), so everyone starts with a new code
     let acctReset = false;
-    try { if (localStorage.getItem('cg-acct') !== ACCT_EPOCH) { localStorage.setItem('cg-acct', ACCT_EPOCH); acctReset = true; } } catch (e) {}
+    try { if (localStorage.getItem('cg-acct') !== ACCT_EPOCH) { localStorage.setItem('cg-acct', ACCT_EPOCH); localStorage.removeItem('cg-mycode'); acctReset = true; } } catch (e) {}
     fbAuth.onAuthStateChanged(u => {
       if (acctReset) { acctReset = false; if (u && u.uid !== CREATOR_UID) { fbAuth.signOut(); return; } }
       onUser(u);
@@ -6551,9 +6623,10 @@
     P.r.render(P.sc, P.cam);
   }
   // battery saver on/off (Golfer tab, or the LOW BATTERY button at the top of the home screen); the game reloads to switch it
-  function setSaver(on) {
+  function setSaver(on, quiet) {
     if (on === SAVER) return;
     save.ui = save.ui || {}; save.ui.saver = on; persist();
+    if (quiet) { flushCloud(); location.reload(); return; }
     if (confirm(on ? 'Turn on low battery mode? It saves battery: 30 fps, no shadows, no camera fly-ins and no confetti. The game reloads (your progress is saved).'
       : 'Turn low battery mode off? The game reloads (your progress is saved).')) { flushCloud(); location.reload(); }
     else { save.ui.saver = SAVER; persist(); }
@@ -6770,7 +6843,7 @@
   function badgesHtml() {
     const cur = myBadge();
     const list = shownBadges();
-    const chips = list.map(b => {
+    const chips = list.map(myLook).map(b => {
       const have = hasBadge(b.id), cnt = badgeCountTxt(b.id);
       return `<button class="bchip${cur === b.id ? ' on' : ''}${have ? '' : ' locked'}" data-bpop="${b.id}" title="${esc(b.how)}"><span>${have ? b.icon : ico('lock')}</span><b>${b.name}${have && b.id === 'champ' ? ` · ${champWins()} win${champWins() === 1 ? '' : 's'}` : ''}</b><small>${have ? (cur === b.id ? 'EQUIPPED' : 'Tap for details') : esc(b.how)}</small>${cnt ? `<em class="bcnt">${cnt}</em>` : ''}</button>`;
     }).join('');
@@ -7850,12 +7923,14 @@
       <div class="cuprow"><div class="cuphr">${save.hr || '?'}</div><div style="min-width:0"><div class="cn">${esc(c.name)}</div>
         <div class="cm">${status}</div>
         <div class="cm">${save.hr ? `${hrLabel(save.hr)}${mine && mine.rank ? ` · team #${mine.rank}` : ''}${save.cupMine && save.cupMine.week === w.id ? ` · your best ${save.cupMine.strokes}(${fmtRel(save.cupMine.rel)})` : ''}` : 'Pick your homeroom to play for your team'}</div></div></div>
-      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? '<button class="main sm" data-cupplay="1">Play cup round ›</button>' : ''}<button class="ghost sm" data-cupgo="1">Standings ›</button></div></div>`;
+      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? (cupLiveSaved() ? `<button class="main sm" data-cupplay="1">▶ Continue match (Hole ${save.live.next + 1})</button>` : '<button class="main sm" data-cupplay="1">Play cup round ›</button>') : ''}<button class="ghost sm" data-cupgo="1">Standings ›</button></div></div>`;
   }
+  const cupLiveSaved = () => !!(save.live && save.live.cup && save.live.cup === cupWeek().id && liveCourse());
   function playCup() {
     const w = cupWeek();
     if (!save.hr) { setTab('cup'); return; }
     if (w.phase !== 'live') { alert('The Homeroom Cup is locked until Monday 7:00 AM. You can still play the course for practice from the course list.'); return; }
+    if (cupLiveSaved()) { showLive(); return; }   // a cup round was cut off by a reload: offer to continue it
     startRound(cupCourse());
   }
 
@@ -7897,7 +7972,7 @@
         <div class="spclock">${ico('clock')}<b>${big}</b><span>${sub}</span></div></div>
       ${frozen ? '<div class="spnote">Showing a past week. <button class="linkBtn" data-cuplive="1">Back to this week</button></div>' : ''}
       ${save.hr ? '' : `<div class="sppick"><div class="sph">Pick your homeroom</div>${hrPicker('', 'myhr')}<div class="spsmall">Pick carefully: it can't be changed later.</div></div>`}
-      <div class="spbar">${!frozen && w.phase === 'live' ? '<button class="main sm" data-cupplay="1">Play cup round ›</button>' : ''}${save.hr ? `<span class="spme"><i>${save.hr}</i>Your homeroom ${ico('lock')}</span>` : ''}</div>
+      <div class="spbar">${!frozen && w.phase === 'live' ? (cupLiveSaved() ? `<button class="main sm" data-cupplay="1">▶ Continue match (Hole ${save.live.next + 1})</button>` : '<button class="main sm" data-cupplay="1">Play cup round ›</button>') : ''}${save.hr ? `<span class="spme"><i>${save.hr}</i>Your homeroom ${ico('lock')}</span>` : ''}</div>
       <div class="spprize"><div><b>${money(CUP_PAY[0])}</b><span>every member · 1st place</span></div><div><b>${money(CUP_PAY[1])}</b><span>every member · 2nd</span></div>
         <div><b>${money(CUP_PAY[2])}</b><span>every member · 3rd</span></div><div><b>${money(CUP_MVP_PAY)}</b><span>best member in every other homeroom</span></div></div>
       <details class="sphow"><summary>How it works</summary><p>Your best full 18-hole round on this week's course (Monday 7:00 AM to Friday 2:40 PM) is your official score. Each homeroom's ${CUP_MAX} lowest scores make its team average and the lowest average wins. A homeroom needs ${CUP_MIN} members to qualify. Prizes are paid when the winner is announced Friday at 2:42 PM (the next time you open the game).</p></details>
@@ -7922,8 +7997,9 @@
     } else {
       const t = res.teams.find(x => x.hr === cupHr) || res.teams[0];
       loadHrCounts();
+      registerHr();
       done(hrPicker(t.hr, 'cuphr', true) + hrHeader(t, res, !!frozen) + cupBoardRows(t, !!frozen)
-        + '<div class="spsmall">Ties go to whoever posted the score first, then by member ID, so the scoring 20 can\'t be gamed.</div>');
+        + '<div class="spsmall">Ties go to whoever posted the score first, then by member ID, so the scoring 20 can\'t be gamed.</div>' + (frozen ? '' : hrListHtml(t.hr)));
     }
   }
   function pastHtml() {
@@ -7944,6 +8020,7 @@
     if (b.dataset.cupback) { cupFrozen = null; setTab('play'); return; }
     if (b.dataset.cuplive) { cupFrozen = null; cupView = 'teams'; renderCup(); return; }
     if (b.dataset.cv) { if (b.dataset.cv === 'past') cupFrozen = null; cupView = b.dataset.cv; renderCup(); return; }
+    if (b.dataset.hrlist) { loadHrList(b.dataset.hrlist); return; }
     if (b.dataset.cuphr) { cupHr = b.dataset.cuphr; cupView = 'hr'; renderCup(); return; }
     if (b.dataset.myhr) { setHomeroom(b.dataset.myhr); cupHr = save.hr; cupView = 'hr'; renderCup(); return; }
     if (b.dataset.cupplay) { playCup(); return; }
@@ -7960,14 +8037,40 @@
     return hrCounts;
   }
   async function registerHr() {
-    const u = meUser(); if (!u || !fbDb || !save.hr || save.hrReg === u.uid + ':' + save.hr) return;
+    const u = meUser(), nm = boardName(); if (!u || !fbDb || !save.hr || banned() || save.hrReg === u.uid + ':' + save.hr && save.hrRegN === nm) return;
     const who = fbDb.collection('hrMembers').doc(save.hr).collection('who').doc(u.uid), cnt = fbDb.collection('meta').doc('hrCounts');
     try {
-      if (!(await who.get()).exists) { const b = fbDb.batch(); b.set(who, { at: Date.now() }); b.set(cnt, { [save.hr]: firebase.firestore.FieldValue.increment(1) }, { merge: true }); await b.commit(); }
-      save.hrReg = u.uid + ':' + save.hr; persist(); loadHrCounts(true);
+      const got = await who.get();
+      if (!got.exists) { const b = fbDb.batch(); b.set(who, { at: Date.now(), name: nm }); b.set(cnt, { [save.hr]: firebase.firestore.FieldValue.increment(1) }, { merge: true }); await b.commit(); }
+      else if (got.data().name !== nm) await who.set({ name: nm }, { merge: true });   // (update 2.5) the members list shows names
+      save.hrReg = u.uid + ':' + save.hr; save.hrRegN = nm; persist(); loadHrCounts(true); delete hrList[save.hr];
     } catch (e) {}
   }
   const hrMembers = hr => hrCounts ? (hrCounts[hr] | 0) : null;
+  // (update 2.5) the full members list of a homeroom, loaded when you tap "Show all members"
+  const hrList = {};
+  async function loadHrList(hr) {
+    if (!fbDb) return;
+    hrList[hr] = { loading: true };
+    if (tab === 'cup') renderCup();
+    try {
+      const snap = await fbDb.collection('hrMembers').doc(hr).collection('who').limit(1000).get();
+      const rows = snap.docs.map(d => ({ uid: d.id, n: (d.data().name || '').trim(), at: d.data().at || 0 })).filter(r => !bannedSet.has(r.uid));
+      rows.sort((a, b) => (!a.n - !b.n) || a.n.localeCompare(b.n) || a.at - b.at);
+      hrList[hr] = { rows, at: Date.now() };
+    } catch (e) { hrList[hr] = { err: true }; }
+    if (tab === 'cup') renderCup();
+  }
+  function hrListHtml(hr) {
+    const L = hrList[hr], n = hrMembers(hr);
+    if (!L) return `<div class="hrlistb"><button class="main sm" data-hrlist="${hr}">${ico('users')} Show all members${n == null ? '' : ' (' + n + ')'}</button></div>`;
+    if (L.loading) return '<div class="empty">Loading members…</div>';
+    if (L.err) return `<div class="empty">Couldn't load the members. <button class="linkBtn" data-hrlist="${hr}">Try again</button></div>`;
+    if (!L.rows.length) return `<div class="empty">No members in ${hrLabel(hr)} yet.</div>`;
+    return `<div class="sect" style="margin-top:12px;display:flex;justify-content:space-between">ALL MEMBERS · ${hrLabel(hr)}<span>${membersTxt(L.rows.length)}</span></div>
+      <div class="hrlist">${L.rows.map((r, i) => `<div class="${r.uid === meUid() ? 'me' : ''}"><i>${i + 1}</i>${esc(r.n || 'Member')}${r.uid === meUid() ? ' <b>(you)</b>' : ''}</div>`).join('')}</div>
+      <div class="hrlistb"><button class="ghost sm" data-hrlist="${hr}">Refresh</button></div>`;
+  }
   const membersTxt = n => `${n} member${n === 1 ? '' : 's'}`;
   function setHomeroom(h) {
     if (!HOMEROOMS.includes(h) || save.hr) return;
@@ -8162,7 +8265,7 @@
           <div class="gnote" style="margin:8px 0 0">${dir.rows.length.toLocaleString()} golfers in the list${admNote ? ' · ' + admNote : ''} · <button class="linkbtn" data-adm-refresh="1">Refresh list</button></div>
           <div class="mplist" style="margin-top:10px">${admFound == null ? '<div class="empty">Type any part of a name to give them Creator\'s Pick or ban them.</div>'
             : rows.length ? rows.map(p => `<div class="mpli"><div class="nm"><b>${admGifted[p.uid] ? '🎁 ' : ''}${esc(p.name || 'Golfer')}</b><small>${p.g ? 'Code' : 'Guest'} · ${p.at ? 'joined ' + fmtDate(p.at) : ''} · ID ${esc(p.uid.slice(0, 6))}</small></div>
-              <button class="${admGifted[p.uid] ? 'ghost' : 'main'} sm" data-adm-gift="${p.uid}" data-n="${esc(p.name || '')}">${admGifted[p.uid] ? 'Take back 🎁' : 'Give 🎁'}</button><button class="ghost sm" data-adm-ban="${p.uid}" data-n="${esc(p.name || '')}">Ban</button></div>`).join('')
+              <button class="${admGifted[p.uid] ? 'ghost' : 'main'} sm" data-adm-gift="${p.uid}" data-n="${esc(p.name || '')}">${admGifted[p.uid] ? 'Badge 🎁 ✓' : 'Badge… 🎁'}</button><button class="ghost sm" data-adm-ban="${p.uid}" data-n="${esc(p.name || '')}">Ban</button></div>`).join('')
             : `<div class="empty">No golfers with "${esc(admQ)}" in their name.</div>`}</div>
           <div class="tnote">🎁 = Creator's Pick, for golfers who helped make the game or had a suggestion added. Everyone who has played with a name is in the list; new golfers are added when they pick a name.</div>`;
         const qi = $('admQ'); if (qi && !admQ) qi.focus();
@@ -8263,16 +8366,60 @@
         for (let i = 0; i < dels.length; i += 400) { const batch = fbDb.batch(); dels.slice(i, i + 400).forEach(x => batch.delete(x.ref)); await batch.commit(); }
       }
       else if (d.admDel) { if (!confirm('Remove this score from the board?')) return; await scoresRef(admCid, admMode === 'daily' ? etDay() : null).doc(d.admDel).delete(); tourCache = null; }
-      else if (d.admGift) {
-        const ref = fbDb.collection('gifts').doc(d.admGift), has = (await ref.get()).exists;
-        if (has) { if (confirm(`Take back ${d.n}'s Creator's Pick badge?`)) await ref.delete(); }
-        else if (confirm(`Give ${d.n} the 🎁 Creator's Pick badge?`)) await ref.set({ name: d.n || '', at: Date.now() });
-        admGifted[d.admGift] = !has;
-        if (admDir) { admDir.gifts = admDir.gifts.filter(u => u !== d.admGift).concat(has ? [] : [d.admGift]); try { localStorage.setItem(DIR_KEY, JSON.stringify(admDir)); } catch (e) {} }
-      } else return;
+      else if (d.admGift) { openGiftMenu(d.admGift, d.n || ''); return; }
+      else return;
     } catch (err) { alert('That didn\'t work: ' + (err.code || err.message)); }
     boardCache.clear(); renderAdmin();
   });
+  // (update 2.5) the creator badge menu: a few ready-made badges or a custom one (all count as Creator's Pick)
+  let giftFor = null;
+  async function openGiftMenu(uid, name) {
+    if (!isCreator() || !fbDb) return;
+    giftFor = { uid, name, kind: 'helper', has: false, label: '', icon: '' };
+    try {
+      const g = await fbDb.collection('gifts').doc(uid).get();
+      if (g.exists) { giftFor.has = true; giftFor.kind = g.data().kind || 'helper';
+        if (giftFor.kind === 'custom') { const gi = await fbDb.collection('giftInfo').doc(uid).get(); if (gi.exists) { giftFor.label = gi.data().label || ''; giftFor.icon = gi.data().icon || ''; } } }
+    } catch (e) {}
+    renderGiftMenu(); $('giftOv').classList.remove('hidden');
+  }
+  function renderGiftMenu() {
+    const g = giftFor;
+    $('giftTitle').textContent = `${g.has ? 'Change' : 'Give'} a creator badge: ${g.name || 'Member'}`;
+    $('giftBody').innerHTML = `<div class="sub">Every one of these counts as a 🎁 Creator's Pick in the badge section. Only ${esc(g.name || 'the member')} sees the unique badge.</div>
+      <div class="giftgrid">${GIFT_KINDS.map(k => `<button data-gk="${k.id}" class="${g.kind === k.id ? 'on' : ''}"><span>${k.icon}</span><b>${k.name}</b></button>`).join('')}
+        <button data-gk="custom" class="${g.kind === 'custom' ? 'on' : ''}"><span>${esc(g.icon || '✨')}</span><b>Custom…</b></button></div>
+      ${g.kind === 'custom' ? `<div class="sub" style="text-align:left">Custom creator badge (only the member sees this):</div>
+        <div class="giftcus"><input class="ic" id="giftIc" maxlength="4" placeholder="✨" value="${esc(g.icon)}"><input id="giftLb" maxlength="30" placeholder="Badge name" value="${esc(g.label)}"></div>` : ''}`;
+    $('giftTake').style.display = g.has ? '' : 'none';
+    $('giftOk').textContent = g.has ? 'Save badge' : 'Give badge';
+  }
+  $('giftBody').addEventListener('input', e => { if (!giftFor) return; if (e.target.id === 'giftIc') giftFor.icon = e.target.value; if (e.target.id === 'giftLb') giftFor.label = e.target.value; });
+  $('giftBody').addEventListener('keydown', e => e.stopPropagation());
+  $('giftBody').addEventListener('click', e => { const b = e.target.closest('[data-gk]'); if (!b || !giftFor) return; ensureAudio(); sfx.click(); giftFor.kind = b.dataset.gk; renderGiftMenu(); if (giftFor.kind === 'custom') setTimeout(() => $('giftLb') && $('giftLb').focus(), 0); });
+  const giftDone = has => {
+    admGifted[giftFor.uid] = has;
+    if (admDir) { admDir.gifts = admDir.gifts.filter(u => u !== giftFor.uid).concat(has ? [giftFor.uid] : []); try { localStorage.setItem(DIR_KEY, JSON.stringify(admDir)); } catch (e) {} }
+    $('giftOv').classList.add('hidden'); giftFor = null; badgeCounts = null; badgeCountAt = 0; boardCache.clear(); renderAdmin();
+  };
+  $('giftOk').addEventListener('click', async () => {
+    ensureAudio(); sfx.click(); const g = giftFor; if (!g) return;
+    const label = g.label.trim().slice(0, 30), icon = g.icon.trim().slice(0, 8) || '✨';
+    if (g.kind === 'custom' && !label) { alert('Give the custom badge a name.'); return; }
+    try {
+      const b = fbDb.batch();
+      b.set(fbDb.collection('gifts').doc(g.uid), { name: g.name, at: Date.now(), kind: g.kind });
+      if (g.kind === 'custom') b.set(fbDb.collection('giftInfo').doc(g.uid), { label, icon, at: Date.now() });
+      else b.delete(fbDb.collection('giftInfo').doc(g.uid));
+      await b.commit(); giftDone(true);
+    } catch (err) { alert('That didn\'t work: ' + (err.code || err.message)); }
+  });
+  $('giftTake').addEventListener('click', async () => {
+    ensureAudio(); sfx.click(); const g = giftFor; if (!g || !confirm(`Take back ${g.name || 'this member'}'s creator badge?`)) return;
+    try { const b = fbDb.batch(); b.delete(fbDb.collection('gifts').doc(g.uid)); b.delete(fbDb.collection('giftInfo').doc(g.uid)); await b.commit(); giftDone(false); }
+    catch (err) { alert('That didn\'t work: ' + (err.code || err.message)); }
+  });
+  $('giftNo').addEventListener('click', () => { ensureAudio(); sfx.click(); $('giftOv').classList.add('hidden'); giftFor = null; });
   $('acClose').addEventListener('click', () => { ensureAudio(); sfx.click(); $('admCardsOv').classList.add('hidden'); });
   $('acBody').addEventListener('click', e => { const b = e.target.closest('[data-allcards]'); if (b && isCreator()) { ensureAudio(); sfx.click(); admCards(b.dataset.allcards, b.dataset.n); } });
   $('admCardsOv').addEventListener('click', e => { if (e.target.id === 'admCardsOv') $('admCardsOv').classList.add('hidden'); });
@@ -8281,7 +8428,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.10.29', NEWS_NUM = '2.4';
+  const NEWS_VER = '2026.10.29b', NEWS_NUM = '2.5';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -8322,6 +8469,14 @@
     ['🎨', '<b>Every gold button looks the same</b> now, and the welcome screen points you to 3C, the daily challenges and the Homeroom Cup.'],
   ];
   const NEWS = [
+    ['school', '<b>Continue match:</b> if the site reloads in the middle of a Homeroom Cup round, tap <b>Continue match</b> to pick up on the next hole.'],
+    ['users', '<b>All members:</b> in the Homeroom Cup, open Homerooms and tap <b>Show all members</b> to see everyone in each homeroom.'],
+    ['lock', '<b>Stay signed in:</b> your member code signs you back in by itself after a reload. Write your code down (or take a screenshot) so your progress is never lost.'],
+    ['battery', '<b>Low battery mode</b> now keeps the teachers still too. Tap LOW BATTERY at the top to turn it on.'],
+    ['flag', '<b>Smoother camera:</b> a smaller, quicker move after every shot. Mini golf hole 17 (The Slalom) has been rebuilt.'],
+    ['star', '<b>New creator badges:</b> the creator can now give a few different badges, plus custom ones.'],
+  ];
+  const NEWS_24 = [
     ['school', '<b>Spirit Day Homeroom Cup prizes:</b> every member in the 1st, 2nd and 3rd place homerooms gets $2,500, $1,500 or $750, and the best member in every other homeroom gets $750. The cup screen has a whole new look.'],
     ['battery', '<b>Battery saver</b> (Golfer tab): 30 fps, no shadows, no camera fly-ins (it cuts straight to your golfer) and a still home screen.'],
     ['flag', '<b>Divots:</b> irons and wedges take a strip of turf. Every hole on a course page has an <b>Aerial</b> button.'],
@@ -8330,7 +8485,8 @@
     ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
   ];
   const UPDATES = [
-    ['2.4', 'Oct 29, 2026', NEWS.map(n => n[1])],
+    ['2.5', 'Oct 29, 2026', NEWS.map(n => n[1])],
+    ['2.4', 'Oct 29, 2026', NEWS_24.map(n => n[1])],
     ['2.3', 'Oct 28, 2026', NEWS_23.map(n => n[1])],
     ['2.2', 'Oct 28, 2026', NEWS_22.map(n => n[1])],
     ['2.1', 'Oct 27, 2026', NEWS_21.map(n => n[1])],
@@ -8383,10 +8539,22 @@
   $('updClose').addEventListener('click', () => { ensureAudio(); sfx.click(); $('updPop').classList.add('hidden'); setTimeout(firstName, 300); });
   // (update 2.4) no name yet? Right after the welcome and the update notes, ask for one (it's what shows on every leaderboard)
   function firstName() {
-    if (!needsName() || inRound() || !$('nameAsk').classList.contains('hidden') || popOpen() || !$('updPop').classList.contains('hidden') || !$('liveOv').classList.contains('hidden')) return;
+    if (inRound() || !$('nameAsk').classList.contains('hidden') || popOpen() || !$('updPop').classList.contains('hidden') || !$('liveOv').classList.contains('hidden')) return;
+    if (!needsName()) { suggestSaver(); return; }
     $('naOk').textContent = 'Save';
-    askName('Pick the name everyone will see on the leaderboards and in the Homeroom Cup.').then(() => { $('naOk').textContent = 'Save & post'; });
+    askName('Pick the name everyone will see on the leaderboards and in the Homeroom Cup.').then(() => { $('naOk').textContent = 'Save & post'; setTimeout(suggestSaver, 700); });
   }
+  // (update 2.5) once per golfer: suggest low battery mode (most members play on school iPads)
+  function suggestSaver() {
+    save.ui = save.ui || {};
+    if (SAVER || save.ui.batAsked || inRound() || popOpen() || !$('nameAsk').classList.contains('hidden') || !$('liveOv').classList.contains('hidden')) return;
+    save.ui.batAsked = 1; persist();
+    $('tipTitle').textContent = 'Try low battery mode';
+    $('tipBody').innerHTML = `Playing on an iPad or Chromebook? <b>Low battery mode</b> makes the game use a lot less battery: 30 fps, no shadows, no camera fly-ins and no confetti. Your progress stays the same.<div class="btns" style="margin-top:12px"><button class="main" data-baton="1">${ico('battery')} Turn it on</button></div><div class="gnote">You can turn it on or off any time with the LOW BATTERY button at the top.</div>`;
+    $('tipOk').textContent = 'Not now'; $('tipOk').className = 'ghost';
+    $('tipPop').classList.remove('hidden');
+  }
+  document.addEventListener('click', e => { if (e.target.closest && e.target.closest('[data-baton]')) { ensureAudio(); sfx.click(); $('tipPop').classList.add('hidden'); $('tipOk').textContent = 'Got it'; setSaver(true, true); } });
   document.addEventListener('click', e => { if (e.target.closest && e.target.closest('[data-updates]')) { ensureAudio(); sfx.click(); showUpdates(); } });
   const TIPS = {
     clubs: ['Upgrade your clubs', 'Spend your winnings here to <b>upgrade your clubs</b>: more <b>Power</b> to hit it farther, more <b>Accuracy</b> for a bigger gold zone, and more <b>Control</b> for a steadier swing. You can buy brand new clubs too.'],
@@ -8398,10 +8566,11 @@
   function showTip(k) {
     try { if (!save.tips || save.tips[k] || popOpen() || !TIPS[k]) return; } catch (e) { return; }   // (setTab can run before the tips are set up)
     save.tips[k] = 1; persist();
-    $('tipTitle').textContent = TIPS[k][0]; $('tipBody').innerHTML = TIPS[k][1];
+    $('tipTitle').textContent = TIPS[k][0]; $('tipBody').innerHTML = TIPS[k][1]; $('tipOk').textContent = tipOkTxt;
     $('tipPop').classList.remove('hidden');
   }
-  $('tipOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('tipPop').classList.add('hidden'); });
+  const tipOkTxt = $('tipOk').textContent;
+  $('tipOk').addEventListener('click', () => { ensureAudio(); sfx.click(); $('tipPop').classList.add('hidden'); setTimeout(() => { $('tipOk').textContent = tipOkTxt; $('tipOk').className = 'main'; }, 300); });
   function showNews() {
     $('newsList').innerHTML = NEWS.map(([i, t]) => `<li><span class="ni">${ICONS[i] ? ico(i) : i}</span><span>${t}</span></li>`).join('');
     $('newsNum').textContent = `Update ${NEWS_NUM}`;
