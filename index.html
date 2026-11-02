@@ -144,6 +144,36 @@
   .bag .by{font:700 20px Oswald,sans-serif;margin-top:4px}
   .bag .by small{font-size:11px;color:#f3d7a8;margin-left:2px}
 
+  /* ---------- Phones only (narrower than 600px, or a phone turned sideways: under 500px tall). iPad and computer layouts don't change. ---------- */
+  @media (max-width:600px), (max-height:500px) {
+    .top{padding:calc(env(safe-area-inset-top) + 5px) 6px 5px;gap:2px}
+    .brandbar{font-size:13px;margin-bottom:3px;letter-spacing:.1em}
+    .stat .l{font-size:8px;letter-spacing:.05em}
+    .stat .v{font-size:17px;margin-top:2px}
+    #windV{font-size:14px} #windArrow{width:15px;height:15px}
+    .pill{top:calc(env(safe-area-inset-top) + 62px);height:30px;padding:0 10px;font-size:11px}
+    #viewBtn{right:8px} #exitBtn{left:8px}
+    #aerBtn{left:8px;top:calc(env(safe-area-inset-top) + 98px)}
+    #pinBox{top:calc(env(safe-area-inset-top) + 62px);padding:4px 10px;font-size:13px}
+    #moBox{top:calc(env(safe-area-inset-top) + 94px)}
+    body #mpBar{top:calc(env(safe-area-inset-top) + 98px)}
+    #side{top:calc(env(safe-area-inset-top) + 98px);right:8px;transform:scale(.7);transform-origin:top right}
+    #rating{top:calc(env(safe-area-inset-top) + 104px);font-size:22px}
+    #banner .t{font-size:32px}
+    #banner .s{font-size:12px}
+    #bar{right:10px;bottom:calc(env(safe-area-inset-bottom) + 10px);transform:scale(.8);transform-origin:bottom right}
+    #nudge{left:10px;bottom:calc(env(safe-area-inset-bottom) + 10px);transform:scale(.82);transform-origin:bottom left}
+    .bag{gap:6px} .bag button{padding:8px 2px} .bag .by{font-size:17px}
+  }
+  @media (max-height:500px) {   /* phone sideways: the map panel gets even smaller so it doesn't cover the hole */
+    .brandbar{display:none}
+    .pill,#pinBox{top:calc(env(safe-area-inset-top) + 44px)}
+    #aerBtn,#side,body #mpBar{top:calc(env(safe-area-inset-top) + 80px)}
+    #moBox{top:calc(env(safe-area-inset-top) + 76px)}
+    #rating{top:calc(env(safe-area-inset-top) + 84px)}
+    #side{transform:scale(.55)}
+  }
+
   /* ---------- Home screen ---------- */
   .screen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;
           background:linear-gradient(180deg,rgba(45,4,10,.3) 0%,rgba(45,4,10,.7) 32%,rgba(35,3,8,.93) 100%)}
@@ -435,6 +465,8 @@
   button.linkBtn{background:none;border:0;padding:0;color:#f3d7a8;opacity:.75;text-decoration:underline;font:600 11px Inter,sans-serif;cursor:pointer}
   .acctCard{margin:14px 2px 0;padding:12px 14px;border-radius:14px;background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.45)}
   .acctCard .an{font:700 18px Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em}
+  .sugCard{margin:10px 2px 0;padding:10px 14px;border-radius:14px;background:rgba(30,3,8,.6);border:1px dashed rgba(242,193,78,.5);font-size:12.5px;line-height:1.45;color:#f3d7a8}
+  .sugCard b{color:var(--gold-l)}
   .acctCard .am{font-size:12px;color:#f3d7a8;margin:3px 0 10px;word-break:break-word}
   .ctpLb{margin-top:10px}
   .ctpLb .board td,.ctpLb .board th{padding:6px 10px}
@@ -1317,14 +1349,14 @@
   const SLOTS = ['Driver', 'Fairway wood', 'Long iron', 'Mid iron', 'Short iron', 'Wedge', 'Scoring wedge', 'Putter'];
   const MODELS = [
     { id: 'driver', slot: 0, col: '#1d1d22', name: 'Driver', short: 'DR', price: 0, carry: 240, roll: 0.12, loft: 24, spread: 3.2, speed: 1.25, zone: 0.09, curve: 1.1,
-      desc: 'The starter driver. Long, with an average needle.' },
-    { id: 'titan', slot: 0, col: '#8a1222', name: 'Titan Driver', short: 'TD', price: 1500, carry: 262, roll: 0.14, loft: 22, spread: 3.6, speed: 1.5, zone: 0.075, curve: 1.3,
-      desc: 'Most power in the game. Fast needle, small gold zone and wild misses.' },
-    { id: 'laser', slot: 0, col: '#1f6fd1', name: 'Laser Driver', short: 'LD', price: 1100, carry: 245, roll: 0.11, loft: 25, spread: 2.4, speed: 1.05, zone: 0.12, curve: 0.75,
-      desc: 'Fairway finder. Slower needle, bigger gold zone, misses curve less.' },
+      desc: 'The starter driver: good length, a medium-fast needle and normal misses.' },
+    { id: 'titan', slot: 0, col: '#8a1222', name: 'Titan Driver', short: 'TD', price: 6000, carry: 262, roll: 0.14, loft: 22, spread: 3.6, speed: 1.5, zone: 0.075, curve: 1.3,
+      desc: 'Raw power: 22 yds past the starter, but a fast needle, a small gold zone and wild misses.' },
+    { id: 'laser', slot: 0, col: '#1f6fd1', name: 'Laser Driver', short: 'LD', price: 2000, carry: 245, roll: 0.11, loft: 25, spread: 2.4, speed: 1.05, zone: 0.12, curve: 0.75,
+      desc: 'Fairway finder: 5 yds past the starter with a slower needle, a bigger gold zone and smaller misses.' },
     { id: 'wood3', slot: 1, name: '3 Wood', short: '3W', price: 0, carry: 215, roll: 0.10, loft: 26, spread: 2.9, speed: 1.15, zone: 0.09, curve: 1.0,
       desc: 'Second-longest club. Safer than the driver on tight holes.' },
-    { id: 'hybrid', slot: 1, name: 'Rescue Hybrid', short: 'HY', price: 800, carry: 205, roll: 0.08, loft: 30, spread: 2.4, speed: 1.0, zone: 0.11, curve: 0.8, rough: 0.95,
+    { id: 'hybrid', slot: 1, name: 'Rescue Hybrid', short: 'HY', price: 1000, carry: 205, roll: 0.08, loft: 30, spread: 2.4, speed: 1.0, zone: 0.11, curve: 0.8, rough: 0.95,
       desc: 'Cuts through rough: keeps 95% of its distance (most clubs keep 85%).' },
     { id: 'iron4', slot: 2, name: '4 Iron', short: '4i', price: 0, carry: 195, roll: 0.08, loft: 28, spread: 2.7, speed: 1.1, zone: 0.085, curve: 0.95,
       desc: 'Long approach shots and par 3s.' },
@@ -1332,11 +1364,11 @@
       desc: 'A tour iron: longer and straighter, but the timing is tough.' },
     { id: 'iron6', slot: 3, name: '6 Iron', short: '6i', price: 0, carry: 170, roll: 0.06, loft: 30, spread: 2.5, speed: 1.0, zone: 0.095, curve: 0.8,
       desc: 'The all-round mid iron.' },
-    { id: 'forged6', slot: 3, name: 'Forged 6 Iron', short: 'F6', price: 600, carry: 176, roll: 0.06, loft: 31, spread: 2.2, speed: 0.95, zone: 0.11, curve: 0.7,
+    { id: 'forged6', slot: 3, name: 'Forged 6 Iron', short: 'F6', price: 1500, carry: 176, roll: 0.06, loft: 31, spread: 2.2, speed: 0.95, zone: 0.11, curve: 0.7,
       desc: 'A little longer and a lot more forgiving.' },
     { id: 'iron8', slot: 4, name: '8 Iron', short: '8i', price: 0, carry: 145, roll: 0.05, loft: 33, spread: 2.2, speed: 0.95, zone: 0.10, curve: 0.65,
       desc: 'High, soft shots into the green.' },
-    { id: 'forged8', slot: 4, name: 'Forged 8 Iron', short: 'F8', price: 600, carry: 151, roll: 0.04, loft: 34, spread: 2.0, speed: 0.9, zone: 0.115, curve: 0.55, spin: 0.1,
+    { id: 'forged8', slot: 4, name: 'Forged 8 Iron', short: 'F8', price: 1500, carry: 151, roll: 0.04, loft: 34, spread: 2.0, speed: 0.9, zone: 0.115, curve: 0.55, spin: 0.1,
       desc: 'Extra spin so approach shots stop near where they land.' },
     { id: 'pw', slot: 5, name: 'Pitching Wedge', short: 'PW', price: 0, carry: 120, roll: 0.03, loft: 36, spread: 2.0, speed: 0.9, zone: 0.105, curve: 0.5, spin: 0.05,
       desc: 'Full wedge shots and long chips.' },
@@ -1353,26 +1385,26 @@
     { id: 'longputt', slot: 7, name: 'Long Putter', short: 'LP', price: 900, carry: 42, putter: true, spread: 1, speed: 0.7, zone: 0.13,
       desc: 'Reaches 42 yds for long lag putts across big greens.' },
     // ---- more models (pricier, for players with money to spend) ----
-    { id: 'minidr', slot: 0, col: '#2f8f5a', name: 'Mini Driver', short: 'MD', price: 2500, carry: 230, roll: 0.1, loft: 25, spread: 2.2, speed: 0.98, zone: 0.125, curve: 0.7,
-      desc: 'A smaller head: 10 yds shorter than the starter, but easy to time and it misses small.' },
+    { id: 'minidr', slot: 0, col: '#2f8f5a', name: 'Mini Driver', short: 'MD', price: 1000, carry: 230, roll: 0.1, loft: 25, spread: 2.2, speed: 0.98, zone: 0.125, curve: 0.7,
+      desc: 'A smaller head: 10 yds shorter than the starter, but the easiest driver to time and the straightest misses.' },
     { id: 'thunder', slot: 0, col: '#ffd21f', name: 'Thunder Driver', short: 'TH', price: 12000, carry: 270, roll: 0.13, loft: 21, spread: 3.9, speed: 1.62, zone: 0.068, curve: 1.4,
-      desc: 'The longest club in the game. Lightning-fast needle and a tiny gold zone: only for pure strikers.' },
-    { id: 'tourdr', slot: 0, col: '#eeeeea', name: 'Tour Pro Driver', short: 'TP', price: 25000, carry: 256, roll: 0.12, loft: 23, spread: 2.5, speed: 1.15, zone: 0.105, curve: 0.8,
-      desc: 'The best all-round driver: long, forgiving and straight. Priced like it.' },
-    { id: 'wood5', slot: 1, name: '5 Wood', short: '5W', price: 1200, carry: 200, roll: 0.08, loft: 29, spread: 2.5, speed: 1.0, zone: 0.11, curve: 0.8,
-      desc: 'Higher and softer than the 3 wood. Easy to hit off the fairway.' },
+      desc: 'The longest club in the game: 30 yds past the starter. Lightning-fast needle and a tiny gold zone, only for pure strikers.' },
+    { id: 'tourdr', slot: 0, col: '#eeeeea', name: 'Tour Pro Driver', short: 'TP', price: 25000, carry: 260, roll: 0.12, loft: 23, spread: 2.4, speed: 1.1, zone: 0.11, curve: 0.75,
+      desc: 'The best all-round driver: 20 yds past the starter with almost Laser-level timing and accuracy. Priced like it.' },
+    { id: 'wood5', slot: 1, name: '5 Wood', short: '5W', price: 500, carry: 200, roll: 0.08, loft: 29, spread: 2.5, speed: 1.0, zone: 0.11, curve: 0.8,
+      desc: 'Higher and softer than the 3 Wood: 15 yds shorter, but a slower needle and a bigger gold zone.' },
     { id: 'tour3w', slot: 1, name: 'Tour 3 Wood', short: 'T3', price: 6000, carry: 226, roll: 0.1, loft: 25, spread: 2.6, speed: 1.25, zone: 0.085, curve: 0.95,
       desc: 'Almost driver length off the deck, with a faster needle.' },
     { id: 'iron3', slot: 2, name: '3 Iron', short: '3i', price: 1500, carry: 205, roll: 0.08, loft: 26, spread: 2.9, speed: 1.25, zone: 0.075, curve: 1.0,
       desc: 'Long and low. Hard to time, but it bores through the wind.' },
     { id: 'diron', slot: 2, name: 'Driving Iron', short: 'DI', price: 8000, carry: 212, roll: 0.1, loft: 22, spread: 2.3, speed: 1.3, zone: 0.08, curve: 0.85, rough: 0.9,
       desc: 'A stinger off the tee on tight holes. Keeps 90% of its distance from the rough.' },
-    { id: 'iron7', slot: 3, name: '7 Iron', short: '7i', price: 1000, carry: 160, roll: 0.06, loft: 32, spread: 2.3, speed: 0.95, zone: 0.1, curve: 0.7,
-      desc: 'A shorter, easier mid iron for in-between yardages.' },
+    { id: 'iron7', slot: 3, name: '7 Iron', short: '7i', price: 500, carry: 160, roll: 0.06, loft: 32, spread: 2.2, speed: 0.9, zone: 0.115, curve: 0.65,
+      desc: '10 yds shorter than the 6 iron, but a slower needle and a bigger gold zone.' },
     { id: 'tour6', slot: 3, name: 'Tour 6 Iron', short: 'T6', price: 7000, carry: 182, roll: 0.05, loft: 30, spread: 2.0, speed: 1.15, zone: 0.09, curve: 0.62,
       desc: 'Muscle-back blade: extra yards and the straightest misses, with a quicker needle.' },
-    { id: 'iron9', slot: 4, name: '9 Iron', short: '9i', price: 900, carry: 135, roll: 0.04, loft: 36, spread: 2.1, speed: 0.9, zone: 0.105, curve: 0.6, spin: 0.05,
-      desc: 'High, soft and easy to time.' },
+    { id: 'iron9', slot: 4, name: '9 Iron', short: '9i', price: 500, carry: 135, roll: 0.04, loft: 36, spread: 2.0, speed: 0.85, zone: 0.12, curve: 0.55, spin: 0.05,
+      desc: '10 yds shorter than the 8 iron, but high, soft and easy to time.' },
     { id: 'tour8', slot: 4, name: 'Tour 8 Iron', short: 'T8', price: 6500, carry: 156, roll: 0.03, loft: 34, spread: 1.8, speed: 1.05, zone: 0.1, curve: 0.5, spin: 0.18,
       desc: 'Tour spin: approach shots land and stop.' },
     { id: 'w50', slot: 5, name: '50° Wedge', short: '50', price: 1400, carry: 112, roll: 0.02, loft: 38, spread: 1.9, speed: 0.88, zone: 0.115, curve: 0.45, spin: 0.15,
@@ -1383,16 +1415,16 @@
       desc: 'Between the sand and lob wedges. Great out of bunkers.' },
     { id: 'w60', slot: 6, name: '60° Tour Lob', short: '60', price: 6000, carry: 62, roll: 0.01, loft: 56, spread: 1.5, speed: 0.85, zone: 0.12, curve: 0.3, spin: 0.45, sand: true,
       desc: 'Straight up, straight down. The best flop shots in the game.' },
-    { id: 'claw', slot: 7, name: 'Claw Putter', short: 'CP', price: 3500, carry: 32, putter: true, spread: 1, speed: 0.62, zone: 0.15,
-      desc: 'A steady stroke: slow needle and a wide gold zone.' },
+    { id: 'claw', slot: 7, name: 'Claw Putter', short: 'CP', price: 3500, carry: 33, putter: true, spread: 1, speed: 0.52, zone: 0.175,
+      desc: 'A steady stroke: a slower needle and wider gold zone than the Mallet.' },
     // ---- (Oct 28 2026) more variety: new models in every slot, and every driver has its own head colour ----
     { id: 'blaze', slot: 0, col: '#e2541b', name: 'Blaze Driver', short: 'BZ', price: 4000, carry: 250, roll: 0.12, loft: 23, spread: 2.9, speed: 1.2, zone: 0.1, curve: 0.95,
-      desc: 'A hot orange head: 10 yds past the starter with an easy-to-read needle.' },
+      desc: 'A hot orange head: 10 yds past the starter, and a little easier to hit in every way.' },
     { id: 'glacier', slot: 0, col: '#8fd3f4', name: 'Glacier Driver', short: 'GL', price: 9000, carry: 258, roll: 0.1, loft: 22, spread: 2.7, speed: 1.32, zone: 0.09, curve: 0.85,
-      desc: 'Ice-blue and low-spin: long, and the misses stay cool and straight.' },
+      desc: 'Ice-blue and steady: 18 yds past the starter with straighter misses than the Titan, Thunder or Phantom.' },
     { id: 'phantom', slot: 0, col: '#6a3fb5', name: 'Phantom Driver', short: 'PH', price: 18000, carry: 264, roll: 0.15, loft: 22, spread: 3.0, speed: 1.4, zone: 0.085, curve: 1.0,
-      desc: 'A purple stealth head with the most roll of any driver. Quick needle.' },
-    { id: 'wood7', slot: 1, col: '#2a3a5c', name: '7 Wood', short: '7W', price: 2500, carry: 190, roll: 0.07, loft: 32, spread: 2.2, speed: 0.95, zone: 0.12, curve: 0.7, rough: 0.9,
+      desc: 'A purple stealth head: 24 yds past the starter with the most roll of any driver, and much easier to time than the Thunder.' },
+    { id: 'wood7', slot: 1, col: '#2a3a5c', name: '7 Wood', short: '7W', price: 1500, carry: 190, roll: 0.07, loft: 32, spread: 2.2, speed: 0.95, zone: 0.12, curve: 0.7, rough: 0.9,
       desc: 'High and soft, the easiest wood in the bag. Keeps 90% from the rough.' },
     { id: 'hybrid4', slot: 2, col: '#3d4148', name: '4 Hybrid', short: '4H', price: 3000, carry: 198, roll: 0.08, loft: 29, spread: 2.3, speed: 1.0, zone: 0.11, curve: 0.75, rough: 0.95,
       desc: 'Long-iron distance that launches easily. Keeps 95% from the rough.' },
@@ -1402,11 +1434,11 @@
       desc: 'Lots of spin and pinpoint distance control into the green.' },
     { id: 'w48', slot: 5, name: '48° Wedge', short: '48', price: 3000, carry: 115, roll: 0.02, loft: 37, spread: 1.8, speed: 0.86, zone: 0.12, curve: 0.45, spin: 0.25,
       desc: 'A forgiving full-swing wedge that checks up fast.' },
-    { id: 'w58', slot: 6, name: '58° Wedge', short: '58', price: 3500, carry: 68, roll: 0.01, loft: 52, spread: 1.6, speed: 0.82, zone: 0.13, curve: 0.33, spin: 0.4, sand: true,
+    { id: 'w58', slot: 6, name: '58° Wedge', short: '58', price: 1500, carry: 68, roll: 0.01, loft: 52, spread: 1.6, speed: 0.82, zone: 0.13, curve: 0.33, spin: 0.4, sand: true,
       desc: 'Soft, high pitches and easy splashes out of the sand.' },
-    { id: 'tblade', slot: 7, name: 'Tour Blade Putter', short: 'TB', price: 6000, carry: 34, putter: true, spread: 1, speed: 0.58, zone: 0.16,
-      desc: 'A classic blade with a slow needle and a wide gold zone.' },
-    { id: 'goldputt', slot: 7, name: 'Gold Putter', short: 'GP', price: 15000, carry: 38, putter: true, spread: 1, speed: 0.5, zone: 0.19,
+    { id: 'tblade', slot: 7, name: 'Tour Blade Putter', short: 'TB', price: 6000, carry: 35, putter: true, spread: 1, speed: 0.5, zone: 0.18,
+      desc: 'A classic blade with a very slow needle, a wide gold zone and 35 yds of roll.' },
+    { id: 'goldputt', slot: 7, name: 'Gold Putter', short: 'GP', price: 15000, carry: 38, putter: true, spread: 1, speed: 0.45, zone: 0.2,
       desc: 'Solid gold. The slowest needle and widest gold zone of any putter.' },
   ];
   // Customization sale (Oct 20 2026): every outfit colour, outfit, club colour, ball line and the custom bag logo costs 30% less.
@@ -3532,7 +3564,16 @@
         const x = gcx + pos.getX(i), y = gcz - pos.getY(i);
         const inside = x > ox + inset && x < ox + W - inset && y > oy + inset && y < oy + Hh - inset;
         const d = Math.max(Math.abs(x - gcx) - W / 2, Math.abs(y - gcz) - Hh / 2, 0), f = sm01((d - 120) / 350);
-        pos.setZ(i, inside ? -8 : rawH(h, x, y) + (LAND - rawH(h, x, y)) * f - 0.25);
+        let z = inside ? -8 : rawH(h, x, y) + (LAND - rawH(h, x, y)) * f - 0.25;
+        // Mini golf (fix: hole 16's dip showed the countryside grass poking through the carpet around the cup).
+        // A mini course is smaller than the 15-yd tuck-in above, so the coarse land was never pushed under it. Here every
+        // land point that touches the course sits below the lowest bit of carpet/patio near it, so it can't show through.
+        if (h.mini && !inside && x > ox - 10 && x < ox + W + 10 && y > oy - 10 && y < oy + Hh + 10) {
+          let lo = Infinity;
+          for (let a = -10; a <= 10; a += 1.25) for (let c = -10; c <= 10; c += 1.25) lo = Math.min(lo, terrainH(h, x + a, y + c));
+          z = Math.min(z, lo - 0.35);
+        }
+        pos.setZ(i, z);
         cc.copy(cOut).lerp(cFar, sm01(d / 300)).multiplyScalar(0.9); col[i * 3] = cc.r; col[i * 3 + 1] = cc.g; col[i * 3 + 2] = cc.b;
       }
       lGeo.setAttribute('color', new THREE.BufferAttribute(col, 3)); lGeo.computeVertexNormals();
@@ -5232,7 +5273,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.10.29f';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.01a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5697,11 +5738,14 @@
     if (!cloud || (save.mtime || 0) > cm || !mine) { cloudSaveSoon(); } else { cloudSyncAt = Date.now(); }
     if (tab === 'golfer') renderAcct();
   }
+  // Have a suggestion? note under the profile card. Ideas that get added earn the Idea Maker creator badge.
+  const SUGGEST_HTML = '<div class="sugCard"><b>💡 Have a suggestion?</b> Find out who made the game and tell them (ask a friend if you don\'t know). '
+    + 'If your idea gets added, you get the <b>Idea Maker</b> badge for helping make Chami Golf.</div>';
   function acctHtml() {
-    if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and member codes couldn\'t load. Check your connection and reload.</div></div>';
+    if (!ONLINE) return '<div class="acctCard"><div class="an">Offline</div><div class="am">Online leaderboards and member codes couldn\'t load. Check your connection and reload.</div></div>' + SUGGEST_HTML;
     const code = myCode();
     return `<div class="acctCard"><div class="an">${ico('user')} ${esc(boardName())}${isCreator() ? ' ' + badgeHtml('creator') : ''}</div><div class="am">${code ? `Member code <b class="pcode">${fmtCode(code)}</b><br><b class="codeWarn">Write it down or screenshot it:</b> if the site gets blocked again, your code brings back all your progress.` : makingCode ? 'Making your member code…' : 'No member code yet'}${cloudReady ? `<br>Progress saved to your code${cloudSyncAt ? ` · synced ${ago(cloudSyncAt)}` : ''}` : ''}</div>
-      <button class="main sm" data-signin="1">${ico('user')} ${code ? 'My code' : 'Get my code'}</button> <button class="ghost sm" data-login="1">${ico('key')} Log in</button>${fbUser ? ` <button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>${ico('cloud')} Sync now</button>` : ''}</div>`;
+      <button class="main sm" data-signin="1">${ico('user')} ${code ? 'My code' : 'Get my code'}</button> <button class="ghost sm" data-login="1">${ico('key')} Log in</button>${fbUser ? ` <button class="ghost sm" data-cloudsync="1"${cloudReady ? '' : ' disabled'}>${ico('cloud')} Sync now</button>` : ''}</div>` + SUGGEST_HTML;
   }
   function renderAcct() {
     const b = $('acctBtn');
