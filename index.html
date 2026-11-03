@@ -466,7 +466,7 @@
   .acctCard{margin:14px 2px 0;padding:12px 14px;border-radius:14px;background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.45)}
   .acctCard .an{font:700 18px Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em}
   .besttag{display:inline-block;margin:2px 4px 1px 0;padding:1px 6px;border-radius:6px;font:800 9px/1.4 Inter,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-l);border:1px solid rgba(242,193,78,.6);background:rgba(0,0,0,.25)}
-  .valtag{display:inline-block;margin:3px 0 2px;padding:2px 8px;border-radius:999px;font:800 10px/1.4 Inter,sans-serif;letter-spacing:.04em;color:#2a1a00;background:linear-gradient(180deg,#ffe58f,#d4a017)}
+  .valtag{display:inline-block;margin:2px 0 1px;padding:1px 6px;border-radius:999px;font:800 9px/1.4 Inter,sans-serif;letter-spacing:.04em;color:#2a1a00;background:linear-gradient(180deg,#ffe58f,#d4a017)}
   .valtag.v2{background:linear-gradient(180deg,#f2f2f2,#a9adb5)} .valtag.v3{background:linear-gradient(180deg,#f0c39a,#b06a33)}
   .pausedBox{margin:10px 0;padding:10px 12px;border-radius:14px;background:rgba(242,193,78,.12);border:1px solid var(--gold);font-size:13px;color:#f3d7a8}
   .pausedBox b{color:var(--gold-l)}
@@ -1468,9 +1468,17 @@
   const CLUB_COLORS = [['Stock', '', 0], ['Black', '#1d1d22', 600], ['Gunmetal', '#53575e', 900], ['Red', '#B3122B', 1200], ['Navy', '#1f2c4d', 1200],
     ['Green', '#1f5a34', 1500], ['Copper', '#b8733a', 2000], ['White', '#f2f2ee', 2500], ['Gold', '#e5b740', 5000]].map(([n, h, p]) => [n, h, salePrice(p)]);
   const modelById = id => MODELS.find(m => m.id === id);
-  // (Nov 2 2026) the 3 drivers that are most worth the money, labelled in the shop (the driver list goes cheapest to priciest)
-  const DRIVER_VALUE = { laser: [1, 'longer and much easier to hit than the starter, for only $2,000'],
-    minidr: [2, 'the cheapest upgrade: 10 yds shorter, but the easiest driver to hit'], blaze: [3, '10 extra yds and a little easier in every way'] };
+  // (Nov 3 2026) #1 / #2 / #3 BEST VALUE in every club slot: how much better than the free starter club, per dollar.
+  // Distance counts for long clubs; wedges (short game) and putters are judged on timing, gold zone, straightness and spin.
+  const clubScore = m => m.putter ? m.carry * 0.6 - m.speed * 60 + m.zone * 400
+    : (m.slot >= 5 ? 0 : m.carry * (m.slot === 0 ? 1.6 : 1.2)) + m.carry * (m.roll || 0) * 0.5 - m.speed * 35 + m.zone * 350 - (m.curve || 0) * 20 - (m.spread || 0) * 4
+      + (m.spin || 0) * 40 + ((m.rough || 0.85) - 0.85) * 100;
+  const VALUE_RANK = {};
+  SLOTS.forEach((_, si) => {
+    const pool = MODELS.filter(m => m.slot === si), st = pool.find(m => m.price === 0); if (!st) return;
+    pool.filter(m => m.price > 0 && clubScore(m) > clubScore(st)).map(m => [m, (clubScore(m) - clubScore(st)) / Math.sqrt(m.price / 1000)])
+      .sort((a, b) => b[1] - a[1]).slice(0, 3).forEach(([m], i) => { VALUE_RANK[m.id] = i + 1; });
+  });
   const STARTER_BAG = ['driver', 'wood3', 'iron4', 'iron6', 'iron8', 'pw', 'sw', 'putter'];
   const CLUBS = [];
   const PUTTER = 7;
@@ -5326,7 +5334,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.03a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.03b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -7252,7 +7260,7 @@
           : `<button class="main sm" data-buy="${m.id}"${save.coins < m.price ? ' disabled' : ''}>${money(m.price)}</button>`;
         const dy = Math.round(m.carry * distMult(m)) - stockOf(eq);
         const diff = on ? '' : `<span class="dlt ${dy > 0 ? 'up' : dy < 0 ? 'dn' : ''}">${dy > 0 ? '+' : ''}${dy} yds</span>${m.zone > eq.zone ? '<span class="dlt up">bigger gold</span>' : m.zone < eq.zone ? '<span class="dlt dn">smaller gold</span>' : ''}${m.speed < eq.speed ? '<span class="dlt up">slower needle</span>' : m.speed > eq.speed ? '<span class="dlt dn">faster needle</span>' : ''}`;
-        return `<div class="mcard${on ? ' on' : ''}">${clubIcon(m)}<div class="mi"><div class="mn">${m.name} <small>${Math.round(m.carry * distMult(m))}${m.putter ? ' yd roll' : ' yds'}</small></div>${bestTags(m) ? `<div>${bestTags(m)}</div>` : ''}${DRIVER_VALUE[m.id] ? `<div class="valtag v${DRIVER_VALUE[m.id][0]}">#${DRIVER_VALUE[m.id][0]} BEST VALUE · ${DRIVER_VALUE[m.id][1]}</div>` : ''}<div class="md">${m.desc}</div><div>${diff}</div></div>${btn}</div>`;
+        return `<div class="mcard${on ? ' on' : ''}">${clubIcon(m)}<div class="mi"><div class="mn">${m.name} <small>${Math.round(m.carry * distMult(m))}${m.putter ? ' yd roll' : ' yds'}</small></div>${bestTags(m) ? `<div>${bestTags(m)}</div>` : ''}${VALUE_RANK[m.id] ? `<div class="valtag v${VALUE_RANK[m.id]}">#${VALUE_RANK[m.id]} BEST VALUE</div>` : ''}<div class="md">${m.desc}</div><div>${diff}</div></div>${btn}</div>`;
       }).join('');
       const curCol = clubColOf(eq);
       const cols = CLUB_COLORS.map(([n, hex, pr]) => {
