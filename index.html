@@ -465,6 +465,10 @@
   button.linkBtn{background:none;border:0;padding:0;color:#f3d7a8;opacity:.75;text-decoration:underline;font:600 11px Inter,sans-serif;cursor:pointer}
   .acctCard{margin:14px 2px 0;padding:12px 14px;border-radius:14px;background:rgba(79,7,18,.85);border:1px solid rgba(242,193,78,.45)}
   .acctCard .an{font:700 18px Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em}
+  .valtag{display:inline-block;margin:3px 0 2px;padding:2px 8px;border-radius:999px;font:800 10px/1.4 Inter,sans-serif;letter-spacing:.04em;color:#2a1a00;background:linear-gradient(180deg,#ffe58f,#d4a017)}
+  .valtag.v2{background:linear-gradient(180deg,#f2f2f2,#a9adb5)} .valtag.v3{background:linear-gradient(180deg,#f0c39a,#b06a33)}
+  .pausedBox{margin:10px 0;padding:10px 12px;border-radius:14px;background:rgba(242,193,78,.12);border:1px solid var(--gold);font-size:13px;color:#f3d7a8}
+  .pausedBox b{color:var(--gold-l)}
   .sugCard{margin:10px 2px 0;padding:10px 14px;border-radius:14px;background:rgba(30,3,8,.6);border:1px dashed rgba(242,193,78,.5);font-size:12.5px;line-height:1.45;color:#f3d7a8}
   .sugCard b{color:var(--gold-l)}
   .acctCard .am{font-size:12px;color:#f3d7a8;margin:3px 0 10px;word-break:break-word}
@@ -1122,7 +1126,21 @@
       <div id="scBody"></div>
       <div class="sclegend"><span><i class="m b2"></i>Eagle+</span><span><i class="m b1"></i>Birdie</span><span><i class="m"></i>Par</span><span><i class="m o1"></i>Bogey</span><span><i class="m o2"></i>Double+</span></div>
     </div>
-    <div class="scfoot"><div class="scnext" id="scNext"></div><button class="main" id="scGo">Next hole ▶</button></div>
+    <div class="scfoot"><div class="scnext" id="scNext"></div><button class="ghost hidden" id="scLater">Continue later</button><button class="main" id="scGo">Next hole ▶</button></div>
+  </div>
+</div>
+
+<!-- ===== Continue later (Nov 2 2026) ===== -->
+<div id="pauseOv" class="overlay hidden">
+  <div class="card" style="max-width:440px;width:calc(100% - 24px)">
+    <h2>Take a break?</h2>
+    <div class="sub" id="pauseSub"></div>
+    <div class="btns" style="flex-wrap:wrap">
+      <button class="main" id="pauseLater">Continue later</button>
+      <button class="ghost" id="pauseQuit">Quit round</button>
+      <button class="ghost" id="pauseBack">Keep playing</button>
+    </div>
+    <div class="tnote" style="margin-top:8px">A saved round waits on its course page: Continue round or Finish round. The hole you're on now starts over.</div>
   </div>
 </div>
 
@@ -1449,6 +1467,9 @@
   const CLUB_COLORS = [['Stock', '', 0], ['Black', '#1d1d22', 600], ['Gunmetal', '#53575e', 900], ['Red', '#B3122B', 1200], ['Navy', '#1f2c4d', 1200],
     ['Green', '#1f5a34', 1500], ['Copper', '#b8733a', 2000], ['White', '#f2f2ee', 2500], ['Gold', '#e5b740', 5000]].map(([n, h, p]) => [n, h, salePrice(p)]);
   const modelById = id => MODELS.find(m => m.id === id);
+  // (Nov 2 2026) the 3 drivers that are most worth the money, labelled in the shop (the driver list goes cheapest to priciest)
+  const DRIVER_VALUE = { laser: [1, 'longer and much easier to hit than the starter, for only $2,000'],
+    minidr: [2, 'the cheapest upgrade: 10 yds shorter, but the easiest driver to hit'], blaze: [3, '10 extra yds and a little easier in every way'] };
   const STARTER_BAG = ['driver', 'wood3', 'iron4', 'iron6', 'iron8', 'pw', 'sw', 'putter'];
   const CLUBS = [];
   const PUTTER = 7;
@@ -4018,6 +4039,10 @@
   $('exitBtn').addEventListener('click', () => {
     if (course.range) { if (confirm('Leave the range? You keep everything you earned.')) rangeEnd(true); return; }
     if (MP && MP.started) { if (confirm(MP.doc && MP.doc.wager ? `Leave the match? Your team forfeits and you lose your ${money(MP.doc.wager)} wager.` : 'Leave the match? Your team forfeits.')) mpQuit(); return; }
+    if (canPause() && holeIdx > 0 || canPause() && state === 'holeDone') {
+      const L = save.live, n = L && L.cid === course.id ? L.next : 0;
+      if (n) { $('pauseSub').textContent = `${course.name} · Thru ${n} of 18. Save it and finish from hole ${n + 1} later (you can play other courses meanwhile).`; $('pauseOv').classList.remove('hidden'); return; }
+    }
     if (confirm('Quit this round? Your progress on this round will be lost.')) { clearLive(); showHome(); }
   });
   // Arrow keys: left / right nudge your aim (tiny steps when putting, hold Shift for bigger ones), up / down change club.
@@ -4574,8 +4599,8 @@
       cup: cupNow ? cupWeek().id : 0, rs: rStat, rf: roundFlags };   // (update 2.5) a Homeroom Cup round can be continued after a reload
   }
   function clearLive() { if (save.live) { delete save.live; persist(); } }
-  function liveCourse() {
-    const L = save.live, c = L && (L.cid === 'mini' ? MINI : courseById(L.cid));
+  function liveCourse(L = save.live) {
+    const c = L && (L.cid === 'mini' ? MINI : courseById(L.cid));
     if (!c || !c.holes || !Array.isArray(L.scores) || !L.scores.length || L.next >= c.holes.length || L.scores.length !== L.next || !isUnlocked(c) && !c.mini && !(L.cup && L.cup === cupWeek().id)) return null;
     return c;
   }
@@ -4610,6 +4635,24 @@
       loadHole(holeIdx, true); showFinal();
     } else loadHole(L.next);
   }
+  // ---- Continue later (Nov 2 2026): an 18-hole round can be put away (at the turn, or from QUIT) and finished later.
+  // It's kept per course in save.paused; the course page then offers Continue round / Finish round. Other courses can be played meanwhile.
+  const canPause = () => !!(course && course.holes && HOLES.length === 18 && course.holes.length === 18 && !course.ctp && !course.range && !(MP && MP.started) && !roundCut);
+  const pausedFor = c => { const L = save.paused && c && save.paused[c.id]; return L && liveCourse(L) === c ? L : null; };
+  function pauseRound() {
+    const L = save.live;   // saved after every finished hole (the hole being played right now starts over) if (!L || L.cid !== course.id) { clearLive(); showHome(); return; }
+    save.paused = save.paused || {}; save.paused[course.id] = L; delete save.live; persist();
+    $('scOv').classList.add('hidden'); $('pauseOv').classList.add('hidden');
+    const c = course; showHome(); course = c; previewCourse(c); setTab('course');
+  }
+  function resumePaused(c, finish) {
+    const L = pausedFor(c); if (!L) { renderCourse(); return; }
+    delete save.paused[c.id]; save.live = L; persist(); resumeLive(finish);
+  }
+  $('scLater').addEventListener('click', () => { ensureAudio(); sfx.click(); if (canPause()) pauseRound(); });
+  $('pauseLater').addEventListener('click', () => { ensureAudio(); sfx.click(); pauseRound(); });
+  $('pauseQuit').addEventListener('click', () => { ensureAudio(); sfx.click(); $('pauseOv').classList.add('hidden'); if (confirm('Quit this round? Your progress on this round will be lost.')) { clearLive(); showHome(); } });
+  $('pauseBack').addEventListener('click', () => { ensureAudio(); sfx.click(); $('pauseOv').classList.add('hidden'); });
   $('liveGo').addEventListener('click', () => { sfx.click(); resumeLive(false); });
   $('liveFin').addEventListener('click', () => { sfx.click(); resumeLive(true); });
   $('liveQuit').addEventListener('click', () => { ensureAudio(); sfx.click(); if (!confirm('Quit this round? The holes you played won\'t count.')) return; clearLive(); $('liveOv').classList.add('hidden'); });
@@ -4648,6 +4691,9 @@
     $('scBody').innerHTML = scorecardHtml(HOLES, scores, holeIdx, false);
     const nx = HOLES[holeIdx + 1];
     $('scNext').textContent = `Next: Hole ${holeIdx + 2}${nx.name ? ' · ' + nx.name : ''} · Par ${nx.par} · ${nx.yds} yds`;
+    const turn = canPause() && holeIdx + 1 === 9;   // at the turn of an 18-hole course: take a break and finish later
+    $('scLater').classList.toggle('hidden', !turn);
+    if (turn) $('scNext').textContent = 'The turn! Keep going, or save the round and play the back 9 later. ' + $('scNext').textContent;
     $('scOv').classList.remove('hidden');
   }
   $('scGo').addEventListener('click', () => { ensureAudio(); sfx.click(); $('scOv').classList.add('hidden'); if (state === 'card') nextHole(); });
@@ -5235,6 +5281,10 @@
       <div class="cdname">${c.name}</div><div class="cddesc">${c.desc}</div>
       <div class="chips"><span><b>${c.holes.length}</b> holes</span><span>Par <b>${c.par}</b></span><span><b>${c.yds.toLocaleString()}</b> yds</span>
         ${c.mini ? '<span>Putter only</span>' : `<span>Wind up to <b>${c.wind}</b> mph</span>`}<span>Best <b>${best == null ? '—' : `${c.par + best}(${fmtRel(best)})`}</b></span><span>Played <b>${played}</b></span></div>
+      ${(() => { const P = pausedFor(c); if (!P) return ''; const tot = P.scores.reduce((t, v) => t + (v || 0), 0), par = c.holes.slice(0, P.next).reduce((t, h) => t + h.par, 0);
+        return `<div class="pausedBox"><b>Saved round</b> · Thru ${P.next} of 18 · ${tot} strokes (${fmtRel(tot - par)})${P.cup ? ' · Homeroom Cup' : ''}
+          <div class="cdbtns" style="margin:8px 0 0"><button class="main" data-pgo="1">▶ Continue round (Hole ${P.next + 1})</button><button class="ghost" data-pfin="1">Finish round</button></div>
+          <div style="font-size:11px;opacity:.75;margin-top:4px">Finish round = end it now and get paid for the holes you played (it won't go on the leaderboards).</div></div>`; })()}
       <div class="cdbtns">${open ? `<button class="main" data-tee="1">${c.mini ? 'Start mini golf' : 'Tee off'}</button>` : `<div class="lock" style="flex:1">${ico('lock')} Finish a round at ${courseById(c.unlock).name} to unlock</div>`}
         ${c.mini ? '' : '<button class="ghost" data-chclubs="1">Change clubs</button>'}</div>
       ${c.mini ? '<div style="font-size:12px;color:#f3d7a8;text-align:center">Par 41 · Max 7 strokes a hole · Payouts: 2 under $60 · 1 under (an ace on a par 2) $30 · par $10</div>'
@@ -5250,7 +5300,9 @@
     if (b.dataset.bm) { boardMode = b.dataset.bm; renderCourse(); return; }
     if (b.dataset.aerial != null) { showAerial(course, +b.dataset.aerial); return; }
     if (b.dataset.cback) setTab('play');
-    else if (b.dataset.tee) startRound(course);
+    else if (b.dataset.pgo) resumePaused(course, false);
+    else if (b.dataset.pfin) resumePaused(course, true);
+    else if (b.dataset.tee) { if (pausedFor(course) && !confirm('You have a saved round on this course. Start a new round and throw the saved one away?')) return; if (save.paused) delete save.paused[course.id]; startRound(course); }
     else if (b.dataset.chclubs) { clubsReturn = course.id; setTab('clubs'); }
   });
   function recordScore(rel, strokes) {
@@ -5273,7 +5325,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.02a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.02b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -7187,14 +7239,14 @@
           : `<button class="main sm" data-up="${eq.id}" data-k="${k}"${save.coins < cost ? ' disabled' : ''}>${money(cost)}</button>`;
         return `<div class="trk"><div class="tn"><b>${name}</b><span class="pips">${pipRow(cur)}</span><small>${cur >= MAX_LV ? 'Maxed out' : !open ? `Bring the other stats to level ${cur + 1} first` : `Next: ${what[k]()}`}</small></div>${btn}</div>`;
       }).join('');
-      const others = MODELS.filter(m => m.slot === si).map(m => {
+      const others = MODELS.filter(m => m.slot === si).sort((a, b) => a.price - b.price).map(m => {
         const own = save.owned.includes(m.id), on = m.id === eq.id;
         const btn = on ? '<span class="tagon">IN BAG</span>'
           : own ? `<button class="ghost sm" data-eq="${m.id}">Equip</button>`
           : `<button class="main sm" data-buy="${m.id}"${save.coins < m.price ? ' disabled' : ''}>${money(m.price)}</button>`;
         const dy = Math.round(m.carry * distMult(m)) - stockOf(eq);
         const diff = on ? '' : `<span class="dlt ${dy > 0 ? 'up' : dy < 0 ? 'dn' : ''}">${dy > 0 ? '+' : ''}${dy} yds</span>${m.zone > eq.zone ? '<span class="dlt up">bigger gold</span>' : m.zone < eq.zone ? '<span class="dlt dn">smaller gold</span>' : ''}${m.speed < eq.speed ? '<span class="dlt up">slower needle</span>' : m.speed > eq.speed ? '<span class="dlt dn">faster needle</span>' : ''}`;
-        return `<div class="mcard${on ? ' on' : ''}">${clubIcon(m)}<div class="mi"><div class="mn">${m.name} <small>${Math.round(m.carry * distMult(m))}${m.putter ? ' yd roll' : ' yds'}</small></div><div class="md">${m.desc}</div><div>${diff}</div></div>${btn}</div>`;
+        return `<div class="mcard${on ? ' on' : ''}">${clubIcon(m)}<div class="mi"><div class="mn">${m.name} <small>${Math.round(m.carry * distMult(m))}${m.putter ? ' yd roll' : ' yds'}</small></div>${DRIVER_VALUE[m.id] ? `<div class="valtag v${DRIVER_VALUE[m.id][0]}">#${DRIVER_VALUE[m.id][0]} BEST VALUE · ${DRIVER_VALUE[m.id][1]}</div>` : ''}<div class="md">${m.desc}</div><div>${diff}</div></div>${btn}</div>`;
       }).join('');
       const curCol = clubColOf(eq);
       const cols = CLUB_COLORS.map(([n, hex, pr]) => {
@@ -7779,7 +7831,8 @@
   // ================= Spirit Day · Weekly Homeroom Cup (Oct 28 2026) =================
   // Every week each of the 13 homerooms (A-H, J-N: there is no Homeroom I) plays for the cup on one 18-hole course.
   //  · The week runs Monday 7:00 AM to Friday 2:40 PM (Eastern). Scores lock at 2:40 PM and the winner is announced at 2:42 PM.
-  //  · Each golfer's official score is their best full 18-hole round on the cup course that week (hrcup/{week}/scores/{uid}).
+  //  · (Nov 2 2026) Each golfer's TWO best full 18-hole rounds on the cup course that week are official scores
+  //    (hrcup/{week}/scores/{uid}: strokes/rel/t = best, s2/r2/t2 = second best), so 5 golfers can get a homeroom to 10.
   //  · A homeroom's team average is the average of its 20 lowest official scores (all of them if it has 10-19).
   //    Fewer than 10 valid scores = Not Qualified (the average is only provisional and it can't win).
   //  · Ties at the cutoff (and everywhere else) are broken by who posted that score first (the server's time stamp), then
@@ -7816,13 +7869,16 @@
   // rows: [{ uid, name, hr, strokes, rel, t, att }] (one per golfer, their official best). Never changes the input order.
   function cupCalc(rows, homerooms, max, min) {
     const cmp = (a, b) => a.strokes - b.strokes || a.t - b.t || (a.uid < b.uid ? -1 : a.uid > b.uid ? 1 : 0);
+    // every golfer's second-best round is a score of its own for the team (the school-wide list stays one row per golfer)
+    const scoresOf = r => [Object.assign({}, r, { r2: undefined })].concat(Number.isInteger(r.s2) ? [Object.assign({}, r, { strokes: r.s2, rel: r.r2, t: r.t2 || r.t, second: true })] : []);
+    const cmpS = (a, b) => cmp(a, b) || (a.second ? 1 : 0) - (b.second ? 1 : 0);
     const teams = homerooms.map(hr => {
-      const list = rows.filter(r => r.hr === hr).map(r => Object.assign({}, r)).sort(cmp);
+      const mine = rows.filter(r => r.hr === hr), list = [].concat(...mine.map(scoresOf)).sort(cmpS);
       const n = list.length, filled = Math.min(max, n);
       list.forEach((r, i) => { r.hrRank = i + 1; r.counts = i < max; r.place = i > 0 && list[i - 1].strokes === r.strokes ? list[i - 1].place : i + 1;
         r.tie = (i > 0 && list[i - 1].strokes === r.strokes) || (i < n - 1 && list[i + 1].strokes === r.strokes); });
       const total = list.slice(0, filled).reduce((a, r) => a + r.strokes, 0);
-      return { hr, list, n, filled, total, avg: filled ? total / filled : null, qualified: n >= min, rank: null, diff: null };
+      return { hr, list, n, players: mine.length, filled, total, avg: filled ? total / filled : null, qualified: n >= min, rank: null, diff: null };
     });
     const byAvg = (a, b) => a.avg - b.avg || b.n - a.n || (a.hr < b.hr ? -1 : 1);
     const q = teams.filter(t => t.qualified).sort(byAvg);
@@ -7848,7 +7904,9 @@
   function cupRows(docs, w) {
     const cid = cupCourseFor(w.id).id;
     return docs.map(d => { const f = d.data ? d.data({ serverTimestamps: 'estimate' }) : d; return { uid: d.id || f.uid, name: f.name, hr: f.hr, strokes: f.strokes, rel: f.rel, att: f.att | 0, cid: f.cid,
-        t: f.t && f.t.toMillis ? f.t.toMillis() : (typeof f.t === 'number' ? f.t : 0) }; })
+        t: f.t && f.t.toMillis ? f.t.toMillis() : (typeof f.t === 'number' ? f.t : 0),
+        s2: Number.isInteger(f.s2) && f.s2 >= f.strokes ? f.s2 : undefined, r2: f.r2, t2: f.t2 && f.t2.toMillis ? f.t2.toMillis() : (typeof f.t2 === 'number' ? f.t2 : 0) }; })
+      .map(r => { if (r.s2 != null && r.t2 && (r.t2 < w.start - 120000 || r.t2 > w.lock)) r.s2 = undefined; return r; })
       .filter(r => HOMEROOMS.includes(r.hr) && Number.isInteger(r.strokes) && r.strokes >= CUP_HOLES && r.cid === cid && !bannedSet.has(r.uid)
         && (!r.t || (r.t >= w.start - 120000 && r.t >= SEASON_START && r.t <= w.lock)));
   }
@@ -7877,12 +7935,17 @@
     if (now < w.start || now >= w.lock) return { closed: true };
     const u = await ensureOnlineUser(), uid = u.uid, ref = cupRef(w.id).doc(uid);
     const snap = await ref.get(), old = snap.exists ? snap.data() : null;
-    const better = !old || entry.strokes < old.strokes;
+    // your two best rounds count: a new best pushes the old best down to second; otherwise it can replace the second best
+    const better = !old || entry.strokes < old.strokes, has2 = !!old && Number.isInteger(old.s2);
+    const second = !better && (!has2 || entry.strokes < old.s2);
     const doc = { name: boardName(), uid, hr: old && HOMEROOMS.includes(old.hr) ? old.hr : save.hr, cid: entry.cid, date: now,
       strokes: better ? entry.strokes : old.strokes, rel: better ? entry.rel : old.rel, att: old ? (old.att | 0) + 1 : 1, t: better ? serverTime() : old.t };
+    if (better && old) Object.assign(doc, { s2: old.strokes, r2: old.rel, t2: old.t });
+    else if (second) Object.assign(doc, { s2: entry.strokes, r2: entry.rel, t2: serverTime() });
+    else if (has2) Object.assign(doc, { s2: old.s2, r2: old.r2, t2: old.t2 });
     await ref.set(doc);
-    save.cupMine = { week: w.id, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, att: doc.att }; save.stats.cupRounds = (save.stats.cupRounds | 0) + 1; persist(); checkAwards();
-    return { improved: better, first: !old, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, att: doc.att, moved: doc.hr !== save.hr };
+    save.cupMine = { week: w.id, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, att: doc.att, s2: doc.s2, r2: doc.r2 }; save.stats.cupRounds = (save.stats.cupRounds | 0) + 1; persist(); checkAwards();
+    return { improved: better, second, first: !old, hr: doc.hr, strokes: doc.strokes, rel: doc.rel, s2: doc.s2, r2: doc.r2, att: doc.att, moved: doc.hr !== save.hr };
   }
   const cupEligible = (c, n, cut) => !cut && !c.mini && !c.ctp && !c.range && !(MP && MP.started) && n === CUP_HOLES && c.id === cupCourse().id;
   function cupPostUI(entry) {
@@ -7894,7 +7957,7 @@
     box.textContent = 'Sending your round to the Homeroom Cup…';
     postCup(entry).then(r => {
       if (r.closed) { box.textContent = 'The Homeroom Cup is locked for the week.'; return; }
-      box.innerHTML = `Homeroom Cup · <b>${hrLabel(r.hr)}</b> · ${r.improved ? (r.first ? 'First cup round posted' : 'New official best') : 'Official best stays'} <b style="color:var(--gold-l)">${r.strokes}(${fmtRel(r.rel)})</b> · attempt ${r.att}`
+      box.innerHTML = `Homeroom Cup · <b>${hrLabel(r.hr)}</b> · ${r.improved ? (r.first ? 'First cup round posted' : 'New official best') : r.second ? 'New 2nd official round' : 'Your 2 official rounds stay'} <b style="color:var(--gold-l)">${r.strokes}(${fmtRel(r.rel)})</b>${r.s2 != null ? ` and <b style="color:var(--gold-l)">${r.s2}(${fmtRel(r.r2)})</b>` : ''} · attempt ${r.att}`
         + (r.moved ? `<br><small>Your score counts for ${hrLabel(r.hr)} this week (homerooms lock once you post). Your new homeroom starts next week.</small>` : '')
         + ' <button class="ghost sm" data-cupgo="1">Cup standings ›</button>';
       if (cupLive && cupLive.week === w.id && !cupUnsub) cupLive = null;
@@ -7907,7 +7970,8 @@
     const res = cupCalcNow(rows), c = cupCourseFor(w.id);
     return { head: { week: w.id, cid: c.id, course: c.name, par: c.par, winner: res.winner, at: serverTime(),
         teams: res.order.map(t => ({ hr: t.hr, avg: t.avg == null ? null : Math.round(t.avg * 1000) / 1000, n: t.n, filled: t.filled, q: t.qualified, rank: t.rank })) },
-      full: { list: res.school.map((r, i) => ({ u: r.uid, n: String(r.name || 'Golfer').slice(0, 14), h: r.hr, s: r.strokes, r: r.rel | 0, a: r.att | 0, i })) } };
+      full: { list: res.school.map((r, i) => Object.assign({ u: r.uid, n: String(r.name || 'Golfer').slice(0, 14), h: r.hr, s: r.strokes, r: r.rel | 0, a: r.att | 0, i },
+        r.s2 != null ? { s2: r.s2, r2: r.r2 | 0 } : {})) } };
   }
   async function cupArchive(w, rows) {
     if (cupArchTried[w.id] || !fbDb) return; cupArchTried[w.id] = 1;
@@ -7967,14 +8031,16 @@
       <div class="cuprow"><div class="cuphr">${save.hr || '?'}</div><div style="min-width:0"><div class="cn">${esc(c.name)}</div>
         <div class="cm">${status}</div>
         <div class="cm">${save.hr ? `${hrLabel(save.hr)}${mine && mine.rank ? ` · team #${mine.rank}` : ''}${save.cupMine && save.cupMine.week === w.id ? ` · your best ${save.cupMine.strokes}(${fmtRel(save.cupMine.rel)})` : ''}` : 'Pick your homeroom to play for your team'}</div></div></div>
-      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? (cupLiveSaved() ? `<button class="main sm" data-cupplay="1">▶ Continue match (Hole ${save.live.next + 1})</button>` : '<button class="main sm" data-cupplay="1">Play cup round ›</button>') : ''}<button class="ghost sm" data-cupgo="1">Standings ›</button></div></div>`;
+      <div class="act" style="display:flex;gap:8px;flex-wrap:wrap">${w.phase === 'live' ? (cupLiveSaved() ? `<button class="main sm" data-cupplay="1">▶ Continue match (Hole ${cupNextHole()})</button>` : '<button class="main sm" data-cupplay="1">Play cup round ›</button>') : ''}<button class="ghost sm" data-cupgo="1">Standings ›</button></div></div>`;
   }
-  const cupLiveSaved = () => !!(save.live && save.live.cup && save.live.cup === cupWeek().id && liveCourse());
+  const cupPaused = () => { const L = pausedFor(cupCourse()); return L && L.cup === cupWeek().id ? L : null; };
+  const cupLiveSaved = () => !!(save.live && save.live.cup && save.live.cup === cupWeek().id && liveCourse()) || !!cupPaused();
+  const cupNextHole = () => (save.live && save.live.cup === cupWeek().id && liveCourse() ? save.live : cupPaused() || { next: 0 }).next + 1;
   function playCup() {
     const w = cupWeek();
     if (!save.hr) { setTab('cup'); return; }
     if (w.phase !== 'live') { alert('The Homeroom Cup is locked until Monday 7:00 AM. You can still play the course for practice from the course list.'); return; }
-    if (cupLiveSaved()) { showLive(); return; }   // a cup round was cut off by a reload: offer to continue it
+    if (cupLiveSaved()) { if (cupPaused() && !(save.live && save.live.cup === w.id && liveCourse())) resumePaused(cupCourse(), false); else showLive(); return; }   // a cup round was saved or cut off: continue it
     startRound(cupCourse());
   }
 
@@ -7985,8 +8051,8 @@
   }
   function cupBoardRows(t, frozen) {
     if (!t.list.length) return '<div class="empty">No official scores from this homeroom yet.</div>';
-    return `<table class="board hrb"><tr><th></th><th>GOLFER</th><th>BEST</th><th class="hcol">TRIES</th><th>COUNTS</th></tr>` + t.list.map(r =>
-      `<tr class="${r.counts ? 'cnt' : ''}${r.uid === meUid() ? ' me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}</td>`
+    return `<table class="board hrb"><tr><th></th><th>GOLFER</th><th>SCORE</th><th class="hcol">TRIES</th><th>COUNTS</th></tr>` + t.list.map(r =>
+      `<tr class="${r.counts ? 'cnt' : ''}${r.uid === meUid() ? ' me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}${r.second ? ' <small style="opacity:.7">(2nd round)</small>' : ''}</td>`
       + `<td><b>${r.strokes}(${fmtRel(r.rel)})</b></td><td class="hcol">${r.att || '—'}</td><td>${r.counts ? ico('check') : '—'}</td></tr>`).join('') + '</table>';
   }
   function hrHeader(t, res, frozen) {
@@ -7994,8 +8060,8 @@
     const lead = res.order.find(x => x.rank === 1);
     const diff = !t.qualified && t.avg == null ? '—' : t.rank === 1 ? 'Leading' : t.diff == null ? '—' : '+' + t.diff.toFixed(1);
     return `<div class="hrhead${t.qualified ? '' : ' nq'}"><div class="hrt">${hrLabel(t.hr)}${frozen && res.winner === t.hr ? ' · winner' : ''}</div>
-      ${t.qualified ? '' : `<div class="nqtag">Not Qualified — Needs at least ${CUP_MIN} members</div>`}
-      <div class="hrstats"><div><span>Members</span><b>${hrMembers(t.hr) == null ? '—' : hrMembers(t.hr)}</b></div><div><span>Team average</span><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></div><div><span>Valid participants</span><b>${t.n}</b></div>
+      ${t.qualified ? '' : `<div class="nqtag">Not Qualified — Needs at least ${CUP_MIN} scores (each golfer's best 2 rounds count)</div>`}
+      <div class="hrstats"><div><span>Members</span><b>${hrMembers(t.hr) == null ? '—' : hrMembers(t.hr)}</b></div><div><span>Team average</span><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b></div><div><span>Golfers</span><b>${t.players}</b></div><div><span>Valid scores</span><b>${t.n}</b></div>
         <div><span>Scoring positions</span><b>${t.filled} of ${CUP_MAX}</b></div><div><span>Status</span><b>${status}</b></div>
         <div><span>Team rank</span><b>${t.rank ? '#' + t.rank : '—'}</b></div><div><span>Behind the leader</span><b>${diff}${lead && t.rank !== 1 && t.diff != null ? ` <small>(${hrLabel(lead.hr).replace('Homeroom ', 'HR ')})</small>` : ''}</b></div></div>
       <div class="hrleg"><i></i>Light green = score ${frozen ? 'counted' : 'currently counts'} toward the team average${t.n > CUP_MAX ? ` (the ${CUP_MAX} lowest of ${t.n}; the other ${t.n - CUP_MAX} still show but don't count)` : t.n ? ' (every valid score counts until a homeroom has more than 20)' : ''}.</div>
@@ -8016,10 +8082,10 @@
         <div class="spclock">${ico('clock')}<b>${big}</b><span>${sub}</span></div></div>
       ${frozen ? '<div class="spnote">Showing a past week. <button class="linkBtn" data-cuplive="1">Back to this week</button></div>' : ''}
       ${save.hr ? '' : `<div class="sppick"><div class="sph">Pick your homeroom</div>${hrPicker('', 'myhr')}<div class="spsmall">Pick carefully: it can't be changed later.</div></div>`}
-      <div class="spbar">${!frozen && w.phase === 'live' ? (cupLiveSaved() ? `<button class="main sm" data-cupplay="1">▶ Continue match (Hole ${save.live.next + 1})</button>` : '<button class="main sm" data-cupplay="1">Play cup round ›</button>') : ''}${save.hr ? `<span class="spme"><i>${save.hr}</i>Your homeroom ${ico('lock')}</span>` : ''}</div>
+      <div class="spbar">${!frozen && w.phase === 'live' ? (cupLiveSaved() ? `<button class="main sm" data-cupplay="1">▶ Continue match (Hole ${cupNextHole()})</button>` : '<button class="main sm" data-cupplay="1">Play cup round ›</button>') : ''}${save.hr ? `<span class="spme"><i>${save.hr}</i>Your homeroom ${ico('lock')}</span>` : ''}</div>
       <div class="spprize"><div><b>${money(CUP_PAY[0])}</b><span>every member · 1st place</span></div><div><b>${money(CUP_PAY[1])}</b><span>every member · 2nd</span></div>
         <div><b>${money(CUP_PAY[2])}</b><span>every member · 3rd</span></div><div><b>${money(CUP_MVP_PAY)}</b><span>best member in every other homeroom</span></div></div>
-      <details class="sphow"><summary>How it works</summary><p>Your best full 18-hole round on this week's course (Monday 7:00 AM to Friday 2:40 PM) is your official score. Each homeroom's ${CUP_MAX} lowest scores make its team average and the lowest average wins. A homeroom needs ${CUP_MIN} members to qualify. Prizes are paid when the winner is announced Friday at 2:42 PM (the next time you open the game).</p></details>
+      <details class="sphow"><summary>How it works</summary><p>Your <b>2 best</b> full 18-hole rounds on this week's course (Monday 7:00 AM to Friday 2:40 PM) are your official scores, and both count for your homeroom. Each homeroom's ${CUP_MAX} lowest scores make its team average and the lowest average wins. A homeroom needs ${CUP_MIN} scores to qualify (5 golfers with 2 rounds each is enough). An 18-hole round can be saved at the turn and finished later. Prizes are paid when the winner is announced Friday at 2:42 PM (the next time you open the game).</p></details>
       <div class="spnav">${[['teams', 'trophy', 'Standings'], ['hr', 'school', 'Homerooms'], ['school', 'users', 'Everyone'], ['past', 'star', 'Past winners']].map(([v, i, n]) => `<button data-cv="${v}" class="${cupView === v ? 'on' : ''}">${ico(i)}<span>${n}</span></button>`).join('')}</div>`;
     const done = inner => { box.innerHTML = html + `<div class="spbody">${inner}</div></div>`; };
     if (cupView === 'past') { done(pastHtml()); loadCupPast(); return; }
@@ -8033,7 +8099,7 @@
           <span class="sprk">${t.rank || '–'}</span><span class="spbadge">${t.hr}</span>
           <span class="spinfo"><b>${hrLabel(t.hr)}${t.hr === save.hr ? ' · you' : ''}</b><small>${hrMembers(t.hr) == null ? '' : membersTxt(hrMembers(t.hr)) + ' · '}${t.n} score${t.n === 1 ? '' : 's'} · ${t.filled}/${CUP_MAX} scoring${t.rank > 1 && t.diff != null ? ` · +${t.diff.toFixed(1)}` : ''}</small></span>
           <span class="spavg"><b>${fmtAvg(t.avg)}${t.qualified || t.avg == null ? '' : '*'}</b><small>${t.qualified ? 'avg' : t.n ? `needs ${CUP_MIN - t.n} more` : 'no scores'}</small></span></button>`).join('')
-        + `<div class="spsmall">Tap a homeroom to see its members. *Not qualified yet (fewer than ${CUP_MIN} members).</div>`);
+        + `<div class="spsmall">Tap a homeroom to see its members. *Not qualified yet (fewer than ${CUP_MIN} scores; each golfer's best 2 rounds count).</div>`);
     } else if (cupView === 'school') {
       done(!res.school.length ? '<div class="empty">No official scores yet this week. Be the first!</div>'
         : `<table class="board spt2"><tr><th></th><th>GOLFER</th><th>HR</th><th>BEST</th></tr>` + res.school.map(r =>
@@ -8153,7 +8219,7 @@
   // (games wait a random few seconds first so they don't all do it at once).
   async function cupFinalRows(w) {
     const fromArchive = async () => { const f = await cupWeeksRef().doc(w.id).collection('full').doc('players').get();
-      return f.exists ? (f.data().list || []).map(p => ({ uid: p.u, name: p.n, hr: p.h, strokes: p.s, rel: p.r, att: p.a, t: p.i })) : null; };
+      return f.exists ? (f.data().list || []).map(p => ({ uid: p.u, name: p.n, hr: p.h, strokes: p.s, rel: p.r, att: p.a, t: p.i, s2: p.s2, r2: p.r2, t2: p.s2 != null ? p.i + 0.5 : 0 })) : null; };
     let rows = await fromArchive().catch(() => null); if (rows) return rows;
     if (cupLive && cupLive.week === w.id && cupLive.rows) rows = cupLive.rows;
     else { await new Promise(r => setTimeout(r, Math.random() * 45000)); rows = await fromArchive().catch(() => null); if (rows) return rows;

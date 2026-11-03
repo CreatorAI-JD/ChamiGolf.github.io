@@ -70,22 +70,31 @@ service cloud.firestore {
     function okCup(uid, week) {
       let d = request.resource.data;
       return isMe(uid) && notBanned() && cupOpen(week)
-        && d.keys().hasOnly(['name', 'uid', 'hr', 'cid', 'date', 'strokes', 'rel', 'att', 't'])
+        && d.keys().hasOnly(['name', 'uid', 'hr', 'cid', 'date', 'strokes', 'rel', 'att', 't', 's2', 'r2', 't2'])
         && d.uid == uid && okName(d.name)
         && d.hr in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N']
         && d.cid is string && d.cid.size() < 20
         && d.strokes is int && d.strokes >= 18 && d.strokes < 400
         && d.rel is int && d.rel >= -18 && d.rel < 340 && d.strokes - d.rel >= 54 && d.strokes - d.rel <= 76   // (an 18-hole par 54 to 76 course; 18 under at most)
-        && d.att is int && d.att > 0 && d.att < 10000 && recent(d.date);
+        && d.att is int && d.att > 0 && d.att < 10000 && recent(d.date)
+        // (Nov 2 2026) the second-best round: never better than the best, same course rules
+        && (!('s2' in d) || (d.s2 is int && d.s2 >= d.strokes && d.s2 < 400 && d.r2 is int && d.s2 - d.r2 == d.strokes - d.rel && 't2' in d));
     }
+    function sameBest() { let d = request.resource.data; return d.strokes == resource.data.strokes && d.rel == resource.data.rel && d.t == resource.data.t; }
+    function sameSecond() { let d = request.resource.data; return ('s2' in resource.data) ? ('s2' in d && d.s2 == resource.data.s2 && d.r2 == resource.data.r2 && d.t2 == resource.data.t2) : !('s2' in d); }
     match /hrcup/{week}/scores/{uid} {
       allow read: if true;
-      allow create: if okCup(uid, week) && request.resource.data.att == 1 && request.resource.data.t == request.time;
-      // every finished cup round adds 1 attempt; the score (and its time stamp) only changes when it gets better.
-      // The homeroom can't change once a golfer has posted that week.
+      allow create: if okCup(uid, week) && request.resource.data.att == 1 && request.resource.data.t == request.time && !('s2' in request.resource.data);
+      // every finished cup round adds 1 attempt. A golfer's best 2 rounds count (Nov 2 2026):
+      //  · a new best: the old best (with its time stamp) becomes the second round
+      //  · a new second round: no second yet, or better than the old second (and not better than the best)
+      //  · otherwise nothing changes. The homeroom can't change once a golfer has posted that week.
       allow update: if okCup(uid, week) && request.resource.data.hr == resource.data.hr && request.resource.data.att == resource.data.att + 1
-        && ((request.resource.data.strokes < resource.data.strokes && request.resource.data.t == request.time)
-          || (request.resource.data.strokes == resource.data.strokes && request.resource.data.rel == resource.data.rel && request.resource.data.t == resource.data.t));
+        && ((request.resource.data.strokes < resource.data.strokes && request.resource.data.t == request.time
+              && request.resource.data.s2 == resource.data.strokes && request.resource.data.r2 == resource.data.rel && request.resource.data.t2 == resource.data.t)
+          || (sameBest() && request.resource.data.t2 == request.time && request.resource.data.s2 >= resource.data.strokes
+              && (!('s2' in resource.data) || request.resource.data.s2 < resource.data.s2))
+          || (sameBest() && sameSecond()));
       allow delete: if isAdmin();
     }
     // hrcupWeeks/{week}: the final standings, saved once by the first game that opens the cup after the week locks.
