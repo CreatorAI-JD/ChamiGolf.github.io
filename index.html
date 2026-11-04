@@ -5412,7 +5412,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.03f';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.03g';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -6874,6 +6874,14 @@
       + `<button class="main sm" data-buy="1"${can ? '' : ' disabled'}>${can ? 'Buy & wear' : `Need ${money(b.price - save.coins)} more`}</button></div>`
       + (tryLook || tryBag ? '<div class="gnote">Trying it on: check the preview. Buy it to wear it in your rounds.</div>' : '');
   }
+  // (Nov 3 2026) MY COLOURS: every colour you mixed and bought for this part stays here, one tap to wear it again
+  function myColorsRow(part, cur) {
+    const mine = Object.keys(save.ownedLook || {}).filter(k => k.startsWith(part + ':')).map(k => k.slice(part.length + 1))
+      .filter(hex => /^#[0-9a-f]{6}$/.test(hex) && !isSwatch(part, hex));
+    if (!mine.length) return '';
+    return `<div class="sect" style="margin-top:12px">MY COLOURS</div><div class="sw">` + mine.map(hex =>
+      `<button data-col="${hex}" title="My colour ${hex}" aria-label="My colour ${hex}" class="${hex === String(cur || '').toLowerCase() ? 'on' : ''}" style="background:${hex}"></button>`).join('') + '</div>';
+  }
   function outfitPanel() {
     const L = save.look;
     if (!partShown(gPart, L)) gPart = 'jacket';
@@ -6896,6 +6904,7 @@
       STYLES.map(([v, n]) => `<button data-style="${v}" class="${L.style === v ? 'on' : ''}">${n}</button>`).join('') + '</div>';
     else pane = `<div class="lh">${partLabel(gPart, L)}<b>${gPart === 'skin' ? '' : swName(SWATCHES[gPart], L[gPart])}</b></div>` +
       swRow('data-col', SWATCHES[gPart], L[gPart], partLabel(gPart, L), PRICES[gPart] ? gPart : null)
+      + myColorsRow(gPart, L[gPart])
       + (OUTFIT_PARTS.includes(gPart) ? `<div class="sect" style="margin-top:14px">MIX YOUR OWN · ${money(CUSTOM_COLOR_PRICE)} per new colour</div>`
         + cpHtml('look', cpLook && cpLook.part === gPart ? cpLook.hex : (tryLook && tryLook[gPart]) || L[gPart], '<button class="main" data-cpuse="1" style="width:100%">Use this colour</button>') : '');
     const presetBuy = pendingBuy && pendingBuy.kind === 'preset' ? buyBar() : '', partBuy = pendingBuy && pendingBuy.kind === 'look' ? buyBar() : '';
