@@ -4639,6 +4639,11 @@
       if (d <= -3) st.albatross++;
       if (lastShot && !lastShot.putter && strokes > 1 && lastShot.lie !== 'green') { st.chipIns++; rStat.chips++; if (lastShot.lie === 'sand') st.sandHoles++; showRating(lastShot.lie === 'sand' ? 'HOLED FROM THE SAND!' : 'CHIP IN!', '#FFE08A'); }
       if (lastShot && lastShot.putter && lastShot.dist >= 10) st.longPutts++;
+      // (Nov 3 2026) records next to Longest drive: the longest chip-in (yards) and the longest holed putt (feet)
+      if (lastShot && !lastShot.putter && strokes > 1 && lastShot.lie !== 'green' && lastShot.dist > (st.longestChip || 0)) {
+        st.longestChip = Math.round(lastShot.dist); if (st.longestChip >= 5) setTimeout(() => showRating(`LONGEST CHIP-IN · ${st.longestChip} YDS`, '#FFE08A'), 1200); }
+      if (lastShot && lastShot.putter && Math.round(lastShot.dist * 3) > (st.longestPutt || 0)) {
+        st.longestPutt = Math.round(lastShot.dist * 3); if (st.longestPutt >= 15) setTimeout(() => showRating(`LONGEST PUTT · ${st.longestPutt} FT`, '#FFE08A'), 1200); }
       if (d <= -2 && strokes > 1) rStat.eagles++;
       const sc = scores.slice(); sc[holeIdx] = strokes;
       const how = lastShot ? `${lastShot.club} ${lastShot.pct}%${lastShot.pure ? ' PERFECT' : ''}` : '';
@@ -5407,7 +5412,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.03e';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.03f';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -7477,7 +7482,7 @@
     const avg = s.rounds ? fmtRel(Math.round((s.strokesTotal - s.parTotal) / s.rounds * 10) / 10) : '—';
     const pct = s.shots ? Math.round(s.perfects / s.shots * 100) + '%' : '—';
     const tiles = [
-      [s.rounds, 'Rounds played'], [avg, 'Avg vs par'], [s.longest ? s.longest + ' yds' : '—', 'Longest drive'], [pct, 'Perfect shots'],
+      [s.rounds, 'Rounds played'], [avg, 'Avg vs par'], [s.longest ? s.longest + ' yds' : '—', 'Longest drive'], [s.longestChip ? s.longestChip + ' yds' : '—', 'Longest chip-in'], [s.longestPutt ? s.longestPutt + ' ft' : '—', 'Longest putt'], [pct, 'Perfect shots'],
       [s.aces, 'Holes in one'], [s.eagles, 'Eagles'], [s.birdies, 'Birdies'], [s.pars, 'Pars'],
       [s.holes, 'Holes played'], [money(s.earnedTotal), 'Total earned'],
     ];
