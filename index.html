@@ -5412,7 +5412,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.03g';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.03h';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -8698,7 +8698,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.10.29b', NEWS_NUM = '2.5';
+  const NEWS_VER = '2026.11.03a', NEWS_NUM = '3.0';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -8738,7 +8738,20 @@
     ['⛳', '<b>New hole names</b> at Meribah, Brothers Hollow, Hearst Executive and Flyers Presidential.'],
     ['🎨', '<b>Every gold button looks the same</b> now, and the welcome screen points you to 3C, the daily challenges and the Homeroom Cup.'],
   ];
+  // (Nov 3 2026) Update 3.0
   const NEWS = [
+    ['school', '<b>Homeroom Cup: your best 2 rounds count.</b> Both go into your homeroom\'s score, so 5 golfers can get a homeroom to the 10 scores it needs. The cup screen now explains the prizes step by step.'],
+    ['flag', '<b>Continue later:</b> take a break at the turn (or from QUIT) on any 18-hole course and finish it from the course page whenever you want, even after playing other courses.'],
+    ['lock', '<b>Earn the big courses:</b> the 18-hole courses now unlock with a real score at the course before them (the course page shows what you need).'],
+    ['club', '<b>Smarter shop:</b> clubs go cheapest to priciest, with #1 / #2 / #3 BEST VALUE tags and Farthest hitter, Slowest needle, Biggest gold and Straightest tags. Driver descriptions match their real stats, prices are balanced, and upgrades are fair: a club that is already better than the starter gets less from each upgrade.'],
+    ['target', '<b>Cleaner course:</b> clear lines on the cart path and the fairway edge (the whole fairway is one colour), the grass lip around bunkers plays as rough, the ball no longer gets stuck on the cart path, and it\'s putter only on the green.'],
+    ['camera', '<b>Calmer camera:</b> it holds on the ball for a moment after it stops, then glides to your next shot.'],
+    ['trophy', '<b>New achievements:</b> Homeroom Champion, Top of the School, Team MVP, Daily Champion 1 / 10 / 25, Magician (100 chip-ins), club collecting, Course Master, Grand Tour and more. The hardest one unlocks the new <b>Chami Man Jacket</b>: finish under par on every course.'],
+    ['star', '<b>Daily Closest to the Pin</b> is always 4 stars or harder now, with a new <b>Over the trees</b> hole.'],
+    ['chart', '<b>New stats:</b> Longest chip-in and Longest putt, next to Longest drive.'],
+    ['user', '<b>Names:</b> at least 3 characters and no two members can share one. <b>My colours:</b> colours you mix and buy stay in your Golfer tab. Phones get a tidier layout (iPad and computer stay the same).'],
+  ];
+  const NEWS_25 = [
     ['school', '<b>Continue match:</b> if the site reloads in the middle of a Homeroom Cup round, tap <b>Continue match</b> to pick up on the next hole.'],
     ['users', '<b>All members:</b> in the Homeroom Cup, open Homerooms and tap <b>Show all members</b> to see everyone in each homeroom.'],
     ['lock', '<b>Stay signed in:</b> your member code signs you back in by itself after a reload. Write your code down (or take a screenshot) so your progress is never lost.'],
@@ -8755,7 +8768,8 @@
     ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
   ];
   const UPDATES = [
-    ['2.5', 'Oct 29, 2026', NEWS.map(n => n[1])],
+    ['3.0', 'Nov 3, 2026', NEWS.map(n => n[1])],
+    ['2.5', 'Oct 29, 2026', NEWS_25.map(n => n[1])],
     ['2.4', 'Oct 29, 2026', NEWS_24.map(n => n[1])],
     ['2.3', 'Oct 28, 2026', NEWS_23.map(n => n[1])],
     ['2.2', 'Oct 28, 2026', NEWS_22.map(n => n[1])],

@@ -38,6 +38,18 @@ Gold Star Mini Golf was reworked on Oct 20 2026 (par 41: 13 par 2s and 5 par 3s)
 
 Everyone started over (twice on Oct 28: once in the afternoon and again with update 2.3 at 7 PM ET). `RESET_EPOCH` is 3 (all progress, names, badges and homerooms wiped on every device and in the cloud), Leaderboard Season 6 (`SEASON = '_s6'`) started with empty all-time and daily boards, and `ACCT_EPOCH` logs every device out of its old account once so each golfer gets a brand-new player code. Old data stays in Firebase but the game ignores it (delete old users in Firebase console > Authentication > Users if you want it gone).
 
+## Update 3.0 (Nov 3 2026)
+
+- Homeroom Cup: each golfer's best 2 rounds count (`s2`/`r2`/`t2` in `hrcup/{week}/scores/{uid}`); clearer prize explanation.
+- Continue later on 18-hole courses (`save.paused`), at the turn or from QUIT.
+- 18-hole courses unlock with a score bar at the course before them (`UNLOCK_BAR`).
+- Shop: cheapest-first, BEST VALUE and best-at tags, balanced prices, fixed driver descriptions, fair upgrades (`upK`).
+- Course: cart path no longer traps the ball, clear path/fairway edges (`FAIR_PAD`), bunker lips are rough, putter only on greens.
+- Camera holds on the ball after it stops, then glides.
+- New achievements and the Chami Man Jacket (under par on every course).
+- Daily Closest to the Pin: 4 stars or harder from Nov 4, new Over the trees layout.
+- Stats: longest chip-in, longest putt. Names: 3+ characters, unique (`names/{name}`). My colours row. Phone layout.
+
 ## Update 2.5 (Oct 29 2026)
 
 - Smaller, quicker camera glide after each shot; teachers on the home screen stand still in low battery mode.
