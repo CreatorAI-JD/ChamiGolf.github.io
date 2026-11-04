@@ -3955,7 +3955,7 @@
       const d = lastDir, px = hole.pin.x, py = hole.pin.y;
       dPos.set(px - d.x * 1.2, 2.4, py - d.y * 1.2); dLook.set(px + d.x * 0.15, -0.3, py + d.y * 0.15); return 2.5;
     }
-    if (state === 'flying' || state === 'rolling' || state === 'sinking' || state === 'penalty' || state === 'holeDone' || state === 'rangeWait') {
+    if (state === 'flying' || state === 'rolling' || state === 'sinking' || state === 'penalty' || state === 'holeDone' || state === 'rangeWait' || state === 'settle') {
       let d = lastDir;
       if (flight) { const L = Math.hypot(flight.ex - flight.sx, flight.ey - flight.sy) || 1; d = { x: (flight.ex - flight.sx) / L, y: (flight.ey - flight.sy) / L }; }
       else { const sp = Math.hypot(ball.vx, ball.vy); if (sp > 0.4) d = { x: ball.vx / sp, y: ball.vy / sp }; }
@@ -3963,7 +3963,7 @@
       const back = lastPutt ? 5 : 15, up = lastPutt ? 2.6 : 6 + h * 0.35;
       dPos.set(ball.x - d.x * back, up, ball.y - d.y * back);
       dLook.set(ball.x + d.x * 4, h * 0.75, ball.y + d.y * 4);
-      return 3;
+      return state === 'settle' ? 1.2 : 3;   // while the shot registers, the camera eases to a stop instead of jerking
     }
     const dx = Math.cos(aimAng), dy = Math.sin(aimAng);
     if (viewMode === 'aerial') {   // (Oct 28 2026) Aerial view: the camera rises high above and behind the ball, looking down the shot
@@ -4558,8 +4558,10 @@
     if (course.ctp) return ctpDone(Math.hypot(ball.x - hole.pin.x, ball.y - hole.pin.y));
     if (mpTeamFmt()) return mpAfterShot(false);
     if (strokes >= maxStrokes()) return pickUp();
-    readyForShot();
+    // (Nov 3 2026) let the shot register: the camera holds on the ball where it stopped for a moment, then glides to the next shot
+    state = 'settle'; settleT = SAVER ? 0.35 : 0.9;
   }
+  let settleT = 0;
   function penalty(msg, water) {
     flight = null; strokes++; lastClub = -1;
     state = 'penalty'; penT = 1.6;
@@ -4779,6 +4781,7 @@
       if (state === 'ready' && hole.spinners.length && miniCollide()) { state = 'rolling'; ball.rollT = 0; }
     }
     if (introT > 0) introT -= dt;
+    if (state === 'settle') { settleT -= dt; if (settleT <= 0) readyForShot(); }
     if (hole.range && state === 'ready') rangeAimTick();
     if (state === 'swinging' && swing) {
       swing.phase += dt * 0.78 * (0.5 + 0.9 * swing.power) * CLUBS[clubIdx].speed * needleMult(CLUBS[clubIdx]);
@@ -4855,8 +4858,8 @@
   function startGlide(dur) { if (SAVER) { glide = null; camSnap = true; return; } glide = { t: 0, d: dur, p: camPos.clone(), l: camLook.clone() }; }
   function syncScene(time, dt) {
     if (viewMode === 'aerial' && state !== 'ready' && state !== 'swinging' && state !== 'striking') viewMode = 'normal';
-    const moving = s => s === 'flying' || s === 'rolling' || s === 'sinking' || s === 'penalty' || s === 'rangeWait' || s === 'holeDone' || s === 'wait';
-    if (state === 'ready' && moving(camPrevState)) startGlide(1.0);   // (update 2.5) a short, small glide: noticeable, not a lot of motion
+    const moving = s => s === 'flying' || s === 'rolling' || s === 'sinking' || s === 'penalty' || s === 'rangeWait' || s === 'holeDone' || s === 'wait' || s === 'settle';
+    if (state === 'ready' && moving(camPrevState)) startGlide(1.3);   // (Nov 3 2026) a calm glide after the shot has registered
     else if (viewMode !== camPrevView && state === 'ready') startGlide(0.8);
     else if (camPrevIntro > 0 && introT <= 0 && state === 'ready') startGlide(1.0);
     camPrevState = state; camPrevView = viewMode; camPrevIntro = introT;
@@ -4864,7 +4867,7 @@
     if (glide && (state === 'ready' || state === 'swinging' || state === 'striking')) {
       glide.t += dt; const u = Math.min(1, glide.t / glide.d), e = easeIO(u);
       camPos.lerpVectors(glide.p, dPos, e); camLook.lerpVectors(glide.l, dLook, e);
-      camPos.y += Math.sin(Math.PI * u) * Math.min(2, glide.p.distanceTo(dPos) * 0.03);
+      camPos.y += Math.sin(Math.PI * u) * Math.min(1.2, glide.p.distanceTo(dPos) * 0.02);
       if (u >= 1) glide = null;
     } else if (camSnap) {   // battery saver: cut straight to the new spot
       camSnap = false; camPos.copy(dPos); camLook.copy(dLook);
@@ -5282,7 +5285,7 @@
     $('bar').classList.toggle('disabled', !ready);
     $('bar').classList.toggle('swinging', state === 'swinging' || state === 'striking');
     $('viewBtn').classList.toggle('disabled', !ready);
-    $('exitBtn').classList.toggle('disabled', !(ready || state === 'flying' || state === 'rolling' || state === 'wait' || state === 'rangeWait'));
+    $('exitBtn').classList.toggle('disabled', !(ready || state === 'flying' || state === 'rolling' || state === 'wait' || state === 'rangeWait' || state === 'settle'));
     setText('viewBtn', viewMode === 'overview' ? 'BACK' : 'MAP');
     { const showA = !!hole && !hole.mini && !course.ctp && !CLUBS[clubIdx].putter && viewMode !== 'overview';
       $('aerBtn').style.display = showA ? '' : 'none'; $('aerBtn').classList.toggle('disabled', !ready || introT > 0);
@@ -5398,7 +5401,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.03c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.03d';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
