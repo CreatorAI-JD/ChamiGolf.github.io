@@ -243,6 +243,16 @@ service cloud.firestore {
 
     // (Analytics moved to Google Analytics: the old "presence" notes and "daily" counters aren't used any more.)
     // Player directory for the creator's "Find a player" search: one tiny record per golfer (name only).
+    // (Nov 3 2026) names/{lowercase name}: one member per name, first come first served. Anyone can read who has a name.
+    match /names/{n} {
+      allow read: if true;
+      allow create: if request.auth != null && notBanned() && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'at']) && okName(request.resource.data.name)
+        && request.resource.data.name.size() >= 3 && n == request.resource.data.name.lower() && request.resource.data.at is int;
+      allow update: if request.auth != null && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'at']) && okName(request.resource.data.name) && n == request.resource.data.name.lower();
+      allow delete: if request.auth != null && (resource.data.uid == request.auth.uid || isAdmin());
+    }
     match /players/{uid} {
       allow read: if isAdmin();
       allow create, update: if (isAdmin() || (isMe(uid) && notBanned()))

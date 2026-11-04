@@ -165,6 +165,14 @@
     #nudge{left:10px;bottom:calc(env(safe-area-inset-bottom) + 10px);transform:scale(.82);transform-origin:bottom left}
     .bag{gap:6px} .bag button{padding:8px 2px} .bag .by{font-size:17px}
   }
+  @media (max-width:600px) {   /* phones: home screen */
+    .hhead{padding:calc(env(safe-area-inset-top) + 8px) 12px 8px}
+    .crest{width:38px;height:38px;font-size:18px} .bname{font-size:20px} .coins{font-size:16px;padding:5px 11px}
+    .hbody{padding:4px 10px 80px}
+    .tabs button{font-size:9.5px;letter-spacing:.04em} .tabs button .ic{font-size:18px;height:20px} .tabs button .ic .ico{width:20px;height:20px}
+    .miniBtn{padding:9px 14px 9px 10px;font-size:15px;bottom:calc(env(safe-area-inset-bottom) + 90px)}
+    .course .thumb,.ctp .thumb{width:68px;min-height:96px} .course .cn{font-size:18px} .ctp .cn{font-size:20px} .course .cd{font-size:12px}
+  }
   @media (max-height:500px) {   /* phone sideways: the map panel gets even smaller so it doesn't cover the hole */
     .brandbar{display:none}
     .pill,#pinBox{top:calc(env(safe-area-inset-top) + 44px)}
@@ -1491,6 +1499,8 @@
     { name: 'Brother Outfit', price: 1800, look: { style: 'suit', jacket: '#111113', shirt: '#ffffff', tie: '#09090a', pants: '#111113', shoes: '#0a0a0a' } },
     { name: 'Gold Jacket', price: 4000, look: { style: 'suit', jacket: '#C9962B', shirt: '#ffffff', tie: '#B3122B', pants: '#1c1c22', shoes: '#111111' } },
     { name: 'Green Jacket', lock: 'masters', look: { style: 'suit', jacket: '#1f5a34', shirt: '#ffffff', tie: '#1f5a34', pants: '#b9a47c', shoes: '#eeeeea' } },
+    // (Nov 3 2026) the hardest outfit in the game: finish UNDER par on every course
+    { name: 'Chami Man Jacket', lock: 'chamiman', look: { style: 'suit', jacket: '#6b0f1e', shirt: '#F2C14E', tie: '#111113', pants: '#111113', shoes: '#111111' } },
   ];
   LOOK_PRESETS.forEach(p => { if (p.price) p.price = salePrice(p.price); });
   const SWATCHES = {
@@ -1527,7 +1537,9 @@
   // Unlockable gear: name, how to earn it
   const MASTERS_REL = 0, MASTERS_CID = 'clblack';   // par or better on the hardest course
   const UNLOCKS = { senior: { name: 'Senior Sweater', how: 'Hit it within 10 feet of the pin in the Daily Closest to the Pin challenge.' },
-    masters: { name: 'Green Jacket', how: 'The hardest unlock in the game: shoot par or better for a full round at Chami Links Black, the hardest course.' } };
+    masters: { name: 'Green Jacket', how: 'Shoot par or better for a full round at Chami Links Black, the hardest course.' },
+    chamiman: { name: 'Chami Man Jacket', how: 'The hardest unlock in the game: finish a full round UNDER par on every course.' } };
+  const chamiManDone = () => COURSES.every(c => save.stats.bestBy[c.id] != null && save.stats.bestBy[c.id] < 0);
   const unlocked = id => !!(save.unlocks && save.unlocks[id]);
   const partShown = (k, look) => (k !== 'trim' || look.style === 'sweater') && (k !== 'style' || unlocked('senior'));
 
@@ -1641,6 +1653,8 @@
   const presetOwned = p => !p.price || OUTFIT_PARTS.every(k => p.look[k] == null || ownsC(k, p.look[k]));
   // the Green Jacket's colours stay yours once it's unlocked (its internal unlock id is still 'masters')
   if (save.unlocks.masters) OUTFIT_PARTS.forEach(k => { const p = LOOK_PRESETS.find(x => x.lock === 'masters'); if (p.look[k]) grantC(k, p.look[k]); });
+  const grantChamiMan = () => { save.unlocks.chamiman = true; OUTFIT_PARTS.forEach(k => { const p = LOOK_PRESETS.find(x => x.lock === 'chamiman'); if (p.look[k]) grantC(k, p.look[k]); }); };
+  if (save.unlocks.chamiman) grantChamiMan();
 
   // ================= Achievements =================
   // [id, icon, name, how, progress(stats) → [have, need], reward money]
@@ -1694,6 +1708,26 @@
     ['homeroom', '🏫', 'School Spirit', 'Pick your homeroom', s => [save.hr ? 1 : 0, 1], 100],
     ['cup1', '🎽', 'Team Member', 'Play a Homeroom Cup round for your homeroom', s => [s.cupRounds | 0, 1], 300],
     ['cup10', '📣', 'Spirit Leader', 'Play 10 Homeroom Cup rounds', s => [s.cupRounds | 0, 10], 2000],
+    // (Nov 3 2026) more achievements
+    ['hrchamp', '🏆', 'Homeroom Champion', 'Play for the homeroom that wins the Weekly Homeroom Cup', s => [s.hrWins | 0, 1], 2000],
+    ['hrchamp5', '🎖️', 'Dynasty', 'Win the Homeroom Cup with your homeroom 5 times', s => [s.hrWins | 0, 5], 8000],
+    ['hrpodium', '🥉', 'Podium Finish', 'Play for a homeroom that finishes top 3 in the Homeroom Cup', s => [s.hrTop3 | 0, 1], 800],
+    ['hrfirst', '🥇', 'Top of the School', 'Post the #1 score in the whole school in a Homeroom Cup week', s => [s.cupFirst | 0, 1], 5000],
+    ['hrmvp', '⭐', 'Team MVP', 'Be the best golfer in your homeroom in a Homeroom Cup week', s => [s.cupMvp | 0, 1], 1200],
+    ['champ1', '🏆', 'Daily Champion', 'Win a Daily Tournament', s => [Math.max(save.badges.champ ? 1 : 0, s.champWins | 0), 1], 500],
+    ['champ10', '🏵️', 'Ten-Time Champ', 'Win 10 Daily Tournaments', s => [Math.max(save.badges.champ ? 1 : 0, s.champWins | 0), 10], 4000],
+    ['champ25', '👑', 'Legend of the Day', 'Win 25 Daily Tournaments', s => [Math.max(save.badges.champ ? 1 : 0, s.champWins | 0), 25], 12000],
+    ['chip100', '🎩', 'Magician', 'Hole out from off the green 100 times', s => [s.chipIns, 100], 15000],
+    ['club1', '🛒', 'New Stick', 'Buy your first new club', s => [MODELS.filter(m => m.price > 0 && save.owned.includes(m.id)).length, 1], 200],
+    ['club10', '🧰', 'Gear Head', 'Own 10 clubs you bought', s => [MODELS.filter(m => m.price > 0 && save.owned.includes(m.id)).length, 10], 2500],
+    ['clubAll', '🏪', 'Pro Shop', 'Own every club in the game', s => [MODELS.filter(m => save.owned.includes(m.id) || m.price === 0).length, MODELS.length], 25000],
+    ['maxclub', '🔧', 'Fully Loaded', 'Max out every upgrade on one club', s => [MODELS.some(m => save.owned.includes(m.id) && lvOf(m) >= MAX_LV) ? 1 : 0, 1], 3000],
+    ['playall', '🧭', 'Grand Tour', 'Play a full round on every course, plus mini golf', s => [COURSES.filter(c => s.roundsBy[c.id]).length + (s.roundsBy.mini ? 1 : 0), COURSES.length + 1], 2500],
+    ['evenall', '⚖️', 'Course Master', 'Shoot even par or better on every course', s => [COURSES.filter(c => s.bestBy[c.id] != null && s.bestBy[c.id] <= 0).length, COURSES.length], 10000],
+    ['chamiman', '🦸', 'Chami Man', 'Finish UNDER par on every course (unlocks the Chami Man Jacket)', s => [COURSES.filter(c => s.bestBy[c.id] != null && s.bestBy[c.id] < 0).length, COURSES.length], 25000],
+    ['sharp3', '🎯', 'Dart Thrower', 'Hit it within 3 feet in the Daily Closest to the Pin', s => [s.ctpBestFt != null && s.ctpBestFt <= 3 ? 1 : 0, 1], 1500],
+    ['momo9', '🌪️', 'Unstoppable', 'Go 9 holes in a row at par or better (a full Momentum run)', s => [s.bestStreak | 0, 9], 1500],
+    ['bogeyfree', '🧊', 'Ice Cold', 'Finish an 18-hole round without a bogey', s => [s.bogeyFree | 0, 1], 4000],
   ].map(([id, icon, name, how, prog, pay]) => ({ id, icon, name, how, prog, pay }));
   const awardDone = a => { const [h, n] = a.prog(st$()); return h >= n; };
   const hasAward = id => !!save.awards[id];
@@ -1726,10 +1760,19 @@
   const tracksOf = c => c.putter ? TRACKS.filter(t => t[0] !== 'p') : TRACKS;
   const lvOf = c => { const u = upOf(c), ts = tracksOf(c); return Math.min(...ts.map(t => u[t[0]])); };   // the club's "level" = its lowest track
   const canUpTrack = (c, k) => { const u = upOf(c); return u[k] < MAX_LV && u[k] <= lvOf(c); };
-  const distMult = c => c.putter ? 1 : 0.9 + PWR_STEP * upOf(c).p;
+  // (Nov 3 2026) fair upgrades: a club that's already better than its slot's free starter gets less out of each upgrade
+  // in that stat (power by carry, accuracy by gold zone, control by needle speed), so a maxed-out Thunder Driver carries
+  // about 280, not 300+. Clubs no better than the starter get the full upgrade.
+  const starterOf = c => MODELS.find(m => m.slot === c.slot && m.price === 0) || c;
+  const upK = c => { const st = starterOf(c);
+    return { p: c.carry > st.carry ? Math.pow(st.carry / c.carry, 3) : 1, a: c.zone > st.zone ? Math.pow(st.zone / c.zone, 2) : 1, c: c.speed < st.speed ? Math.pow(c.speed / st.speed, 2) : 1 }; };
+  const distMultU = (c, u) => c.putter ? 1 : 0.9 + PWR_STEP * u.p * upK(c).p;
+  const zoneU = (c, u) => c.zone + ACC_STEP * u.a * upK(c).a;
+  const speedU = (c, u) => c.speed * Math.pow(CTL_STEP, u.c * upK(c).c);
+  const distMult = c => distMultU(c, upOf(c));
   const stockOf = c => Math.round(c.carry * distMult(c));
-  const needleMult = c => Math.pow(CTL_STEP, upOf(c).c);
-  const perfectZone = c => c.zone + ACC_STEP * upOf(c).a;
+  const needleMult = c => Math.pow(CTL_STEP, upOf(c).c * upK(c).c);
+  const perfectZone = c => zoneU(c, upOf(c));
   const missMult = c => 1 - ACC_TRIM * upOf(c).a;   // Accuracy also makes every miss (and every putt) straighter
   // Pro Ball: the first upgrade cuts the wind to 90%, then each one after cuts 5% more, down to 60% at level 7
   const BALL_MAX = 7, ballWind = lv => lv <= 0 ? 1 : Math.max(0.6, 0.9 - 0.05 * (lv - 1));
@@ -2097,6 +2140,7 @@
   const HOLE_NAMES = {'meribah': ['Pine Gate', 'Ridge Run', 'Short Climb', 'Long Carry', 'High Bend', 'Hilltop Three', 'Narrow Way', 'Uphill Five', 'Back Slope', 'Cascade', 'Lower Creek', 'Little Water', 'Sweeping Five', 'Fir Line', 'Pond Carry', 'Shoal', 'Valley Road', 'Homeward'], 'hollow': ['Starter', 'Long Dunes', 'Gorse Line', 'Low Ground', 'Big Green', 'Ridge Line', 'Crosswind', 'Pot Bunker', 'Turnaround', 'Return', 'Sea Wall', 'Hidden Pots', 'Double Green', 'The Long One', 'Scrub', 'Railway', 'Old Wall', 'Clubhouse'], 'hearst': ['Opening Block', 'Short Street', 'Fountain', 'Avenue', 'Long Three', 'Pocket Green', 'Basin', 'Crosstown', 'Courtyard', 'Plaza', 'Two Bunkers', 'Uptown', 'Small Target', 'Overpass', 'Canal', 'Tight Three', 'Riverwalk', 'Skyline'], 'flyers': ['Front Gate', 'Oval Green', 'Pine Corridor', 'Long Haul', 'Twin Bunkers', 'Round Green', 'Hill Turn', 'The Pool', 'Final Five']};
   COURSES.forEach(c => (HOLE_NAMES[c.id] || []).forEach((n, i) => { if (c.holes[i]) c.holes[i].name = n; }));
   COURSES.forEach(c => { c.par = c.holes.reduce((a, h) => a + h.par, 0); c.yds = c.holes.reduce((a, h) => a + h.yds, 0); });
+  if (!save.unlocks.chamiman && chamiManDone()) grantChamiMan();   // golfers who already finished under par everywhere
   // ================= Gold Star Mini Golf =================
   // Holes are drawn in yards with x = right and y = forward from the tee. pts = the carpet's outline (it gets a wall all round).
   //   walls: [[x1, y1, x2, y2]] extra walls · posts: [[x, y, r]] bumpers · water: [[x, y, rx, ry]] ponds
@@ -2197,9 +2241,14 @@
     ['Desert waste', 'Nothing but sand between you and the green. Carry it all the way.', 0.8, 'Long'],
     ['Punchbowl', 'A big green in a hollow ringed by bunkers, with trees close behind.', 0.6, 'Short'],
     ['Double water', 'Two ponds in front, one either side of the line. Thread it down the middle.', 1.0, 'Mid'],
+    // (Nov 4 2026) new
+    ['Over the trees', 'A stand of tall trees sits right on the line. Hit it high enough to carry them, or go around.', 1.1, 'Mid'],
   ];
+  // (Nov 4 2026) from Nov 4 on, every daily hole is rated 4 stars or harder (the wind picks up until it is), and Over the trees joins the list.
+  // Earlier days keep the old rules so their leaderboards still match the hole everyone played.
+  const CTP_V2 = day => day >= '2026-11-04', ctpKinds = day => CTP_V2(day) ? CTP_KINDS.length : CTP_KINDS.length - 1;
   const ctpSeed = day => +day.replace(/-/g, '') % 233280;
-  const ctpKindOf = day => { const r = makeRng(ctpSeed(day) * 7 + 3); r(); r(); return Math.floor(r() * CTP_KINDS.length); };
+  const ctpKindOf = day => { const r = makeRng(ctpSeed(day) * 7 + 3); r(); r(); return Math.floor(r() * ctpKinds(day)); };
   const ctpPrevDay = day => { const d = new Date(day + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() - 1); return d.toISOString().slice(0, 10); };
   // elevation: + = the tee is above the green (downhill, plays shorter); - = uphill (plays longer). 1 yd up or down = 1 yd of carry.
   const playsLikeAdj = (h, fromX, fromY, toX, toY) => h && h.elev ? terrainH(h, fromX, fromY) - terrainH(h, toX, toY) : 0;
@@ -2211,7 +2260,7 @@
     for (let i = 0; i < 5; i++) rng();
     const base = COURSES[seed % COURSES.length], side = rng() < 0.5 ? -1 : 1, D = { k: 1, fw: 1, gm: 0.8 };
     let kind = ctpKindOf(day);
-    if (kind === ctpKindOf(ctpPrevDay(day))) kind = (kind + 1 + Math.floor(rng() * (CTP_KINDS.length - 1))) % CTP_KINDS.length;
+    if (kind === ctpKindOf(ctpPrevDay(day))) kind = (kind + 1 + Math.floor(rng() * (ctpKinds(day) - 1))) % ctpKinds(day);
     const pick = a => a[Math.floor(rng() * a.length)], span = (lo, hi) => lo + Math.round(rng() * (hi - lo));
     let real, o, name, elev = 0;
     switch (kind) {
@@ -2257,6 +2306,9 @@
       case 12:  // punchbowl: big green in a bowl, bunkers all round, trees behind
         real = span(120, 160); name = pick(['The Punchbowl', 'Soup Bowl', 'The Hollow', 'Amphitheatre']); elev = rng() < 0.6 ? span(2, 6) : 0;
         o = { g: [13, 14], bk: [['g-15', -8, 4, 3], ['g-15', 8, 4, 3], ['g+0', -16, 3, 5], ['g+0', 16, 3, 5]], wd: [['g+30', 0, 22, 9]], t: [34, 34], m: [40, 40], mb: 40 }; break;
+      case 14:  // over the trees: tall trees right on the line, bunkers behind the green
+        real = span(150, 190); name = pick(['Over the Top', 'Tree Topper', 'The Canopy', 'Sky Ball']);
+        o = { g: [9, 11], t: [26, 26], m: [36, 36], cl: [[0.42, 0, 5, 9], [0.5, side * 6, 3, 8]], bk: [['g+9', 0, 6, 3], ['g-2', -side * 11, 3, 5]] }; break;
       default:  // double water: two ponds either side of the line
         real = span(165, 210); name = pick(['Double Trouble', 'Twin Lakes', 'The Narrows', 'Split Decision']);
         o = { g: [9, 11], wt: [[0.45, -14, 26, 12], [0.62, 15, 24, 12]], bk: [['g-9', 0, 5, 3], ['g+8', side * 7, 4, 3]], t: [30, 30], m: [40, 40] };
@@ -2268,10 +2320,11 @@
     h.yds = Math.round(Math.hypot(h.pin.x - h.tee.x, h.pin.y - h.tee.y));
     if (elev) h.elev = elev;
     // wind: some days calm, most days a breeze, some days really gusty
-    const wr = rng(), mph = wr < 0.18 ? span(0, 5) : wr < 0.72 ? span(6, 15) : span(16, 27), ang = rng() * Math.PI * 2;
+    const wr = rng(); let mph = wr < 0.18 ? span(0, 5) : wr < 0.72 ? span(6, 15) : span(16, 27); const ang = rng() * Math.PI * 2;
+    const KIND = CTP_KINDS[kind], plays = Math.round(h.yds - elev);
+    if (CTP_V2(day)) { const need = Math.ceil((3.5 - 1 - (plays - 150) / 45 - KIND[2] * 0.6) * 10); mph = clamp(Math.max(mph, need), 0, 32); }   // 4 stars or more
     h.fixedWind = { mph, ang, x: Math.cos(ang) * mph, y: Math.sin(ang) * mph };
     h.after = null;
-    const KIND = CTP_KINDS[kind], plays = Math.round(h.yds - elev);
     const diff = clamp(Math.round(1 + (plays - 150) / 45 + mph / 10 + KIND[2] * 0.6), 1, 5);
     h.ctpKind = { label: KIND[0], about: KIND[1] + (elev ? ` The tee is ${Math.abs(elev * 3)} ft ${elev > 0 ? 'above' : 'below'} the green: it plays like about ${plays} yds.` : ''), diff, len: KIND[3], plays, elev };
     ctpCache = { id: 'ctp', ctp: true, day, name: 'Daily Closest to the Pin', desc: 'One swing. Get it close.', wind: mph, pal: base.pal, holes: [h], par: 3, yds: h.yds };
@@ -2322,8 +2375,10 @@
     const t = clamp(l2 ? ((p.x - a[0]) * dx + (p.y - a[1]) * dy) / l2 : 0, 0, 1);
     return Math.hypot(p.x - (a[0] + dx * t), p.y - (a[1] + dy * t));
   }
+  // (Nov 3 2026) the old darker "first cut" band beside the fairway is fairway now (same colour, same lie), out to a crisp edge line
+  const FAIR_PAD = 2;
   function inFairway(p, f) {
-    for (let i = 0; i < f.pts.length - 1; i++) if (segDist(p, f.pts[i], f.pts[i + 1]) <= f.w / 2) return true;
+    for (let i = 0; i < f.pts.length - 1; i++) if (segDist(p, f.pts[i], f.pts[i + 1]) <= f.w / 2 + FAIR_PAD) return true;
     return false;
   }
   // ---- Cart path: a paved path from beside the tee, along one side of the fairway, to beside the green ----
@@ -2340,7 +2395,7 @@
       { x: gr.x, y: gr.y, w: Math.max(gr.rx, gr.ry) * 2 + 6 }];
     const bad = p => p.x < b.x + 3 || p.y < b.y + 3 || p.x > b.x + b.w - 3 || p.y > b.y + b.h - 3
       || h.water.some(e => inEl(p, e, 4)) || h.bunkers.some(e => inEl(p, e, 3)) || inEl(p, gr, 4)
-      || h.fairways.some(f => f.pts.some((q, i) => i && segDist(p, f.pts[i - 1], q) < f.w / 2 + 2));
+      || h.fairways.some(f => f.pts.some((q, i) => i && segDist(p, f.pts[i - 1], q) < f.w / 2 + FAIR_PAD + 2.5));
     const build = side => {
       let cost = 0;
       const pts = center.map((c, i) => {
@@ -2440,6 +2495,7 @@
   function nameProblem(raw) {
     const n = String(raw || '').trim();
     if (!n) return 'Pick a name';
+    if (n.length < 3) return 'Names need at least 3 characters';   // (Nov 3 2026)
     if (/[^\p{L}\p{N} ._'-]/u.test(n.replace(/[!@$|+(<€£]/g, ''))) return 'Letters, numbers and spaces only';
     if (/(?<!\d)(69|420|666|1488|88)(?!\d)/.test(n)) return 'That name isn\'t allowed';
     const norm = n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split('').map(ch => LEET[ch] || ch).join('');
@@ -3070,9 +3126,8 @@
         gg.lineWidth = f.w + extra; gg.stroke();
       }
     };
-    // edge where the rough meets the first cut: a thin shadow, then the darker first cut
-    g.strokeStyle = 'rgba(0,0,0,.22)'; strokeFair(g, 5.4);
-    g.strokeStyle = pal.fairEdge; strokeFair(g, 4);
+    // (Nov 3 2026) one clear edge where the rough meets the fairway: a dark line, and the fairway is one colour right up to it
+    g.strokeStyle = 'rgba(0,0,0,.42)'; strokeFair(g, FAIR_PAD * 2 + 0.9);
     // fairway: textured layer (fairway paint + mowing stripes + patchy tone + fine grain, clipped to its shape)
     const fairLayer = (extra, rim) => {
       const L = mk(); L.lineCap = 'round'; L.lineJoin = 'round'; L.strokeStyle = pal.fair; strokeFair(L, extra);
@@ -3083,8 +3138,7 @@
       if (!rim) grain(L, Math.min(area / 3, cap / 30), 'rgba(15,45,5,.07)', 'rgba(200,245,150,.06)', 0.45);
       blit(g, L);
     };
-    fairLayer(0, true);    // full width, slightly darker: leaves a soft inner rim
-    fairLayer(-3, false);  // main fairway on top
+    fairLayer(FAIR_PAD * 2, false);   // the whole fairway, one colour (no darker rim inside it)
 
     // water: a dark shadow line and a muddy stone bank so the edge pops against the grass, then deep blue
     const ellK = (gg, e, k, pad = 0) => { gg.beginPath(); gg.ellipse(e.x, e.y, Math.max(0.1, e.rx * k + pad), Math.max(0.1, e.ry * k + pad), 0, 0, Math.PI * 2); };
@@ -3110,7 +3164,9 @@
     if (cp) {
       const line = (gg, w) => { gg.beginPath(); cp.pts.forEach(([x, y], i) => i ? gg.lineTo(x, y) : gg.moveTo(x, y)); gg.lineWidth = w; gg.stroke(); };
       g.lineCap = 'round'; g.lineJoin = 'round';
-      g.strokeStyle = 'rgba(0,0,0,.25)'; line(g, cp.w + 0.7);
+      // (Nov 3 2026) a clear edge: dark outline and a light concrete curb, so you can see exactly where the path starts
+      g.strokeStyle = 'rgba(0,0,0,.6)'; line(g, cp.w + 0.9);
+      g.strokeStyle = '#d6d4cc'; line(g, cp.w + 0.35);
       const Pl = mk(); Pl.lineCap = 'round'; Pl.lineJoin = 'round'; Pl.strokeStyle = '#9b9a94'; line(Pl, cp.w);
       Pl.globalCompositeOperation = 'source-atop';
       Pl.strokeStyle = 'rgba(255,255,255,.08)'; line(Pl, cp.w * 0.35);
@@ -3779,6 +3835,8 @@
     if (p.x < b.x || p.y < b.y || p.x > b.x + b.w || p.y > b.y + b.h) return hole.water.some(e => inEl(p, e)) ? 'water' : 'oob';
     if (inEl(p, hole.green)) return 'green';
     for (const e of hole.bunkers) if (inEl(p, e)) return 'sand';
+    // (Nov 3 2026) the dark grass lip around a bunker plays as rough (it's painted 1.9 yds out from the sand)
+    for (const e of hole.bunkers) if (inEl(p, e, 1.9) && !inEl(p, hole.green, 2.5)) return 'rough';
     if (inEl(p, hole.green, 2.5)) return 'fringe';
     for (const e of hole.water) if (inEl(p, e)) return 'water';
     if (onPath(p, hole)) return 'path';
@@ -3835,7 +3893,7 @@
       const blocked = hole.allTrees.some(tr => Math.hypot(tr.x - ball.x, tr.y - ball.y) > tr.r + 3 && segDist(tr, from, end) < tr.r * 0.85);
       if (blocked) { const i = closestClub(t.dw * 1.12, t.dw * 1.12); if (i >= 0) { recIdx = i; lay = t; } }
     }
-    if (hole.mini) recIdx = PUTTER;
+    if (putterOnly()) recIdx = PUTTER;
     clubIdx = recIdx;
     const am = hole.mini && strokes === 0 && hole.aim ? hole.aim : lay || hole.pin;
     aimAng = Math.atan2(am.y - ball.y, am.x - ball.x);
@@ -4016,12 +4074,14 @@
   glCanvas.addEventListener('pointerup', endPointer);
   glCanvas.addEventListener('pointercancel', () => { if (state === 'swinging') { state = 'ready'; swing = null; } ptr = null; });
 
-  function setClub(i) { if (state !== 'ready' || (hole && hole.mini)) return; clubIdx = (i + CLUBS.length) % CLUBS.length; if (hole && hole.range) rangeManual = true; sfx.click(); }
+  // (Nov 3 2026) on the green it's putter only
+  const putterOnly = () => !!hole && !hole.range && (hole.mini || terrainAt(ball) === 'green');
+  function setClub(i) { if (state !== 'ready' || (hole && putterOnly())) return; clubIdx = (i + CLUBS.length) % CLUBS.length; if (hole && hole.range) rangeManual = true; sfx.click(); }
   // ---- club wheel ----
   save.ui = save.ui || {};
   function wheelOpen(open) {
     const bar = $('bar');
-    if (open && (state !== 'ready' || (hole && hole.mini))) return;
+    if (open && (state !== 'ready' || (hole && putterOnly()))) return;
     bar.classList.toggle('open', open);
     if (!open) { [...$('cRing').children].forEach(b => b.style.transform = ''); return; }
     const n = CLUBS.length, R = 164, a0 = 173, a1 = 281;
@@ -4109,7 +4169,7 @@
     lastShot = { lie, dist: distToPin(), putter: !!c.putter, tee: strokes === 0 && lie === 'tee' && !hole.mini, pathHit: false,
       club: c.short, pct: Math.round(power * 100), pure: oe === 0, stock: Math.round(stockNow(c)) };
     strokes++; firstShot = false; trailReset(); swing = null; lastClub = clubIdx;
-    ball.z = 0; ball.vz = 0; ball.spin = 0; ball.full = false; ball.rollCap = 0;
+    ball.z = 0; ball.vz = 0; ball.spin = 0; ball.full = false; ball.rollCap = 0; ball.pathKick = false;
     const lieErr = lie === 'rough' ? 1.4 : lie === 'sand' ? 1.6 : 1;
     const full = stockNow(c);
     lastPutt = !!c.putter;
@@ -4317,7 +4377,10 @@
     ball.vx = ux * nh; ball.vy = uy * nh; ball.spin = spin * 0.5;
     ball.vz = vn * e;
     // the cart path is concrete: anything landing on it kicks up hard and skips off at an odd angle
-    if (t === 'path' && !hole.mini && (vin > 2 || sp > 6)) {
+    // (Nov 3 2026 fix) only the first landing on the path kicks the ball up: before, every bounce re-kicked it 3+ yds/s,
+    // so the bounce never died out and the ball got stuck hopping on the path.
+    if (t === 'path' && !hole.mini && !ball.pathKick && (vin > 2 || sp > 6)) {
+      ball.pathKick = true;
       ball.vz = Math.max(ball.vz, 3 + vin * 0.45);
       const kick = gauss() * 9 * DEG, cs = Math.cos(kick), sn = Math.sin(kick), vx = ball.vx, vy = ball.vy;
       ball.vx = (vx * cs - vy * sn) * 0.8; ball.vy = (vx * sn + vy * cs) * 0.8;   // the hard landing scuffs off some pace
@@ -4583,6 +4646,7 @@
     const base = course.mini ? (MINI_PAY[String(Math.max(-2, d))] || 0) : payFor(strokes, hole.par);
     const hadMo = momentumPct(streak);
     streak = d <= 0 ? streak + 1 : 0;
+    if (!course.mini && streak > (save.stats.bestStreak | 0)) save.stats.bestStreak = streak;
     const mo = momentumPct(streak), pay = base + (base && mo ? Math.max(1, Math.round(base * mo / 100)) : 0); earned[holeIdx] = pay;
     const mate = MP && MP.remote ? MP.remote : '';
     const moTxt = mo ? ` · Momentum +${mo}%` : hadMo ? ' · Momentum lost' : streak === MO_START - 1 ? ' · 1 more for Momentum' : '';
@@ -5334,7 +5398,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.03b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.03c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5518,9 +5582,15 @@
       inp.value = save.name && !['Player', 'Member'].includes(save.name) ? save.name : ''; warn.classList.add('hidden');
       ov.classList.remove('hidden'); setTimeout(() => { try { inp.focus(); } catch (e) {} }, 60);
       const done = ok => { ov.classList.add('hidden'); $('naOk').onclick = $('naNo').onclick = inp.onkeydown = null; ensureAudio(); sfx.click(); res(ok); };
-      $('naOk').onclick = () => {
-        const v = inp.value.trim().slice(0, 14), bad = nameProblem(v) || (['player', 'member'].includes(v.toLowerCase()) ? 'Pick your own name' : '');
+      let busy = false;
+      $('naOk').onclick = async () => {
+        if (busy) return;
+        const v = inp.value.trim().slice(0, 14), bad = nameProblem(v) || (['player', 'member', 'golfer'].includes(v.toLowerCase()) ? 'Pick your own name' : '');
         if (bad) { warn.textContent = bad; warn.classList.remove('hidden'); return; }
+        busy = true; warn.textContent = 'Checking the name…'; warn.classList.remove('hidden');
+        const taken = await claimName(v); busy = false;
+        if (taken) { warn.textContent = taken; return; }
+        warn.classList.add('hidden');
         save.name = v; persist(); if ($('gName')) $('gName').value = v; presence(); flushAces(); done(true);
       };
       $('naNo').onclick = () => done(false);
@@ -5528,6 +5598,34 @@
     });
   }
   const ensureName = async () => !needsName() ? true : askName();
+  // (Nov 3 2026) no repeated names: each name is claimed in names/{lowercase name} (first come, first served).
+  // Resolves '' when the name is yours, or a message when someone else has it. Offline it's allowed (checked again later).
+  const nameKey = n => String(n || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  async function claimName(v) {
+    if (!ONLINE || !fbDb) return '';
+    const u = await ensureOnlineUser().catch(() => null); if (!u) return '';
+    const nm = String(v).trim().replace(/\s+/g, ' ').slice(0, 14), key = nm.toLowerCase(), ref = fbDb.collection('names').doc(key), oldKey = save.nameKey && save.nameKey !== key ? save.nameKey : '';
+    try {
+      const taken = await fbDb.runTransaction(async tx => {
+        const d = await tx.get(ref);
+        if (d.exists && d.data().uid !== u.uid) return true;
+        tx.set(ref, { uid: u.uid, name: nm, at: Date.now() }); return false;
+      });
+      if (taken) return 'Someone already has that name. Pick a different one.';
+    } catch (e) { return ''; }   // the check couldn't run (Wi-Fi): don't block the golfer
+    save.nameKey = key; persist();
+    if (oldKey) fbDb.collection('names').doc(oldKey).get().then(d => { if (d.exists && d.data().uid === u.uid) d.ref.delete(); }).catch(() => {});
+    return '';
+  }
+  // golfers who had a name from before the rule: claim it now, or pick a new one if someone else got there first
+  let nameChecked = false;
+  async function checkMyName() {
+    if (nameChecked || !ONLINE || needsName() || save.nameKey === nameKey(save.name)) return;
+    nameChecked = true;
+    const msg = await claimName(save.name);
+    if (msg) { const old = save.name; save.name = 'Member'; persist(); if ($('gName')) $('gName').value = '';
+      askName(`Another member already uses the name "${old}". Names can't repeat now, so pick a new one.`); }
+  }
 
   // One row per golfer per board: their best score. Ties go to whoever posted it first.
   // Firebase's free plan allows 50,000 reads a day, so boards are remembered for 5 minutes (even through a reload)
@@ -5829,7 +5927,7 @@
     if (u && u.isAnonymous) { fbGuest = u; fbUser = null; } else { fbUser = u || null; fbGuest = null; }
     cloudReady = false; renderAcct();
     if (fbUser) { await syncFromCloud(); renderAcct(); }
-    if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); claimCupPrizes(); registerHr(); flushFlags(); loadBanList(); }
+    if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); claimCupPrizes(); registerHr(); flushFlags(); loadBanList(); setTimeout(checkMyName, 2500); }
     if (!checkedOnce && (u || !fbAuth)) { checkedOnce = true; startupChecks(); }
     mpOnAuth();
     // every golfer gets a member code automatically (a quiet guest account is the fallback if that can't be made right now)
@@ -7089,14 +7187,22 @@
     };
     fr.readAsDataURL(e.target.files[0]);
   });
+  // (Nov 3 2026) the name is checked while you type and saved when you finish (tap away or press Enter), once it's free
   $('gName').addEventListener('input', e => {
     const v = e.target.value.trim().slice(0, 14), bad = v ? nameProblem(v) : '';
     const w = $('gNameWarn'); if (w) { w.textContent = bad; w.classList.toggle('hidden', !bad); }
     e.target.classList.toggle('bad', !!bad);
-    if (!bad) { save.name = v; persist(); flushAces(); regPlayer(); }
   });
-  $('gName').addEventListener('blur', e => {
-    if (nameProblem(e.target.value)) { e.target.value = save.name || ''; e.target.classList.remove('bad'); const w = $('gNameWarn'); if (w) w.classList.add('hidden'); }
+  $('gName').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') e.target.blur(); });
+  $('gName').addEventListener('blur', async e => {
+    const inp = e.target, v = inp.value.trim().slice(0, 14), w = $('gNameWarn');
+    const back = msg => { inp.value = save.name && !['Player', 'Member'].includes(save.name) ? save.name : ''; inp.classList.remove('bad'); if (w) { w.textContent = msg || ''; w.classList.toggle('hidden', !msg); } };
+    if (v === (save.name || '')) return back();
+    if (nameProblem(v)) return back();
+    if (w) { w.textContent = 'Checking the name…'; w.classList.remove('hidden'); }
+    const taken = await claimName(v);
+    if (taken) return back(taken);
+    save.name = v; persist(); flushAces(); regPlayer(); if (w) w.classList.add('hidden');
   });
   $('gName').addEventListener('keydown', e => { if (e.key === 'Enter') e.target.blur(); e.stopPropagation(); });
 
@@ -7193,7 +7299,7 @@
   const pipRow = (n, of = MAX_LV) => Array.from({ length: of }, (_, i) => `<span class="pip${i < n ? ' on' : ''}"></span>`).join('');
   // stat rows for a club at a given level (used for the current bars and the "next level" ghost marker)
   function clubStats(c, u) {
-    const dist = Math.round(c.carry * (c.putter ? 1 : 0.9 + PWR_STEP * u.p)), zone = c.zone + ACC_STEP * u.a, spd = c.speed * Math.pow(CTL_STEP, u.c);
+    const dist = Math.round(c.carry * distMultU(c, u)), zone = zoneU(c, u), spd = speedU(c, u);
     const rows = [];
     if (c.putter) rows.push({ k: 'Roll', v: dist / 45, t: `${dist} yds` });
     else rows.push({ k: 'Power', v: dist / 290, t: `${dist} yds` });
@@ -7239,8 +7345,8 @@
     let left = '', stats = '';
     if (clubSel < 8) {
       const si = clubSel, eq = CLUBS[si], u = upOf(eq), lv = lvOf(eq), ts = tracksOf(eq), total = ts.length * MAX_LV;
-      const what = { p: () => `+${Math.round(eq.carry * PWR_STEP)} yds (${Math.round(eq.carry * (distMult(eq) + PWR_STEP))} total)`,
-        a: () => eq.putter ? 'Gold zone +1.6%' : 'Gold zone +1.6% · misses 8% straighter', c: () => 'Needle 12% slower' };
+      const K = upK(eq), what = { p: () => `+${Math.round(eq.carry * PWR_STEP * K.p)} yds (${Math.round(eq.carry * (distMult(eq) + PWR_STEP * K.p))} total)`,
+        a: () => `Gold zone +${(ACC_STEP * K.a * 100).toFixed(1)}%${eq.putter ? '' : ' · misses 8% straighter'}`, c: () => `Needle ${Math.round((1 - Math.pow(CTL_STEP, K.c)) * 100)}% slower` };
       const rows = ts.map(([k, name]) => {
         const cur = u[k], cost = cur < MAX_LV ? upCost(eq, k, cur) : 0, open = canUpTrack(eq, k);
         const btn = cur >= MAX_LV ? '<button class="main sm" disabled>MAXED</button>'
@@ -7327,12 +7433,13 @@
 
   // (update 2.4) achievements are grouped into drop-down sections, so members can find the ones for what they like to play
   const AWARD_GROUPS = [
-    ['rounds', 'flag', 'Rounds & courses', ['round1', 'rounds25', 'rounds100', 'rounds250', 'holes500', 'explorer', 'valley', 'masters', 'blackTees', 'underpar1', 'underpar10', 'underpar25']],
+    ['rounds', 'flag', 'Rounds & courses', ['round1', 'rounds25', 'rounds100', 'rounds250', 'holes500', 'explorer', 'playall', 'valley', 'masters', 'blackTees', 'underpar1', 'underpar10', 'underpar25', 'evenall', 'chamiman', 'bogeyfree', 'momo9']],
     ['scoring', 'trophy', 'Birdies, eagles & aces', ['par100', 'birdie1', 'birdie25', 'birdie100', 'eagle1', 'eagle10', 'eagle50', 'albatross', 'ace1', 'ace5']],
-    ['short', 'target', 'Short game & putting', ['chip1', 'chip10', 'chip25', 'sand1', 'putt10', 'putt10x', 'putt25x']],
+    ['short', 'target', 'Short game & putting', ['chip1', 'chip10', 'chip25', 'chip100', 'sand1', 'putt10', 'putt10x', 'putt25x']],
     ['power', 'club', 'Driving & striking', ['drive250', 'drive275', 'drive300', 'perfect100', 'perfect1000', 'perfect10000']],
-    ['modes', 'star', 'Challenges, range & mini golf', ['stiff', 'bucket10', 'bucket50', 'mini1', 'miniace', 'miniunder', 'mini10']],
-    ['cup', 'school', 'Homeroom Cup', ['homeroom', 'cup1', 'cup10']],
+    ['modes', 'star', 'Challenges, range & mini golf', ['stiff', 'sharp3', 'champ1', 'champ10', 'champ25', 'bucket10', 'bucket50', 'mini1', 'miniace', 'miniunder', 'mini10']],
+    ['cup', 'school', 'Homeroom Cup', ['homeroom', 'cup1', 'cup10', 'hrpodium', 'hrchamp', 'hrchamp5', 'hrmvp', 'hrfirst']],
+    ['gear', 'club', 'Clubs & gear', ['club1', 'club10', 'clubAll', 'maxclub']],
     ['money', 'gift', 'Money', ['earn10k', 'earn100k']],
   ];
   const awOpen = {};
@@ -7342,7 +7449,7 @@
       const [h, n] = a.prog(st$()), done = hasAward(a.id), bag = BAG_PRESETS.find(p => p.award === a.id);
       const pct = Math.min(100, Math.round(Math.min(h, n) / n * 100));
       const prog = n > 1 ? `${Math.min(h, n).toLocaleString()} / ${n.toLocaleString()}` : (done ? 'Done' : 'Not yet');
-      const reward = [a.pay ? money(a.pay) : '', bag ? `${bag.name} bag` : '', a.id === 'stiff' ? 'Senior Sweater' : ''].filter(Boolean).join(' · ');
+      const reward = [a.pay ? money(a.pay) : '', bag ? `${bag.name} bag` : '', a.id === 'stiff' ? 'Senior Sweater' : '', a.id === 'chamiman' ? 'Chami Man Jacket' : ''].filter(Boolean).join(' · ');
       return `<div class="aw${done ? ' done' : ''}"><div class="ai">${done ? a.icon : ico('lock')}</div><div class="ab"><div class="an">${a.name}</div><div class="ad">${a.how}</div>
         <div class="ap"><i><b style="width:${done ? 100 : pct}%"></b></i><span>${prog}</span></div>${reward ? `<div class="ar">Reward: ${reward}</div>` : ''}</div></div>`;
     };
@@ -7534,7 +7641,8 @@
 
     const wasLocked = COURSES.filter(c => !isUnlocked(c)).map(c => c.id);
     save.coins += total; s.earnedTotal += total;
-    if (!course.mini && !roundCut) { s.rounds++; s.strokesTotal += ts; s.parTotal += tp; if (rel < 0) s.underPar++; }
+    if (!course.mini && !roundCut) { s.rounds++; s.strokesTotal += ts; s.parTotal += tp; if (rel < 0) s.underPar++;
+      if (HOLES.length === 18 && HOLES.every((h, i) => scores[i] != null && scores[i] <= h.par)) s.bogeyFree = (s.bogeyFree | 0) + 1; }
     if (!roundCut && !cupGuest) s.roundsBy[course.id] = (s.roundsBy[course.id] || 0) + 1;   // a cup round on a locked course doesn't unlock it
     let mastersLine = '';
     if (course.id === MASTERS_CID && !roundCut && HOLES.length >= course.holes.length && rel <= MASTERS_REL && !unlocked('masters')) {
@@ -7550,6 +7658,7 @@
       bumpDaily({ rounds: 1 });
       const best = s.bestBy[course.id];
       if (best == null || rel < best) { line = best == null ? 'First round here!' : 'New course best!'; s.bestBy[course.id] = rel; }
+      if (!unlocked('chamiman') && chamiManDone()) { grantChamiMan(); mastersLine += ' · CHAMI MAN JACKET UNLOCKED!'; burst(260); }
       else line = `Course best: ${fmtRel(best)}`;
       rank = recordScore(rel, ts);
       if (rank) line += ` · Leaderboard #${rank}`;
@@ -7611,6 +7720,7 @@
     }
     if (pay) { save.coins += pay; save.stats.earnedTotal += pay; }
     let unlockLine = '';
+    if (ft != null && (save.stats.ctpBestFt == null || ft < save.stats.ctpBestFt)) save.stats.ctpBestFt = ft;
     if (ft != null && ft <= CTP_UNLOCK_FT && !unlocked('senior')) { save.unlocks.senior = true; unlockLine = 'You unlocked the Senior Sweater! Wear it from the Golfer tab.'; }
     if (yd === 0) { save.badges.ace = 1; postAce(course, 0, hole);
       cheatFlag('ace', `ace in Closest to the Pin ${hole.yds}y · ${lastShot ? `${lastShot.club} ${lastShot.pct}%` : ''} · career aces ${save.stats.aces} · try ${ctpState().tries}`, false); }
@@ -8097,8 +8207,14 @@
       ${frozen ? '<div class="spnote">Showing a past week. <button class="linkBtn" data-cuplive="1">Back to this week</button></div>' : ''}
       ${save.hr ? '' : `<div class="sppick"><div class="sph">Pick your homeroom</div>${hrPicker('', 'myhr')}<div class="spsmall">Pick carefully: it can't be changed later.</div></div>`}
       <div class="spbar">${!frozen && w.phase === 'live' ? (cupLiveSaved() ? `<button class="main sm" data-cupplay="1">▶ Continue match (Hole ${cupNextHole()})</button>` : '<button class="main sm" data-cupplay="1">Play cup round ›</button>') : ''}${save.hr ? `<span class="spme"><i>${save.hr}</i>Your homeroom ${ico('lock')}</span>` : ''}</div>
-      <div class="spprize"><div><b>${money(CUP_PAY[0])}</b><span>every member · 1st place</span></div><div><b>${money(CUP_PAY[1])}</b><span>every member · 2nd</span></div>
-        <div><b>${money(CUP_PAY[2])}</b><span>every member · 3rd</span></div><div><b>${money(CUP_MVP_PAY)}</b><span>best member in every other homeroom</span></div></div>
+      <div class="spprize"><div><b>${money(CUP_PAY[0])}</b><span>to <u>each</u> golfer on the 1st place homeroom</span></div><div><b>${money(CUP_PAY[1])}</b><span>to each golfer on the 2nd place homeroom</span></div>
+        <div><b>${money(CUP_PAY[2])}</b><span>to each golfer on the 3rd place homeroom</span></div><div><b>${money(CUP_MVP_PAY)}</b><span>to the best golfer of every homeroom except the winner</span></div></div>
+      <details class="sphow" open><summary>How the prizes work</summary><p>
+        <b>1. Play.</b> Post at least one full 18-hole round on this week's cup course before Friday 2:40 PM. Only golfers who posted a round get paid.<br>
+        <b>2. Your team's score.</b> Your 2 best rounds count. Your homeroom's ${CUP_MAX} lowest scores are averaged, and the lowest average wins. A homeroom needs ${CUP_MIN} scores to be in the running.<br>
+        <b>3. Team prizes.</b> If your homeroom finishes 1st, <b>you</b> get ${money(CUP_PAY[0])}. Everyone on that team who played gets the same amount, not a share. 2nd place gets ${money(CUP_PAY[1])} each and 3rd gets ${money(CUP_PAY[2])} each.<br>
+        <b>4. Best golfer bonus.</b> The golfer with the lowest score in each homeroom (except the winning one) also gets ${money(CUP_MVP_PAY)}, on top of any team prize.<br>
+        <b>5. Getting paid.</b> The winner is announced Friday at 2:42 PM. Your money is added the next time you open the game.</p></details>
       <details class="sphow"><summary>How it works</summary><p>Your <b>2 best</b> full 18-hole rounds on this week's course (Monday 7:00 AM to Friday 2:40 PM) are your official scores, and both count for your homeroom. Each homeroom's ${CUP_MAX} lowest scores make its team average and the lowest average wins. A homeroom needs ${CUP_MIN} scores to qualify (5 golfers with 2 rounds each is enough). An 18-hole round can be saved at the turn and finished later. Prizes are paid when the winner is announced Friday at 2:42 PM (the next time you open the game).</p></details>
       <div class="spnav">${[['teams', 'trophy', 'Standings'], ['hr', 'school', 'Homerooms'], ['school', 'users', 'Everyone'], ['past', 'star', 'Past winners']].map(([v, i, n]) => `<button data-cv="${v}" class="${cupView === v ? 'on' : ''}">${ico(i)}<span>${n}</span></button>`).join('')}</div>`;
     const done = inner => { box.innerHTML = html + `<div class="spbody">${inner}</div></div>`; };
@@ -8255,10 +8371,15 @@
         let pay = 0; const why = [];
         if (me) {
           const res = cupCalcNow(rows), t = res.teams.find(x => x.hr === me.hr);
+          const st = save.stats;
+          if (t && t.rank === 1) st.hrWins = (st.hrWins | 0) + 1;
+          if (t && t.rank && t.rank <= 3) st.hrTop3 = (st.hrTop3 | 0) + 1;
+          if (res.school[0] && res.school[0].uid === uid) st.cupFirst = (st.cupFirst | 0) + 1;
+          if (t && t.list[0] && t.list[0].uid === uid) st.cupMvp = (st.cupMvp | 0) + 1;
           if (t && t.rank && t.rank <= 3) { pay += CUP_PAY[t.rank - 1]; why.push(`${hrLabel(t.hr)} finished ${['1st', '2nd', '3rd'][t.rank - 1]}: <b>${money(CUP_PAY[t.rank - 1])}</b>`); }
           if (t && res.winner && t.hr !== res.winner && t.list[0] && t.list[0].uid === uid) { pay += CUP_MVP_PAY; why.push(`Best member in ${hrLabel(t.hr)}: <b>${money(CUP_MVP_PAY)}</b>`); }
         }
-        save.cupPaid[w.id] = pay;
+        save.cupPaid[w.id] = pay; checkAwards();
         if (pay) {
           save.coins += pay; save.stats.earnedTotal += pay; persist(); setTimeout(cloudSaveSoon, 0);
           $('prizeBody').innerHTML = `<b>Spirit Day Homeroom Cup · ${fmtWeek(w.id)}</b><br>${why.join('<br>')}<br><br>Total: <b>+${money(pay)}</b>`;
