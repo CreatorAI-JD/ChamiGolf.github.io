@@ -4564,15 +4564,50 @@
     if (course.ctp) return ctpDone(Math.hypot(ball.x - hole.pin.x, ball.y - hole.pin.y));
     if (mpTeamFmt()) return mpAfterShot(false);
     if (strokes >= maxStrokes()) return pickUp();
+    // (Nov 3 2026, drops update) the ball can't stay on the cart path: free drop (no penalty) at the nearest spot off it,
+    // never closer to the hole
+    if (!hole.mini && !course.range && terrainAt(ball) === 'path') { const d = pathDrop(); if (d) { ball.x = d.x; ball.y = d.y; ball.vx = ball.vy = 0; prev = { x: ball.x, y: ball.y }; showBanner('Free drop', 'Off the cart path · no penalty', 1.6); } }
     // (Nov 3 2026) let the shot register: the camera holds on the ball where it stopped for a moment, then glides to the next shot
     state = 'settle'; settleT = SAVER ? 0.35 : 0.9;
   }
   let settleT = 0;
+  // (Nov 3 2026, drops update) Water plays like the pros: +1 stroke and a drop just outside the spot where the ball went in
+  // (on the line it travelled, back toward where it was hit from, so never closer to the hole). Out of bounds is still
+  // stroke and distance (replay from the last spot). Mini golf keeps replaying from the last spot.
+  const dropOk = p => { const t = terrainAt(p); return t !== 'water' && t !== 'oob' && t !== 'path'; };
+  function waterDrop() {
+    const ex = ball.x, ey = ball.y, dx = prev.x - ex, dy = prev.y - ey, L = Math.hypot(dx, dy);
+    if (L < 1) return null;
+    for (let d = 0.5; d < L; d += 0.5) {   // walk back along the ball's line until it's out of the water: that's where it went in
+      const p = { x: ex + dx / L * d, y: ey + dy / L * d };
+      if (terrainAt(p) !== 'water') {
+        for (let e = 2; d + e < L; e += 1) { const q = { x: ex + dx / L * (d + e), y: ey + dy / L * (d + e) }; if (dropOk(q)) return q; }   // 2 yds clear of the edge
+        return null;
+      }
+    }
+    return null;
+  }
+  let penDrop = null;
+  function pathDrop() {
+    const P = cartPath(hole); if (!P) return null;
+    let best = null, bd = Infinity;
+    for (let i = 0; i < P.pts.length - 1; i++) { const d = segDist(ball, P.pts[i], P.pts[i + 1]); if (d < bd) { bd = d; best = i; } }
+    if (best == null) return null;
+    const a = P.pts[best], b = P.pts[best + 1], sx = b[0] - a[0], sy = b[1] - a[1], sl = Math.hypot(sx, sy) || 1, nx = -sy / sl, ny = sx / sl;
+    const pin = hole.pin, d0 = Math.hypot(pin.x - ball.x, pin.y - ball.y), opts = [];
+    for (let off = P.w / 2 + 1; off < P.w / 2 + 8; off += 0.5) for (const sd of [1, -1]) {
+      const q = { x: ball.x + nx * sd * off, y: ball.y + ny * sd * off };
+      if (dropOk(q) && terrainAt(q) !== 'sand' && Math.hypot(pin.x - q.x, pin.y - q.y) >= d0 - 0.5) opts.push({ q, off });
+      if (opts.length) return opts[0].q;
+    }
+    return null;
+  }
   function penalty(msg, water) {
     flight = null; strokes++; lastClub = -1;
     state = 'penalty'; penT = 1.6;
     splash = water ? { x: ball.x, y: ball.y, t: 0 } : null;
-    showBanner(msg, course.ctp ? 'No score on this try' : course.range ? 'No money on that one' : '+1 stroke · replay from last spot', 1.6);
+    penDrop = water && !hole.mini && !course.ctp && !course.range ? waterDrop() : null;
+    showBanner(msg, course.ctp ? 'No score on this try' : course.range ? 'No money on that one' : penDrop ? '+1 stroke · drop where it went in' : '+1 stroke · replay from last spot', 1.6);
     water ? sfx.splash() : sfx.land();
   }
   // The ball drops in with real physics: it falls, can clatter off the back of the cup, and settles on the bottom.
@@ -4829,7 +4864,8 @@
       if (penT <= 0 && course.ctp) { splash = null; ctpDone(null); }
       else if (penT <= 0 && course.range) { splash = null; state = 'rolling'; rangeDone(null, false, 0, true); }
       else if (penT <= 0) {
-        ball = { x: prev.x, y: prev.y, vx: 0, vy: 0 }; splash = null; trailReset();
+        const at = penDrop || prev; penDrop = null;
+        ball = { x: at.x, y: at.y, vx: 0, vy: 0 }; splash = null; trailReset();
         if (mpTeamFmt()) mpAfterShot(true);
         else if (strokes >= maxStrokes()) pickUp(); else readyForShot();
       }
@@ -5412,7 +5448,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.03h';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.03i';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -8698,7 +8734,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.03a', NEWS_NUM = '3.0';
+  const NEWS_VER = '2026.11.03b', NEWS_NUM = '3.0';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -8745,6 +8781,7 @@
     ['lock', '<b>Earn the big courses:</b> the 18-hole courses now unlock with a real score at the course before them (the course page shows what you need).'],
     ['club', '<b>Smarter shop:</b> clubs go cheapest to priciest, with #1 / #2 / #3 BEST VALUE tags and Farthest hitter, Slowest needle, Biggest gold and Straightest tags. Driver descriptions match their real stats, prices are balanced, and upgrades are fair: a club that is already better than the starter gets less from each upgrade.'],
     ['target', '<b>Cleaner course:</b> clear lines on the cart path and the fairway edge (the whole fairway is one colour), the grass lip around bunkers plays as rough, the ball no longer gets stuck on the cart path, and it\'s putter only on the green.'],
+    ['flag', '<b>Drops, like the pros:</b> a ball that stops on the cart path gets a free drop at the nearest spot off it (no penalty, never closer to the hole). In the water it\'s +1 stroke and you drop just outside where it went in, instead of replaying the shot.'],
     ['camera', '<b>Calmer camera:</b> it holds on the ball for a moment after it stops, then glides to your next shot.'],
     ['trophy', '<b>New achievements:</b> Homeroom Champion, Top of the School, Team MVP, Daily Champion 1 / 10 / 25, Magician (100 chip-ins), club collecting, Course Master, Grand Tour and more. The hardest one unlocks the new <b>Chami Man Jacket</b>: finish under par on every course.'],
     ['star', '<b>Daily Closest to the Pin</b> is always 4 stars or harder now, with a new <b>Over the trees</b> hole.'],

@@ -46,6 +46,7 @@ Everyone started over (twice on Oct 28: once in the afternoon and again with upd
 - Shop: cheapest-first, BEST VALUE and best-at tags, balanced prices, fixed driver descriptions, fair upgrades (`upK`).
 - Course: cart path no longer traps the ball, clear path/fairway edges (`FAIR_PAD`), bunker lips are rough, putter only on greens.
 - Camera holds on the ball after it stops, then glides.
+- Drops: free drop off the cart path (`pathDrop`); water is +1 and a drop where the ball went in (`waterDrop`); out of bounds is still stroke and distance.
 - New achievements and the Chami Man Jacket (under par on every course).
 - Daily Closest to the Pin: 4 stars or harder from Nov 4, new Over the trees layout.
 - Stats: longest chip-in, longest putt. Names: 3+ characters, unique (`names/{name}`). My colours row. Phone layout.
