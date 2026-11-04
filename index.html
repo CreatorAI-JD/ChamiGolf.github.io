@@ -2365,7 +2365,13 @@
   const fixName = t => String(t == null ? '' : t).replace(/\bFarb(o|e)r\b/g, 'Faerber');
   const courseById = id => id === 'mini' ? MINI : (COURSES.find(c => c.id === id) || COURSES[0]);
   // (a course you've already finished a round on always stays open, even if the unlock order changes)
-  const isUnlocked = c => !c.unlock || (save.stats.roundsBy[c.unlock] || 0) > 0 || (save.stats.roundsBy[c.id] || 0) > 0;
+  // (Nov 3 2026) the 18-hole courses need a real score, not just a finished round, at the course before them (no speed-running).
+  // Strokes over par you need to shoot (or better) at the unlocking course. Courses you've already played stay open.
+  const UNLOCK_BAR = { hearst: 4, meribah: 3, hollow: 6, valley: 5, clblack: 3 };
+  const barMet = c => { const b = UNLOCK_BAR[c.id], best = save.stats.bestBy[c.unlock]; return b == null ? (save.stats.roundsBy[c.unlock] || 0) > 0 : best != null && best <= b; };
+  const isUnlocked = c => !c.unlock || barMet(c) || (save.stats.roundsBy[c.id] || 0) > 0;
+  const unlockTxt = c => { const b = UNLOCK_BAR[c.id], u = courseById(c.unlock).name, best = save.stats.bestBy[c.unlock];
+    return b == null ? `Finish a round at ${u} to unlock` : `Shoot ${fmtRel(b)} or better at ${u} to unlock${best != null ? ` (your best there: ${fmtRel(best)})` : ''}`; };
 
   // ================= Helpers =================
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -5361,7 +5367,7 @@
         return `<div class="pausedBox"><b>Saved round</b> · Thru ${P.next} of 18 · ${tot} strokes (${fmtRel(tot - par)})${P.cup ? ' · Homeroom Cup' : ''}
           <div class="cdbtns" style="margin:8px 0 0"><button class="main" data-pgo="1">▶ Continue round (Hole ${P.next + 1})</button><button class="ghost" data-pfin="1">Finish round</button></div>
           <div style="font-size:11px;opacity:.75;margin-top:4px">Finish round = end it now and get paid for the holes you played (it won't go on the leaderboards).</div></div>`; })()}
-      <div class="cdbtns">${open ? `<button class="main" data-tee="1">${c.mini ? 'Start mini golf' : 'Tee off'}</button>` : `<div class="lock" style="flex:1">${ico('lock')} Finish a round at ${courseById(c.unlock).name} to unlock</div>`}
+      <div class="cdbtns">${open ? `<button class="main" data-tee="1">${c.mini ? 'Start mini golf' : 'Tee off'}</button>` : `<div class="lock" style="flex:1">${ico('lock')} ${unlockTxt(c)}</div>`}
         ${c.mini ? '' : '<button class="ghost" data-chclubs="1">Change clubs</button>'}</div>
       ${c.mini ? '<div style="font-size:12px;color:#f3d7a8;text-align:center">Par 41 · Max 7 strokes a hole · Payouts: 2 under $60 · 1 under (an ace on a par 2) $30 · par $10</div>'
         : `<div style="font-size:12px;color:#f3d7a8;text-align:center">In your bag: ${bag}</div>`}
@@ -5401,7 +5407,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.03d';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.03e';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -7284,7 +7290,7 @@
       const open = isUnlocked(c), best = save.stats.bestBy[c.id], played = save.stats.roundsBy[c.id] || 0;
       // compact cards (the full description is on the course page), so more of the course behind them shows
       const meta = `${c.holes.length} holes · Par ${c.par} · ${c.yds.toLocaleString()} yds`;
-      const rec = !open ? `${ico('lock')} Beat ${courseById(c.unlock).name}` : best == null ? 'Not played yet' : `Best ${c.par + best}(${fmtRel(best)}) · ${played} played`;
+      const rec = !open ? `${ico('lock')} ${UNLOCK_BAR[c.id] != null ? `Shoot ${fmtRel(UNLOCK_BAR[c.id])} at ${courseById(c.unlock).name}` : `Beat ${courseById(c.unlock).name}`}` : best == null ? 'Not played yet' : `Best ${c.par + best}(${fmtRel(best)}) · ${played} played`;
       return `<div class="course mini-c${c.id === course.id ? ' sel' : ''}${open ? '' : ' locked'}" data-pick="${c.id}">
         <div class="thumb" style="background-image:url('${courseThumb(c)}');${open ? '' : 'filter:grayscale(.8) brightness(.6)'}"></div>
         <div class="ci"><div class="cn">${c.name}</div><div class="cm">${meta}</div><div class="cm rec">${rec}</div></div>
@@ -7669,6 +7675,8 @@
     roundFlags = 0;
     const newly = COURSES.filter(c => wasLocked.includes(c.id) && isUnlocked(c));
     if (newly.length) line += ` · Unlocked: ${newly.map(c => c.name).join(', ')} unlocked!`;
+    else if (!roundCut) { const nx = COURSES.find(c => c.unlock === course.id && UNLOCK_BAR[c.id] != null && !isUnlocked(c));
+      if (nx) line += ` · Shoot ${fmtRel(UNLOCK_BAR[nx.id])} or better here to unlock ${nx.name}`; }
     persist();
     $('bestLine').textContent = `${line}${mastersLine} · Bank: ${money(save.coins)}`;
     $('cupPostBox').innerHTML = '';
