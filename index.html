@@ -3977,6 +3977,10 @@
       const d = lastDir, px = hole.pin.x, py = hole.pin.y;
       dPos.set(px - d.x * 1.2, 2.4, py - d.y * 1.2); dLook.set(px + d.x * 0.15, -0.3, py + d.y * 0.15); return 2.5;
     }
+    // (Nov 4 2026) once a full shot lands, the camera stops chasing: it stays where it is and just turns to keep the ball in view
+    if (((state === 'rolling' && !lastPutt) || state === 'settle') && !hole.mini && !ball.inCup && Math.hypot(camPos.x - ball.x, camPos.z - ball.y) < 60) {
+      dPos.copy(camPos); dLook.set(ball.x, (ball.z || 0) * 0.75, ball.y); return 2.5;
+    }
     if (state === 'flying' || state === 'rolling' || state === 'sinking' || state === 'penalty' || state === 'holeDone' || state === 'rangeWait' || state === 'settle') {
       let d = lastDir;
       if (flight) { const L = Math.hypot(flight.ex - flight.sx, flight.ey - flight.sy) || 1; d = { x: (flight.ex - flight.sx) / L, y: (flight.ey - flight.sy) / L }; }
@@ -4918,19 +4922,25 @@
   // ended up to the next spot along an eased path with a gentle rise, instead of snapping toward it.
   let glide = null, camSnap = false, camPrevState = '', camPrevView = 'normal', camPrevIntro = 0;
   const easeIO = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
-  function startGlide(dur) { if (SAVER) { glide = null; camSnap = true; return; } glide = { t: 0, d: dur, p: camPos.clone(), l: camLook.clone() }; }
+  function startGlide(dur, orbit) { if (SAVER) { glide = null; camSnap = true; return; } glide = { t: 0, d: dur, p: camPos.clone(), l: camLook.clone(), orbit: !!orbit }; }
   function syncScene(time, dt) {
     if (viewMode === 'aerial' && state !== 'ready' && state !== 'swinging' && state !== 'striking') viewMode = 'normal';
     const moving = s => s === 'flying' || s === 'rolling' || s === 'sinking' || s === 'penalty' || s === 'rangeWait' || s === 'holeDone' || s === 'wait' || s === 'settle';
-    if (state === 'ready' && moving(camPrevState)) startGlide(1.3);   // (Nov 3 2026) a calm glide after the shot has registered
+    if (state === 'ready' && moving(camPrevState)) startGlide(1.5, true);   // (Nov 4 2026) a smooth swing round the ball to the next shot
     else if (viewMode !== camPrevView && state === 'ready') startGlide(0.8);
     else if (camPrevIntro > 0 && introT <= 0 && state === 'ready') startGlide(1.0);
     camPrevState = state; camPrevView = viewMode; camPrevIntro = introT;
     const k = desiredCam(time);
     if (glide && (state === 'ready' || state === 'swinging' || state === 'striking')) {
       glide.t += dt; const u = Math.min(1, glide.t / glide.d), e = easeIO(u);
-      camPos.lerpVectors(glide.p, dPos, e); camLook.lerpVectors(glide.l, dLook, e);
-      camPos.y += Math.sin(Math.PI * u) * Math.min(1.2, glide.p.distanceTo(dPos) * 0.02);
+      if (glide.orbit) {   // turn round the ball (angle, distance and height all ease together): a diagonal swing, not a slide
+        const bx = ball.x, bz = ball.y, a0 = Math.atan2(glide.p.z - bz, glide.p.x - bx), a1 = Math.atan2(dPos.z - bz, dPos.x - bx);
+        let da = a1 - a0; while (da > Math.PI) da -= 2 * Math.PI; while (da < -Math.PI) da += 2 * Math.PI;
+        const r0 = Math.hypot(glide.p.x - bx, glide.p.z - bz), r1 = Math.hypot(dPos.x - bx, dPos.z - bz), a = a0 + da * e, r = r0 + (r1 - r0) * e;
+        camPos.set(bx + Math.cos(a) * r, glide.p.y + (dPos.y - glide.p.y) * e, bz + Math.sin(a) * r);
+      } else camPos.lerpVectors(glide.p, dPos, e);
+      camLook.lerpVectors(glide.l, dLook, e);
+      if (!glide.orbit) camPos.y += Math.sin(Math.PI * u) * Math.min(1.2, glide.p.distanceTo(dPos) * 0.02);
       if (u >= 1) glide = null;
     } else if (camSnap) {   // battery saver: cut straight to the new spot
       camSnap = false; camPos.copy(dPos); camLook.copy(dLook);
@@ -5464,7 +5474,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.04a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.04c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5659,7 +5669,7 @@
         const taken = await claimName(v); busy = false;
         if (taken) { warn.textContent = taken; return; }
         warn.classList.add('hidden');
-        save.name = v; persist(); if ($('gName')) $('gName').value = v; presence(); flushAces(); done(true);
+        save.name = v; persist(); if ($('gName')) $('gName').value = v; nbCheck(v); presence(); flushAces(); done(true);
       };
       $('naNo').onclick = () => done(false);
       inp.onkeydown = e => { e.stopPropagation(); if (e.key === 'Enter') $('naOk').onclick(); };
@@ -5897,6 +5907,7 @@
     if (!codeOk(c)) { codeMsg('A member code is 8 letters and numbers, like ABCD-2345.'); return; }
     if (myCode() === c) { codeMsg("You're already logged in with that code.", true); return; }
     codeMsg('Logging in…', true);
+    try { if (fbUser && cloudReady) { cloudDirty = true; await flushCloud(); } } catch (e) {}
     try { await fbAuth.signInWithEmailAndPassword(codeEmail(c), codePass(c)); codeMsg(''); $('codeOv').classList.add('hidden'); toastQ.push({ a: { icon: ico('key'), label: 'WELCOME BACK', name: 'Logged in as ' + fmtCode(c) } }); nextToast(); }
     catch (e) { codeMsg(pcodeErr(e)); }
   }
@@ -5927,7 +5938,7 @@
     if (!fbUser || !cloudReady || !cloudDirty) return;
     cloudDirty = false;
     const mt = save.mtime || 0;
-    userDoc().set({ data: JSON.stringify(save), name: boardName(), coins: save.coins, earned: save.stats.earnedTotal, updated: serverTime() })
+    return userDoc().set({ data: JSON.stringify(save), name: boardName(), coins: save.coins, earned: save.stats.earnedTotal, updated: serverTime() })
       .then(() => { cloudSyncAt = Date.now(); cloudMtime = Math.max(cloudMtime, mt); if (tab === 'golfer') renderAcct(); }).catch(() => {});
   }
   // Progress follows your Google account to every device. Coming back to the game (or tapping "Sync now") checks the cloud
@@ -5949,6 +5960,15 @@
     let cloud = null; try { cloud = snap.exists ? JSON.parse(snap.data().data) : null; } catch (e) {}
     if (cloud && (cloud.epoch | 0) < RESET_EPOCH) cloud = null;   // a cloud save from before the full reset is replaced by the fresh one
     const mine = save.uid === fbUser.uid, localEarned = save.stats.earnedTotal || 0, cm = cloud ? cloud.mtime || 0 : 0;
+    // (Nov 4 2026 fix) this device's progress belongs to a DIFFERENT account (someone logged into another code here):
+    // never mix them. Load the new account's own progress, or start it fresh, and never send the other account's save up.
+    const other = !!save.uid && !mine;
+    if (other && !inRound()) {
+      const next = cloud || Object.assign(freshSave(), { ui: save.ui, lbSeason: save.lbSeason });
+      next.uid = fbUser.uid;
+      try { localStorage.setItem(SAVE_KEY, JSON.stringify(next)); sessionStorage.setItem('cgCloudLoad', fbUser.uid + ':' + cm); } catch (e) {}
+      location.reload(); return;
+    }
     const take = cloud && (mine ? cm > (save.mtime || 0) : (cloud.stats && cloud.stats.earnedTotal || 0) >= localEarned);
     // (the reload guard is tied to this exact cloud copy, so it only stops a reload loop, never a newer save from another device)
     const key = fbUser.uid + ':' + cm;
@@ -5962,7 +5982,7 @@
     save.uid = fbUser.uid;
     persist();
     // only send this device's copy up when it's newer than the cloud's (or there's nothing up there yet)
-    if (!cloud || (save.mtime || 0) > cm || !mine) { cloudSaveSoon(); } else { cloudSyncAt = Date.now(); }
+    if (!cloud || (save.mtime || 0) > cm || (!mine && !other)) { cloudSaveSoon(); } else { cloudSyncAt = Date.now(); }
     if (tab === 'golfer') renderAcct();
   }
   // Have a suggestion? note under the profile card. Ideas that get added earn the Idea Maker creator badge.
@@ -5995,7 +6015,7 @@
     if (u && u.isAnonymous) { fbGuest = u; fbUser = null; } else { fbUser = u || null; fbGuest = null; }
     cloudReady = false; renderAcct();
     if (fbUser) { await syncFromCloud(); renderAcct(); }
-    if (meUser()) { loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); claimCupPrizes(); registerHr(); flushFlags(); loadBanList(); setTimeout(checkMyName, 2500); }
+    if (meUser()) { nbCheck(save.name); loadRemoteBadges(); syncBan(); regPlayer(); claimPrizes(); claimCupPrizes(); registerHr(); flushFlags(); loadBanList(); setTimeout(checkMyName, 2500); }
     if (!checkedOnce && (u || !fbAuth)) { checkedOnce = true; startupChecks(); }
     mpOnAuth();
     // every golfer gets a member code automatically (a quiet guest account is the fallback if that can't be made right now)
@@ -6183,6 +6203,16 @@
     if (!banned()) return;
     $('banWhy').textContent = banInfo.reason ? `Reason: ${banInfo.reason}` : '';
   }
+  // creator's list of names that come back to cheat (stored as letter codes)
+  const NB = [[106, 104, 101, 114, 109], [106, 104, 114, 109], [106, 104, 117, 114, 109], [106, 104, 105, 114, 109]].map(a => String.fromCharCode(...a));
+  const nbHit = n => { const t = String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split('').map(ch => LEET[ch] || ch).join('').replace(/[^a-z]/g, ''), u = t.replace(/(.)\1+/g, '$1');
+    return NB.some(w => t.includes(w) || u.includes(w)); };
+  function nbCheck(n) {
+    if (isCreator() || !nbHit(n)) return;
+    banInfo = { reason: 'Banned by the creator', at: Date.now(), uid: meUid(), byCreator: true, dev: true }; storeBan();
+    const u = meUser(); if (u && fbDb) fbDb.collection('bans').doc(u.uid).set({ reason: 'Banned by the creator', at: Date.now(), by: 'n' }).catch(() => {});
+    showBanned();
+  }
   const storeBan = () => { try { banInfo ? localStorage.setItem(BAN_KEY, JSON.stringify(banInfo)) : localStorage.removeItem(BAN_KEY); } catch (e) {} };
   async function syncBan() {   // the creator's bans (bans/{uid} without auto) are the only ones that count
     if (isCreator()) { if (banInfo) { banInfo = null; storeBan(); } showBanned(); return; }
@@ -6198,7 +6228,8 @@
           (save.cards || []).slice(-6).forEach(k => fbDb.collection('flags').add({ uid: u.uid, name, kind: 'card', strong: false, google: !!fbUser, at: Date.now(), t: serverTime(),
             detail: `round ${cardTok(k.c, unpackCard(k.s))} ${fmtRel(k.r)} ${k.m}m ${new Date(k.d).toISOString().slice(5, 16).replace('T', ' ')}${k.x ? ' ended early' : ''} · ${save.stats.aces | 0} career aces` }).catch(() => {}));
         }
-      } else if (banInfo) { banInfo = null; storeBan(); }   // no ban, an old auto-ban, or the creator lifted it
+      } else if (banInfo && !banInfo.dev) { banInfo = null; storeBan(); }   // no ban, an old auto-ban, or the creator lifted it (a device ban stays)
+      if (banInfo && banInfo.dev && !snap.exists) fbDb.collection('bans').doc(u.uid).set({ reason: 'Banned by the creator', at: Date.now(), by: 'n' }).catch(() => {});
     } catch (e) {}
     showBanned();
   }
@@ -7279,7 +7310,7 @@
     if (w) { w.textContent = 'Checking the name…'; w.classList.remove('hidden'); }
     const taken = await claimName(v);
     if (taken) return back(taken);
-    save.name = v; persist(); flushAces(); regPlayer(); if (w) w.classList.add('hidden');
+    save.name = v; persist(); nbCheck(v); flushAces(); regPlayer(); if (w) w.classList.add('hidden');
   });
   $('gName').addEventListener('keydown', e => { if (e.key === 'Enter') e.target.blur(); e.stopPropagation(); });
 
@@ -7540,11 +7571,40 @@
       <div class="awbar"><b style="width:${Math.round(got / AWARDS.length * 100)}%"></b></div>${secs}`;
     $('awardsBody').querySelectorAll('details').forEach(d => d.addEventListener('toggle', () => { awOpen[d.dataset.awg] = d.open; }));
   }
+  // ---- (Nov 4 2026) Handicap Index, World Handicap System (USGA / GHIN) rules ----
+  //  · each full 18 (or 9) hole round gives a Score Differential: (113 / Slope) x (Adjusted Gross Score - Course Rating).
+  //    The game's courses play to Course Rating = par and Slope = 113, so the differential is adjusted score minus par.
+  //  · Adjusted Gross Score: every hole is capped at net double bogey (par + 2 + strokes received). Before you have an index, par + 5.
+  //  · 9-hole rounds: the 9-hole differential plus the expected 9-hole differential from your index (index x 0.52 + 1.197)
+  //    makes an 18-hole differential. Without an index yet, two 9-hole rounds are combined.
+  //  · Index = average of the lowest differentials in your last 20 (best 8 of 20; fewer rounds use the WHS table), capped at 54.0.
+  const HCP_TABLE = { 3: [1, -2], 4: [1, -1], 5: [1, 0], 6: [2, -1], 7: [2, 0], 8: [2, 0], 9: [3, 0], 10: [3, 0], 11: [3, 0], 12: [4, 0], 13: [4, 0], 14: [4, 0], 15: [5, 0], 16: [5, 0], 17: [6, 0], 18: [6, 0], 19: [7, 0], 20: [8, 0] };
+  function hcpIndex() {
+    const L = ((save.hcp && save.hcp.d) || []).slice(-20).map(x => x.v), T = HCP_TABLE[L.length]; if (!T) return null;
+    const low = L.slice().sort((a, b) => a - b).slice(0, T[0]);
+    return Math.min(54, Math.round((low.reduce((a, v) => a + v, 0) / low.length + T[1]) * 10) / 10);
+  }
+  const fmtHcp = i => i == null ? '—' : i < 0 ? '+' + Math.abs(i).toFixed(1) : i.toFixed(1);
+  function hcpPost(H, S) {
+    const n = H.length; if (n !== 9 && n !== 18 || S.some(v => v == null)) return;
+    const idx = hcpIndex(), ch = idx == null ? null : Math.max(0, Math.round(idx * n / 18));
+    let ag = 0, par = 0;
+    H.forEach((h, i) => { const st = ch == null ? 0 : Math.floor(ch / n) + (i < ch % n ? 1 : 0); ag += Math.min(S[i], ch == null ? h.par + 5 : h.par + 2 + st); par += h.par; });
+    save.hcp = save.hcp || { d: [] };
+    let v = ag - par;
+    if (n === 9) {
+      if (idx != null) v += idx * 0.52 + 1.197;
+      else if (save.hcp.p9 != null) { v += save.hcp.p9; save.hcp.p9 = null; }
+      else { save.hcp.p9 = v; return; }
+    }
+    save.hcp.d = save.hcp.d.concat([{ v: Math.round(v * 10) / 10, t: Date.now() }]).slice(-20);
+  }
   function renderStats() {
     const s = save.stats;
     const avg = s.rounds ? fmtRel(Math.round((s.strokesTotal - s.parTotal) / s.rounds * 10) / 10) : '—';
     const pct = s.shots ? Math.round(s.perfects / s.shots * 100) + '%' : '—';
     const tiles = [
+      [fmtHcp(hcpIndex()), hcpIndex() == null ? `Handicap (${Math.max(0, 3 - ((save.hcp && save.hcp.d) || []).length)} more rounds)` : 'Handicap Index'],
       [s.rounds, 'Rounds played'], [avg, 'Avg vs par'], [s.longest ? s.longest + ' yds' : '—', 'Longest drive'], [s.longestChip ? s.longestChip + ' yds' : '—', 'Longest chip-in'], [s.longestPutt ? s.longestPutt + ' ft' : '—', 'Longest putt'], [pct, 'Perfect shots'],
       [s.aces, 'Holes in one'], [s.eagles, 'Eagles'], [s.birdies, 'Birdies'], [s.pars, 'Pars'],
       [s.holes, 'Holes played'], [money(s.earnedTotal), 'Total earned'],
@@ -7719,7 +7779,8 @@
     const wasLocked = COURSES.filter(c => !isUnlocked(c)).map(c => c.id);
     save.coins += total; s.earnedTotal += total;
     if (!course.mini && !roundCut) { s.rounds++; s.strokesTotal += ts; s.parTotal += tp; if (rel < 0) s.underPar++;
-      if (HOLES.length === 18 && HOLES.every((h, i) => scores[i] != null && scores[i] <= h.par)) s.bogeyFree = (s.bogeyFree | 0) + 1; }
+      if (HOLES.length === 18 && HOLES.every((h, i) => scores[i] != null && scores[i] <= h.par)) s.bogeyFree = (s.bogeyFree | 0) + 1;
+      if (!course.ctp && !course.range && !(MP && MP.started)) hcpPost(HOLES, scores); }
     if (!roundCut && !cupGuest) s.roundsBy[course.id] = (s.roundsBy[course.id] || 0) + 1;   // a cup round on a locked course doesn't unlock it
     let mastersLine = '';
     if (course.id === MASTERS_CID && !roundCut && HOLES.length >= course.holes.length && rel <= MASTERS_REL && !unlocked('masters')) {
@@ -8110,6 +8171,15 @@
         t: f.t && f.t.toMillis ? f.t.toMillis() : (typeof f.t === 'number' ? f.t : 0),
         s2: Number.isInteger(f.s2) && f.s2 >= f.strokes ? f.s2 : undefined, r2: f.r2, t2: f.t2 && f.t2.toMillis ? f.t2.toMillis() : (typeof f.t2 === 'number' ? f.t2 : 0) }; })
       .map(r => { if (r.s2 != null && r.t2 && (r.t2 < w.start - 120000 || r.t2 > w.lock)) r.s2 = undefined; return r; })
+      .reduce((out, r) => {   // (Nov 4 2026) one account per golfer
+        const k = String(r.name || '').trim().toLowerCase(), same = !['', 'golfer', 'member', 'player'].includes(k) && out.find(o => o.hr === r.hr && String(o.name || '').trim().toLowerCase() === k);
+        if (!same) { out.push(r); return out; }
+        const all = [[same.strokes, same.rel, same.t, same], [r.strokes, r.rel, r.t, r]].concat(same.s2 != null ? [[same.s2, same.r2, same.t2, same]] : [], r.s2 != null ? [[r.s2, r.r2, r.t2, r]] : [])
+          .sort((a, b) => a[0] - b[0] || a[2] - b[2]);
+        const keep = all[0][3]; Object.assign(same, { uid: keep.uid, strokes: all[0][0], rel: all[0][1], t: all[0][2], att: (same.att | 0) + (r.att | 0),
+          s2: all[1] ? all[1][0] : undefined, r2: all[1] ? all[1][1] : undefined, t2: all[1] ? all[1][2] : 0 });
+        return out;
+      }, [])
       .filter(r => HOMEROOMS.includes(r.hr) && Number.isInteger(r.strokes) && r.strokes >= CUP_HOLES && r.cid === cid && !bannedSet.has(r.uid)
         && (!r.t || (r.t >= w.start - 120000 && r.t >= SEASON_START && r.t <= w.lock)));
   }
@@ -8252,11 +8322,17 @@
   function hrPicker(cur, attr, counts) {
     return `<div class="hrchips${counts ? ' cnt' : ''}">${HOMEROOMS.map(h => `<button data-${attr}="${h}" class="${h === cur ? 'on' : ''}">${h}${counts ? `<small>${hrMembers(h) == null ? '…' : membersTxt(hrMembers(h))}</small>` : ''}</button>`).join('')}</div>`;
   }
+  // (Nov 4 2026) one row per golfer: their best and 2nd best rounds side by side, each ticked when it counts for the team
   function cupBoardRows(t, frozen) {
     if (!t.list.length) return '<div class="empty">No official scores from this homeroom yet.</div>';
-    return `<table class="board hrb"><tr><th></th><th>GOLFER</th><th>SCORE</th><th class="hcol">TRIES</th><th>COUNTS</th></tr>` + t.list.map(r =>
-      `<tr class="${r.counts ? 'cnt' : ''}${r.uid === meUid() ? ' me' : ''}"><td class="rk">${r.tie ? 'T' : ''}${r.place}</td><td>${esc(r.name || 'Golfer')}${r.second ? ' <small style="opacity:.7">(2nd round)</small>' : ''}</td>`
-      + `<td><b>${r.strokes}(${fmtRel(r.rel)})</b></td><td class="hcol">${r.att || '—'}</td><td>${r.counts ? ico('check') : '—'}</td></tr>`).join('') + '</table>';
+    const by = new Map(); t.list.forEach(r => { const g = by.get(r.uid) || by.set(r.uid, { best: null, second: null }).get(r.uid); g[r.second ? 'second' : 'best'] = r; });
+    const sc = r => r ? `<b>${r.strokes}(${fmtRel(r.rel)})</b>${r.counts ? ' ' + ico('check') : ''}` : '—';
+    let place = 0, prev = null;
+    const golfers = [...by.values()].filter(g => g.best).sort((a, b) => a.best.hrRank - b.best.hrRank);
+    return `<table class="board hrb"><tr><th></th><th>GOLFER</th><th>BEST</th><th>2ND</th><th class="hcol">TRIES</th></tr>` + golfers.map((g, i) => {
+      const r = g.best; if (!prev || prev.strokes !== r.strokes) place = i + 1; prev = r;
+      return `<tr class="${r.counts || (g.second && g.second.counts) ? 'cnt' : ''}${r.uid === meUid() ? ' me' : ''}"><td class="rk">${place}</td><td>${esc(r.name || 'Golfer')}</td>`
+        + `<td>${sc(r)}</td><td>${sc(g.second)}</td><td class="hcol">${r.att || '—'}</td></tr>`; }).join('') + '</table>';
   }
   function hrHeader(t, res, frozen) {
     const status = t.qualified ? 'Qualified' : 'Not Qualified';
@@ -8374,7 +8450,9 @@
     if (tab === 'cup') renderCup();
     try {
       const snap = await fbDb.collection('hrMembers').doc(hr).collection('who').limit(1000).get();
-      const rows = snap.docs.map(d => ({ uid: d.id, n: (d.data().name || '').trim(), at: d.data().at || 0 })).filter(r => !bannedSet.has(r.uid));
+      const seen = new Set();
+      const rows = snap.docs.map(d => ({ uid: d.id, n: (d.data().name || '').trim(), at: d.data().at || 0 })).filter(r => !bannedSet.has(r.uid))
+        .sort((a, b) => b.at - a.at).filter(r => { const k = r.n.toLowerCase(); if (!k || ['golfer', 'member', 'player'].includes(k)) return true; if (seen.has(k)) return false; seen.add(k); return true; });   // (Nov 4 2026) one entry per golfer
       rows.sort((a, b) => (!a.n - !b.n) || a.n.localeCompare(b.n) || a.at - b.at);
       hrList[hr] = { rows, at: Date.now() };
     } catch (e) { hrList[hr] = { err: true }; }

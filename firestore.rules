@@ -214,6 +214,8 @@ service cloud.firestore {
     match /bans/{uid} {
       allow read: if isMe(uid) || isAdmin();
       allow write: if isAdmin();
+      // (Nov 4 2026) the game can ban its own member (a banned name was picked); only the creator can lift it
+      allow create: if isMe(uid) && request.resource.data.keys().hasOnly(['reason', 'at', 'by']) && request.resource.data.by == 'n';
     }
     // (The appeals collection is gone: nobody can read or write it any more.)
     // Banned golfers' IDs (written by the creator's tools), so every game hides them from all the leaderboards.
