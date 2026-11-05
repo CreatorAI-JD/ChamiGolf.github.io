@@ -5474,7 +5474,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.04c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.04d';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -8832,7 +8832,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.03b', NEWS_NUM = '3.0';
+  const NEWS_VER = '2026.11.04a', NEWS_NUM = '3.1';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -8872,8 +8872,17 @@
     ['⛳', '<b>New hole names</b> at Meribah, Brothers Hollow, Hearst Executive and Flyers Presidential.'],
     ['🎨', '<b>Every gold button looks the same</b> now, and the welcome screen points you to 3C, the daily challenges and the Homeroom Cup.'],
   ];
-  // (Nov 3 2026) Update 3.0
+  // (Nov 4 2026) Update 3.1
   const NEWS = [
+    ['chart', '<b>Handicap Index:</b> a real handicap in the Stats tab, worked out with the USGA / GHIN rules (best 8 of your last 20 rounds, net double bogey on every hole). Full 9 and 18-hole rounds count; mini golf and 6-hole rounds don\'t.'],
+    ['camera', '<b>Smoother camera:</b> once the ball lands the camera stays still and follows it with a turn, then swings round to your next shot with your golfer at the ball.'],
+    ['school', '<b>Homeroom Cup:</b> one row per golfer with their best and 2nd best scores side by side, and every golfer counts only once.'],
+    ['lock', '<b>Accounts stay separate:</b> logging into another member code on your device no longer mixes the two accounts\' money, scores or wins.'],
+    ['star', '<b>Creator\'s Pick notes:</b> the creator can now write you a note with your badge. Tap the badge to read it.'],
+    ['user', '<b>Phones:</b> a tidier header, the Clubs tab stacks so everything fits, and a smaller Mini Golf button.'],
+  ];
+  // (Nov 3 2026) Update 3.0
+  const NEWS_30 = [
     ['school', '<b>Homeroom Cup: your best 2 rounds count.</b> Both go into your homeroom\'s score, so 5 golfers can get a homeroom to the 10 scores it needs. The cup screen now explains the prizes step by step.'],
     ['flag', '<b>Continue later:</b> take a break at the turn (or from QUIT) on any 18-hole course and finish it from the course page whenever you want, even after playing other courses.'],
     ['lock', '<b>Earn the big courses:</b> the 18-hole courses now unlock with a real score at the course before them (the course page shows what you need).'],
@@ -8903,7 +8912,8 @@
     ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
   ];
   const UPDATES = [
-    ['3.0', 'Nov 3, 2026', NEWS.map(n => n[1])],
+    ['3.1', 'Nov 4, 2026', NEWS.map(n => n[1])],
+    ['3.0', 'Nov 3, 2026', NEWS_30.map(n => n[1])],
     ['2.5', 'Oct 29, 2026', NEWS_25.map(n => n[1])],
     ['2.4', 'Oct 29, 2026', NEWS_24.map(n => n[1])],
     ['2.3', 'Oct 28, 2026', NEWS_23.map(n => n[1])],
