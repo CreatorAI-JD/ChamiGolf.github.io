@@ -8,7 +8,10 @@
       "*.md",
       "*.rules",
       "*.toml",
-      "LICENSE"
+      "LICENSE",
+      ".git",
+      ".git/**",
+      "**/.git/**"
     ],
     "rewrites": [
       {
