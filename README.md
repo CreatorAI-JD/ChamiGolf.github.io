@@ -38,12 +38,12 @@ Gold Star Mini Golf was reworked on Oct 20 2026 (par 41: 13 par 2s and 5 par 3s)
 
 Everyone started over (twice on Oct 28: once in the afternoon and again with update 2.3 at 7 PM ET). `RESET_EPOCH` is 3 (all progress, names, badges and homerooms wiped on every device and in the cloud), Leaderboard Season 6 (`SEASON = '_s6'`) started with empty all-time and daily boards, and `ACCT_EPOCH` logs every device out of its old account once so each golfer gets a brand-new player code. Old data stays in Firebase but the game ignores it (delete old users in Firebase console > Authentication > Users if you want it gone).
 
-## Banner ads (Nov 5 2026, game 2026.11.05b)
+## Google AdSense (Nov 6 2026, game 2026.11.06a)
 
-- Paid banners: 🛡️ Creator tools > 📣 Banners. Each banner has a picture (trimmed to 4:1, stored at 800 × 200), an optional https link, the spots it shows on (home screen, between holes, end of round), and start/end days in Eastern time. Pause or delete any time.
-- All banners live in one record, `meta/ads` (one read per device every 30 minutes). Only the creator can write it (see `firestore.rules`).
-- Views and taps go to Google Analytics as `ad_view` / `ad_click` with the banner name and spot.
-- Spots nobody bought show an "Advertise here" banner with your contact line (set it in the same tab, or hide it).
+- The paid-banner system is gone. Three ad spots (home screen, scorecard between holes, end of round) each show one responsive AdSense display unit, labelled "Advertisement". Nothing shows until AdSense is set up, and never in battery saver.
+- To turn ads on: in index.html set `ADSENSE.client` to your publisher ID (`ca-pub-…`) and `ADSENSE.slots` to one display ad unit ID per spot, and add `ads.txt` at the site root (`google.com, pub-…, DIRECT, f08c47fec0942fa0`).
+- AdSense needs a site on your own domain (not firebaseapp.com) and an account holder who is 18 or older.
+- `firebase.json` now leaves the `.git` folder out of deploys.
 
 ## Update 3.2 (Nov 5 2026)
 
