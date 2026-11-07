@@ -155,6 +155,12 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
     // The very first hole in one in the game's history (First Ace Ever badge). Can only be claimed once.
+    // (Nov 5 2026) Banner ads: one record with every banner the creator has added. Everyone can read it; only the creator writes it.
+    match /meta/ads {
+      allow read: if true;
+      allow write: if isAdmin() && request.resource.data.keys().hasOnly(['list', 'contact', 'house'])
+        && request.resource.data.list is list && request.resource.data.list.size() <= 40;
+    }
     match /meta/firstAce {
       allow read: if true;
       allow create: if notBanned() && request.resource.data.uid == request.auth.uid;
