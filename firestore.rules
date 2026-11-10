@@ -122,6 +122,19 @@ service cloud.firestore {
       }
     }
 
+    // (Nov 9 2026) Handicap leaderboard: one row per golfer with their current Handicap Index (best is lowest).
+    match /hcp/{uid} {
+      allow read: if true;
+      allow create, update: if isMe(uid) && notBanned()
+        && request.resource.data.keys().hasOnly(['name', 'uid', 'idx', 'n', 'hr', 'at', 't'])
+        && request.resource.data.uid == uid && okName(request.resource.data.name)
+        && request.resource.data.idx is number && request.resource.data.idx >= -15 && request.resource.data.idx <= 54
+        && request.resource.data.n is int && request.resource.data.n >= 3 && request.resource.data.n <= 20
+        && request.resource.data.hr is string && request.resource.data.hr.size() <= 1
+        && recent(request.resource.data.at) && request.resource.data.t == request.time;
+      allow delete: if isMe(uid) || isAdmin();
+    }
+
     // Daily Closest to the Pin: one row per golfer per day (their closest shot, in yards).
     function okShot(uid, day) {
       let d = request.resource.data;
