@@ -1014,7 +1014,6 @@
   <div class="clab"><div class="n" id="clubName">Driver</div><div class="i" id="clubInfo"></div></div>
   <button class="chub" id="clubBtn" aria-label="Change club"><span class="cs" id="clubShort">DR</span><span class="cy" id="clubStock"></span><span class="ck">CLUBS</span></button>
   <button class="cmin" id="cMin" aria-label="Fold the club button into the corner">–</button>
-  <div class="disclaim">Not affiliated with Chaminade High School in any way.</div>
 </div>
 
 <div id="banner"><div class="t"></div><div class="s"></div></div>
@@ -1091,7 +1090,6 @@
       </section>
     </div>
   </main>
-  <div class="disclaim" style="flex:none;padding:6px 0">Not affiliated with Chaminade High School in any way.</div>
   <nav class="tabs">
     <button data-tab="play" class="on"><span class="ic" data-ic="flag"></span>Play</button>
     <button data-tab="golfer"><span class="ic" data-ic="user"></span>Golfer</button>
@@ -1278,7 +1276,7 @@
 <div id="resetNote" class="overlay hidden">
   <div class="card">
     <h2>Welcome</h2>
-    <div class="sub" id="welcomeSub" style="font-size:14px;line-height:1.5"><b style="color:var(--gold-l);font-size:17px">…or welcome back!</b><br>Pick how you want to start:</div>
+    <div class="sub" id="welcomeSub" style="font-size:14px;line-height:1.5">Pick how you want to start:</div>
     <div class="welcome">
       <button class="wopt" data-welc="par3"><span data-ic="flag"></span><div><b>Play the 3C Par Three</b><small>Where everyone starts. Six short holes, and beating it unlocks the other courses.</small></div></button>
       <button class="wopt" data-welc="ctp"><span data-ic="target"></span><div><b>Daily challenges</b><small>Closest to the Pin and a Daily Tournament on every course. New every day, top 3 win money.</small></div></button>
@@ -2452,6 +2450,29 @@
   // ================= Helpers =================
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const inEl = (p, e, pad = 0) => ((p.x - e.x) / (e.rx + pad)) ** 2 + ((p.y - e.y) / (e.ry + pad)) ** 2 <= 1;
+  // (Nov 11 2026, Update 4.0) no sand on the greens, on ANY hole: every bunker (and its grass lip) must sit fully outside the
+  // green and its fringe. Overlapping bunkers slide straight out from the green; a big one that would have to slide a long
+  // way also shrinks a little, so waste areas still guard the green instead of jumping across the hole. Runs once per hole.
+  function clearGreens(h) {
+    if (!h || h.mini || h._gClr || !h.green || !h.bunkers) return; h._gClr = 1;
+    const g = h.green, LIP = 2.1, FR = 3;
+    const hits = b => {
+      if (inEl(b, g, FR)) return true;
+      for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2;
+        if (inEl({ x: b.x + Math.cos(a) * (b.rx + LIP), y: b.y + Math.sin(a) * (b.ry + LIP) }, g, FR)) return true;
+        if (i % 2 === 0 && inEl({ x: g.x + Math.cos(a) * (g.rx + FR), y: g.y + Math.sin(a) * (g.ry + FR) }, b, LIP)) return true; }
+      return false;
+    };
+    for (const b of h.bunkers) {
+      let dx = b.x - g.x, dy = b.y - g.y, dd = Math.hypot(dx, dy);
+      if (dd < 0.01) { dx = h.tee.x - g.x; dy = h.tee.y - g.y; dd = Math.hypot(dx, dy) || 1; }
+      const ux = dx / dd, uy = dy / dd; let moved = 0;
+      for (let n = 0; n < 400 && hits(b); n++) {
+        b.x += ux * 0.5; b.y += uy * 0.5; moved += 0.5;
+        if (moved > 6) { b.rx = Math.max(2.5, b.rx * 0.97); b.ry = Math.max(2.5, b.ry * 0.97); }
+      }
+    }
+  }
   function segDist(p, a, b) {
     const dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy;
     const t = clamp(l2 ? ((p.x - a[0]) * dx + (p.y - a[1]) * dy) / l2 : 0, 0, 1);
@@ -3677,6 +3698,7 @@
   }
   let paintedHole = null, builtFor = null;
   function buildHole(h, course, maxPx = 2600) {
+    clearGreens(h);
     if (holeGroup) { scene.remove(holeGroup); disposables.forEach(d => d.dispose()); disposables = []; }
     // only the hole on screen keeps its painted canvas (the mini map draws from it); older ones are freed
     if (paintedHole && paintedHole.paint) { freeCanvas(paintedHole.paint.canvas); paintedHole.paint = null; }
@@ -3908,9 +3930,9 @@
     if (hole.mini) return !inPoly(p, hole.area) ? 'oob' : hole.water.some(e => inEl(p, e)) ? 'water' : 'green';
     const b = hole.bounds;
     if (p.x < b.x || p.y < b.y || p.x > b.x + b.w || p.y > b.y + b.h) return hole.water.some(e => inEl(p, e)) ? 'water' : 'oob';
-    // (Nov 9 2026) sand always wins, even where a bunker cuts into the green, so you can chip out of it
-    for (const e of hole.bunkers) if (inEl(p, e)) return 'sand';
+    // (Nov 11 2026, 4.0) the green always wins: there's no sand on a putting surface (and clearGreens keeps bunkers off it)
     if (inEl(p, hole.green)) return 'green';
+    for (const e of hole.bunkers) if (inEl(p, e)) return 'sand';
     // (Nov 3 2026) the dark grass lip around a bunker plays as rough. (Nov 9) it matches the painted lip exactly
     // (1.9 yds + a little slack), right up to the green's edge
     for (const e of hole.bunkers) if (inEl(p, e, 2.1)) return 'rough';
@@ -3992,6 +4014,7 @@
 
   function loadHole(i, preview = false) {
     holeIdx = i; hole = HOLES[i];
+    clearGreens(hole);
     const mph = Math.round(Math.random() * course.wind), ang = Math.random() * Math.PI * 2;
     hole.wind = (MP && MP.started && mpWind(i)) || hole.fixedWind || { mph, ang, x: Math.cos(ang) * mph, y: Math.sin(ang) * mph };
     if (!hole.mini) { hole.stimp = stimpOf(course); hole.slick = STIMP_REF / hole.stimp; }
@@ -5549,7 +5572,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.09a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.11a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -9019,7 +9042,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.05a', NEWS_NUM = '3.2';
+  const NEWS_VER = '2026.11.11a', NEWS_NUM = '4.0';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -9060,8 +9083,12 @@
     ['🎨', '<b>Every gold button looks the same</b> now, and the welcome screen points you to 3C, the daily challenges and the Homeroom Cup.'],
   ];
   // (Nov 4 2026) Update 3.1
-  // (Nov 5 2026) Update 3.2
+  // (Nov 11 2026) Update 4.0
   const NEWS = [
+    ['flag', '<b>Clean greens:</b> no more sand on the putting surface. Every bunker on every course now sits fully off the green and its fringe, so a ball on the green always plays as green.'],
+  ];
+  // (Nov 5 2026) Update 3.2
+  const NEWS_32 = [
     ['camera', '<b>The camera follows the ball:</b> after a shot lands, the camera keeps rolling along with the ball instead of stopping, then swings round to your next shot like before.'],
     ['flag', '<b>Cleaner putting:</b> the yellow trace from your last shot disappears while you line up a putt, so it can\'t be mixed up with your putting line.'],
     ['trophy', '<b>Tidier trophy:</b> your Daily Champion win count now sits neatly inside the trophy circle.'],
@@ -9108,7 +9135,8 @@
     ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
   ];
   const UPDATES = [
-    ['3.2', 'Nov 5, 2026', NEWS.map(n => n[1])],
+    ['4.0', 'Nov 11, 2026', NEWS.map(n => n[1])],
+    ['3.2', 'Nov 5, 2026', NEWS_32.map(n => n[1])],
     ['3.1', 'Nov 4, 2026', NEWS_31.map(n => n[1])],
     ['3.0', 'Nov 3, 2026', NEWS_30.map(n => n[1])],
     ['2.5', 'Oct 29, 2026', NEWS_25.map(n => n[1])],
@@ -9207,7 +9235,7 @@
   // the welcome: brand-new golfers and everyone starting over after a reset (it points them at 3C, the daily challenges or the cup)
   if ((save.noteVer | 0) < 5) {
     if (!isNewGolfer || save.resetNote || hadSave) {
-      $('welcomeSub').innerHTML = '<b style="color:var(--gold-l);font-size:17px">…or welcome back!</b><br>A LOT has changed: a whole new experience is here. Pick how you want to start:';
+      $('welcomeSub').innerHTML = 'A LOT has changed: a whole new experience is here. Pick how you want to start:';
       $('welcomeUpd').style.display = '';
     }
     $('resetNote').classList.remove('hidden');
