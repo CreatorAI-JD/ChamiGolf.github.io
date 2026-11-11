@@ -1,6 +1,6 @@
 # Red & Gold Golf
 
-A 3D, Chaminade-themed golf game that runs in any browser. Everything is in one file, index.html, with no install and no build step.
+A 3D golf game that runs in any browser. Everything is in one file, index.html, with no install and no build step.
 
 Play it at https://chamigolf.github.io/ (or on the Netlify copy for Wi-Fi that blocks github.io and vercel.app: see "Hosting on Netlify" below).
 

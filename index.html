@@ -1594,22 +1594,22 @@
   const partShown = (k, look) => (k !== 'trim' || look.style === 'sweater') && (k !== 'style' || unlocked('senior'));
 
   // ================= Golf bag looks =================
-  // Every bag but the Chaminade bag is locked behind an achievement (see AWARDS).
+  // Every bag but the Chami Team bag is locked behind an achievement (see AWARDS).
   const BAG_PRESETS = [
-    // the real Chaminade team bag: white with black trim and pockets, a red front panel with gold CHAMI GOLF lettering
-    { name: 'Chami Team', bag: { body: '#eeeeea', trim: '#111113', covers: '#eeeeea', logo: 'chaminade', panel: '#B3122B' } },
-    { name: 'Red & Gold', award: 'round1', bag: { body: '#B3122B', trim: '#F2C14E', covers: '#F2C14E', logo: 'chaminade', panel: '' } },
+    // the Chami Team bag: white with black trim and pockets, a red front panel with gold CHAMI GOLF lettering
+    { name: 'Chami Team', bag: { body: '#eeeeea', trim: '#111113', covers: '#eeeeea', logo: 'chami', panel: '#B3122B' } },
+    { name: 'Red & Gold', award: 'round1', bag: { body: '#B3122B', trim: '#F2C14E', covers: '#F2C14E', logo: 'chami', panel: '' } },
     { name: 'Tour Black', award: 'birdie1', bag: { body: '#111113', trim: '#B3122B', covers: '#111113', logo: 'none' } },
     { name: 'Navy Staff', award: 'underpar1', bag: { body: '#1f2c4d', trim: '#eeeeea', covers: '#B3122B', logo: 'none' } },
     { name: 'Royal Blue', award: 'chip1', bag: { body: '#2747a8', trim: '#eeeeea', covers: '#F2C14E', logo: 'none' } },
-    { name: 'Eagle Gold', award: 'eagle1', bag: { body: '#C9962B', trim: '#B3122B', covers: '#B3122B', logo: 'chaminade' } },
-    { name: 'White & Gold', award: 'ace1', bag: { body: '#eeeeea', trim: '#C9962B', covers: '#B3122B', logo: 'chaminade' } },
-    { name: 'Maroon Classic', award: 'rounds25', bag: { body: '#6b0f1e', trim: '#F2C14E', covers: '#6b0f1e', logo: 'chaminade' } },
+    { name: 'Eagle Gold', award: 'eagle1', bag: { body: '#C9962B', trim: '#B3122B', covers: '#B3122B', logo: 'chami' } },
+    { name: 'White & Gold', award: 'ace1', bag: { body: '#eeeeea', trim: '#C9962B', covers: '#B3122B', logo: 'chami' } },
+    { name: 'Maroon Classic', award: 'rounds25', bag: { body: '#6b0f1e', trim: '#F2C14E', covers: '#6b0f1e', logo: 'chami' } },
     { name: 'Silver Bullet', award: 'drive300', bag: { body: '#7d8088', trim: '#B3122B', covers: '#111113', logo: 'none' } },
     { name: 'Green Jacket', award: 'explorer', bag: { body: '#1f5a34', trim: '#F2C14E', covers: '#1f5a34', logo: 'none' } },
     { name: 'Desert Tan', award: 'sand1', bag: { body: '#b9a47c', trim: '#5a3b24', covers: '#5a3b24', logo: 'none' } },
-    { name: 'Gold Star', award: 'mini1', bag: { body: '#F2C14E', trim: '#B3122B', covers: '#B3122B', logo: 'chaminade' } },
-    { name: 'Black & Gold', award: 'birdie100', bag: { body: '#111113', trim: '#F2C14E', covers: '#F2C14E', logo: 'chaminade' } },
+    { name: 'Gold Star', award: 'mini1', bag: { body: '#F2C14E', trim: '#B3122B', covers: '#B3122B', logo: 'chami' } },
+    { name: 'Black & Gold', award: 'birdie100', bag: { body: '#111113', trim: '#F2C14E', covers: '#F2C14E', logo: 'chami' } },
   ];
   const BAG_SWATCHES = {
     body: [['Red', '#B3122B'], ['Maroon', '#6b0f1e'], ['Black', '#111113'], ['Navy', '#1f2c4d'], ['Royal', '#2747a8'], ['Green', '#1f5a34'],
@@ -1617,7 +1617,7 @@
     trim: [['Gold', '#F2C14E'], ['Red', '#B3122B'], ['White', '#eeeeea'], ['Black', '#111113'], ['Navy', '#1f2c4d'], ['Silver', '#b8bcc4']],
     covers: [['Gold', '#F2C14E'], ['Red', '#B3122B'], ['Black', '#111113'], ['White', '#eeeeea'], ['Navy', '#1f2c4d'], ['Green', '#1f5a34']],
   };
-  const BAG_LOGOS = [['chaminade', 'Chami Golf'], ['none', 'No logo'], ['custom', 'Custom logo']];
+  const BAG_LOGOS = [['chami', 'Chami Golf'], ['none', 'No logo'], ['custom', 'Custom logo']];
   const CUSTOM_LOGO_PRICE = 5000;   // (Oct 27 2026) flat $5,000
   const BAG_PARTS = [['body', 'Bag color'], ['trim', 'Trim'], ['covers', 'Headcovers'], ['logo', 'Logo']];
 
@@ -1671,6 +1671,7 @@
   save.unlocks = save.unlocks || {};
   if (save.look.style !== 'sweater' || !save.unlocks.senior) save.look.style = 'suit';
   save.gbag = Object.assign({}, BAG_PRESETS[0].bag, save.gbag && !('panel' in save.gbag) ? { panel: '' } : {}, save.gbag || {});
+  if (save.gbag.logo === 'chaminade') save.gbag.logo = 'chami';   // (Nov 11 2026) logo id renamed
   save.awards = save.awards || {};
   // ---- Shop: which colours you own ----
   save.ownedLook = save.ownedLook || {};
@@ -1700,7 +1701,7 @@
     return RESERVED.find(r => colorDist(String(hex), r.hex) < RESERVED_DIST) || null;
   }
   const grantC = (part, hex) => { save.ownedLook[ckey(part, hex)] = 1; };
-  // you keep whatever you're already wearing, plus the starter outfit and the Chaminade bag
+  // you keep whatever you're already wearing, plus the starter outfit and the Chami Team bag
   ['jacket', 'shirt', 'tie', 'pants', 'shoes', 'trim'].forEach(k => { grantC(k, LOOK_PRESETS[0].look[k]); if (save.look[k]) grantC(k, save.look[k]); });
   ['trim', 'covers'].forEach(k => { grantC('bag-' + k, BAG_PRESETS[0].bag[k]); if (save.gbag[k]) grantC('bag-' + k, save.gbag[k]); });
   const OUTFIT_PARTS = ['jacket', 'shirt', 'tie', 'pants', 'shoes', 'trim'];
@@ -3042,7 +3043,7 @@
       g.fillStyle = b.panel ? '#F2C14E' : b.trim.toLowerCase() === b.body.toLowerCase() ? '#ffffff' : b.trim; g.fillText('HR ' + save.hr, W / 2, H * 0.885);
       g.restore();
     }
-    if (b.logo === 'chaminade') {
+    if (b.logo === 'chami' || b.logo === 'chaminade') {   // ('chaminade' = the old name, from older saves)
       g.save(); g.translate(W / 2, H * 0.5); g.rotate(-Math.PI / 2);
       g.font = `700 ${b.panel ? 42 : 50}px Oswald, Impact, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
       g.lineWidth = 6; g.strokeStyle = 'rgba(0,0,0,.35)'; g.strokeText('CHAMI GOLF', 0, 2);
@@ -5572,7 +5573,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.11a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.11b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -9152,7 +9153,7 @@
     ['1.4', 'Oct 14, 2026', ['Premium badges: Creator\'s Pick, Daily Champion and Hole in One', 'Post scores as a guest with just a name', 'New courses and harder, longer holes',
       'Foursome alt shot and best ball', 'Full progress reset and Leaderboard Season 3', 'New Play tab sidebar and compact course list']],
     ['1.3', 'Oct 13, 2026', ['Daily Closest to the Pin', 'Gold Star Mini Golf', 'Sloped greens with a green reader, heat map and hole map', 'Awards tab with bags to unlock',
-      'Outfit shop and the Senior Sweater', 'The Chaminade team golf bag on the tee', 'Google sign-in with cloud saves', 'Play Friends: 1v1 wagers, 2v2 and Foursomes']],
+      'Outfit shop and the Senior Sweater', 'The Chami Team golf bag on the tee', 'Google sign-in with cloud saves', 'Play Friends: 1v1 wagers, 2v2 and Foursomes']],
     ['1.2', 'Oct 12, 2026', ['Online leaderboards and a Daily Tournament on every course (top 3 win money)', 'Realistic putting and cup physics', '3D bunkers and hilly terrain',
       'Out-of-bounds stakes and bouncy cart paths', 'Hole slideshow on the home screen']],
     ['1.1', 'Oct 11, 2026', ['A swinging golfer, the club shop and the Golfer page', 'Courses modeled on Bethpage, Sawgrass, Augusta, St Andrews and Pebble Beach',
