@@ -5573,7 +5573,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.11b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.11c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -9043,7 +9043,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.11a', NEWS_NUM = '4.0';
+  const NEWS_VER = '2026.11.11b', NEWS_NUM = '4.0';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -9084,9 +9084,18 @@
     ['🎨', '<b>Every gold button looks the same</b> now, and the welcome screen points you to 3C, the daily challenges and the Homeroom Cup.'],
   ];
   // (Nov 4 2026) Update 3.1
-  // (Nov 11 2026) Update 4.0
+  // (Nov 11 2026) Update 4.0: everything since 3.2 (Nov 6, 9 and 11)
   const NEWS = [
     ['flag', '<b>Clean greens:</b> no more sand on the putting surface. Every bunker on every course now sits fully off the green and its fringe, so a ball on the green always plays as green.'],
+    ['target', '<b>Harder courses:</b> every course plays about 10% tougher: a touch longer, with narrower fairways and smaller greens.'],
+    ['flag', '<b>Real bunkers:</b> putting out of sand is never smooth (the ball digs, hops and wanders), bumpy sand knocks a rolling ball off line, and the grass lip around every bunker now plays as rough.'],
+    ['chart', '<b>Better green map:</b> colours match the real height of the green, so a flat green stays mostly one colour and a big tier really stands out. Contour lines every 3 inches, and more slope arrows, each sized by how steep that spot is.'],
+    ['camera', '<b>Cleaner aiming:</b> the yellow trace from your last shot is hidden while you line up every shot, not just putts.'],
+    ['school', '<b>New Homeroom Cup rules</b> (from the week of 11/9): only each golfer\'s best round counts, a homeroom needs 5 scores to qualify, you need a real player name to enter, and the top golfer on the winning homeroom also gets the $750 bonus.'],
+    ['trophy', '<b>Handicap leaderboard:</b> see where your Handicap Index ranks against everyone else.'],
+    ['star', '<b>Driving range in the Clubs tab:</b> practice and earn money there, in a card that matches the rest of Clubs.'],
+    ['user', '<b>Sharper golfer:</b> a cleaner outfit with no belt poking out at the waist, and custom bag logos are now big, bold words that fill the front of the bag.'],
+    ['shield', '<b>Cleaner welcome</b> screen and a tidier home screen.'],
   ];
   // (Nov 5 2026) Update 3.2
   const NEWS_32 = [
