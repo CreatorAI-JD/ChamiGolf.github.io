@@ -1,4 +1,4 @@
-# Red & Gold Golf
+# Stryke Golf
 
 A 3D golf game that runs in any browser. Everything is in one file, index.html, with no install and no build step.
 
