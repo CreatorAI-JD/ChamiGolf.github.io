@@ -258,11 +258,11 @@ service cloud.firestore {
         && (!('card' in request.resource.data) || (request.resource.data.card is map && request.resource.data.card.size() <= 4));
     }
 
-    // Scorecard review: the full card of any round of -9 or better over 9 holes (-18 or better over 18). Never bans anyone.
+    // Scorecard review: the full card of any round of -9 or better over 9 holes (-16 or better over 18). Never bans anyone.
     match /reviews/{id} {
       allow read, delete: if isAdmin();
       allow create: if request.auth != null && request.resource.data.uid == request.auth.uid
-        && request.resource.data.keys().hasOnly(['uid', 'name', 'google', 't', 'cid', 'course', 's', 'pars', 'n', 'rel', 'strokes', 'aces', 'm', 'at'])
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'google', 't', 'cid', 'course', 's', 'pars', 'n', 'rel', 'strokes', 'aces', 'career', 'dv', 'pt', 'm', 'at'])
         && request.resource.data.s is string && request.resource.data.s.size() <= 40
         && request.resource.data.course is string && request.resource.data.course.size() <= 40
         && request.resource.data.n is int && request.resource.data.n > 0 && request.resource.data.n <= 18
