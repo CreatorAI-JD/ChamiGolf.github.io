@@ -1328,7 +1328,7 @@
   <div class="card news">
     <h2>Update ready</h2>
     <div class="sub" id="updReadyNum" style="color:var(--gold-l);font-weight:800"></div>
-    <div class="sub" style="font-size:15px;line-height:1.5">Reload the game to get the newest version. Your progress is saved.</div>
+    <div class="sub" id="updReadyMsg" style="font-size:15px;line-height:1.5">Reload the game to get the newest version. Your progress is saved.</div>
     <div class="btns" style="margin-top:14px"><button class="main" id="updReload">Reload now</button><button class="ghost" id="updLater">Later</button></div>
   </div>
 </div>
@@ -3221,7 +3221,7 @@
   function placeHost() {
     hideHosts();
     const H = HOSTS[course.id];
-    if (!hole || hole.mini || course.ctp || holeIdx !== 0 || !H) return;
+    if (!hole || hole.mini || course.ctp || holeIdx !== 0 || !H || course.id !== 'par3') return;   // (Nov 17 2026) coaches only on 3C Par Three
     $('hostImg').src = H.img; $('hostName').textContent = H.name; $('hostLine').textContent = `\u201c${H.line}\u201d`;
     hostShown = true;
     const onHole = hole;
@@ -3250,7 +3250,7 @@
   }
   function tutCheck() {
     try {
-      if (save.tut.off || tutNow || !hole || hole.mini || hole.range || course.ctp || (MP && MP.started) || state !== 'ready') return;
+      if (save.tut.off || tutNow || !hole || hole.mini || hole.range || course.ctp || course.id !== 'par3' || (MP && MP.started) || state !== 'ready') return;   // only on 3C Par Three
       const lie = terrainAt(ball), d = distToPin();
       let k = null;
       if (!save.tut.seen.swing && !CLUBS[clubIdx].putter) k = 'swing';
@@ -5710,7 +5710,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.17b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.17c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -7656,7 +7656,7 @@
     $('handBox').innerHTML = `<div class="nameRow" style="margin-top:12px">I swing</div><div class="opts" style="margin-top:6px"><button data-hand="r" class="${save.lefty ? '' : 'on'}">Right-handed</button><button data-hand="l" class="${save.lefty ? 'on' : ''}">Left-handed</button></div>`
       + `<div class="nameRow" style="margin-top:12px">${ico('battery')} Battery saver</div><div class="opts" style="margin-top:6px"><button data-saver="1" class="${SAVER ? 'on' : ''}">On</button><button data-saver="0" class="${SAVER ? '' : 'on'}">Off</button></div>`
       + `<div class="gnote" style="margin-top:4px">Saves battery on iPad: 30 fps, no shadows, no camera fly-ins (it cuts straight to your golfer), no confetti and a still home screen.</div>`
-      + `<div class="nameRow" style="margin-top:12px">${ico('flag')} Tutorial</div><div class="opts" style="margin-top:6px"><button data-tut="1">${save.tut && !save.tut.off ? 'Tutorial is on' : 'Replay tutorial'}</button></div><div class="gnote" style="margin-top:4px">Coach Buck and Pro Duffy show you how to swing, chip and putt during your next round.</div>`;
+      + `<div class="nameRow" style="margin-top:12px">${ico('flag')} Tutorial</div><div class="opts" style="margin-top:6px"><button data-tut="1">${save.tut && !save.tut.off ? 'Tutorial is on' : 'Replay tutorial'}</button></div><div class="gnote" style="margin-top:4px">Coach Buck and Pro Duffy show you how to swing, chip and putt on 3C Par Three.</div>`;
     $('hrBox').innerHTML = save.hr ? `<div class="nameRow" style="margin-top:12px">Club House</div><div class="hrlock" style="margin-top:6px">Club House <b>${save.hr}</b> ${ico('lock')} <small>(can't be changed)</small></div>`
       : `<div class="nameRow" style="margin-top:12px">Pick your club house (can't be changed later)</div><div class="hrchips" style="margin-top:6px">${HOMEROOMS.map(h => `<button data-ghr="${h}">${h}</button>`).join('')}</div>`;
     $('badgeBox').innerHTML = badgesHtml();
@@ -9455,7 +9455,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.16a', NEWS_NUM = '4.2';
+  const NEWS_VER = '2026.11.17b', NEWS_NUM = '4.2';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -9497,7 +9497,13 @@
   ];
   // (Nov 4 2026) Update 3.1
   // (Nov 13 2026) Update 4.1
+  // (Nov 16 2026) Update 4.2, with the Nov 17 PvP additions on top
   const NEWS = [
+    ['star', '<b>PvP is clearer:</b> three ways to play head to head. <b>⚔️ Ranked</b> (random golfer, win or lose RP), <b>🤝 Casual</b> (random golfer, just for fun) and <b>👥 Vs Friends</b> (private match with a code).'],
+    ['flag', '<b>Ranked and Casual matches are 6 holes</b> now, on a random course.'],
+    ['shield', '<b>Leaving a ranked match is a forfeit:</b> it counts as a loss and costs 25 RP. There\'s a 🏳️ Forfeit button between holes.'],
+    ['user', '<b>The coaches stick to 3C Par Three:</b> Coach Buck and Pro Duffy only pop up there now, so they stay out of your way everywhere else.'],
+    ['chart', '<b>Better connection</b> in online matches, especially on school Wi-Fi. Not loading but connected to the other player? Wait a few seconds: once they finish the hole it will most likely load.'],
     ['star', '<b>Ranked and Casual online play</b> (Play Friends): get matched with a golfer from anywhere for 1v1 on a random 6 holes. Leaving a ranked match is a forfeit (−25 RP). Climb 6 ranks with 3 levels each, all the way to 💎 <b>Pure Striker</b>.'],
     ['user', '<b>Tutorial:</b> Coach Buck shows you how to swing, Pro Duffy helps when you miss the green, and Buck walks you through putting. Skip it any time (or replay it in the Golfer tab).'],
     ['star', '<b>New look:</b> see-through grey panels, a smoother jacket and shirt, and a golf bag with stitched lettering.'],
@@ -9622,11 +9628,14 @@
   function showUpdateReady() {
     if (!updReady || popOpen() || inRound() || !$('liveOv').classList.contains('hidden')) return;
     $('updReadyNum').textContent = updReady.num ? `Update ${updReady.num} is out!` : 'A new version of the game is out!';
+    $('updReadyMsg').textContent = `Reload the game to get ${updReady.num ? 'Update ' + updReady.num : 'it'}. Your progress is saved.`;
     $('updReady').classList.remove('hidden');
   }
   $('updReload').addEventListener('click', () => { ensureAudio(); sfx.click(); try { flushCloud(); persist(); } catch (e) {} setTimeout(() => location.reload(), 400); });
-  $('updLater').addEventListener('click', () => { ensureAudio(); sfx.click(); $('updReady').classList.add('hidden'); setTimeout(showUpdateReady, 600000); });
-  setInterval(() => { if (!document.hidden) checkForUpdate(); }, 300000);
+  $('updLater').addEventListener('click', () => { ensureAudio(); sfx.click(); $('updReady').classList.add('hidden'); updReady.later = Date.now(); });
+  // keep trying until it can show (another pop-up was open, or you were mid-round); "Later" snoozes it for 10 minutes
+  setInterval(() => { if (updReady && $('updReady').classList.contains('hidden') && (!updReady.later || Date.now() - updReady.later > 600000)) { updReady.later = 0; showUpdateReady(); } }, 10000);
+  setInterval(() => { if (!document.hidden) checkForUpdate(); }, 120000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) checkForUpdate(); });
   new MutationObserver(() => { if (updReady && !$('home').classList.contains('hidden') && !updReady.seen) { updReady.seen = true; setTimeout(showUpdateReady, 800); } }).observe($('home'), { attributes: true, attributeFilter: ['class'] });
   setTimeout(checkForUpdate, 20000);
