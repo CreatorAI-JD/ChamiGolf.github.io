@@ -35,10 +35,10 @@ jobs:
           print("Key OK for", k.get("client_email"), "in project", k.get("project_id"))
           EOF
 
-      - name: Deploy hosting + Firestore rules
+      - name: Deploy hosting
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa.json
-        run: npx --yes firebase-tools@13 deploy --project chamigolf1 --only hosting,firestore:rules --non-interactive
+        run: npx --yes firebase-tools@13 deploy --project chamigolf1 --only hosting --non-interactive
 
       - name: Clean up key
         if: always()
