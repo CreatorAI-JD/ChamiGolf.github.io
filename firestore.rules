@@ -305,6 +305,31 @@ service cloud.firestore {
     // ---- Play Friends ----
     // Matches are joined with the 6-character match code. (The old friend codes and inbox are closed: nothing can read or write them.)
     // Matches (doc id = the 6-character match code). Golfers in the match can update it; the host can't be changed.
+    // (Nov 16 2026) Quick Match queue: one doc per golfer while they search. Anyone signed in can write the match code into a
+    // waiting golfer's doc (that's how two golfers get paired), but nothing else about it.
+    match /queue/{uid} {
+      allow read: if request.auth != null;
+      allow create, update: if isMe(uid) && notBanned()
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'kind', 'rp', 'at', 'match'])
+        && request.resource.data.uid == uid && okName(request.resource.data.name)
+        && request.resource.data.kind in ['ranked', 'casual'] && request.resource.data.rp is int
+        && request.resource.data.match is string && request.resource.data.match.size() <= 8;
+      allow update: if request.auth != null && notBanned() && resource.data.match == ''
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['match'])
+        && request.resource.data.match is string && request.resource.data.match.size() == 6;
+      allow delete: if isMe(uid);
+    }
+    // (Nov 16 2026) Ranked: each golfer's rank points (RP), wins and losses. One match moves RP by at most 45.
+    function okRank(uid) { let d = request.resource.data;
+      return isMe(uid) && notBanned() && d.keys().hasOnly(['name', 'uid', 'rp', 'w', 'l', 'at']) && d.uid == uid && okName(d.name)
+        && d.rp is int && d.rp >= 0 && d.rp < 100000 && d.w is int && d.l is int && d.w >= 0 && d.l >= 0 && recent(d.at); }
+    match /ranks/{uid} {
+      allow read: if true;
+      allow create: if okRank(uid) && request.resource.data.rp <= 45 && request.resource.data.w + request.resource.data.l <= 1;
+      allow update: if okRank(uid) && request.resource.data.rp - resource.data.rp <= 45 && resource.data.rp - request.resource.data.rp <= 45
+        && request.resource.data.w + request.resource.data.l - resource.data.w - resource.data.l <= 1;
+      allow delete: if isAdmin();
+    }
     match /matches/{id} {
       allow read: if request.auth != null;
       allow create: if request.auth != null && request.resource.data.host == request.auth.uid;
