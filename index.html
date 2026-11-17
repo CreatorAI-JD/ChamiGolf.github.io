@@ -365,6 +365,8 @@
   .qmRank{display:flex;gap:12px;align-items:center;margin:4px 0 10px}.qmIcon{font-size:34px;line-height:1}
   .qmRank b{display:block;font:700 20px Oswald,sans-serif;letter-spacing:.04em;color:#fff}.qmRank small{display:block;font-size:12px;opacity:.85}
   .qmBar{display:block;height:6px;border-radius:9px;background:rgba(255,255,255,.15);margin-top:6px;overflow:hidden}.qmBar u{display:block;height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l))}
+  .pvpModes{display:grid;gap:6px;margin-bottom:4px}.pvpModes div{background:rgba(0,0,0,.22);border-radius:10px;padding:8px 10px}
+  .pvpModes b{display:block;font-size:14px;color:var(--cream)}.pvpModes small{display:block;font-size:12px;color:#f3d7a8;line-height:1.35;margin-top:2px}
   .qmBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}.qmBtns button{padding:14px 8px;font-size:17px}
   .qmSearch{display:flex;gap:14px;align-items:center;margin:8px 0}.qmSearch b{display:block;font-size:16px}.qmSearch small{opacity:.8}
   .qmSpin{width:34px;height:34px;border-radius:50%;border:4px solid rgba(255,255,255,.2);border-top-color:var(--gold-l);animation:qmspin 1s linear infinite}
@@ -1184,6 +1186,7 @@
     <div class="earn" id="mpEarn"></div>
     <div class="mpstat" id="mpStat"></div>
     <div class="btns"><button class="main" id="mpGo">Next hole ▶︎</button><button class="ghost" id="mpHome" style="display:none">Home</button></div>
+    <button class="ghost sm" id="mpForfeit" style="width:100%;margin-top:10px">🏳️ Forfeit match</button>
   </div>
 </div>
 
@@ -4325,7 +4328,7 @@
   $('aerBtn').addEventListener('click', () => { if (state !== 'ready' || introT > 0) return; viewMode = viewMode === 'aerial' ? 'normal' : 'aerial'; sfx.click(); });
   $('exitBtn').addEventListener('click', () => {
     if (course.range) { if (confirm('Leave the range? You keep everything you earned.')) rangeEnd(true); return; }
-    if (MP && MP.started) { if (confirm(MP.doc && MP.doc.wager ? `Leave the match? Your team forfeits and you lose your ${money(MP.doc.wager)} wager.` : 'Leave the match? Your team forfeits.')) mpQuit(); return; }
+    if (MP && MP.started) { if (confirm(mpQuitMsg())) mpQuit(); return; }
     if (canPause() && holeIdx > 0 || canPause() && state === 'holeDone') {
       const L = save.live, n = L && L.cid === course.id ? L.next : 0;
       if (n) { $('pauseSub').textContent = `${course.name} · Thru ${n} of 18. Save it and finish from hole ${n + 1} later (you can play other courses meanwhile).`; $('pauseOv').classList.remove('hidden'); return; }
@@ -5707,7 +5710,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.17a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.17b';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -5721,7 +5724,7 @@
     window.gtag('js', new Date()); window.gtag('config', GA_ID, { anonymize_ip: true });
     const gs = document.createElement('script'); gs.async = true; gs.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(gs);
   }
-  try { if (window.firebase && !fbAuth && !TEST) { firebase.initializeApp(FIREBASE_CONFIG); fbAuth = firebase.auth(); fbDb = firebase.firestore(); } } catch (e) { fbAuth = fbDb = null; }
+  try { if (window.firebase && !fbAuth && !TEST) { firebase.initializeApp(FIREBASE_CONFIG); fbAuth = firebase.auth(); fbDb = firebase.firestore(); try { fbDb.settings({ experimentalForceLongPolling: true, merge: true }); } catch (e) {} } } catch (e) { fbAuth = fbDb = null; }
   const ONLINE = !!fbDb;
   if (TEST) { const tb = document.getElementById('testExit'); if (tb) { tb.classList.remove('hidden'); tb.addEventListener('click', () => {
     if (!confirm('Leave the test account and go back to your real progress?')) return;
@@ -6766,10 +6769,25 @@
     MP = { id, doc: null, started: false, invited: {} };
     save.mpActive = id; persist();
     MP.unsub = matchRef(id).onSnapshot(s => onMatchSnap(s), () => {});
+    MP.poll = setInterval(() => mpRefresh(id), 3000);
     setTab('match');
+  }
+  // (Nov 17 2026) the live listener can lag on school Wi-Fi, so while you're waiting on the other golfer we also ask the
+  // server directly. Log entries are never removed, so anything we wrote that the server hasn't confirmed yet is kept.
+  function mpRefresh(id) {
+    if (!MP || MP.id !== id || MP.over || document.hidden) return;
+    const waiting = !MP.doc || !MP.started || state === 'mpCard' || (state === 'wait' && mpTeamFmt());
+    if (!waiting) return;
+    matchRef(id).get().then(s => {
+      if (!MP || MP.id !== id || !s.exists) return;
+      const d = s.data(), mine = MP.doc && MP.doc.log;
+      if (mine) d.log = Object.assign({}, mine, d.log || {});
+      onMatchSnap({ exists: true, data: () => d });
+    }).catch(() => {});
   }
   function closeMatch() {
     if (MP && MP.unsub) MP.unsub();
+    if (MP && MP.poll) clearInterval(MP.poll);
     MP = null;
     $('mpOv').classList.add('hidden'); $('mpBar').style.display = 'none';
   }
@@ -7014,6 +7032,7 @@
     };
     return `<table class="mptab"><tr><th>HOLE</th>${head}<th>+/-</th></tr><tr><td>Par</td>${par}<td></td></tr>${MP.teams.map((_, t) => row(t)).join('')}</table>`;
   }
+  const LOAD_NOTE = '<div class="gnote">⏳ Not loading but you\'re connected to the other player? Wait a few seconds. Once the other player finishes the hole, it will most likely load.</div>';
   function renderMpOv() {
     const m = MP.doc, res = mpResult(), hDone = res.done || res.next > MP.h;
     $('mpTitle').textContent = MP.h >= MP.n ? 'Playoff' : `Hole ${MP.h + 1} of ${MP.n}`;
@@ -7024,7 +7043,7 @@
     let stat;
     if (!hDone) {
       const waiting = (res.lead || []).filter(t => teamScore(MP.h, t) == null).map(t => teamLabel(t));
-      stat = `Waiting for <b>${esc(waiting.join(' and '))}</b> to finish hole ${MP.h + 1}…`;
+      stat = `Waiting for <b>${esc(waiting.join(' and '))}</b> to finish hole ${MP.h + 1}…` + LOAD_NOTE;
     } else if (MP.coop) {
       const r = relOf(0, MP.n); stat = `Team is <b>${fmtRel(r.r)}</b> thru ${r.k}`;
     } else if (res.playoff) {
@@ -7040,7 +7059,9 @@
     const go = $('mpGo');
     go.style.display = ''; go.disabled = !hDone || out;
     go.textContent = !hDone || out ? 'Waiting…' : res.next >= MP.n ? 'Playoff hole ▶︎' : 'Next hole ▶︎';
+    const ff = $('mpForfeit'); ff.style.display = MP.coop ? 'none' : ''; ff.textContent = m.ranked ? `🏳️ Forfeit match (−${RANK_FORFEIT} RP)` : '🏳️ Forfeit match';
   }
+  $('mpForfeit').addEventListener('click', () => { ensureAudio(); sfx.click(); if (MP && MP.started && !MP.over && confirm(mpQuitMsg())) mpQuit(); });
   $('mpGo').addEventListener('click', () => {
     ensureAudio(); sfx.click();
     if (!MP) { $('mpOv').classList.add('hidden'); showHome(); return; }
@@ -7084,12 +7105,27 @@
     const rd = rankAfter(m, res);
     $('mpStat').innerHTML = (tie ? `Still tied after ${PLAYOFF_MAX} playoff holes, so the leaders split the pot.` : '') + ` Bank: <b>${money(save.coins)}</b>`
       + (m.ranked && rd != null ? `<br>Ranked: <b>${rd >= 0 ? '+' : ''}${rd} RP</b> · ${rankHtml(save.rank.rp)} (${save.rank.rp} RP)` : '');
-    $('mpGo').style.display = 'none'; $('mpHome').style.display = '';
+    $('mpGo').style.display = 'none'; $('mpHome').style.display = ''; $('mpForfeit').style.display = 'none';
     $('mpOv').classList.remove('hidden');
     if (won) { burst(160); sfx.perfect(); }
   }
+  const RANK_FORFEIT = 25;   // leaving a ranked match costs more than losing it (-18), so quitting never pays
+  function mpQuitMsg() {
+    const m = MP.doc || {};
+    if (m.ranked) return `Forfeit this ranked match? It counts as a loss and you lose ${RANK_FORFEIT} RP.`;
+    return m.wager ? `Forfeit the match? Your team loses and you lose your ${money(m.wager)} wager.` : 'Forfeit the match? It counts as a loss.';
+  }
   async function mpQuit() {
-    const id = MP.id;
+    const id = MP.id, m = MP.doc || {};
+    const rr = save.mp[id] || (save.mp[id] = { at: Date.now() });
+    if (m.ranked && rr.ranked == null && !rr.settled && fbUser) {
+      const before = save.rank.rp | 0;
+      save.rank.rp = Math.max(0, before - RANK_FORFEIT); save.rank.l = (save.rank.l | 0) + 1;
+      rr.ranked = save.rank.rp - before;
+      ranksRef().doc(fbUser.uid).set({ name: boardName(), uid: fbUser.uid, rp: save.rank.rp, w: save.rank.w | 0, l: save.rank.l, at: Date.now() }).catch(() => {});
+      rankLb = null;
+      setTimeout(() => setMsg(`You forfeited the ranked match: ${rr.ranked} RP.`), 300);
+    }
     try { await matchRef(id).update(FP('players', fbUser.uid, 'left'), true); } catch (e) {}
     const rec = save.mp[id] || (save.mp[id] = {}); rec.settled = 1; save.mpActive = null; persist();
     closeMatch(); showHome(); setTab('play');
@@ -7102,8 +7138,8 @@
     const active = MP && !MP.started ? `<div class="mpnote"><span>You're in match <b>${MP.id}</b></span><button class="main sm" data-mpopen="1">Lobby</button></div>`
       : !MP && save.mpActive && fbUser ? `<div class="mpnote"><span>Match <b>${esc(save.mpActive)}</b> in progress</span><button class="main sm" data-mprejoin="1">Rejoin</button></div>` : '';
     // (Oct 28 2026) cleaner and more condensed: one yellow button opens every match option (1v1, 2v2, foursome, join by code)
-    box.innerHTML = `<div class="mpc mpslim"><div class="ctag">PLAY FRIENDS · HEAD TO HEAD</div>
-      <button class="main sm" data-mpopen="1" style="width:100%;margin-top:8px">Browse match options ›</button>${active}</div>`;
+    box.innerHTML = `<div class="mpc mpslim"><div class="ctag">PVP · RANKED · CASUAL · VS FRIENDS</div>
+      <button class="main sm" data-mpopen="1" style="width:100%;margin-top:8px">Play PvP ›</button>${active}</div>`;
   }
   $('mpCard').addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b) return;
@@ -7115,7 +7151,7 @@
 
   // ================= (Nov 16 2026) Online Quick Match: Ranked and Casual =================
   // Tap Ranked or Casual and the game pairs you with another golfer who's searching (anyone, anywhere). Every quick match is
-  // 1v1 stroke play over a random 9 holes (9 holes picked at random from one of the 9- and 18-hole courses, seeded so both
+  // 1v1 stroke play over a random 6 holes (6 holes picked at random from one of the 9- and 18-hole courses, seeded so both
   // golfers get the same ones), with no buy-in. Ranked moves your rank up or down; Casual is just for fun.
   //  · queue/{uid}: one tiny doc while you're searching. Whoever finds a waiting golfer creates the match, writes its code into
   //    the other golfer's queue doc, and both games open it (they're already on the teams, so it starts straight away).
@@ -7135,9 +7171,10 @@
     if (!m.rnd) return courseById(m.cid);
     const base = courseById(m.cid), r = makeRng(m.rnd % 233280), idx = base.holes.map((_, i) => i);
     for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
-    const holes = idx.slice(0, Math.min(9, idx.length)).map(i => base.holes[i]);
-    return Object.assign({}, base, { holes, name: `${base.name} · Random 9`, par: holes.reduce((a, h) => a + h.par, 0), yds: holes.reduce((a, h) => a + h.yds, 0) });
+    const holes = idx.slice(0, Math.min(m.n || 9, idx.length)).map(i => base.holes[i]);
+    return Object.assign({}, base, { holes, name: `${base.name} · Random ${holes.length}`, par: holes.reduce((a, h) => a + h.par, 0), yds: holes.reduce((a, h) => a + h.yds, 0) });
   }
+  const QM_HOLES = 6;   // (Nov 17 2026) ranked and casual matches are 6 holes
   const QM_POOL = () => COURSES.filter(c => !c.mini && !c.ctp && !c.range && c.holes.length >= 9);
   const queueRef = uid => fbDb.collection('queue').doc(uid);
   const ranksRef = () => fbDb.collection('ranks');
@@ -7160,7 +7197,7 @@
           const ok = await fbDb.runTransaction(async tx => {
             const qs = await tx.get(queueRef(opp.uid));
             if (!qs.exists || qs.data().match) return false;
-            tx.set(matchRef(id), { host: uid, status: 'playing', mode: 1, fmt: 'stroke', cid: base.id, rnd: seed, n: 9, wager: 0, seed, ranked: kind === 'ranked', qm: kind,
+            tx.set(matchRef(id), { host: uid, status: 'playing', mode: 1, fmt: 'stroke', cid: base.id, rnd: seed, n: QM_HOLES, wager: 0, seed, ranked: kind === 'ranked', qm: kind,
               players: { [uid]: { name: boardName(), team: 0, at: now, rp: mine }, [opp.uid]: { name: opp.name || 'Golfer', team: 1, at: now + 1, rp: opp.rp | 0 } },
               t0: [uid], t1: [opp.uid], nt: 2, log: {}, at: now, startedAt: now });
             tx.update(queueRef(opp.uid), { match: id });
@@ -7180,7 +7217,8 @@
         const q = s.exists && s.data(); if (!q || !q.match || !QM) return;
         const id = q.match; qmStop(true); openMatch(id); track('quick_match', { kind });
       }, () => {});
-      QM.poll = setInterval(() => { if (QM && Date.now() - QM.at < 90000) claim().catch(() => {}); else if (QM) { qmStop(); setMsg('Nobody else is searching right now. Try again in a bit, or play a friend with a match code.'); } }, 5000);
+      QM.poll = setInterval(() => { if (QM) queueRef(uid).get().then(s => { const q = s.exists && s.data(); if (q && q.match && QM) { const id = q.match; qmStop(true); openMatch(id); track('quick_match', { kind }); } }).catch(() => {});
+        if (QM && Date.now() - QM.at < 90000) claim().catch(() => {}); else if (QM) { qmStop(); setMsg('Nobody else is searching right now. Try again in a bit, or play a friend with a match code.'); } }, 3000);
       QM.timer = setInterval(() => { const el = document.getElementById('qmTime'); if (el && QM) el.textContent = Math.floor((Date.now() - QM.at) / 1000) + 's'; }, 1000);
     } catch (e) { qmStop(); return netErr(e); }
     return '';
@@ -7227,13 +7265,17 @@
     const r = rankOf(save.rank.rp), rk = save.rank;
     if (QM) return `<div class="mpbox qmBox"><div class="lh">${QM.kind === 'ranked' ? 'RANKED' : 'CASUAL'} · SEARCHING</div>
         <div class="qmSearch"><div class="qmSpin"></div><div><b>Looking for a golfer…</b><small id="qmTime">0s</small></div></div>
-        <div class="gnote">1v1 stroke play · random 9 holes. Stay on this screen; the match starts as soon as someone is found.</div>
+        <div class="gnote">1v1 stroke play · random ${QM_HOLES} holes. Stay on this screen; the match starts as soon as someone is found.</div>${LOAD_NOTE}
         <button class="ghost" data-qmcancel="1" style="width:100%;margin-top:10px">Cancel</button></div>`;
-    return `<div class="mpbox qmBox"><div class="lh">ONLINE · QUICK MATCH</div>
+    return `<div class="mpbox qmBox"><div class="lh">PVP MODES</div>
+        <div class="pvpModes"><div><b>⚔️ Ranked</b><small>Random golfer · ${QM_HOLES} holes · win or lose RP. Leaving = forfeit (−${RANK_FORFEIT} RP).</small></div>
+          <div><b>🤝 Casual</b><small>Random golfer · ${QM_HOLES} holes · just for fun, no RP.</small></div>
+          <div><b>👥 Vs Friends</b><small>Private match with a code · you pick the course, holes and buy-in. Scroll down.</small></div></div>
+        <div class="lh" style="margin-top:14px">ONLINE · RANKED &amp; CASUAL</div>
         <div class="qmRank"><span class="qmIcon">${r.icon}</span><div style="flex:1"><b>${r.name}</b><small>${rk.rp | 0} RP · ${rk.w | 0}W ${rk.l | 0}L${r.toNext ? ` · ${r.toNext} RP to the next level` : ' · top rank'}</small>
           <i class="qmBar"><u style="width:${r.into}%"></u></i></div></div>
         <div class="qmBtns"><button class="main" data-qm="ranked">⚔️ Ranked</button><button class="ghost" data-qm="casual">🤝 Casual</button></div>
-        <div class="gnote">Play a golfer from anywhere: 1v1 stroke play on a random 9 holes, no buy-in. Ranked moves your rank up or down (6 ranks, 3 levels each, up to 💎 Pure Striker). Casual is just for fun.</div>
+        <div class="gnote">Get matched with a golfer from anywhere: 1v1 stroke play on a random ${QM_HOLES} holes, no buy-in. <b>Ranked</b> moves your rank up or down (6 ranks, 3 levels each, up to 💎 Pure Striker); quitting a ranked match is a forfeit and costs ${RANK_FORFEIT} RP. <b>Casual</b> is just for fun.</div>
         <div class="lh" style="margin-top:12px">RANKED LEADERBOARD</div><div id="rankLb"><div class="empty">Loading…</div></div></div>`;
   }
   function renderMatchTab() {
@@ -7254,7 +7296,7 @@
     const opt = (k, v, label, on) => `<button data-${k}="${v}" class="${on ? 'on' : ''}">${label}</button>`;
     const chips = [0, 100, 250, 500, 1000, 2500, 5000].filter(v => v <= save.coins), coop = false;
     box.innerHTML = back + qmHtml() + `<div class="mpbox" style="margin-top:12px">
-        <div class="lh">PLAY FRIENDS · GAME</div><div class="opts">${Object.keys(MP_MODES).map(k => opt('fm', k, MP_MODES[k].name, +k === f.mode)).join('')}</div>
+        <div class="lh">👥 VS FRIENDS · PRIVATE MATCH</div><div class="gnote" style="margin:0 2px 8px">Not ranked. Make a match and send your friends the code.</div><div class="lh">GAME</div><div class="opts">${Object.keys(MP_MODES).map(k => opt('fm', k, MP_MODES[k].name, +k === f.mode)).join('')}</div>
         <div class="lh">FORMAT</div><div class="opts">${md.fmts.map(k => opt('ff', k, fmtName(f.mode, k), k === f.fmt)).join('')}</div>
         <div class="gnote" style="margin-top:6px">${md.sub} · ${fmtHow(f.mode, f.fmt)}</div>
         <div class="lh">COURSE</div><div class="opts">${courses.map(c => opt('fc', c.id, c.mini ? 'Mini Golf' : c.name, c.id === f.cid)).join('')}</div>
@@ -9456,7 +9498,7 @@
   // (Nov 4 2026) Update 3.1
   // (Nov 13 2026) Update 4.1
   const NEWS = [
-    ['star', '<b>Ranked and Casual online play</b> (Play Friends): get matched with a golfer from anywhere for 1v1 on a random 9 holes. Climb 6 ranks with 3 levels each, all the way to 💎 <b>Pure Striker</b>.'],
+    ['star', '<b>Ranked and Casual online play</b> (Play Friends): get matched with a golfer from anywhere for 1v1 on a random 6 holes. Leaving a ranked match is a forfeit (−25 RP). Climb 6 ranks with 3 levels each, all the way to 💎 <b>Pure Striker</b>.'],
     ['user', '<b>Tutorial:</b> Coach Buck shows you how to swing, Pro Duffy helps when you miss the green, and Buck walks you through putting. Skip it any time (or replay it in the Golfer tab).'],
     ['star', '<b>New look:</b> see-through grey panels, a smoother jacket and shirt, and a golf bag with stitched lettering.'],
     ['school', '<b>Homerooms are now Club Houses.</b>'],
