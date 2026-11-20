@@ -218,6 +218,27 @@
   .bname{font:700 24px/1 Oswald,sans-serif;color:var(--gold-l);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .tag{font:800 10px Inter,sans-serif;letter-spacing:.22em;color:var(--gold);margin-top:4px}
   .lvchip{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;margin-left:auto;margin-right:8px;padding:5px 10px;border-radius:12px;background:var(--red-dd);border:1px solid var(--gold)}
+  .lvchip{cursor:pointer}.lvchip:active{transform:scale(.96)}
+  .card.lvcard{max-width:400px;text-align:left}
+  .lvTop{display:flex;align-items:center;gap:14px}
+  .lvBadge{flex:none;width:74px;height:74px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--gold-l);
+           background:radial-gradient(circle at 35% 30%,#c8172f,#45060F 75%);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+  .lvBadge small{font:800 9px Inter;letter-spacing:.16em;color:var(--gold-l)}.lvBadge b{font:700 32px/1 Oswald,sans-serif;color:#fff}
+  .lvTop h2{margin:0;font:700 26px/1.1 Oswald,sans-serif;color:var(--gold-l);text-transform:uppercase}
+  .lvTop .lvTot{font-size:12.5px;color:#f3d7a8;margin-top:3px}
+  .lvBar{position:relative;height:22px;border-radius:999px;background:rgba(0,0,0,.35);border:1px solid rgba(242,193,78,.5);overflow:hidden;margin-top:16px}
+  .lvBar u{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));transition:width .8s ease}
+  .lvBar span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 12px Inter;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+  .lvEnds{display:flex;justify-content:space-between;font:800 11px Inter;letter-spacing:.08em;color:#f3d7a8;margin-top:5px}
+  .lvNext{margin-top:12px;padding:9px 11px;border-radius:12px;background:rgba(242,193,78,.14);border:1px solid rgba(242,193,78,.5);font-size:13px;color:#fff}.lvNext b{color:var(--gold-l)}
+  .lvHow{margin-top:12px;font-size:12.5px;color:#f3e6d0}.lvHow .lh2{font:800 10px Inter;letter-spacing:.16em;color:var(--gold-l);margin-bottom:4px}
+  .lvHow div{display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid rgba(242,193,78,.15)}.lvHow div b{color:var(--gold-l)}
+  .card.lvcard{max-height:88vh;overflow:auto}
+  .lvHow .lvTrack{display:block;padding:0;border-top:0;max-height:230px;overflow:auto}.lvHow .lvTrack div{display:flex;justify-content:flex-start;align-items:center;gap:10px;padding:6px 0}
+  .lvTrack i{flex:none;width:46px;text-align:center;font:800 10px Inter;font-style:normal;letter-spacing:.04em;padding:4px 0;border-radius:999px;background:rgba(0,0,0,.35);color:#f3d7a8}
+  .lvTrack div.got i{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd)}.lvTrack i .ico{width:14px;height:14px;vertical-align:-2px}
+  .lvTrack span b{display:block;color:#fff;font:700 14px Oswald,sans-serif;letter-spacing:.02em}.lvTrack div.got span b{color:var(--gold-l)}
+  .lvTrack small{display:block;font-size:11px;opacity:.8}
   .lvchip b{font:700 14px/1 Oswald,sans-serif;color:var(--gold-l);letter-spacing:.06em}
   .lvchip i{display:block;width:54px;height:5px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}.lvchip u{display:block;height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l))}
   .coins{flex:none;background:var(--red-dd);border:1px solid var(--gold);color:var(--gold-l);font:700 18px Oswald,sans-serif;padding:6px 14px;border-radius:999px}
@@ -893,6 +914,7 @@
   .tutCard{z-index:7;max-width:min(88vw,470px)}
   .tutCard .hostBub{margin-bottom:30px}
   .tutCard .hostBub span{display:block}
+  .duoCard img{width:clamp(80px,12vw,118px)}.duoCard img + img{margin-left:-26px;animation-delay:-1.6s}
   .tutBtns{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
   .tutBtns button{border:2px solid #2a1a10;border-radius:999px;padding:6px 14px;font:800 12px Inter;letter-spacing:.04em;cursor:pointer}
   .tutBtns .ok{background:#B3122B;color:#fff}.tutBtns .skip{background:#fff;color:#2a1a10}
@@ -1071,6 +1093,8 @@
 
 <!-- ===== In-game HUD ===== -->
 <div id="hostCard" class="hostCard"><img id="hostImg" alt=""><div class="hostBub"><b id="hostName"></b><span id="hostLine"></span></div></div>
+<div id="duoCard" class="hostCard tutCard duoCard"><img id="duoA" alt=""><img id="duoK" alt=""><div class="hostBub"><b>Coach Andy &amp; Coach Kay</b><span>Welcome to Stryke Links Crimson! Want us to walk you through the swing, chipping and putting?</span>
+  <div class="tutBtns"><button class="ok" id="duoTut">Play the tutorial</button><button class="skip" id="duoNo">No thanks</button></div></div></div>
 <div id="tutCard" class="hostCard tutCard"><img id="tutImg" alt=""><div class="hostBub"><b id="tutName"></b><span id="tutLine"></span>
   <div class="tutBtns"><button class="ok" id="tutOk">Got it</button><button class="skip" id="tutSkip">Skip tutorial</button></div><div class="tutStep" id="tutStep"></div></div></div>
 <div class="top" id="hud">
@@ -1386,6 +1410,11 @@
 </div>
 
 <!-- ===== What's new (shown once per update; only things players can see) ===== -->
+<!-- ===== (Nov 19 2026) Level & XP progress (tap LV at the top) ===== -->
+<div id="lvPop" class="overlay hidden" style="z-index:31">
+  <div class="card lvcard"><div id="lvBody"></div><button class="main" id="lvOk" style="width:100%;margin-top:14px">Got it</button></div>
+</div>
+
 <div id="newsPop" class="overlay hidden" style="z-index:31">
   <div class="card news">
     <h2>What's new</h2>
@@ -1649,6 +1678,11 @@
     { name: 'Green Jacket', lock: 'masters', look: { style: 'suit', jacket: '#1f5a34', shirt: '#ffffff', tie: '#1f5a34', pants: '#b9a47c', shoes: '#eeeeea' } },
     // (Nov 3 2026) the hardest outfit in the game: finish UNDER par on every course
     { name: 'Stryke Legend Jacket', lock: 'chamiman', look: { style: 'suit', jacket: '#6b0f1e', shirt: '#F2C14E', tie: '#111113', pants: '#111113', shoes: '#111111' } },
+    // (Nov 19 2026) level-up outfits
+    { name: 'Range Rat', lock: 'lv10', look: { style: 'suit', jacket: '#1f2c4d', shirt: '#F2C14E', tie: '#B3122B', pants: '#3a3d42', shoes: '#111111' } },
+    { name: 'Tour Elite', lock: 'lv25', look: { style: 'suit', jacket: '#111113', shirt: '#B3122B', tie: '#F2C14E', pants: '#111113', shoes: '#eeeeea' } },
+    { name: 'Stryke Platinum', lock: 'lv50', look: { style: 'suit', jacket: '#eeeeea', shirt: '#111113', tie: '#C9962B', pants: '#eeeeea', shoes: '#111111' } },
+    { name: 'Hall of Fame', lock: 'lv100', look: { style: 'suit', jacket: '#F2C14E', shirt: '#111113', tie: '#B3122B', pants: '#111113', shoes: '#111111' } },
   ];
   LOOK_PRESETS.forEach(p => { if (p.price) p.price = salePrice(p.price); });
   const SWATCHES = {
@@ -1686,7 +1720,9 @@
   const MASTERS_REL = 0, MASTERS_CID = 'clblack';   // par or better on the hardest course
   const UNLOCKS = { senior: { name: 'Clubhouse Sweater', how: 'Hit it within 10 feet of the pin in the Daily Closest to the Pin challenge.' },
     masters: { name: 'Green Jacket', how: 'Shoot par or better for a full round at Stryke Links Black, the hardest course.' },
-    chamiman: { name: 'Stryke Legend Jacket', how: 'The hardest unlock in the game: finish a full round UNDER par on every course.' } };
+    chamiman: { name: 'Stryke Legend Jacket', how: 'The hardest unlock in the game: finish a full round UNDER par on every course.' },
+    lv10: { name: 'Range Rat', how: 'Reach level 10.' }, lv25: { name: 'Tour Elite', how: 'Reach level 25.' },
+    lv50: { name: 'Stryke Platinum', how: 'Reach level 50.' }, lv100: { name: 'Hall of Fame', how: 'Reach level 100, the top level.' } };
   const chamiManDone = () => COURSES.every(c => save.stats.bestBy[c.id] != null && save.stats.bestBy[c.id] < 0);
   const unlocked = id => !!(save.unlocks && save.unlocks[id]);
   const partShown = (k, look) => (k !== 'trim' || look.style === 'sweater') && (k !== 'style' || unlocked('senior'));
@@ -3299,9 +3335,18 @@
     pines: { name: 'Coach Kay', line: 'Grip it and rip it! Fairways and greens, kid.', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20180%2062%20160%20100%20156%20C138%20160%20160%20180%20160%20232%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Cpath%20d%3D%22M82%20158%20L100%20182%20L118%20158%20L112%20154%20L100%20168%20L88%20154%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Crect%20x%3D%2288%22%20y%3D%22138%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2240%22%20ry%3D%2244%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%2260%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cpath%20d%3D%22M62%2098%20Q60%2084%2066%2080%20L68%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%3Cpath%20d%3D%22M138%2098%20Q140%2084%20134%2080%20L132%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%20%3Cpath%20d%3D%22M76%2093%20Q85%2088%2093%2092%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M107%2092%20Q115%2088%20124%2093%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M97%20108%20Q100%20120%20104%20108%22%20stroke%3D%22%23c9876a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Crect%20x%3D%2272%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%20%3Cpath%20d%3D%22M96%20101%20L104%20101%22%20stroke%3D%22%23111%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M76%2099%20L84%2099%22%20stroke%3D%22%23555%22%20stroke-width%3D%222%22%2F%3E%20%3Cpath%20d%3D%22M88%20128%20Q100%20136%20112%20128%22%20stroke%3D%22%237a3b2a%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M66%20170%20L80%20232%20M134%20170%20L120%20232%22%20stroke%3D%22%23d9a520%22%20stroke-width%3D%220%22%2F%3E%20%3Cpath%20d%3D%22M62%20176%20Q70%20200%2076%20232%20L124%20232%20Q130%20200%20138%20176%20Q120%20168%20118%20160%20L100%20190%20L82%20160%20Q80%20168%2062%20176Z%22%20fill%3D%22%23F2C14E%22%2F%3E%20%3Cpath%20d%3D%22M62%2078%20Q66%2046%20100%2044%20Q134%2046%20138%2078%20Z%22%20fill%3D%22%23e9dcc0%22%2F%3E%20%3Cpath%20d%3D%22M48%2082%20Q100%2066%20152%2082%20Q156%2090%20148%2092%20Q100%2080%2052%2092%20Q44%2090%2048%2082Z%22%20fill%3D%22%23d8c8a4%22%2F%3E%20%3Crect%20x%3D%2262%22%20y%3D%2272%22%20width%3D%2276%22%20height%3D%228%22%20fill%3D%22%23B3122B%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
   };
   let hostShown = false;
-  function hideHosts() { if (!hostShown) return; hostShown = false; $('hostCard').classList.remove('show'); }
+  function hideHosts() { $('duoCard').classList.remove('show'); if (!hostShown) return; hostShown = false; $('hostCard').classList.remove('show'); }
+  // (Nov 19 2026) Stryke Links Crimson: Coach Andy and Coach Kay greet you on the first tee EVERY round and offer the tutorial
+  let tutRound = null;   // tips already shown this round when you picked "Play the tutorial" (null = not doing it this round)
   function placeHost() {
     hideHosts();
+    if (holeIdx === 0) tutRound = null;
+    if (hole && !hole.mini && holeIdx === 0 && course.id === 'pines' && !(MP && MP.started)) {
+      $('duoA').src = HOSTS.par3.img; $('duoK').src = HOSTS.pines.img; hostShown = true;
+      const onHole = hole;
+      setTimeout(() => { if (hostShown && hole === onHole && strokes === 0 && $('home').classList.contains('hidden') && state !== 'title') $('duoCard').classList.add('show'); }, 1600);
+      return;
+    }
     const H = HOSTS[course.id];
     if (!hole || hole.mini || course.ctp || holeIdx !== 0 || !H || course.id !== 'par3') return;   // (Nov 17 2026) coaches only on 3C Par Three
     $('hostImg').src = H.img; $('hostName').textContent = H.name; $('hostLine').textContent = `\u201c${H.line}\u201d`;
@@ -3310,6 +3355,8 @@
     setTimeout(() => { if (hostShown && hole === onHole && $('home').classList.contains('hidden') && state !== 'title') $('hostCard').classList.add('show'); }, 1600);   // after the hole's intro fly-over (never on the home screen)
   }
   $('hostCard').addEventListener('click', hideHosts);
+  $('duoTut').addEventListener('click', e => { e.stopPropagation(); ensureAudio(); sfx.click(); hideHosts(); tutRound = {}; tutCheck(); });
+  $('duoNo').addEventListener('click', e => { e.stopPropagation(); sfx.click(); hideHosts(); tutRound = null; });
 
   // ---- (Nov 16 2026) Tutorial: Coach Andy and Coach Kay walk you through it, one tip at a time, at the moment it matters ----
   //  1. swing (Andy): your first full shot · 2. chip (Kay): first time you miss the green close by · 3. putt (Andy): first time on the green
@@ -3326,6 +3373,7 @@
   function tutShow(k) {
     const t = TUT[k], H = HOSTS[t.who];
     hideHosts(); tutNow = k;
+    if (tutRound) tutRound[k] = 1;
     save.tut.seen[k] = 1; if (TUT_ORDER.every(x => save.tut.seen[x])) save.tut.off = true; persist();   // (Nov 19 2026) each tip shows once, ever
     $('tutImg').src = H.img; $('tutName').textContent = `${H.name} · ${t.title}`; $('tutLine').textContent = t.line;
     $('tutStep').textContent = `TIP ${TUT_ORDER.indexOf(k) + 1} OF ${TUT_ORDER.length}`;
@@ -3333,19 +3381,21 @@
   }
   function tutCheck() {
     try {
-      if (save.tut.off || tutNow || !hole || hole.mini || hole.range || course.ctp || course.id !== 'par3' || (MP && MP.started) || state !== 'ready') return;   // only on 3C Par Three
+      if (tutNow || !hole || hole.mini || hole.range || course.ctp || (MP && MP.started) || state !== 'ready') return;
+      if (!tutRound && (save.tut.off || course.id !== 'par3')) return;   // first time: 3C Par Three only; on Crimson whenever you pick "Play the tutorial"
+      const seen = tutRound || save.tut.seen;
       const lie = terrainAt(ball), d = distToPin();
       let k = null;
-      if (!save.tut.seen.swing && !CLUBS[clubIdx].putter) k = 'swing';
-      else if (!save.tut.seen.putt && lie === 'green') k = 'putt';
-      else if (!save.tut.seen.chip && strokes > 0 && lie !== 'green' && lie !== 'tee' && d < 45) k = 'chip';
+      if (!seen.swing && !CLUBS[clubIdx].putter) k = 'swing';
+      else if (!seen.putt && lie === 'green') k = 'putt';
+      else if (!seen.chip && strokes > 0 && lie !== 'green' && lie !== 'tee' && d < 45) k = 'chip';
       if (!k) return;
       const onHole = hole, wait = strokes === 0 ? 1900 : 500;   // after the hole's fly-over on the tee
       setTimeout(() => { if (hole === onHole && state === 'ready' && !tutNow && $('home').classList.contains('hidden')) tutShow(k); }, wait);
     } catch (e) {}
   }
   $('tutOk').addEventListener('click', e => { e.stopPropagation(); if (tutNow) { save.tut.seen[tutNow] = 1; if (TUT_ORDER.every(k => save.tut.seen[k])) save.tut.off = true; persist(); } tutHide(); });
-  $('tutSkip').addEventListener('click', e => { e.stopPropagation(); save.tut.off = true; persist(); tutHide(); });
+  $('tutSkip').addEventListener('click', e => { e.stopPropagation(); save.tut.off = true; tutRound = null; persist(); tutHide(); });
 
   // ================= Course painting =================
   const ell = (g, e, pad = 0) => { g.beginPath(); g.ellipse(e.x, e.y, e.rx + pad, e.ry + pad, 0, 0, Math.PI * 2); };
@@ -5067,10 +5117,41 @@
     if (after > before) {
       let pay = 0; for (let L = before + 1; L <= after; L++) pay += lvPay(L);
       save.coins += pay; save.stats.earnedTotal += pay;
-      toastQ.push({ a: { icon: ico('star'), label: 'LEVEL UP', name: `Level ${after}`, pay } }); nextToast();
+      toastQ.push({ a: { icon: ico('star'), label: 'LEVEL UP', name: `Level ${after}`, pay } }); applyLvRewards(false); nextToast();
       track('level_up', { lv: after });
     }
     persist(); renderLevel(); return n;
+  }
+  // ---- What levels get you (Nov 19 2026): every level pays money, and these levels also unlock stuff ----
+  const lvOutfit = id => () => { save.unlocks[id] = true; const p = LOOK_PRESETS.find(x => x.lock === id); if (p) OUTFIT_PARTS.forEach(k => { if (p.look[k]) grantC(k, p.look[k]); }); };
+  const lvClub = hex => () => { save.ownedLook['club:' + hex.toLowerCase()] = 1; };
+  const lvLine = id => () => { save.ownedLook['ball-line:' + id] = 1; };
+  const lvCash = n => () => { save.coins += n; save.stats.earnedTotal += n; };
+  const LV_REWARDS = [
+    { lv: 2, ic: 'ball', name: 'Black line ball', what: 'Ball line (Golfer › Ball)', give: lvLine('black') },
+    { lv: 3, ic: 'bag', name: 'Gunmetal clubs', what: 'Club colour (Clubs tab)', give: lvClub('#53575e') },
+    { lv: 5, ic: 'ball', name: 'Red line ball', what: 'Ball line (Golfer › Ball)', give: lvLine('red') },
+    { lv: 7, ic: 'shirt', name: 'Royal blue jacket', what: 'Jacket colour (Golfer › Outfit)', give: () => grantC('jacket', '#2747a8') },
+    { lv: 10, ic: 'shirt', name: 'Range Rat outfit', what: 'Level-only outfit (Golfer › Outfit)', give: lvOutfit('lv10') },
+    { lv: 12, ic: 'bag', name: 'Red clubs', what: 'Club colour (Clubs tab)', give: lvClub('#B3122B') },
+    { lv: 15, ic: 'ball', name: 'Triple track ball', what: 'Ball line (Golfer › Ball)', give: lvLine('triple') },
+    { lv: 18, ic: 'bag', name: 'Copper clubs', what: 'Club colour (Clubs tab)', give: lvClub('#b8733a') },
+    { lv: 20, ic: 'star', name: '$2,000 bonus', what: 'On top of the level-up pay', give: lvCash(2000) },
+    { lv: 25, ic: 'shirt', name: 'Tour Elite outfit', what: 'Level-only outfit (Golfer › Outfit)', give: lvOutfit('lv25') },
+    { lv: 30, ic: 'ball', name: 'Gold stripe ball', what: 'Ball line (Golfer › Ball)', give: lvLine('gold') },
+    { lv: 35, ic: 'bag', name: 'White clubs', what: 'Club colour (Clubs tab)', give: lvClub('#f2f2ee') },
+    { lv: 40, ic: 'star', name: '$5,000 bonus', what: 'On top of the level-up pay', give: lvCash(5000) },
+    { lv: 50, ic: 'shirt', name: 'Stryke Platinum outfit', what: 'Level-only outfit (Golfer › Outfit)', give: lvOutfit('lv50') },
+    { lv: 60, ic: 'bag', name: 'Gold clubs', what: 'Club colour (Clubs tab)', give: lvClub('#e5b740') },
+    { lv: 75, ic: 'star', name: '$15,000 bonus', what: 'On top of the level-up pay', give: lvCash(15000) },
+    { lv: 100, ic: 'trophy', name: 'Hall of Fame outfit', what: 'The top level\'s outfit', give: lvOutfit('lv100') }];
+  // hand out every reward up to your level that you don't have yet (quiet = at start-up, no pop-ups)
+  function applyLvRewards(quiet) {
+    save.lvGot = save.lvGot || {};
+    const L = levelOf(save.xp).L, got = [];
+    LV_REWARDS.forEach(r => { if (r.lv <= L && !save.lvGot[r.lv]) { save.lvGot[r.lv] = 1; try { r.give(); } catch (e) {} got.push(r); } });
+    if (got.length) { persist(); if (!quiet) got.forEach(r => toastQ.push({ a: { icon: ico(ICONS[r.ic] ? r.ic : 'star'), label: `LEVEL ${r.lv} UNLOCK`, name: r.name, pay: 0 } })); }
+    return got;
   }
   function lvChipHtml() {
     const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100);
@@ -5079,8 +5160,28 @@
   function renderLevel() {
     const el = document.getElementById('homeLv'); if (!el) return;
     const v = levelOf(save.xp); el.innerHTML = lvChipHtml();
-    el.title = v.max ? `Level ${v.L} (max)` : `Level ${v.L} · ${v.into} / ${v.need} XP to level ${v.L + 1}`;
+    el.setAttribute('role', 'button'); el.title = v.max ? `Level ${v.L} (max)` : `Level ${v.L} · ${v.into} / ${v.need} XP to level ${v.L + 1}`;
   }
+  function showLevelPop() {
+    const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100);
+    $('lvBody').innerHTML = `<div class="lvTop"><div class="lvBadge"><small>LEVEL</small><b>${v.L}</b></div>
+        <div><h2>${v.max ? 'Max level!' : 'Level ' + v.L}</h2><div class="lvTot">${(save.xp | 0).toLocaleString()} XP total</div></div></div>
+      <div class="lvBar"><u style="width:0%"></u><span>${v.max ? 'MAXED OUT' : `${v.into} / ${v.need} XP`}</span></div>
+      ${v.max ? '' : `<div class="lvEnds"><span>LV ${v.L}</span><span>${v.need - v.into} XP TO GO</span><span>LV ${v.L + 1}</span></div>
+      <div class="lvNext">Reach <b>level ${v.L + 1}</b> and get <b>+${money(lvPay(v.L + 1))}</b>${(() => { const n = LV_REWARDS.find(r => r.lv > v.L); return n ? `<br>Next unlock: <b>${n.name}</b> at level ${n.lv}` : ''; })()}</div>`}
+      <div class="lvHow"><div class="lh2">LEVEL UNLOCKS</div><div class="lvTrack">${LV_REWARDS.map(r => { const has = v.L >= r.lv;
+        return `<div class="${has ? 'got' : ''}"><i>${has ? ico('check') : 'LV ' + r.lv}</i><span><b>${r.name}</b><small>${has ? 'Unlocked · ' : ''}${r.what}</small></span></div>`; }).join('')}</div></div>
+      <div class="lvHow"><div class="lh2">HOW TO EARN XP</div>
+        <div><span>Finish a hole</span><b>+10</b></div><div><span>Par</span><b>+5 more</b></div><div><span>Birdie</span><b>+20 more</b></div>
+        <div><span>Eagle</span><b>+50 more</b></div><div><span>Hole in one</span><b>+150 more</b></div>
+        <div><span>Finish a 9-hole round</span><b>+40</b></div><div><span>Finish an 18-hole round</span><b>+100</b></div><div><span>Mini golf hole (birdie +5)</span><b>+5</b></div></div>`;
+    $('lvPop').classList.remove('hidden');
+    requestAnimationFrame(() => setTimeout(() => { const u = document.querySelector('#lvBody .lvBar u'); if (u) u.style.width = pct + '%';
+      const tr = document.querySelector('#lvBody .lvTrack'), nx = tr && tr.querySelector('div:not(.got)'); if (tr && nx) tr.scrollTop = Math.max(0, nx.offsetTop - tr.offsetTop - 50); }, 60));
+  }
+  $('homeLv').addEventListener('click', () => { ensureAudio(); sfx.click(); showLevelPop(); });
+  $('lvOk').addEventListener('click', () => { sfx.click(); $('lvPop').classList.add('hidden'); });
+  $('lvPop').addEventListener('click', e => { if (e.target.id === 'lvPop') $('lvPop').classList.add('hidden'); });
   const maxStrokes = () => hole && hole.mini ? 7 : MAX_STROKES;
   function finishHole() {
     if (course.ctp) return ctpDone(0);
@@ -9727,13 +9828,14 @@
   const NEWS = [
     ['flag', '<b>Pin positions change every day.</b> The flag colour tells you where it is: <b>red = front</b>, <b>white = middle</b>, <b>blue = back</b> of the green (it shows next to the yardage too). Every flag now has the Stryke logo.'],
     ['flag', '<b>Take the pin out:</b> chipping or putting from close by? Tap TAKE PIN OUT (above the aim arrows) and put it back any time.'],
+    ['star', '<b>Level unlocks:</b> tap <b>LV</b> at the top to see your progress and what\'s next. Levels unlock ball lines, club colours, a jacket colour, four level-only outfits (Range Rat, Tour Elite, Stryke Platinum, Hall of Fame) and big cash bonuses.'],
     ['star', '<b>Levels and XP!</b> Every hole gives XP (more for birdies, eagles and aces), a finished round gives a bonus, and every level up pays you. Your level is next to your money.'],
     ['target', '<b>Spin control</b> is here for experienced golfers: get your Pro Ball to <b>level 7</b>, pick a wedge and tap SPIN for backspin (it bites and pulls back) or topspin (it lands and runs).'],
     ['shield', '<b>Reloading doesn\'t restart the hole any more:</b> you\'re put back on the exact shot you were on. Reload mid-shot and the stroke still counts.'],
     ['chart', '<b>No more driving greens with maxed clubs:</b> big upgrades still add distance, but much less past 255 yards.'],
     ['chart', '<b>Finish at least 9 holes to get paid.</b> End a round before 9 holes and those holes don\'t pay.'],
     ['star', '<b>Ranked vs Casual is easier to tell apart:</b> two big cards (Ranked = RP on the line, Casual = just for fun), and your match shows RANKED or CASUAL at the top.'],
-    ['user', '<b>Meet Coach Andy and Coach Kay,</b> your new coaches on 3C Par Three. The tutorial tips only show once.'],
+    ['user', '<b>Meet Coach Andy and Coach Kay!</b> They greet you on the first tee of Stryke Links Crimson every round and you can play the tutorial with them any time. On 3C Par Three the tips show once.'],
     ['chart', '<b>The Driving Range</b> now sits neatly under Stats in the Clubs tab, and the welcome screen is simpler.'],
   ];
   // (Nov 16 2026) Update 4.2, with the Nov 17 PvP additions on top
@@ -9946,6 +10048,7 @@
     if (w === 'par3') { const p3 = courseById('par3'); if (p3) openCourse(p3); } else setTab(w === 'home' ? 'play' : w);
     setTimeout(firstName, 400);
   });
+  try { applyLvRewards(true); } catch (e) {}   // (Nov 19 2026) level unlocks you already reached
   // anything already earned by older saves is granted quietly
   AWARDS.forEach(a => { if (!save.awards[a.id] && awardDone(a)) save.awards[a.id] = Date.now(); });
   if (!BAG_PRESETS.some(p => bagOpen(p) && p.bag.body.toLowerCase() === String(save.gbag.body).toLowerCase())) {
