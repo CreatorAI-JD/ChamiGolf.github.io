@@ -1092,8 +1092,6 @@
 
 <!-- ===== In-game HUD ===== -->
 <div id="hostCard" class="hostCard"><img id="hostImg" alt=""><div class="hostBub"><b id="hostName"></b><span id="hostLine"></span></div></div>
-<div id="duoCard" class="hostCard tutCard duoCard"><img id="duoK" alt=""><div class="hostBub"><b>Coach Kay</b><span>Welcome to Stryke Links Crimson! Want me to walk you through the swing, chipping and putting?</span>
-  <div class="tutBtns"><button class="ok" id="duoTut">Play the tutorial</button><button class="skip" id="duoNo">No thanks</button></div></div></div>
 <div id="tutCard" class="hostCard tutCard"><img id="tutImg" alt=""><div class="hostBub"><b id="tutName"></b><span id="tutLine"></span>
   <div class="tutBtns"><button class="ok" id="tutOk">Got it</button><button class="skip" id="tutSkip">Skip tutorial</button></div><div class="tutStep" id="tutStep"></div></div></div>
 <div class="top" id="hud">
@@ -3334,28 +3332,20 @@
     pines: { name: 'Coach Kay', line: 'Grip it and rip it! Fairways and greens, kid.', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20180%2062%20160%20100%20156%20C138%20160%20160%20180%20160%20232%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Cpath%20d%3D%22M82%20158%20L100%20182%20L118%20158%20L112%20154%20L100%20168%20L88%20154%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Crect%20x%3D%2288%22%20y%3D%22138%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2240%22%20ry%3D%2244%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%2260%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cpath%20d%3D%22M62%2098%20Q60%2084%2066%2080%20L68%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%3Cpath%20d%3D%22M138%2098%20Q140%2084%20134%2080%20L132%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%20%3Cpath%20d%3D%22M76%2093%20Q85%2088%2093%2092%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M107%2092%20Q115%2088%20124%2093%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M97%20108%20Q100%20120%20104%20108%22%20stroke%3D%22%23c9876a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Crect%20x%3D%2272%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%20%3Cpath%20d%3D%22M96%20101%20L104%20101%22%20stroke%3D%22%23111%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M76%2099%20L84%2099%22%20stroke%3D%22%23555%22%20stroke-width%3D%222%22%2F%3E%20%3Cpath%20d%3D%22M88%20128%20Q100%20136%20112%20128%22%20stroke%3D%22%237a3b2a%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M66%20170%20L80%20232%20M134%20170%20L120%20232%22%20stroke%3D%22%23d9a520%22%20stroke-width%3D%220%22%2F%3E%20%3Cpath%20d%3D%22M62%20176%20Q70%20200%2076%20232%20L124%20232%20Q130%20200%20138%20176%20Q120%20168%20118%20160%20L100%20190%20L82%20160%20Q80%20168%2062%20176Z%22%20fill%3D%22%23F2C14E%22%2F%3E%20%3Cpath%20d%3D%22M62%2078%20Q66%2046%20100%2044%20Q134%2046%20138%2078%20Z%22%20fill%3D%22%23e9dcc0%22%2F%3E%20%3Cpath%20d%3D%22M48%2082%20Q100%2066%20152%2082%20Q156%2090%20148%2092%20Q100%2080%2052%2092%20Q44%2090%2048%2082Z%22%20fill%3D%22%23d8c8a4%22%2F%3E%20%3Crect%20x%3D%2262%22%20y%3D%2272%22%20width%3D%2276%22%20height%3D%228%22%20fill%3D%22%23B3122B%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
   };
   let hostShown = false;
-  function hideHosts() { $('duoCard').classList.remove('show'); if (!hostShown) return; hostShown = false; $('hostCard').classList.remove('show'); }
-  // (Nov 19 2026) Coach Andy lives on 3C Par Three, Coach Kay on Stryke Links Crimson. Kay greets you on Crimson's first tee EVERY round and offers the tutorial
+  function hideHosts() { if (!hostShown) return; hostShown = false; $('hostCard').classList.remove('show'); }
+  // (Nov 19 2026) Coach Andy lives on 3C Par Three (and gives the tutorial), Coach Kay greets you on Stryke Links Crimson's first tee every round (no tutorial)
   let tutRound = null;   // tips already shown this round when you picked "Play the tutorial" (null = not doing it this round)
   function placeHost() {
     hideHosts();
     if (holeIdx === 0) tutRound = null;
-    if (hole && !hole.mini && holeIdx === 0 && course.id === 'pines' && !(MP && MP.started)) {
-      $('duoK').src = HOSTS.pines.img; hostShown = true;
-      const onHole = hole;
-      setTimeout(() => { if (hostShown && hole === onHole && strokes === 0 && $('home').classList.contains('hidden') && state !== 'title') $('duoCard').classList.add('show'); }, 1600);
-      return;
-    }
     const H = HOSTS[course.id];
-    if (!hole || hole.mini || course.ctp || holeIdx !== 0 || !H || course.id !== 'par3') return;   // (Nov 17 2026) coaches only on 3C Par Three
+    if (!hole || hole.mini || course.ctp || holeIdx !== 0 || !H || (course.id !== 'par3' && course.id !== 'pines') || (MP && MP.started)) return;   // Andy on 3C, Kay on Crimson (every round)
     $('hostImg').src = H.img; $('hostName').textContent = H.name; $('hostLine').textContent = `\u201c${H.line}\u201d`;
     hostShown = true;
     const onHole = hole;
     setTimeout(() => { if (hostShown && hole === onHole && $('home').classList.contains('hidden') && state !== 'title') $('hostCard').classList.add('show'); }, 1600);   // after the hole's intro fly-over (never on the home screen)
   }
   $('hostCard').addEventListener('click', hideHosts);
-  $('duoTut').addEventListener('click', e => { e.stopPropagation(); ensureAudio(); sfx.click(); hideHosts(); tutRound = {}; tutCheck(); });
-  $('duoNo').addEventListener('click', e => { e.stopPropagation(); sfx.click(); hideHosts(); tutRound = null; });
 
   // ---- (Nov 16 2026) Tutorial: Coach Andy and Coach Kay walk you through it, one tip at a time, at the moment it matters ----
   //  1. swing (Andy): your first full shot · 2. chip (Kay): first time you miss the green close by · 3. putt (Andy): first time on the green
@@ -3370,7 +3360,7 @@
   let tutNow = null;
   function tutHide() { if (!tutNow) return; tutNow = null; $('tutCard').classList.remove('show'); }
   function tutShow(k) {
-    const t = TUT[k], H = course && course.id === 'pines' ? HOSTS.pines : HOSTS.par3;   // Kay teaches on Crimson, Andy on 3C
+    const t = TUT[k], H = HOSTS.par3;   // the tutorial is all Coach Andy (3C Par Three)
     hideHosts(); tutNow = k;
     if (tutRound) tutRound[k] = 1;
     save.tut.seen[k] = 1; if (TUT_ORDER.every(x => save.tut.seen[x])) save.tut.off = true; persist();   // (Nov 19 2026) each tip shows once, ever
@@ -9834,7 +9824,7 @@
     ['chart', '<b>No more driving greens with maxed clubs:</b> big upgrades still add distance, but much less past 255 yards.'],
     ['chart', '<b>Finish at least 9 holes to get paid.</b> End a round before 9 holes and those holes don\'t pay.'],
     ['star', '<b>Ranked vs Casual is easier to tell apart:</b> two big cards (Ranked = RP on the line, Casual = just for fun), and your match shows RANKED or CASUAL at the top.'],
-    ['user', '<b>Meet your coaches:</b> Coach Andy is on 3C Par Three (his tips show once). Coach Kay greets you on the first tee of Stryke Links Crimson every round, and you can play the tutorial with her any time.'],
+    ['user', '<b>Meet your coaches:</b> Coach Andy is on 3C Par Three (his tips show once). Coach Kay greets you on the first tee of Stryke Links Crimson every round.'],
     ['chart', '<b>The Driving Range</b> now sits neatly under Stats in the Clubs tab, and the welcome screen is simpler.'],
   ];
   // (Nov 16 2026) Update 4.2, with the Nov 17 PvP additions on top
