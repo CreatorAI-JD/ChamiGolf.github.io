@@ -233,7 +233,17 @@
   .lvNext{margin-top:12px;padding:9px 11px;border-radius:12px;background:rgba(242,193,78,.14);border:1px solid rgba(242,193,78,.5);font-size:13px;color:#fff}.lvNext b{color:var(--gold-l)}
   .lvHow{margin-top:12px;font-size:12.5px;color:#f3e6d0}.lvHow .lh2{font:800 10px Inter;letter-spacing:.16em;color:var(--gold-l);margin-bottom:4px}
   .lvHow div{display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid rgba(242,193,78,.15)}.lvHow div b{color:var(--gold-l)}
-  .card.lvcard{max-height:88vh;overflow:auto}
+  .card.lvcard{max-height:88vh;overflow:auto;max-width:440px}
+  .lvHow .lvLine{position:relative;justify-content:flex-start;border-top:0;display:flex;gap:8px;overflow-x:auto;padding:12px 2px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .lvLine::before{content:'';position:absolute;left:0;right:0;top:46px;height:3px;background:rgba(242,193,78,.25)}
+  .lvHow .lvN{position:relative;flex:0 0 92px;justify-content:flex-start;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:8px 5px 9px;border-radius:12px;background:rgba(0,0,0,.28);border:1px solid rgba(242,193,78,.2);scroll-snap-align:start}
+  .lvN em{font:800 10px Inter;font-style:normal;letter-spacing:.08em;color:#f3d7a8}
+  .lvN i{position:relative;z-index:1;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 15px Inter;font-style:normal;background:#2a0409;border:2px solid rgba(242,193,78,.55);color:var(--gold-l)}
+  .lvN i .ico{width:17px;height:17px}
+  .lvN b{font:700 12.5px/1.15 Oswald,sans-serif;color:#fff;letter-spacing:.02em}.lvN small{font-size:10px;line-height:1.2;opacity:.75}
+  .lvN.big{border-color:rgba(242,193,78,.6);background:linear-gradient(180deg,rgba(242,193,78,.18),rgba(0,0,0,.3))}.lvN.big b{color:var(--gold-l)}
+  .lvN.got{opacity:.6}.lvN.got i{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);border-color:#fff}
+  .lvN.next{opacity:1;border:2px solid var(--gold-l);box-shadow:0 0 14px rgba(255,224,138,.35)}.lvN.next em{color:var(--gold-l)}
   .lvHow .lvTrack{display:block;padding:0;border-top:0;max-height:230px;overflow:auto}.lvHow .lvTrack div{display:flex;justify-content:flex-start;align-items:center;gap:10px;padding:6px 0}
   .lvTrack i{flex:none;width:46px;text-align:center;font:800 10px Inter;font-style:normal;letter-spacing:.04em;padding:4px 0;border-radius:999px;background:rgba(0,0,0,.35);color:#f3d7a8}
   .lvTrack div.got i{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd)}.lvTrack i .ico{width:14px;height:14px;vertical-align:-2px}
@@ -916,6 +926,15 @@
   @keyframes hostBob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-4px) rotate(1deg)}}
   @media (prefers-reduced-motion:reduce){.hostCard img{animation:none}}
   .saver .hostCard img{animation:none!important}
+  /* (Nov 20 2026) phones: smaller coaches so they don't crowd the screen */
+  @media (max-width:600px), (max-height:500px) {
+    .hostCard{max-width:calc(100vw - 178px)}
+    .hostCard img{width:62px}
+    .hostBub{margin:0 0 24px 4px;padding:7px 10px 8px;border-width:2px;border-radius:14px;font-size:12px;line-height:1.3}
+    .hostBub b{font-size:11px;margin-bottom:2px}
+    .tutCard .hostBub{margin-bottom:16px}
+    .tutBtns{gap:6px;margin-top:6px}.tutBtns button{padding:5px 10px;font-size:11px}
+  }
   .saver .hostCard{transition:none!important}
   /* (Nov 16 2026) Kay & Andy tutorial: same sticker look as the tee hosts, with Got it / Skip buttons */
   .tutCard{z-index:7;max-width:min(88vw,470px)}
@@ -5121,7 +5140,7 @@
   }
   // ================= Levels & XP (Nov 19 2026) =================
   // Every finished hole gives XP (more for birdies and better), a finished round gives a bonus, and each level up pays out.
-  const XP_MAX_LV = 100, xpNeed = L => 100 + 40 * (L - 1), lvPay = L => 100 + 25 * L;
+  const XP_MAX_LV = 100, xpNeed = L => 100 + 40 * (L - 1), lvPay = L => 0;   // (Nov 20 2026) the rewards timeline replaces the flat level-up pay
   function levelOf(xp) { xp = Math.max(0, xp | 0); let L = 1; while (L < XP_MAX_LV && xp >= xpNeed(L)) { xp -= xpNeed(L); L++; } return { L, into: xp, need: xpNeed(L), max: L >= XP_MAX_LV }; }
   function holeXP(strokes, par, mini) {
     if (mini) return 5 + (strokes - par <= -1 ? 5 : 0);
@@ -5132,9 +5151,7 @@
     n = Math.round(n || 0); if (n <= 0) return 0;
     const before = levelOf(save.xp).L; save.xp = (save.xp | 0) + n; const after = levelOf(save.xp).L;
     if (after > before) {
-      let pay = 0; for (let L = before + 1; L <= after; L++) pay += lvPay(L);
-      save.coins += pay; save.stats.earnedTotal += pay;
-      toastQ.push({ a: { icon: ico('star'), label: 'LEVEL UP', name: `Level ${after}`, pay } }); applyLvRewards(false); nextToast();
+      toastQ.push({ a: { icon: ico('star'), label: 'LEVEL UP', name: `Level ${after}`, pay: 0 } }); applyLvRewards(false); nextToast();
       track('level_up', { lv: after });
     }
     persist(); renderLevel(); return n;
@@ -5144,24 +5161,45 @@
   const lvClub = hex => () => { save.ownedLook['club:' + hex.toLowerCase()] = 1; };
   const lvLine = id => () => { save.ownedLook['ball-line:' + id] = 1; };
   const lvCash = n => () => { save.coins += n; save.stats.earnedTotal += n; };
-  const LV_REWARDS = [
-    { lv: 2, ic: 'ball', name: 'Black line ball', what: 'Ball line (Golfer › Ball)', give: lvLine('black') },
-    { lv: 3, ic: 'bag', name: 'Gunmetal clubs', what: 'Club colour (Clubs tab)', give: lvClub('#53575e') },
-    { lv: 5, ic: 'ball', name: 'Red line ball', what: 'Ball line (Golfer › Ball)', give: lvLine('red') },
-    { lv: 7, ic: 'shirt', name: 'Royal blue jacket', what: 'Jacket colour (Golfer › Outfit)', give: () => grantC('jacket', '#2747a8') },
-    { lv: 10, ic: 'shirt', name: 'Range Rat outfit', what: 'Level-only outfit (Golfer › Outfit)', give: lvOutfit('lv10') },
-    { lv: 12, ic: 'bag', name: 'Red clubs', what: 'Club colour (Clubs tab)', give: lvClub('#B3122B') },
-    { lv: 15, ic: 'ball', name: 'Triple track ball', what: 'Ball line (Golfer › Ball)', give: lvLine('triple') },
-    { lv: 18, ic: 'bag', name: 'Copper clubs', what: 'Club colour (Clubs tab)', give: lvClub('#b8733a') },
-    { lv: 20, ic: 'star', name: '$2,000 bonus', what: 'On top of the level-up pay', give: lvCash(2000) },
-    { lv: 25, ic: 'shirt', name: 'Tour Elite outfit', what: 'Level-only outfit (Golfer › Outfit)', give: lvOutfit('lv25') },
-    { lv: 30, ic: 'ball', name: 'Gold stripe ball', what: 'Ball line (Golfer › Ball)', give: lvLine('gold') },
-    { lv: 35, ic: 'bag', name: 'White clubs', what: 'Club colour (Clubs tab)', give: lvClub('#f2f2ee') },
-    { lv: 40, ic: 'star', name: '$5,000 bonus', what: 'On top of the level-up pay', give: lvCash(5000) },
-    { lv: 50, ic: 'shirt', name: 'Stryke Platinum outfit', what: 'Level-only outfit (Golfer › Outfit)', give: lvOutfit('lv50') },
-    { lv: 60, ic: 'bag', name: 'Gold clubs', what: 'Club colour (Clubs tab)', give: lvClub('#e5b740') },
-    { lv: 75, ic: 'star', name: '$15,000 bonus', what: 'On top of the level-up pay', give: lvCash(15000) },
-    { lv: 100, ic: 'trophy', name: 'Hall of Fame outfit', what: 'The top level\'s outfit', give: lvOutfit('lv100') }];
+  const lvToken = n => () => { save.upTokens = (save.upTokens | 0) + n; };
+  const lvClubU = id => () => { const m = modelById(id); if (m && !save.owned.includes(id)) save.owned.push(id); };
+  // the big ones (fixed levels); every other level gets a small reward from the pattern below
+  const LV_BIG = [
+    { lv: 2, ic: 'ball', name: 'Black line ball', what: 'Ball line', give: lvLine('black') },
+    { lv: 3, ic: 'club', name: 'Gunmetal clubs', what: 'Club colour', give: lvClub('#53575e') },
+    { lv: 5, ic: 'ball', name: 'Red line ball', what: 'Ball line', give: lvLine('red') },
+    { lv: 7, ic: 'shirt', name: 'Royal blue jacket', what: 'Jacket colour', give: () => grantC('jacket', '#2747a8') },
+    { lv: 10, ic: 'shirt', name: 'Range Rat outfit', what: 'Level-only outfit', give: lvOutfit('lv10'), big: 1 },
+    { lv: 12, ic: 'club', name: 'Red clubs', what: 'Club colour', give: lvClub('#B3122B') },
+    { lv: 15, ic: 'ball', name: 'Triple track ball', what: 'Ball line', give: lvLine('triple') },
+    { lv: 18, ic: 'club', name: 'Copper clubs', what: 'Club colour', give: lvClub('#b8733a') },
+    { lv: 20, ic: 'star', name: '$2,000', what: 'Cash bonus', give: lvCash(2000), big: 1 },
+    { lv: 22, ic: 'club', name: 'Spin Wedge', what: 'Free club', give: lvClubU('spinw'), big: 1 },
+    { lv: 25, ic: 'shirt', name: 'Tour Elite outfit', what: 'Level-only outfit', give: lvOutfit('lv25'), big: 1 },
+    { lv: 30, ic: 'ball', name: 'Gold stripe ball', what: 'Ball line', give: lvLine('gold') },
+    { lv: 33, ic: 'club', name: 'Tour 8 Iron', what: 'Free club', give: lvClubU('tour8'), big: 1 },
+    { lv: 35, ic: 'club', name: 'White clubs', what: 'Club colour', give: lvClub('#f2f2ee') },
+    { lv: 40, ic: 'star', name: '$5,000', what: 'Cash bonus', give: lvCash(5000), big: 1 },
+    { lv: 44, ic: 'club', name: 'Tour 6 Iron', what: 'Free club', give: lvClubU('tour6'), big: 1 },
+    { lv: 50, ic: 'shirt', name: 'Stryke Platinum outfit', what: 'Level-only outfit', give: lvOutfit('lv50'), big: 1 },
+    { lv: 55, ic: 'club', name: 'Tour 3 Wood', what: 'Free club', give: lvClubU('tour3w'), big: 1 },
+    { lv: 60, ic: 'club', name: 'Gold clubs', what: 'Club colour', give: lvClub('#e5b740') },
+    { lv: 66, ic: 'club', name: '60° Tour Lob', what: 'Free club', give: lvClubU('w60'), big: 1 },
+    { lv: 75, ic: 'star', name: '$15,000', what: 'Cash bonus', give: lvCash(15000), big: 1 },
+    { lv: 80, ic: 'club', name: 'Thunder Driver', what: 'Free club', give: lvClubU('thunder'), big: 1 },
+    { lv: 90, ic: 'club', name: 'Tour Pro Driver', what: 'Free club', give: lvClubU('tourdr'), big: 1 },
+    { lv: 100, ic: 'trophy', name: 'Hall of Fame outfit', what: 'The top level', give: lvOutfit('lv100'), big: 1 }];
+  // (Nov 20 2026) a reward on EVERY level: big ones above, otherwise a free club upgrade every 3rd level and cash the rest
+  const LV_REWARDS = (() => {
+    const out = [];
+    for (let L = 2; L <= XP_MAX_LV; L++) {
+      const big = LV_BIG.find(r => r.lv === L);
+      if (big) { out.push(big); continue; }
+      if (L % 3 === 0) { const n = L >= 60 ? 2 : 1; out.push({ lv: L, ic: 'up', name: `${n} free upgrade${n > 1 ? 's' : ''}`, what: 'Power, Accuracy or Control', give: lvToken(n) }); }
+      else { const c = 250 + 50 * Math.floor(L / 10) * 5; out.push({ lv: L, ic: 'cash', name: money(c), what: 'Cash', give: lvCash(c) }); }
+    }
+    return out;
+  })();
   // hand out every reward up to your level that you don't have yet (quiet = at start-up, no pop-ups)
   function applyLvRewards(quiet) {
     save.lvGot = save.lvGot || {};
@@ -5184,17 +5222,18 @@
     $('lvBody').innerHTML = `<div class="lvTop"><div class="lvBadge"><small>LEVEL</small><b>${v.L}</b></div>
         <div><h2>${v.max ? 'Max level!' : 'Level ' + v.L}</h2><div class="lvTot">${(save.xp | 0).toLocaleString()} XP total</div></div></div>
       <div class="lvBar"><u style="width:0%"></u><span>${v.max ? 'MAXED OUT' : `${v.into} / ${v.need} XP`}</span></div>
-      ${v.max ? '' : `<div class="lvEnds"><span>LV ${v.L}</span><span>${v.need - v.into} XP TO GO</span><span>LV ${v.L + 1}</span></div>
-      <div class="lvNext">Reach <b>level ${v.L + 1}</b> and get <b>+${money(lvPay(v.L + 1))}</b>${(() => { const n = LV_REWARDS.find(r => r.lv > v.L); return n ? `<br>Next unlock: <b>${n.name}</b> at level ${n.lv}` : ''; })()}</div>`}
-      <div class="lvHow"><div class="lh2">LEVEL UNLOCKS</div><div class="lvTrack">${LV_REWARDS.map(r => { const has = v.L >= r.lv;
-        return `<div class="${has ? 'got' : ''}"><i>${has ? ico('check') : 'LV ' + r.lv}</i><span><b>${r.name}</b><small>${has ? 'Unlocked · ' : ''}${r.what}</small></span></div>`; }).join('')}</div></div>
+      ${v.max ? '' : `<div class="lvEnds"><span>LV ${v.L}</span><span>${v.need - v.into} XP TO GO</span><span>LV ${v.L + 1}</span></div>`}
+      ${(save.upTokens | 0) ? `<div class="lvNext">You have <b>${save.upTokens} free upgrade${save.upTokens === 1 ? '' : 's'}</b>: use them on any club in the Clubs tab.</div>` : ''}
+      <div class="lvHow"><div class="lh2">REWARDS TIMELINE · SCROLL FOR WHAT'S NEXT</div>
+        <div class="lvLine" id="lvLine">${LV_REWARDS.map(r => { const st = v.L >= r.lv ? 'got' : r.lv === v.L + 1 ? 'next' : '';
+          return `<div class="lvN ${st}${r.big ? ' big' : ''}"><em>LV ${r.lv}</em><i>${st === 'got' ? ico('check') : ICONS[r.ic] ? ico(r.ic) : r.ic === 'up' ? '⬆' : '$'}</i><b>${r.name}</b><small>${r.what}</small></div>`; }).join('')}</div></div>
       <div class="lvHow"><div class="lh2">HOW TO EARN XP</div>
         <div><span>Finish a hole</span><b>+10</b></div><div><span>Par</span><b>+5 more</b></div><div><span>Birdie</span><b>+20 more</b></div>
         <div><span>Eagle</span><b>+50 more</b></div><div><span>Hole in one</span><b>+150 more</b></div>
         <div><span>Finish a 9-hole round</span><b>+40</b></div><div><span>Finish an 18-hole round</span><b>+100</b></div><div><span>Mini golf hole (birdie +5)</span><b>+5</b></div></div>`;
     $('lvPop').classList.remove('hidden');
     requestAnimationFrame(() => setTimeout(() => { const u = document.querySelector('#lvBody .lvBar u'); if (u) u.style.width = pct + '%';
-      const tr = document.querySelector('#lvBody .lvTrack'), nx = tr && tr.querySelector('div:not(.got)'); if (tr && nx) tr.scrollTop = Math.max(0, nx.offsetTop - tr.offsetTop - 50); }, 60));
+      const tl = document.getElementById('lvLine'), nx = tl && tl.querySelector('.lvN:not(.got)'); if (tl && nx) tl.scrollLeft = Math.max(0, nx.offsetLeft - 104); }, 60));
   }
   $('homeLv').addEventListener('click', () => { ensureAudio(); sfx.click(); showLevelPop(); });
   $('lvOk').addEventListener('click', () => { sfx.click(); $('lvPop').classList.add('hidden'); });
@@ -8310,6 +8349,7 @@
         const cur = u[k], cost = cur < MAX_LV ? upCost(eq, k, cur) : 0, open = canUpTrack(eq, k);
         const btn = cur >= MAX_LV ? '<button class="main sm" disabled>MAXED</button>'
           : !open ? `<button class="ghost sm" disabled>${ico('lock')}</button>`
+          : (save.upTokens | 0) > 0 ? `<button class="main sm" data-up="${eq.id}" data-k="${k}" data-tok="1">FREE ⬆ (${save.upTokens} left)</button>`
           : `<button class="main sm" data-up="${eq.id}" data-k="${k}"${save.coins < cost ? ' disabled' : ''}>${money(cost)}</button>`;
         return `<div class="trk"><div class="tn"><b>${name}</b><span class="pips">${pipRow(cur)}</span><small>${cur >= MAX_LV ? 'Maxed out' : !open ? `Bring the other stats to level ${cur + 1} first` : `Next: ${what[k]()}`}</small></div>${btn}</div>`;
       }).join('');
@@ -8380,8 +8420,10 @@
     } else if (b.dataset.up) {
       const m = modelById(b.dataset.up), k = b.dataset.k, u = upOf(m);
       if (!m || !'pac'.includes(k) || !canUpTrack(m, k)) return;
-      const cost = upCost(m, k, u[k]); if (save.coins < cost) return;
-      save.coins -= cost; u[k]++; save.up[m.id] = u;
+      const cost = upCost(m, k, u[k]);
+      if (b.dataset.tok && (save.upTokens | 0) > 0) save.upTokens--;   // (Nov 20 2026) a free upgrade from levelling up
+      else { if (save.coins < cost) return; save.coins -= cost; }
+      u[k]++; save.up[m.id] = u;
     } else if (b.dataset.buy) {
       const m = modelById(b.dataset.buy); if (save.coins < m.price || save.owned.includes(m.id)) return;
       save.coins -= m.price; save.owned.push(m.id); save.bag[m.slot] = m.id; loadBag();
@@ -9877,7 +9919,7 @@
     ['flag', '<b>Pin positions are random every time you play a hole.</b> The flag colour tells you where it is: <b>red = front</b>, <b>white = middle</b>, <b>blue = back</b> of the green (it shows next to the yardage too). Every flag now has the Stryke logo.'],
     ['flag', '<b>Take the pin out:</b> chipping or putting from close by? Tap TAKE PIN OUT (above the aim arrows) and put it back any time.'],
     ['trophy', '<b>15 new achievements:</b> level milestones, Ranked wins (up to 💎 Pure Striker), front and back pin birdies, holing a chip with the pin out, and spin shots.'],
-    ['star', '<b>Level unlocks:</b> tap <b>LV</b> at the top to see your progress and what\'s next. Levels unlock ball lines, club colours, a jacket colour, four level-only outfits (Range Rat, Tour Elite, Stryke Platinum, Hall of Fame) and big cash bonuses.'],
+    ['star', '<b>Level unlocks:</b> tap <b>LV</b> at the top to see your progress and what\'s next. Every level has a reward on the timeline: cash, <b>free club upgrades</b> (Power, Accuracy or Control on any club), ball lines, club colours, four level-only outfits and, at high levels, <b>free clubs</b> like the Spin Wedge and Thunder Driver.'],
     ['star', '<b>Levels and XP!</b> Every hole gives XP (more for birdies, eagles and aces), a finished round gives a bonus, and every level up pays you. Your level is next to your money.'],
     ['target', '<b>Spin control</b> is here for experienced golfers: get your Pro Ball to <b>level 7</b>, pick a wedge and tap SPIN for backspin (it bites and pulls back) or topspin (it lands and runs).'],
     ['shield', '<b>Reloading doesn\'t restart the hole any more:</b> you\'re put back on the exact shot you were on. Reload mid-shot and the stroke still counts.'],
