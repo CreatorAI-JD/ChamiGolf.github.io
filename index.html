@@ -76,10 +76,13 @@
   .pill{position:fixed;top:calc(env(safe-area-inset-top) + 99px);height:36px;padding:0 14px;border-radius:999px;border:2px solid var(--gold);
         background:var(--red-dd);color:var(--gold);font:800 12px Inter,sans-serif;letter-spacing:.08em;cursor:pointer}
   #viewBtn{right:10px} #exitBtn{left:10px}
+  #spinBtn{left:10px;top:calc(env(safe-area-inset-top) + 183px);z-index:4}
+  #spinBtn.on{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd)}
   #aerBtn{left:10px;top:calc(env(safe-area-inset-top) + 141px);z-index:4}   /* left side, under QUIT (the map panel covers the right) */
   #pinBox{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 99px);background:rgba(69,6,15,.85);border:1px solid var(--gold);
           border-radius:999px;padding:6px 14px;font:700 15px Oswald,sans-serif;letter-spacing:.04em;pointer-events:none;white-space:nowrap}
   #pinBox b{color:var(--gold-l)}
+  #pinZn:not(:empty){margin-left:8px;font:800 11px Inter,sans-serif;letter-spacing:.06em;color:#fff}#pinZn i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;border:1px solid rgba(255,255,255,.7);vertical-align:0}
   #moBox{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 137px);pointer-events:none;white-space:nowrap;
          background:linear-gradient(90deg,#d9622b,#B3122B);border:1px solid var(--gold-l);border-radius:999px;padding:3px 12px;font:800 11px Inter,sans-serif;letter-spacing:.08em;color:#fff}
   /* right-hand panel: green heat map on top, hole mini-map below; folds away to a tab */
@@ -118,6 +121,12 @@
   #nudge button{width:58px;height:58px;border-radius:50%;border:0;display:flex;align-items:center;justify-content:center;padding:0;background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);
          font:900 22px Inter,sans-serif;cursor:pointer;touch-action:none}
   #nudge button:active{transform:scale(.94)}
+  /* (Nov 19 2026) take the flagstick out (or put it back) for a chip or putt: sits right above the aim arrows */
+  #pinBtn{position:fixed;left:16px;bottom:calc(env(safe-area-inset-bottom) + 98px);z-index:4;height:40px;padding:0 14px;border-radius:999px;border:2px solid var(--gold);
+          background:var(--red-dd);color:var(--gold-l);font:800 12px Inter,sans-serif;letter-spacing:.08em;cursor:pointer;display:flex;align-items:center;gap:7px}
+  #pinBtn i{width:10px;height:14px;border-radius:2px;display:inline-block;border:1px solid rgba(255,255,255,.6)}
+  #pinBtn.out{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);border-color:#fff}
+  #pinBtn:active{transform:scale(.95)}
   #nudge span{font:800 10px Inter,sans-serif;letter-spacing:.14em;color:var(--gold-l)}
   .stat.off{opacity:.35}
 
@@ -155,6 +164,7 @@
     .pill{top:calc(env(safe-area-inset-top) + 62px);height:30px;padding:0 10px;font-size:11px}
     #viewBtn{right:8px} #exitBtn{left:8px}
     #aerBtn{left:8px;top:calc(env(safe-area-inset-top) + 98px)}
+    #spinBtn{left:8px;top:calc(env(safe-area-inset-top) + 134px)}
     #pinBox{top:calc(env(safe-area-inset-top) + 62px);padding:4px 10px;font-size:13px}
     #moBox{top:calc(env(safe-area-inset-top) + 94px)}
     body #mpBar{top:calc(env(safe-area-inset-top) + 98px)}
@@ -178,6 +188,7 @@
     .brandbar{display:none}
     .pill,#pinBox{top:calc(env(safe-area-inset-top) + 44px)}
     #aerBtn,#side,body #mpBar{top:calc(env(safe-area-inset-top) + 80px)}
+    #spinBtn{top:calc(env(safe-area-inset-top) + 116px)}
     #moBox{top:calc(env(safe-area-inset-top) + 76px)}
     #rating{top:calc(env(safe-area-inset-top) + 84px)}
     #side{transform:scale(.55)}
@@ -206,6 +217,9 @@
   .crest{width:46px;height:46px;flex:none;border-radius:50%;border:2px solid var(--gold);background:var(--red);display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.4)}
   .bname{font:700 24px/1 Oswald,sans-serif;color:var(--gold-l);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .tag{font:800 10px Inter,sans-serif;letter-spacing:.22em;color:var(--gold);margin-top:4px}
+  .lvchip{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;margin-left:auto;margin-right:8px;padding:5px 10px;border-radius:12px;background:var(--red-dd);border:1px solid var(--gold)}
+  .lvchip b{font:700 14px/1 Oswald,sans-serif;color:var(--gold-l);letter-spacing:.06em}
+  .lvchip i{display:block;width:54px;height:5px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}.lvchip u{display:block;height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l))}
   .coins{flex:none;background:var(--red-dd);border:1px solid var(--gold);color:var(--gold-l);font:700 18px Oswald,sans-serif;padding:6px 14px;border-radius:999px}
   .hbody{flex:1;overflow-y:auto;padding:4px 16px 84px;-webkit-overflow-scrolling:touch;touch-action:pan-y}
   .wrap{max-width:560px;margin:0 auto}
@@ -290,7 +304,18 @@
   .md{font-size:12px;color:#f3d7a8;line-height:1.35}
   .dlt{display:inline-block;margin:4px 4px 0 0;padding:2px 7px;border-radius:999px;font:800 10px Inter;letter-spacing:.04em;background:rgba(255,255,255,.12)}
   .dlt.up{background:rgba(80,190,110,.25);color:#b9f5c8}.dlt.dn{background:rgba(255,90,90,.2);color:#ffc2c2}
-  .cstats{position:sticky;top:6px;border-radius:16px;border:1px solid rgba(242,193,78,.45);background:linear-gradient(180deg,#5c0815,#2a0409);overflow:hidden}
+  /* (Nov 19 2026) right column of the Clubs tab: Stats on top, the Driving Range card neatly under it */
+  .cside{position:sticky;top:6px;display:flex;flex-direction:column;gap:12px;min-width:0}
+  .rangeMini{border-radius:16px;border:1px solid rgba(242,193,78,.45);background:linear-gradient(180deg,#5c0815,#2a0409);overflow:hidden}
+  .rangeMini .rmImg{height:74px;background:#2f6f30 center/cover no-repeat;border-bottom:1px solid rgba(242,193,78,.35)}
+  .rangeMini .rmB{padding:9px 12px 12px}
+  .rangeMini .rmT{font:800 11px Inter;letter-spacing:.18em;color:var(--gold-l)}
+  .rangeMini .rmS{font-size:11.5px;line-height:1.35;color:#f3d7a8;margin:4px 0 9px}.rangeMini .rmS b{color:#fff}
+  .rangeMini .main{width:100%}
+  .rangeAlt{display:none;margin-top:12px}
+  .cmain.shut .rangeMini{display:none}.cmain.shut + .rangeAlt{display:block}
+  #rangeCard{display:none}
+  .cstats{border-radius:16px;border:1px solid rgba(242,193,78,.45);background:linear-gradient(180deg,#5c0815,#2a0409);overflow:hidden}
   .stog{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:rgba(242,193,78,.14);color:var(--gold-l);padding:10px 12px;cursor:pointer;font:800 11px Inter;letter-spacing:.18em}
   .stog i{font-style:normal;font-size:14px}
   .cmain.shut .stog{flex-direction:column-reverse;gap:10px;padding:12px 0;height:100%;min-height:180px;justify-content:center}
@@ -367,6 +392,19 @@
   .qmBar{display:block;height:6px;border-radius:9px;background:rgba(255,255,255,.15);margin-top:6px;overflow:hidden}.qmBar u{display:block;height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l))}
   .pvpModes{display:grid;gap:6px;margin-bottom:4px}.pvpModes div{background:rgba(0,0,0,.22);border-radius:10px;padding:8px 10px}
   .pvpModes b{display:block;font-size:14px;color:var(--cream)}.pvpModes small{display:block;font-size:12px;color:#f3d7a8;line-height:1.35;margin-top:2px}
+  .mpMode{display:inline-block;margin-right:7px;padding:2px 7px;border-radius:999px;font:800 10px Inter;letter-spacing:.1em;vertical-align:1px}.mpMode.rk{background:var(--gold-l);color:var(--red-dd)}.mpMode.cs{background:#b9f5c8;color:#123826}
+  .qmModes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .qmMode{position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;padding:12px 12px 11px;border-radius:16px;cursor:pointer;font:inherit;color:#fff}
+  .qmMode.rk{background:linear-gradient(180deg,#B3122B,#5c0815);border:2px solid var(--gold-l);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .qmMode.cs{background:linear-gradient(180deg,#24674a,#123826);border:2px solid #9fe0b8}
+  .qmMode b{font:700 22px/1 Oswald,sans-serif;letter-spacing:.03em}.qmMode.rk>b{color:var(--gold-l)}.qmMode.cs>b{color:#d6ffe6}
+  .qmTag{font:800 9.5px Inter;letter-spacing:.16em;padding:3px 8px;border-radius:999px;background:rgba(0,0,0,.3)}
+  .qmMode.rk .qmTag{color:var(--gold-l)}.qmMode.cs .qmTag{color:#b9f5c8}
+  .qmMode ul{margin:0;padding-left:16px;font-size:12px;line-height:1.45;color:rgba(255,255,255,.9)}.qmMode ul b{font:800 12px Inter;color:#fff}
+  .qmMode em{font:800 12px Inter;font-style:normal;letter-spacing:.04em;margin-top:2px;padding:7px 10px;border-radius:999px;align-self:stretch;text-align:center}
+  .qmMode.rk em{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd)}.qmMode.cs em{background:#b9f5c8;color:#123826}
+  .qmMode:active{transform:scale(.98)}
+  @media (max-width:520px){.qmModes{grid-template-columns:1fr}}
   .qmBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}.qmBtns button{padding:14px 8px;font-size:17px}
   .qmSearch{display:flex;gap:14px;align-items:center;margin:8px 0}.qmSearch b{display:block;font-size:16px}.qmSearch small{opacity:.8}
   .qmSpin{width:34px;height:34px;border-radius:50%;border:4px solid rgba(255,255,255,.2);border-top-color:var(--gold-l);animation:qmspin 1s linear infinite}
@@ -789,6 +827,29 @@
 
   /* end-of-round card */
   .welcome{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .card.welc2{max-width:460px;text-align:left;padding:20px 18px 14px}
+  .wHero{display:flex;align-items:center;gap:12px}
+  .wHero img{width:58px;height:58px;border-radius:50%;border:2px solid var(--gold);background:var(--red)}
+  .wKick{font:800 10px Inter;letter-spacing:.22em;color:#f3d7a8}
+  .wName{font:700 32px/1 Oswald,sans-serif;color:var(--gold-l);letter-spacing:.04em}
+  .wSub{font-size:14px;line-height:1.45;color:#fff;margin:12px 0 10px}
+  .wMain{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 14px;border-radius:16px;border:2px solid #fff;cursor:pointer;font:inherit;
+         background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);box-shadow:0 6px 18px rgba(0,0,0,.35);animation:wPulse 2.2s ease-in-out infinite}
+  .wMain span{flex:none;display:flex}.wMain span .ico{width:30px;height:30px}
+  .wMain b{display:block;font:700 20px/1.1 Oswald,sans-serif;text-transform:uppercase;letter-spacing:.03em}
+  .wMain small{display:block;font:600 12px Inter,sans-serif;margin-top:3px;opacity:.85}
+  .wMain div{flex:1;min-width:0}.wMain i{font:900 26px Inter;font-style:normal}
+  .wMain:active{transform:scale(.98)}
+  @keyframes wPulse{0%,100%{box-shadow:0 6px 18px rgba(0,0,0,.35)}50%{box-shadow:0 6px 26px rgba(255,224,138,.55)}}
+  .wTiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .wTile{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:10px 11px;border-radius:14px;border:1.5px solid rgba(242,193,78,.55);background:rgba(69,6,15,.75);color:#fff;cursor:pointer;font:inherit}
+  .wTile span{display:flex;color:var(--gold-l)}.wTile span .ico{width:22px;height:22px}
+  .wTile b{font:700 15px Oswald,sans-serif;color:var(--gold-l);text-transform:uppercase;letter-spacing:.03em}
+  .wTile small{font-size:11px;color:#f3d7a8;line-height:1.3}
+  .wCode{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:9px 11px;border-radius:12px;background:rgba(242,193,78,.13);border:1px dashed rgba(242,193,78,.6);font-size:12.5px;line-height:1.4;color:#f3e6d0}
+  .wCode span{flex:none;display:flex;color:var(--gold-l)}.wCode span .ico{width:20px;height:20px}.wCode b{color:var(--gold-l)}
+  .wFoot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .wSkip{border:0;background:none;color:rgba(255,255,255,.6);font:600 12px Inter,sans-serif;text-decoration:underline;cursor:pointer;padding:6px 2px}
   .wopt{display:flex;align-items:center;gap:12px;text-align:left;padding:11px 12px;border-radius:14px;border:2px solid rgba(242,193,78,.55);background:rgba(69,6,15,.75);color:#fff;cursor:pointer;font:inherit}
   .wopt:active{transform:translateY(1px)}
   .wopt span{flex:none;display:flex;color:var(--gold-l)}
@@ -820,7 +881,7 @@
   @media (prefers-reduced-motion:reduce){.hostCard img{animation:none}}
   .saver .hostCard img{animation:none!important}
   .saver .hostCard{transition:none!important}
-  /* (Nov 16 2026) Duffy & Buck tutorial: same sticker look as the tee hosts, with Got it / Skip buttons */
+  /* (Nov 16 2026) Kay & Andy tutorial: same sticker look as the tee hosts, with Got it / Skip buttons */
   .tutCard{z-index:7;max-width:min(88vw,470px)}
   .tutCard .hostBub{margin-bottom:30px}
   .tutCard .hostBub span{display:block}
@@ -979,7 +1040,7 @@
      button is smaller so it covers less, and the golfer preview is shorter. iPad and computer layouts don't change. */
   @media (max-width:600px) {
     .hhead{flex-wrap:wrap;row-gap:8px;column-gap:8px;justify-content:flex-start}
-    .hhead .brand{flex:1 1 calc(100% - 150px);order:0} .hhead .coins{order:1;margin-left:auto}
+    .hhead .brand{flex:1 1 calc(100% - 150px);order:0} .hhead .lvchip{order:1;margin-left:auto;margin-right:0} .hhead .coins{order:1;margin-left:6px}
     #adminBtn,#hBadges,#lowBat,#acctBtn{order:2}
     .hhead .bname{font-size:19px} .hhead .tag{font-size:9px;letter-spacing:.16em}
     .miniBtn{height:44px;padding:0 14px;font-size:13px;gap:6px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 92px)}
@@ -1019,11 +1080,12 @@
   </div>
 </div>
 <button class="pill" id="exitBtn">✕ QUIT</button>
-<div id="pinBox">PIN <b id="pinYds">0</b> <span id="pinUnit">YDS</span></div>
+<div id="pinBox">PIN <b id="pinYds">0</b> <span id="pinUnit">YDS</span><span id="pinZn"></span></div>
 <div id="moBox" style="display:none"></div>
 <div id="mpBar" style="display:none"></div>
 <button class="pill" id="viewBtn">MAP</button>
 <button class="pill" id="aerBtn">AERIAL</button>
+<button class="pill" id="spinBtn" style="display:none">SPIN · OFF</button>
 <div id="side" style="display:none">
   <button class="shead" id="sideToggle"><span>GREEN &amp; HOLE MAP</span><b>▾</b></button>
   <div class="sbody">
@@ -1034,6 +1096,7 @@
       <div class="mmchips"><div><span>Next</span><b id="mmNext"></b></div><div><span>Dist</span><b id="mmDist"></b></div><div><span>Height</span><b id="mmHt"></b></div></div></div>
   </div>
 </div>
+<button id="pinBtn" style="display:none" aria-label="Take the pin out or put it back">PIN IN</button>
 <div id="nudge" style="display:none"><button id="nudgeL" aria-label="Aim left"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span>AIM</span><button id="nudgeR" aria-label="Aim right"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
 <div id="pinMark"><div class="pm"><svg viewBox="0 0 20 20"><path d="M5 2v16" stroke="#fff" stroke-width="2"/><path d="M6 3h10l-3 3.5 3 3.5H6z" fill="#e3212f"/></svg></div><div class="pd" id="pinMarkD"></div></div>
 
@@ -1069,7 +1132,7 @@
     <button id="lowBat" class="hidden" title="Low battery mode"><span data-ic="battery"></span><b>LOW BATTERY</b></button><!-- (Nov 16 2026) only in the Golfer tab now -->
     <button id="acctBtn" class="hidden">Sign in</button>
     <button id="testExit" class="hidden" title="Leave the test account">TEST · Exit</button>
-    <div class="coins" id="homeCoins">$0</div>
+    <div class="lvchip" id="homeLv"></div><div class="coins" id="homeCoins">$0</div>
   </header>
   <button class="miniBtn" id="miniBtn"><span data-ic="star"></span>Mini Golf</button>
   <main class="hbody">
@@ -1214,7 +1277,7 @@
       <button class="ghost" id="pauseQuit">Quit round</button>
       <button class="ghost" id="pauseBack">Keep playing</button>
     </div>
-    <div class="tnote" style="margin-top:8px">A saved round waits on its course page: Continue round or Finish round. The hole you're on now starts over.</div>
+    <div class="tnote" style="margin-top:8px">A saved round waits on its course page: Continue round or Finish round. You pick up from the exact shot you were on.</div>
   </div>
 </div>
 
@@ -1247,7 +1310,7 @@
       <button class="ghost" id="liveFin">Finish round</button>
       <button class="ghost" id="liveQuit">Quit round</button>
     </div>
-    <div class="tnote" style="margin-top:8px">Finish round = end it now and get paid for the holes you played (it won't go on the leaderboards).</div>
+    <div class="tnote" style="margin-top:8px">Finish round = end it now. You get paid for the holes you played only if you've played at least 9 (it won't go on the leaderboards).</div>
   </div>
 </div>
 
@@ -1300,16 +1363,17 @@
 
 <!-- ===== Welcome to Stryke Golf (first time only) ===== -->
 <div id="resetNote" class="overlay hidden">
-  <div class="card">
-    <h2>Welcome</h2>
-    <div class="sub" id="welcomeSub" style="font-size:14px;line-height:1.5">Pick how you want to start:</div>
-    <div class="welcome">
-      <button class="wopt" data-welc="par3"><span data-ic="flag"></span><div><b>Play the 3C Par Three</b><small>Where everyone starts. Six short holes, and beating it unlocks the other courses.</small></div></button>
-      <button class="wopt" data-welc="ctp"><span data-ic="target"></span><div><b>Daily challenges</b><small>Closest to the Pin and a Daily Tournament on every course. New every day, top 3 win money.</small></div></button>
-      <button class="wopt" data-welc="cup"><span data-ic="school"></span><div><b>Spirit Day Club House Cup</b><small>Pick your club house and play this week's 18-hole course for your team. Prizes for every member in the top 3 club houses.</small></div></button>
+  <div class="card welc2">
+    <!-- (Nov 19 2026) cleaner welcome: one big "start here" button, two smaller tiles, a short code reminder, skip as a quiet link -->
+    <div class="wHero"><img id="wCrest" alt=""><div><div class="wKick">WELCOME TO</div><div class="wName">STRYKE GOLF</div></div></div>
+    <div class="wSub" id="welcomeSub">Real-style courses, daily prizes and your club house. Start here:</div>
+    <button class="wMain" data-welc="par3"><span data-ic="flag"></span><div><b>Tee off on 3C Par Three</b><small>6 short holes · takes 5 minutes · unlocks the other courses</small></div><i>›</i></button>
+    <div class="wTiles">
+      <button class="wTile" data-welc="ctp"><span data-ic="target"></span><b>Daily challenges</b><small>New every day · top 3 win money</small></button>
+      <button class="wTile" data-welc="cup"><span data-ic="school"></span><b>Club House Cup</b><small>Play for your club house this week</small></button>
     </div>
-    <div class="sub" style="font-size:13px;line-height:1.45;margin-top:10px">Your <b>member code</b> is under the member icon at the top right. <b class="codeWarn">Write it down or take a screenshot</b> so that if the site gets blocked again, you don't start over: your progress is saved to your code.</div>
-    <div class="btns" style="margin-top:10px;flex-wrap:wrap"><button class="main" data-welc="home">Continue to the Home Screen ›</button><button class="ghost sm" id="welcomeUpd" data-updates="1" style="display:none">See everything that changed</button></div>
+    <div class="wCode"><span data-ic="key"></span><div><b>Save your member code</b> (member icon, top right). It's how you get your progress back on any device.</div></div>
+    <div class="wFoot"><button class="wSkip" data-welc="home">Skip, take me to the home screen</button><button class="ghost sm" id="welcomeUpd" data-updates="1" style="display:none">See what changed</button></div>
   </div>
 </div>
 
@@ -1656,7 +1720,7 @@
   // FULL RESET (Oct 14 2026): bumping this wipes every member's progress (money, gear, stats, unlocks, awards) on every
   // device and in the cloud the next time they open the game. Names, sign-ins, friends and settings are kept.
   // (Oct 28 2026, epoch 2) FRESH START for everyone: progress, names and old Google sign-ins are all wiped. Only screen settings are kept.
-  const RESET_EPOCH = 3, RESET_KEEP = ['ui', 'lefty', 'hr'];   // (Nov 17 2026) a reset never takes you out of your club house
+  const RESET_EPOCH = 3, RESET_KEEP = ['ui', 'lefty', 'hr', 'tut', 'welcomed'];   // (Nov 17 2026) a reset never takes you out of your club house
   const resetSave = old => { const k = {}; RESET_KEEP.forEach(x => { if (old && old[x] !== undefined) k[x] = old[x]; }); return Object.assign(freshSave(), k, { epoch: RESET_EPOCH, mtime: 0, resetNote: 1 }); };
   const freshStats = () => ({ rounds: 0, holes: 0, aces: 0, eagles: 0, birdies: 0, pars: 0, shots: 0, perfects: 0,
     longest: 0, earnedTotal: 0, strokesTotal: 0, parTotal: 0, roundsBy: {}, bestBy: {},
@@ -1855,7 +1919,11 @@
   const starterOf = c => MODELS.find(m => m.slot === c.slot && m.price === 0) || c;
   const upK = c => { const st = starterOf(c);
     return { p: c.carry > st.carry ? Math.pow(st.carry / c.carry, 3) : 1, a: c.zone > st.zone ? Math.pow(st.zone / c.zone, 2) : 1, c: c.speed < st.speed ? Math.pow(c.speed / st.speed, 2) : 1 }; };
-  const distMultU = (c, u) => c.putter ? 1 : 0.9 + PWR_STEP * u.p * upK(c).p;
+  // (Nov 19 2026) no more driving greens with maxed-out clubs: every yard of full-swing carry past 255 only counts 45%
+  // (a maxed Thunder Driver carries about 267 instead of 281), so short par 4s still need a second shot.
+  const CARRY_SOFT = 255, CARRY_KEEP = 0.45;
+  const softCarry = (c, m) => { const x = c.carry * m; return x <= CARRY_SOFT ? m : (CARRY_SOFT + (x - CARRY_SOFT) * CARRY_KEEP) / c.carry; };
+  const distMultU = (c, u) => c.putter ? 1 : softCarry(c, 0.9 + PWR_STEP * u.p * upK(c).p);
   const zoneU = (c, u) => c.zone + ACC_STEP * u.a * upK(c).a;
   const speedU = (c, u) => c.speed * Math.pow(CTL_STEP, u.c * upK(c).c);
   const distMult = c => distMultU(c, upOf(c));
@@ -1864,6 +1932,12 @@
   const perfectZone = c => zoneU(c, upOf(c));
   const missMult = c => 1 - ACC_TRIM * upOf(c).a;   // Accuracy also makes every miss (and every putt) straighter
   // Pro Ball: the first upgrade cuts the wind to 90%, then each one after cuts 5% more, down to 60% at level 7
+  // (Nov 19 2026) spin control is late-game: it only unlocks with a level 7 Pro Ball, and only on wedges
+  // (the lob / sand / tour wedges spin the most, plus whatever extra grip the wedge's grooves have)
+  const SPIN_LV = 7, spinUnlocked = () => (save.ball | 0) >= SPIN_LV;
+  const spinOK = c => !!c && !c.putter && (c.slot === 5 || c.slot === 6) && spinUnlocked();
+  const spinPow = c => (c.slot === 6 ? 1 : 0.8) + (c.spin || 0);
+  let spinMode = 0, shotSpin = 0;   // 1 = backspin, -1 = topspin
   const BALL_MAX = 7, ballWind = lv => lv <= 0 ? 1 : Math.max(0.6, 0.9 - 0.05 * (lv - 1));
   const windMult = () => ballWind(save.ball);
   const PAY = { '-4': 1000, '-3': 1000, '-2': 250, '-1': 100, '0': 25 };   // bogey or worse pays nothing
@@ -3213,8 +3287,8 @@
 
   // ---- Tee hosts: a golf coach pops up in the bottom-left corner on the first tee (flat cartoon sticker + a speech bubble) ----
   const HOSTS = {
-    par3: { name: 'Coach Buck', line: 'Head down, smooth tempo, and finish your swing, champ!', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20180%2062%20160%20100%20156%20C138%20160%20160%20180%20160%20232%20Z%22%20fill%3D%22%23B3122B%22%2F%3E%20%3Cpath%20d%3D%22M82%20158%20L100%20182%20L118%20158%20L112%20154%20L100%20168%20L88%20154%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Crect%20x%3D%2288%22%20y%3D%22138%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2240%22%20ry%3D%2244%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cellipse%20cx%3D%2260%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2c3a2%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cpath%20d%3D%22M60%2096%20Q58%2070%2080%2066%20L80%2080%20Q66%2084%2064%20100Z%22%20fill%3D%22%239a9a9a%22%2F%3E%3Cpath%20d%3D%22M140%2096%20Q142%2070%20120%2066%20L120%2080%20Q134%2084%20136%20100Z%22%20fill%3D%22%239a9a9a%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%20%3Cpath%20d%3D%22M76%2093%20Q85%2088%2093%2092%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M107%2092%20Q115%2088%20124%2093%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M97%20108%20Q100%20120%20104%20108%22%20stroke%3D%22%23c9876a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M80%20124%20Q90%20116%20100%20122%20Q110%20116%20120%20124%20Q112%20132%20100%20127%20Q88%20132%2080%20124Z%22%20fill%3D%22%238a8a8a%22%2F%3E%20%3Cpath%20d%3D%22M90%20134%20Q100%20140%20110%20134%22%20stroke%3D%22%237a3b2a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M100%20182%20L100%20206%22%20stroke%3D%22%23111%22%20stroke-width%3D%222%22%2F%3E%3Crect%20x%3D%2294%22%20y%3D%22204%22%20width%3D%2214%22%20height%3D%229%22%20rx%3D%223%22%20fill%3D%22%23c0c4cc%22%2F%3E%20%3Cpath%20d%3D%22M58%2084%20Q100%2058%20142%2084%20L142%2092%20Q100%2074%2058%2092%20Z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%23d8d8d8%22%20stroke-width%3D%222%22%2F%3E%20%3Cpath%20d%3D%22M60%2090%20Q100%2076%20140%2090%20Q150%2096%20160%20104%20Q100%2092%2046%20104%20Q52%2096%2060%2090Z%22%20fill%3D%22%23f2c14e%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
-    pines: { name: 'Pro Duffy', line: 'Grip it and rip it! Fairways and greens, kid.', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20180%2062%20160%20100%20156%20C138%20160%20160%20180%20160%20232%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Cpath%20d%3D%22M82%20158%20L100%20182%20L118%20158%20L112%20154%20L100%20168%20L88%20154%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Crect%20x%3D%2288%22%20y%3D%22138%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2240%22%20ry%3D%2244%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%2260%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cpath%20d%3D%22M62%2098%20Q60%2084%2066%2080%20L68%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%3Cpath%20d%3D%22M138%2098%20Q140%2084%20134%2080%20L132%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%20%3Cpath%20d%3D%22M76%2093%20Q85%2088%2093%2092%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M107%2092%20Q115%2088%20124%2093%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M97%20108%20Q100%20120%20104%20108%22%20stroke%3D%22%23c9876a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Crect%20x%3D%2272%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%20%3Cpath%20d%3D%22M96%20101%20L104%20101%22%20stroke%3D%22%23111%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M76%2099%20L84%2099%22%20stroke%3D%22%23555%22%20stroke-width%3D%222%22%2F%3E%20%3Cpath%20d%3D%22M88%20128%20Q100%20136%20112%20128%22%20stroke%3D%22%237a3b2a%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M66%20170%20L80%20232%20M134%20170%20L120%20232%22%20stroke%3D%22%23d9a520%22%20stroke-width%3D%220%22%2F%3E%20%3Cpath%20d%3D%22M62%20176%20Q70%20200%2076%20232%20L124%20232%20Q130%20200%20138%20176%20Q120%20168%20118%20160%20L100%20190%20L82%20160%20Q80%20168%2062%20176Z%22%20fill%3D%22%23F2C14E%22%2F%3E%20%3Cpath%20d%3D%22M62%2078%20Q66%2046%20100%2044%20Q134%2046%20138%2078%20Z%22%20fill%3D%22%23e9dcc0%22%2F%3E%20%3Cpath%20d%3D%22M48%2082%20Q100%2066%20152%2082%20Q156%2090%20148%2092%20Q100%2080%2052%2092%20Q44%2090%2048%2082Z%22%20fill%3D%22%23d8c8a4%22%2F%3E%20%3Crect%20x%3D%2262%22%20y%3D%2272%22%20width%3D%2276%22%20height%3D%228%22%20fill%3D%22%23B3122B%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
+    par3: { name: 'Coach Andy', line: 'Head down, smooth tempo, and finish your swing, champ!', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20180%2062%20160%20100%20156%20C138%20160%20160%20180%20160%20232%20Z%22%20fill%3D%22%23B3122B%22%2F%3E%20%3Cpath%20d%3D%22M82%20158%20L100%20182%20L118%20158%20L112%20154%20L100%20168%20L88%20154%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Crect%20x%3D%2288%22%20y%3D%22138%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2240%22%20ry%3D%2244%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cellipse%20cx%3D%2260%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2c3a2%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cpath%20d%3D%22M60%2096%20Q58%2070%2080%2066%20L80%2080%20Q66%2084%2064%20100Z%22%20fill%3D%22%239a9a9a%22%2F%3E%3Cpath%20d%3D%22M140%2096%20Q142%2070%20120%2066%20L120%2080%20Q134%2084%20136%20100Z%22%20fill%3D%22%239a9a9a%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%20%3Cpath%20d%3D%22M76%2093%20Q85%2088%2093%2092%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M107%2092%20Q115%2088%20124%2093%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M97%20108%20Q100%20120%20104%20108%22%20stroke%3D%22%23c9876a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M80%20124%20Q90%20116%20100%20122%20Q110%20116%20120%20124%20Q112%20132%20100%20127%20Q88%20132%2080%20124Z%22%20fill%3D%22%238a8a8a%22%2F%3E%20%3Cpath%20d%3D%22M90%20134%20Q100%20140%20110%20134%22%20stroke%3D%22%237a3b2a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M100%20182%20L100%20206%22%20stroke%3D%22%23111%22%20stroke-width%3D%222%22%2F%3E%3Crect%20x%3D%2294%22%20y%3D%22204%22%20width%3D%2214%22%20height%3D%229%22%20rx%3D%223%22%20fill%3D%22%23c0c4cc%22%2F%3E%20%3Cpath%20d%3D%22M58%2084%20Q100%2058%20142%2084%20L142%2092%20Q100%2074%2058%2092%20Z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%23d8d8d8%22%20stroke-width%3D%222%22%2F%3E%20%3Cpath%20d%3D%22M60%2090%20Q100%2076%20140%2090%20Q150%2096%20160%20104%20Q100%2092%2046%20104%20Q52%2096%2060%2090Z%22%20fill%3D%22%23f2c14e%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
+    pines: { name: 'Coach Kay', line: 'Grip it and rip it! Fairways and greens, kid.', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20180%2062%20160%20100%20156%20C138%20160%20160%20180%20160%20232%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Cpath%20d%3D%22M82%20158%20L100%20182%20L118%20158%20L112%20154%20L100%20168%20L88%20154%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Crect%20x%3D%2288%22%20y%3D%22138%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2240%22%20ry%3D%2244%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%2260%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cpath%20d%3D%22M62%2098%20Q60%2084%2066%2080%20L68%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%3Cpath%20d%3D%22M138%2098%20Q140%2084%20134%2080%20L132%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%20%3Cpath%20d%3D%22M76%2093%20Q85%2088%2093%2092%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M107%2092%20Q115%2088%20124%2093%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M97%20108%20Q100%20120%20104%20108%22%20stroke%3D%22%23c9876a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Crect%20x%3D%2272%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%20%3Cpath%20d%3D%22M96%20101%20L104%20101%22%20stroke%3D%22%23111%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M76%2099%20L84%2099%22%20stroke%3D%22%23555%22%20stroke-width%3D%222%22%2F%3E%20%3Cpath%20d%3D%22M88%20128%20Q100%20136%20112%20128%22%20stroke%3D%22%237a3b2a%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M66%20170%20L80%20232%20M134%20170%20L120%20232%22%20stroke%3D%22%23d9a520%22%20stroke-width%3D%220%22%2F%3E%20%3Cpath%20d%3D%22M62%20176%20Q70%20200%2076%20232%20L124%20232%20Q130%20200%20138%20176%20Q120%20168%20118%20160%20L100%20190%20L82%20160%20Q80%20168%2062%20176Z%22%20fill%3D%22%23F2C14E%22%2F%3E%20%3Cpath%20d%3D%22M62%2078%20Q66%2046%20100%2044%20Q134%2046%20138%2078%20Z%22%20fill%3D%22%23e9dcc0%22%2F%3E%20%3Cpath%20d%3D%22M48%2082%20Q100%2066%20152%2082%20Q156%2090%20148%2092%20Q100%2080%2052%2092%20Q44%2090%2048%2082Z%22%20fill%3D%22%23d8c8a4%22%2F%3E%20%3Crect%20x%3D%2262%22%20y%3D%2272%22%20width%3D%2276%22%20height%3D%228%22%20fill%3D%22%23B3122B%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
   };
   let hostShown = false;
   function hideHosts() { if (!hostShown) return; hostShown = false; $('hostCard').classList.remove('show'); }
@@ -3229,8 +3303,8 @@
   }
   $('hostCard').addEventListener('click', hideHosts);
 
-  // ---- (Nov 16 2026) Tutorial: Coach Buck and Pro Duffy walk you through it, one tip at a time, at the moment it matters ----
-  //  1. swing (Buck): your first full shot · 2. chip (Duffy): first time you miss the green close by · 3. putt (Buck): first time on the green
+  // ---- (Nov 16 2026) Tutorial: Coach Andy and Coach Kay walk you through it, one tip at a time, at the moment it matters ----
+  //  1. swing (Andy): your first full shot · 2. chip (Kay): first time you miss the green close by · 3. putt (Andy): first time on the green
   // Each tip shows once. "Skip tutorial" turns the whole thing off; the Golfer tab can turn it back on.
   const TUT = {
     swing: { who: 'par3', title: 'How to swing', line: 'Swipe left or right to aim. Then press the ball and DRAG BACK to pick your power, and LET GO when the needle is in the GOLD for a pure strike.' },
@@ -3244,6 +3318,7 @@
   function tutShow(k) {
     const t = TUT[k], H = HOSTS[t.who];
     hideHosts(); tutNow = k;
+    save.tut.seen[k] = 1; if (TUT_ORDER.every(x => save.tut.seen[x])) save.tut.off = true; persist();   // (Nov 19 2026) each tip shows once, ever
     $('tutImg').src = H.img; $('tutName').textContent = `${H.name} · ${t.title}`; $('tutLine').textContent = t.line;
     $('tutStep').textContent = `TIP ${TUT_ORDER.indexOf(k) + 1} OF ${TUT_ORDER.length}`;
     $('tutCard').classList.add('show');
@@ -3520,14 +3595,51 @@
     return thumbs[course.id];
   }
 
-  function flagTexture() {
-    const c = document.createElement('canvas'); c.width = 128; c.height = 80;
+  // (Nov 19 2026) pin flags carry the Stryke logo and the colour tells you where the pin is on the green:
+  // red = front, white = middle, blue = back (like real tournament flags)
+  const PIN_ZONES = [
+    { id: 'front', name: 'Front', bg: '#C8102E', fg: '#ffffff', band: '#F2C14E', dot: '#e8344a' },
+    { id: 'middle', name: 'Middle', bg: '#ffffff', fg: '#B3122B', band: '#B3122B', dot: '#ffffff' },
+    { id: 'back', name: 'Back', bg: '#1f4fbf', fg: '#ffffff', band: '#F2C14E', dot: '#4f86ff' }];
+  function flagTexture(z, flip) {
+    const W = 256, Hf = 160, c = document.createElement('canvas'); c.width = W; c.height = Hf;
     const g = c.getContext('2d');
-    g.fillStyle = '#B3122B'; g.fillRect(0, 0, 128, 80);
-    g.fillStyle = '#F2C14E'; g.fillRect(0, 0, 128, 9); g.fillRect(0, 71, 128, 9); g.fillRect(0, 0, 12, 80);
-    return new THREE.CanvasTexture(c);
+    g.fillStyle = z.bg; g.fillRect(0, 0, W, Hf);
+    g.fillStyle = z.band; g.fillRect(0, 0, W, 12); g.fillRect(0, Hf - 12, W, 12);
+    // logo: a golf ball with speed lines, STRYKE underneath
+    const cx = W / 2 + 16, cy = 66, r = 30;
+    g.strokeStyle = z.fg; g.lineCap = 'round';
+    [[-12, 7], [0, 9], [12, 7]].forEach(([dy, w]) => { g.lineWidth = w; g.beginPath(); g.moveTo(cx - r - 58 + Math.abs(dy), cy + dy); g.lineTo(cx - r - 10, cy + dy); g.stroke(); });
+    g.fillStyle = z.bg === '#ffffff' ? '#f4f4f4' : '#ffffff'; g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.fill();
+    g.lineWidth = 5; g.strokeStyle = z.bg === '#ffffff' ? '#B3122B' : '#F2C14E'; g.stroke();
+    g.fillStyle = 'rgba(0,0,0,.18)';
+    for (let i = -2; i <= 2; i++) for (let j = -2; j <= 2; j++) { const x = cx + i * 10 + (j % 2 ? 5 : 0), y = cy + j * 9; if (Math.hypot(x - cx, y - cy) < r - 7) { g.beginPath(); g.arc(x, y, 2.4, 0, 7); g.fill(); } }
+    g.fillStyle = z.fg; g.font = '800 30px Oswald, Inter, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('STRYKE', W / 2, 126);
+    const tx = new THREE.CanvasTexture(c);
+    if (flip) { tx.wrapS = THREE.RepeatWrapping; tx.repeat.x = -1; tx.offset.x = 1; }   // the back of the flag reads the right way round too
+    return tx;
   }
-  const FLAG_TEX = flagTexture();
+  const FLAG_TEXS = PIN_ZONES.map(z => [flagTexture(z), flagTexture(z, true)]);
+  const FLAG_TEX = FLAG_TEXS[0][0];
+  // (Nov 19 2026) pin positions: every day the pin on each hole moves to the front, middle or back of the green
+  // (the same for everyone that day, so the boards stay fair). Daily Closest to the Pin keeps its own pin.
+  function placePin(h, i) {
+    if (!h || h.mini || h.range || !h.green || (course && (course.ctp || course.mini))) return;
+    if (!h.pin0) h.pin0 = { x: h.pin.x, y: h.pin.y };
+    let s = 7, day = ''; try { day = etDay(); } catch (e) {} const key = day + '|' + (course && course.id) + '|' + i;
+    for (let k = 0; k < key.length; k++) s = (s * 31 + key.charCodeAt(k)) % 233280;
+    const rng = makeRng(s); rng(); rng();
+    const zi = Math.min(2, Math.floor(rng() * 3)), g = h.green;
+    const from = h.aims && h.aims.length ? h.aims[h.aims.length - 1] : h.tee;
+    let ux = g.x - from.x, uy = g.y - from.y; const L = Math.hypot(ux, uy) || 1; ux /= L; uy /= L;
+    const ext = (ax, ay) => 1 / Math.sqrt((ax / g.rx) ** 2 + (ay / g.ry) ** 2);
+    const along = (zi - 1) * ext(ux, uy) * 0.5, lat = (rng() - 0.5) * ext(-uy, ux) * 0.6;
+    let x = g.x + ux * along - uy * lat, y = g.y + uy * along + ux * lat;
+    const q = Math.sqrt(((x - g.x) / g.rx) ** 2 + ((y - g.y) / g.ry) ** 2);
+    if (q > 0.62) { x = g.x + (x - g.x) * 0.62 / q; y = g.y + (y - g.y) * 0.62 / q; }
+    h.pin = { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 }; h.pinZone = zi;
+  }
   // The cup is drawn with its own lighting baked in: the sun (always up and to the left-front of the hole)
   // lights the far side of the white liner and part of the bottom, and the near rim casts a soft shadow.
   // u around the cylinder matches three.js CylinderGeometry (x = sin, z = cos).
@@ -3967,8 +4079,9 @@
     const poleGeo = new THREE.CylinderGeometry(POLE_R, POLE_R, POLE_H + CUP_D, 12), poleMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35 });
     const knobGeo = new THREE.SphereGeometry(0.05, 10, 8), knobMat = new THREE.MeshStandardMaterial({ color: 0xF2C14E, metalness: 0.6, roughness: 0.3 });
     const flagGeo = new THREE.PlaneGeometry(1.7, 1.05, 8, 1); flagGeo.translate(0.85, 0, 0);
-    const flagMat = new THREE.MeshLambertMaterial({ map: FLAG_TEX, side: THREE.DoubleSide });
-    disposables.push(maskGeo, maskMat, wallGeo, wallMat, botGeo, botMat, lipGeo, lipMat, collarGeo, collarMat, poleGeo, poleMat, knobGeo, knobMat, flagGeo, flagMat);
+    const fz = FLAG_TEXS[h.pinZone | 0];
+    const flagMat = new THREE.MeshLambertMaterial({ map: fz[0], side: THREE.FrontSide }), flagBackMat = new THREE.MeshLambertMaterial({ map: fz[1], side: THREE.BackSide });
+    disposables.push(maskGeo, maskMat, wallGeo, wallMat, botGeo, botMat, lipGeo, lipMat, collarGeo, collarMat, poleGeo, poleMat, knobGeo, knobMat, flagGeo, flagMat, flagBackMat);
     // the cup sits square to the (sloped) green
     const cupY = h.cupY = terrainH(h, h.pin.x, h.pin.y), cg = slopeGrad(h, h.pin.x, h.pin.y);
     const cupGroup = new THREE.Group(); cupGroup.position.set(h.pin.x, cupY, h.pin.y);
@@ -3981,7 +4094,7 @@
     cupGroup.add(mask, bottom, wall, lip, collar);
     const pole = new THREE.Mesh(poleGeo, poleMat); pole.position.set(0, (4.2 - CUP_D) / 2, 0); pole.castShadow = true; pole.renderOrder = 4;
     const knob = new THREE.Mesh(knobGeo, knobMat); knob.position.set(0, POLE_H + 0.02, 0);
-    flagMesh = new THREE.Mesh(flagGeo, flagMat); flagMesh.position.set(0, 3.6, 0); flagMesh.castShadow = true;
+    flagMesh = new THREE.Mesh(flagGeo, flagMat); flagMesh.position.set(0, 3.6, 0); flagMesh.castShadow = true; flagMesh.add(new THREE.Mesh(flagGeo, flagBackMat));
     pinGroup = new THREE.Group(); pinGroup.position.set(h.pin.x, cupY, h.pin.y); pinGroup.add(pole, knob, flagMesh);
     if (h.mini) pinGroup.scale.setScalar(0.42);
     pinT = 0; pinPulled = false;
@@ -4091,6 +4204,7 @@
   }
   function readyForShot() {
     state = 'ready'; swingAnim = null; strike = null;
+    saveCur(false);
     const t = layupTarget();
     recIdx = autoClub();
     // Doglegs: go straight at the hole with the club that gets closest, unless trees block that line. Only then play to the
@@ -4129,6 +4243,7 @@
     const mph = Math.round(Math.random() * course.wind), ang = Math.random() * Math.PI * 2;
     hole.wind = (MP && MP.started && mpWind(i)) || hole.fixedWind || { mph, ang, x: Math.cos(ang) * mph, y: Math.sin(ang) * mph };
     if (!hole.mini) { hole.stimp = stimpOf(course); hole.slick = STIMP_REF / hole.stimp; }
+    placePin(hole, i);
     buildHole(hole, course, preview ? 1300 : 2600);
     ball = { x: hole.tee.x, y: hole.tee.y, vx: 0, vy: 0 }; prev = { x: ball.x, y: ball.y };
     strokes = 0; flight = null; swing = null; ptr = null; splash = null; lastPutt = false; strike = null; swingAnim = null; driveYds = null;
@@ -4325,6 +4440,7 @@
   });
   if (save.ui.wheelMin) { $('bar').classList.add('min'); $('cMin').textContent = '+'; }
   $('viewBtn').addEventListener('click', () => { if (state !== 'ready') return; viewMode = viewMode === 'overview' ? 'normal' : 'overview'; sfx.click(); });
+  $('spinBtn').addEventListener('click', e => { e.stopPropagation(); if (state !== 'ready' || !spinOK(CLUBS[clubIdx])) return; spinMode = spinMode === 0 ? 1 : spinMode > 0 ? -1 : 0; sfx.click(); });
   $('aerBtn').addEventListener('click', () => { if (state !== 'ready' || introT > 0) return; viewMode = viewMode === 'aerial' ? 'normal' : 'aerial'; sfx.click(); });
   $('exitBtn').addEventListener('click', () => {
     if (course.range) { if (confirm('Leave the range? You keep everything you earned.')) rangeEnd(true); return; }
@@ -4352,6 +4468,17 @@
   });
   { let rep = null;
     const stop = () => { clearInterval(rep); clearTimeout(rep); rep = null; };
+    $('pinBtn').onclick = e => {
+      e.stopPropagation(); if (!hole || !pinGroup || hole.range || state !== 'ready') return;
+      if (pinPulled) { pinPulled = false; pinT = 0; }
+      else {
+        pinPulled = true;
+        // laid down off to the side, away from the ball's line
+        let vx = hole.pin.x - ball.x, vy = hole.pin.y - ball.y; const vl = Math.hypot(vx, vy) || 1; vx /= vl; vy /= vl;
+        pinDir = { x: -vy * 0.85 + vx * 0.15, y: vx * 0.85 + vy * 0.15 };
+      }
+      sfx && sfx.click && sfx.click();
+    };
     ['nudgeL', 'nudgeR'].forEach(id => {
       const b = $(id), dir = id === 'nudgeR' ? 1 : -1;
       b.addEventListener('pointerdown', e => {
@@ -4394,6 +4521,8 @@
     if (c.putter && !hole.mini && !course.ctp && !course.range) {
       const st = save.stats; st.putts = (st.putts | 0) + 1; st.puttFt = (st.puttFt || 0) + Math.round(lastShot.dist * 3); rStat.putts++; }
     strokes++; firstShot = false; trailReset(); swing = null; lastClub = clubIdx;
+    shotSpin = spinOK(c) ? spinMode : 0; spinMode = 0;
+    saveCur(true);
     ball.z = 0; ball.vz = 0; ball.spin = 0; ball.full = false; ball.rollCap = 0; ball.pathKick = false;
     const lieErr = lie === 'rough' ? 1.4 : lie === 'sand' ? 1.6 : 1;
     const full = stockNow(c);
@@ -4576,10 +4705,14 @@
     const theta = Math.atan2(4 * f.h, Math.max(1, f.carry)), vin = 9 + 0.1 * f.carry;
     const vh = vin * Math.cos(theta) * f.rollMul;
     ball.spin = (steep * 0.35 + (c.spin || 0)) * f.q * clamp(f.power || 1, 0.3, 1);
+    // (Nov 19 2026) spin control (Pro Ball level 7, wedges only): backspin bites and pulls it back, topspin lands and runs
+    const sMode = shotSpin; shotSpin = 0;
+    if (sMode > 0) ball.spin += 0.55 * spinPow(c) * f.q;
+    else if (sMode < 0) ball.spin = -0.22 * spinPow(c);
     ball.vx = f.dirEnd.x * vh; ball.vy = f.dirEnd.y * vh;
     ball.z = 0; ball.vz = -vin * Math.sin(theta); ball.rollT = 0; ball.full = true;
     // how far this shot is allowed to run out after it lands (a backstop so a lucky bounce can never roll forever)
-    ball.rollD = 0; ball.rollCap = f.carry * (0.06 + (c.roll != null ? c.roll : 0.04)) + 6;
+    ball.rollD = 0; ball.rollCap = (f.carry * (0.06 + (c.roll != null ? c.roll : 0.04)) + 6) * (sMode < 0 ? 2.4 : 1);
     state = 'rolling';
     if (!hole.range && Math.hypot(hole.pin.x - ball.x, hole.pin.y - ball.y) < CUP_R) { enterCup(ball.vz); ball.vz = 0; return; }   // dunked it
     touchdown(t);
@@ -4911,6 +5044,35 @@
     t.classList.add('show'); try { sfx.perfect(); } catch (e) {}
     setTimeout(() => { t.classList.remove('show'); setTimeout(() => { toastBusy = false; nextToast(); }, 400); }, 3200);
   }
+  // ================= Levels & XP (Nov 19 2026) =================
+  // Every finished hole gives XP (more for birdies and better), a finished round gives a bonus, and each level up pays out.
+  const XP_MAX_LV = 100, xpNeed = L => 100 + 40 * (L - 1), lvPay = L => 100 + 25 * L;
+  function levelOf(xp) { xp = Math.max(0, xp | 0); let L = 1; while (L < XP_MAX_LV && xp >= xpNeed(L)) { xp -= xpNeed(L); L++; } return { L, into: xp, need: xpNeed(L), max: L >= XP_MAX_LV }; }
+  function holeXP(strokes, par, mini) {
+    if (mini) return 5 + (strokes - par <= -1 ? 5 : 0);
+    const d = strokes - par;
+    return 10 + (strokes === 1 ? 150 : d <= -3 ? 80 : d === -2 ? 50 : d === -1 ? 20 : d === 0 ? 5 : 0);
+  }
+  function gainXP(n) {
+    n = Math.round(n || 0); if (n <= 0) return 0;
+    const before = levelOf(save.xp).L; save.xp = (save.xp | 0) + n; const after = levelOf(save.xp).L;
+    if (after > before) {
+      let pay = 0; for (let L = before + 1; L <= after; L++) pay += lvPay(L);
+      save.coins += pay; save.stats.earnedTotal += pay;
+      toastQ.push({ a: { icon: ico('star'), label: 'LEVEL UP', name: `Level ${after}`, pay } }); nextToast();
+      track('level_up', { lv: after });
+    }
+    persist(); renderLevel(); return n;
+  }
+  function lvChipHtml() {
+    const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100);
+    return `<b>LV ${v.L}</b><i><u style="width:${pct}%"></u></i>`;
+  }
+  function renderLevel() {
+    const el = document.getElementById('homeLv'); if (!el) return;
+    const v = levelOf(save.xp); el.innerHTML = lvChipHtml();
+    el.title = v.max ? `Level ${v.L} (max)` : `Level ${v.L} · ${v.into} / ${v.need} XP to level ${v.L + 1}`;
+  }
   const maxStrokes = () => hole && hole.mini ? 7 : MAX_STROKES;
   function finishHole() {
     if (course.ctp) return ctpDone(0);
@@ -4945,9 +5107,10 @@
     streak = d <= 0 ? streak + 1 : 0;
     if (!course.mini && streak > (save.stats.bestStreak | 0)) save.stats.bestStreak = streak;
     const mo = momentumPct(streak), pay = base + (base && mo ? Math.max(1, Math.round(base * mo / 100)) : 0); earned[holeIdx] = pay;
+    const xpGot = course.range ? 0 : gainXP(holeXP(strokes, hole.par, !!course.mini));
     const mate = MP && MP.remote ? MP.remote : '';
     const moTxt = mo ? ` · Momentum +${mo}%` : hadMo ? ' · Momentum lost' : streak === MO_START - 1 ? ' · 1 more for Momentum' : '';
-    showBanner(term(strokes, hole.par), `${mate ? mate + ' · ' : ''}${strokes} stroke${strokes === 1 ? '' : 's'}${pay ? ` · +${money(pay)}` : ''}${moTxt}`, 2.3);
+    showBanner(term(strokes, hole.par), `${mate ? mate + ' · ' : ''}${strokes} stroke${strokes === 1 ? '' : 's'}${pay ? ` · +${money(pay)}` : ''}${xpGot ? ` · +${xpGot} XP` : ''}${moTxt}`, 2.3);
     if (d <= -1 || strokes === 1) burst(140);
     saveLive(); persist(); checkAwards();
     state = 'holeDone'; doneT = 2.4;
@@ -4968,10 +5131,23 @@
     save.live = { cid: course.id, next: holeIdx + 1, scores: scores.slice(0, holeIdx + 1), earned: earned.slice(0, holeIdx + 1), start: roundStart, aces: roundAces, mo: streak, at: Date.now(),
       cup: cupNow ? cupWeek().id : 0, rs: rStat, rf: roundFlags };   // (update 2.5) a Club House Cup round can be continued after a reload
   }
+  // (Nov 19 2026) no more reloading away a bad shot: the round is also saved at every shot. A reload puts you back on the
+  // exact spot with the same stroke count and wind. Reloading while the ball is in the air counts the stroke and you replay
+  // it from where you hit it (like stroke and distance), so reloading never helps.
+  function saveCur(swung) {
+    if (!course || !hole || course.ctp || course.range || (MP && MP.started) || !course.holes || roundCut || state === 'title' || state === 'finished' || ball.inCup) return;
+    if (HOLES !== course.holes || holeIdx >= HOLES.length) return;
+    { const hm = document.getElementById('home'); if (!hm || !hm.classList.contains('hidden')) return; }   // only while a round is on screen
+    const cupNow = !course.mini && save.hr && cupWeek().phase === 'live' && course.id === cupCourse().id;
+    save.live = { cid: course.id, next: holeIdx, scores: scores.slice(0, holeIdx), earned: earned.slice(0, holeIdx), start: roundStart, aces: roundAces, mo: streak, at: Date.now(),
+      cup: cupNow ? cupWeek().id : 0, rs: rStat, rf: roundFlags,
+      cur: { h: holeIdx, s: strokes, x: Math.round(ball.x * 100) / 100, y: Math.round(ball.y * 100) / 100, w: hole.wind ? { mph: hole.wind.mph, ang: hole.wind.ang } : null, sw: swung ? 1 : 0 } };
+    persist();
+  }
   function clearLive() { if (save.live) { delete save.live; persist(); } }
   function liveCourse(L = save.live) {
     const c = L && (L.cid === 'mini' ? MINI : courseById(L.cid));
-    if (!c || !c.holes || !Array.isArray(L.scores) || !L.scores.length || L.next >= c.holes.length || L.scores.length !== L.next || !isUnlocked(c) && !c.mini && !(L.cup && L.cup === cupWeek().id)) return null;
+    if (!c || !c.holes || !Array.isArray(L.scores) || (!L.scores.length && !L.cur) || L.next >= c.holes.length || L.scores.length !== L.next || !isUnlocked(c) && !c.mini && !(L.cup && L.cup === cupWeek().id)) return null;
     return c;
   }
   function showLive() {
@@ -4980,7 +5156,7 @@
     HOLES = c.holes; scores = L.scores.slice(); holeIdx = L.next;
     const tot = scores.reduce((t, v) => t + (v || 0), 0), rel = relTotal(), card = scorecardHtml();
     [HOLES, scores, holeIdx] = keep;
-    $('liveSub').innerHTML = `<b>${esc(c.name)}</b> · Thru ${L.next} of ${c.holes.length} · ${tot} strokes (${fmtRel(rel)})`;
+    $('liveSub').innerHTML = `<b>${esc(c.name)}</b> · ${L.cur && L.cur.h === L.next ? `On hole ${L.next + 1}${L.cur.s ? `, ${L.cur.s} stroke${L.cur.s === 1 ? '' : 's'} so far` : ''}` : `Thru ${L.next} of ${c.holes.length}`} · ${tot} strokes (${fmtRel(rel)})`;
     $('liveCard').innerHTML = card;
     const cup = !!(L.cup && L.cup === cupWeek().id);
     $('liveTitle').textContent = cup ? 'Club House Cup round in progress' : 'Round in progress';
@@ -5000,10 +5176,20 @@
     if (L.rs) rStat = Object.assign({ shots: 0, perf: 0, eagles: 0, chips: 0, perfRun: 0 }, L.rs); if (L.rf != null) roundFlags = L.rf | 0;
     presence(c.id);
     $('home').classList.add('hidden'); $('final').classList.add('hidden'); slidesOn(false);
+    if (finish && !L.next) { clearLive(); showHome(); return; }   // nothing finished yet: nothing to pay or post
     if (finish) {   // end it here: a short round with just the holes played
       roundCut = true; HOLES = c.holes.slice(0, L.next); holeIdx = L.next - 1; hole = HOLES[holeIdx];
       loadHole(holeIdx, true); showFinal();
-    } else loadHole(L.next);
+    } else {
+      loadHole(L.next);
+      const C = L.cur;
+      if (C && C.h === L.next && Number.isFinite(C.x) && Number.isFinite(C.y)) {   // back to the exact shot
+        if (C.w && hole.wind) { const a = +C.w.ang || 0, m = +C.w.mph || 0; hole.wind = { mph: m, ang: a, x: Math.cos(a) * m, y: Math.sin(a) * m }; }
+        ball = { x: C.x, y: C.y, vx: 0, vy: 0 }; prev = { x: C.x, y: C.y }; strokes = C.s | 0;
+        if (C.sw) showBanner('Shot counted', 'You reloaded mid-shot: +1 stroke, replay it from the same spot', 2.4);
+        readyForShot();
+      }
+    }
   }
   // ---- Continue later (Nov 2 2026): an 18-hole round can be put away (at the turn, or from QUIT) and finished later.
   // It's kept per course in save.paused; the course page then offers Continue round / Finish round. Other courses can be played meanwhile.
@@ -5548,7 +5734,7 @@
   function updateHud() {
     const playing = hole && state !== 'title' && state !== 'finished';
     ['hud', 'bar', 'viewBtn', 'exitBtn', 'pinBox'].forEach(id => $(id).style.display = playing ? '' : 'none');
-    if (!playing) { $('nudge').style.display = 'none'; $('moBox').style.display = 'none'; $('aerBtn').style.display = 'none'; }
+    if (!playing) { $('nudge').style.display = 'none'; $('moBox').style.display = 'none'; $('aerBtn').style.display = 'none'; $('spinBtn').style.display = 'none'; $('pinBtn').style.display = 'none'; }
     $('mpBar').style.display = playing && MP && MP.started && state !== 'mpCard' ? '' : 'none';
     if (!playing) { $('side').style.display = 'none'; $('pinMark').style.display = 'none'; hideHosts(); return; }
     if (hostShown && strokes > 0) hideHosts();   // the coach leaves once you've hit your tee shot
@@ -5556,7 +5742,9 @@
     // the range swaps the HOLE / PAR / STROKE / TOTAL boxes for balls left, targets hit, streak and money earned
     [['hHole', 'HOLE', 'BALLS'], ['hPar', 'PAR', 'HITS'], ['hStroke', 'STROKE', 'STREAK'], ['hTotal', 'TOTAL', 'EARNED'], ['hDrive', 'DRIVE YDS', 'LAST SHOT']].forEach(([id, a, b]) => {
       const l = $(id).previousElementSibling, want = rg ? b : a; if (l && l.textContent !== want) l.textContent = want; });
-    { const pb = $('pinBox').firstChild, want = rg ? 'TARGET ' : 'PIN '; if (pb && pb.nodeType === 3 && pb.nodeValue !== want) pb.nodeValue = want; }
+    { const pb = $('pinBox').firstChild, want = rg ? 'TARGET ' : 'PIN '; if (pb && pb.nodeType === 3 && pb.nodeValue !== want) pb.nodeValue = want;
+      const zn = $('pinZn'), z = !rg && hole && hole.pinZone != null ? PIN_ZONES[hole.pinZone] : null, zk = z ? z.id : '';
+      if (zn.dataset.k !== zk) { zn.dataset.k = zk; zn.innerHTML = z ? `<i style="background:${z.dot}"></i>${z.name.toUpperCase()}` : ''; } }
     if (rg) {
       setText('hHole', `${rangeS.left}/${RANGE_BALLS}`); setText('hCourse', 'Driving Range');
       setText('hHoleName', hole.pin.t ? `Target: ${hole.pin.t.d} yds · bucket pays ${money(rangePay(3, hole.pin.t.d))}` : 'Driving Range');
@@ -5597,10 +5785,20 @@
     setText('viewBtn', viewMode === 'overview' ? 'BACK' : 'MAP');
     { const showA = !!hole && !hole.mini && !course.ctp && !CLUBS[clubIdx].putter && viewMode !== 'overview';
       $('aerBtn').style.display = showA ? '' : 'none'; $('aerBtn').classList.toggle('disabled', !ready || introT > 0);
+      { const sb = $('spinBtn'), show = ready && introT <= 0 && viewMode === 'normal' && !hole.mini && spinOK(CLUBS[clubIdx]);
+        if (!spinOK(CLUBS[clubIdx])) spinMode = 0;
+        sb.style.display = show ? '' : 'none';
+        const k = 'SPIN · ' + (spinMode > 0 ? 'BACK' : spinMode < 0 ? 'TOP' : 'OFF'); if (sb.textContent !== k) { sb.textContent = k; sb.classList.toggle('on', !!spinMode); } }
       setText('aerBtn', viewMode === 'aerial' ? 'BACK' : 'AERIAL'); }
     { const mo = course.ctp || course.range || (MP && MP.started) ? 0 : momentumPct(streak);
       $('moBox').style.display = mo ? '' : 'none'; if (mo) setText('moBox', `MOMENTUM +${mo}% · ${streak} HOLES NO BOGEY`); }
     $('nudge').style.display = ready && CLUBS[clubIdx].putter && viewMode === 'normal' && introT <= 0 ? 'flex' : 'none';
+    { const pb = $('pinBtn'), show = ready && viewMode === 'normal' && introT <= 0 && !hole.range && !hole.mini && !!pinGroup && distToPin() < 45;
+      pb.style.display = show ? 'flex' : 'none';
+      // with the aim arrows showing it sits above them; otherwise it drops down to the corner
+      pb.style.bottom = $('nudge').style.display === 'flex' ? '' : 'calc(env(safe-area-inset-bottom) + 16px)';
+      if (show) { const want = (pinPulled ? 'out' : 'in') + (hole.pinZone | 0); if (pb.dataset.k !== want) { pb.dataset.k = want; const z = PIN_ZONES[hole.pinZone | 0];
+        pb.className = pinPulled ? 'out' : ''; pb.innerHTML = `<i style="background:${z.dot}"></i>${pinPulled ? 'PUT PIN BACK' : 'TAKE PIN OUT'}`; } } }
     updateReader(); updatePinMark();
   }
 
@@ -5635,7 +5833,7 @@
     if (t === 'golfer') showTip('golfer');
     if (t === 'stats') { renderStats(); renderHow(); }
     if (t === 'awards') renderAwards();
-    $('homeCoins').textContent = money(save.coins);
+    $('homeCoins').textContent = money(save.coins); renderLevel();
     document.querySelector('.hbody').scrollTop = 0;
   }
   document.querySelector('.tabs').addEventListener('click', e => {
@@ -5669,7 +5867,7 @@
       ${(() => { const P = pausedFor(c); if (!P) return ''; const tot = P.scores.reduce((t, v) => t + (v || 0), 0), par = c.holes.slice(0, P.next).reduce((t, h) => t + h.par, 0);
         return `<div class="pausedBox"><b>Saved round</b> · Thru ${P.next} of 18 · ${tot} strokes (${fmtRel(tot - par)})${P.cup ? ' · Club House Cup' : ''}
           <div class="cdbtns" style="margin:8px 0 0"><button class="main" data-pgo="1">▶︎ Continue round (Hole ${P.next + 1})</button><button class="ghost" data-pfin="1">Finish round</button></div>
-          <div style="font-size:11px;opacity:.75;margin-top:4px">Finish round = end it now and get paid for the holes you played (it won't go on the leaderboards).</div></div>`; })()}
+          <div style="font-size:11px;opacity:.75;margin-top:4px">Finish round = end it now. You get paid for the holes you played only if you've played at least 9 (it won't go on the leaderboards).</div></div>`; })()}
       <div class="cdbtns">${open ? `<button class="main" data-tee="1">${c.mini ? 'Start mini golf' : 'Tee off'}</button>` : `<div class="lock" style="flex:1">${ico('lock')} ${unlockTxt(c)}</div>`}
         ${c.mini ? '' : '<button class="ghost" data-chclubs="1">Change clubs</button>'}</div>
       ${c.mini ? '<div style="font-size:12px;color:#f3d7a8;text-align:center">Par 41 · Max 7 strokes a hole · Payouts: 2 under $60 · 1 under (an ace on a par 2) $30 · par $10</div>'
@@ -5710,7 +5908,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.17c';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.19a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -7006,7 +7204,8 @@
     const fmt = MP.fmt === 'stroke' ? '' : fmtName(MP.doc.mode, MP.fmt) + ' · ';
     const me = relOf(MP.team, MP.n), others = MP.teams.map((_, t) => t).filter(t => t !== MP.team);
     const one = (t, r) => `${esc(teamLabel(t))} ${fmtRel(r.r)}${MP.teams.length <= 2 ? ` <span style="opacity:.7">(thru ${r.k})</span>` : ''}${!MP.coop && teamOut(t) ? ' (left)' : ''}`;
-    $('mpBar').innerHTML = `⚔️ ${fmt}<b>${one(MP.team, me)}</b>${others.map(t => ' · ' + one(t, relOf(t, MP.n))).join('')}`
+    const qmTag = MP.doc && MP.doc.qm ? (MP.doc.ranked ? '<span class="mpMode rk">RANKED</span>' : '<span class="mpMode cs">CASUAL · NO RP</span>') : '';
+    $('mpBar').innerHTML = `${qmTag}${qmTag ? '' : '⚔️ '}${fmt}<b>${one(MP.team, me)}</b>${others.map(t => ' · ' + one(t, relOf(t, MP.n))).join('')}`
       + `<span class="ms">${esc(st)}</span>`;
   }
 
@@ -7267,15 +7466,18 @@
         <div class="qmSearch"><div class="qmSpin"></div><div><b>Looking for a golfer…</b><small id="qmTime">0s</small></div></div>
         <div class="gnote">1v1 stroke play · random ${QM_HOLES} holes. Stay on this screen; the match starts as soon as someone is found.</div>${LOAD_NOTE}
         <button class="ghost" data-qmcancel="1" style="width:100%;margin-top:10px">Cancel</button></div>`;
-    return `<div class="mpbox qmBox"><div class="lh">PVP MODES</div>
-        <div class="pvpModes"><div><b>⚔️ Ranked</b><small>Random golfer · ${QM_HOLES} holes · win or lose RP. Leaving = forfeit (−${RANK_FORFEIT} RP).</small></div>
-          <div><b>🤝 Casual</b><small>Random golfer · ${QM_HOLES} holes · just for fun, no RP.</small></div>
-          <div><b>👥 Vs Friends</b><small>Private match with a code · you pick the course, holes and buy-in. Scroll down.</small></div></div>
-        <div class="lh" style="margin-top:14px">ONLINE · RANKED &amp; CASUAL</div>
+    // (Nov 19 2026) Ranked and Casual are now two big, colour-coded cards you tap to search: no more guessing which is which
+    return `<div class="mpbox qmBox"><div class="lh">PLAY ONLINE · PICK A MODE</div>
+        <div class="qmModes">
+          <button class="qmMode rk" data-qm="ranked"><span class="qmTag">COMPETITIVE</span><b>⚔️ Ranked</b>
+            <ul><li>Win = <b>gain RP</b>, lose = <b>lose RP</b></li><li>Climb ranks up to 💎 Pure Striker</li><li>Leaving = forfeit (−${RANK_FORFEIT} RP)</li></ul><em>Find ranked match ›</em></button>
+          <button class="qmMode cs" data-qm="casual"><span class="qmTag">JUST FOR FUN</span><b>🤝 Casual</b>
+            <ul><li><b>No RP</b>: your rank never changes</li><li>Practice against real golfers</li><li>Leave any time, no penalty</li></ul><em>Find casual match ›</em></button>
+        </div>
+        <div class="gnote" style="margin-top:8px">Both: 1v1 stroke play vs a random golfer · random ${QM_HOLES} holes · no buy-in. Want to play someone you know? Use <b>👥 Vs Friends</b> below (match code, your course and buy-in).</div>
+        <div class="lh" style="margin-top:14px">YOUR RANK</div>
         <div class="qmRank"><span class="qmIcon">${r.icon}</span><div style="flex:1"><b>${r.name}</b><small>${rk.rp | 0} RP · ${rk.w | 0}W ${rk.l | 0}L${r.toNext ? ` · ${r.toNext} RP to the next level` : ' · top rank'}</small>
           <i class="qmBar"><u style="width:${r.into}%"></u></i></div></div>
-        <div class="qmBtns"><button class="main" data-qm="ranked">⚔️ Ranked</button><button class="ghost" data-qm="casual">🤝 Casual</button></div>
-        <div class="gnote">Get matched with a golfer from anywhere: 1v1 stroke play on a random ${QM_HOLES} holes, no buy-in. <b>Ranked</b> moves your rank up or down (6 ranks, 3 levels each, up to 💎 Pure Striker); quitting a ranked match is a forfeit and costs ${RANK_FORFEIT} RP. <b>Casual</b> is just for fun.</div>
         <div class="lh" style="margin-top:12px">RANKED LEADERBOARD</div><div id="rankLb"><div class="empty">Loading…</div></div></div>`;
   }
   function renderMatchTab() {
@@ -7655,8 +7857,7 @@
     $('gName').value = save.name || '';
     $('handBox').innerHTML = `<div class="nameRow" style="margin-top:12px">I swing</div><div class="opts" style="margin-top:6px"><button data-hand="r" class="${save.lefty ? '' : 'on'}">Right-handed</button><button data-hand="l" class="${save.lefty ? 'on' : ''}">Left-handed</button></div>`
       + `<div class="nameRow" style="margin-top:12px">${ico('battery')} Battery saver</div><div class="opts" style="margin-top:6px"><button data-saver="1" class="${SAVER ? 'on' : ''}">On</button><button data-saver="0" class="${SAVER ? '' : 'on'}">Off</button></div>`
-      + `<div class="gnote" style="margin-top:4px">Saves battery on iPad: 30 fps, no shadows, no camera fly-ins (it cuts straight to your golfer), no confetti and a still home screen.</div>`
-      + `<div class="nameRow" style="margin-top:12px">${ico('flag')} Tutorial</div><div class="opts" style="margin-top:6px"><button data-tut="1">${save.tut && !save.tut.off ? 'Tutorial is on' : 'Replay tutorial'}</button></div><div class="gnote" style="margin-top:4px">Coach Buck and Pro Duffy show you how to swing, chip and putt on 3C Par Three.</div>`;
+      + `<div class="gnote" style="margin-top:4px">Saves battery on iPad: 30 fps, no shadows, no camera fly-ins (it cuts straight to your golfer), no confetti and a still home screen.</div>`;
     $('hrBox').innerHTML = save.hr ? `<div class="nameRow" style="margin-top:12px">Club House</div><div class="hrlock" style="margin-top:6px">Club House <b>${save.hr}</b> ${ico('lock')} <small>(can't be changed)</small></div>`
       : `<div class="nameRow" style="margin-top:12px">Pick your club house (can't be changed later)</div><div class="hrchips" style="margin-top:6px">${HOMEROOMS.map(h => `<button data-ghr="${h}">${h}</button>`).join('')}</div>`;
     $('badgeBox').innerHTML = badgesHtml();
@@ -7986,14 +8187,14 @@
       const bbtn = bl >= BALL_MAX ? '<button class="main sm" disabled>MAXED OUT</button>'
         : `<button class="main sm" data-ball="1"${save.coins < BALL_COSTS[bl] ? ' disabled' : ''}>Upgrade · ${money(BALL_COSTS[bl])}</button>`;
       left = `<div class="chero">${clubIcon(null)}<div class="ht"><span>GOLF BALL</span><b>Pro Ball</b><em>Wind moves it ${wNow}%</em></div>${ringOf(bl, BALL_MAX)}</div>
-        <div class="upcard"><div class="uh">${bl >= BALL_MAX ? 'FULLY UPGRADED' : `NEXT: LEVEL ${bl + 1}`}</div><ul><li>${bl >= BALL_MAX ? 'Wind only moves it 60%' : `Wind effect ${wNow}% → ${Math.round(ballWind(bl + 1) * 100)}%`}</li></ul>${bbtn}</div>
+        <div class="upcard"><div class="uh">${bl >= BALL_MAX ? 'FULLY UPGRADED' : `NEXT: LEVEL ${bl + 1}`}</div><ul><li>${bl >= BALL_MAX ? 'Wind only moves it 60%' : `Wind effect ${wNow}% → ${Math.round(ballWind(bl + 1) * 100)}%`}</li>${bl + 1 === SPIN_LV ? '<li><b>Unlocks SPIN control on wedges</b></li>' : ''}${bl >= SPIN_LV ? '<li>Spin control unlocked: tap SPIN with a wedge for backspin or topspin</li>' : ''}</ul>${bl < SPIN_LV - 1 ? `<div class="md" style="margin-top:6px">Level ${SPIN_LV} unlocks spin control on your wedges.</div>` : ''}${bbtn}</div>
         <div class="md" style="margin-top:12px">Change your ball's color and pattern in the Golfer tab.</div>`;
       stats = `<div class="vstat"><div class="vk"><span>Wind cut</span><em>${100 - wNow}%</em></div><i>${bl < BALL_MAX ? `<u style="width:${Math.round((1 - ballWind(bl + 1)) / 0.4 * 100)}%"></u>` : ''}<b style="width:${Math.max(4, Math.round((100 - wNow) / 40 * 100))}%"></b></i></div>`;
     }
     $('clubList').innerHTML = back + `<div class="sect">YOUR BAG</div><div class="crack">${chips}</div>
       <div class="cmain${statsOpen ? '' : ' shut'}"><div class="cleft">${left}</div>
-      <aside class="cstats"><button class="stog" data-stats="1" aria-expanded="${statsOpen}"><span>STATS</span><i>${statsOpen ? '▸' : '◂'}</i></button>
-      <div class="sbody">${stats}<div class="slegend"><u></u> next upgrade</div></div></aside></div>`;
+      <div class="cside"><aside class="cstats"><button class="stog" data-stats="1" aria-expanded="${statsOpen}"><span>STATS</span><i>${statsOpen ? '▸' : '◂'}</i></button>
+      <div class="sbody">${stats}<div class="slegend"><u></u> next upgrade</div></div></aside>${rangeMiniHtml()}</div></div><div class="rangeAlt">${rangeMiniHtml()}</div>`;
     renderRangeCard();
   }
   $('clubList').addEventListener('click', e => {
@@ -8001,6 +8202,7 @@
     ensureAudio();
     if (b.dataset.sel != null) { clubSel = +b.dataset.sel; clubColBuy = null; sfx.click(); renderClubs(); return; }
     if (b.dataset.stats) { statsOpen = !statsOpen; sfx.click(); renderClubs(); return; }
+    if (b.dataset.range) { ensureAudio(); sfx.click(); startRange(); return; }
     if (b.dataset.back) { const c = courseById(clubsReturn); clubsReturn = null; openCourse(c); return; }
     if (b.dataset.ccol != null) {
       const eq = CLUBS[clubSel], hex = b.dataset.ccol, cc = CLUB_COLORS.find(x => x[1] === hex);
@@ -8280,14 +8482,19 @@
     $('finalTitle').textContent = roundCut ? `Round finished early · ${HOLES.length} hole${HOLES.length === 1 ? '' : 's'}` : rel <= -2 ? 'Tour pro!' : rel <= 2 ? 'Great round!' : rel <= 8 ? 'Nice round' : 'Keep grinding';
     delete save.live;
 
-    const holeMoney = earned.reduce((a, b) => a + (b || 0), 0);
+    // (Nov 19 2026) a round ended before 9 holes pays nothing: you get paid for the holes only once you've played 9
+    const shortCut = roundCut && HOLES.length < Math.min(9, course.holes.length);
+    const holeMoney = shortCut ? 0 : earned.reduce((a, b) => a + (b || 0), 0);
     const rb = roundCut ? 0 : course.mini ? 30 : ROUND_BONUS, underBonus = !roundCut && rel < 0 ? -rel * (course.mini ? 15 : UNDER_PAR_BONUS) : 0;   // a round ended early only pays its holes
     const total = holeMoney + rb + underBonus;
     const baseMoney = HOLES.reduce((a, h, i) => a + (scores[i] == null || earned[i] == null ? 0 : course.mini ? (MINI_PAY[String(Math.max(-2, scores[i] - h.par))] || 0) : payFor(scores[i], h.par)), 0);
-    const moMoney = Math.max(0, holeMoney - baseMoney);
+    const moMoney = shortCut ? 0 : Math.max(0, holeMoney - baseMoney);
     let lines = `<div><span>Hole payouts</span><span>${money(holeMoney - moMoney)}</span></div>` + (moMoney ? `<div><span>Momentum bonus</span><span>${money(moMoney)}</span></div>` : '') + (roundCut ? '' : `<div><span>Round bonus</span><span>${money(rb)}</span></div>`);
     if (underBonus) lines += `<div><span>Under-par bonus</span><span>${money(underBonus)}</span></div>`;
+    if (shortCut) lines += `<div><span style="opacity:.8">Ended before 9 holes: no pay for these holes</span><span></span></div>`;
     lines += `<div class="sum"><span>Earned</span><span>+${money(total)}</span></div>`;
+    { const rx = roundCut || course.ctp || course.range ? 0 : course.mini ? 30 : HOLES.length >= 18 ? 100 : 40;
+      if (rx) { gainXP(rx); lines = lines.replace('<div class="sum">', `<div><span>Round XP bonus</span><span>+${rx} XP</span></div><div class="sum">`); } }
     $('earnBox').innerHTML = lines;
 
     const wasLocked = COURSES.filter(c => !isUnlocked(c)).map(c => c.id);
@@ -8533,6 +8740,13 @@
         <div class="rtx">${RANGE_BALLS} balls · 8 targets from 50 to 270 yds. Drop one in a bucket for up to <b>${money(top)}</b>.<br>
           ${d.earned >= RANGE_DAY_CAP ? 'Today\'s range money is maxed out: buckets are still free for practice.' : 'Free to play · earn up to ' + money(RANGE_DAY_CAP) + ' a day.'} ${d.holed || 0} in the bucket all-time.</div>
         <button class="main sm" data-range="1">Grab a bucket ›</button></div></div>`;
+  }
+  function rangeMiniHtml() {
+    const d = rangeDay(), top = Math.max(...RANGE_SPOTS.map(x => rangePay(3, x[0])));
+    return `<div class="rangeMini"><div class="rmImg" style="background-image:url('${holeThumb(RANGE, 0)}')"></div><div class="rmB">
+      <div class="rmT">DRIVING RANGE</div>
+      <div class="rmS">${RANGE_BALLS} balls · 8 targets, 50 to 270 yds · up to <b>${money(top)}</b> a bucket<br><b>${money(d.earned)}</b> / ${money(RANGE_DAY_CAP)} today</div>
+      <button class="main sm" data-range="1">Grab a bucket ›</button></div></div>`;
   }
   $('rangeCard').addEventListener('click', e => { if (e.target.closest('[data-range]')) { ensureAudio(); sfx.click(); startRange(); } });
   $('ctpHome').addEventListener('click', () => { ensureAudio(); sfx.click(); showHome(); setTab('ctp'); });
@@ -9455,7 +9669,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.17b', NEWS_NUM = '4.2';
+  const NEWS_VER = '2026.11.19a', NEWS_NUM = '4.3';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -9497,15 +9711,28 @@
   ];
   // (Nov 4 2026) Update 3.1
   // (Nov 13 2026) Update 4.1
-  // (Nov 16 2026) Update 4.2, with the Nov 17 PvP additions on top
+  // (Nov 19 2026) Update 4.3
   const NEWS = [
+    ['flag', '<b>Pin positions change every day.</b> The flag colour tells you where it is: <b>red = front</b>, <b>white = middle</b>, <b>blue = back</b> of the green (it shows next to the yardage too). Every flag now has the Stryke logo.'],
+    ['flag', '<b>Take the pin out:</b> chipping or putting from close by? Tap TAKE PIN OUT (above the aim arrows) and put it back any time.'],
+    ['star', '<b>Levels and XP!</b> Every hole gives XP (more for birdies, eagles and aces), a finished round gives a bonus, and every level up pays you. Your level is next to your money.'],
+    ['target', '<b>Spin control</b> is here for experienced golfers: get your Pro Ball to <b>level 7</b>, pick a wedge and tap SPIN for backspin (it bites and pulls back) or topspin (it lands and runs).'],
+    ['shield', '<b>Reloading doesn\'t restart the hole any more:</b> you\'re put back on the exact shot you were on. Reload mid-shot and the stroke still counts.'],
+    ['chart', '<b>No more driving greens with maxed clubs:</b> big upgrades still add distance, but much less past 255 yards.'],
+    ['chart', '<b>Finish at least 9 holes to get paid.</b> End a round before 9 holes and those holes don\'t pay.'],
+    ['star', '<b>Ranked vs Casual is easier to tell apart:</b> two big cards (Ranked = RP on the line, Casual = just for fun), and your match shows RANKED or CASUAL at the top.'],
+    ['user', '<b>Meet Coach Andy and Coach Kay,</b> your new coaches on 3C Par Three. The tutorial tips only show once.'],
+    ['chart', '<b>The Driving Range</b> now sits neatly under Stats in the Clubs tab, and the welcome screen is simpler.'],
+  ];
+  // (Nov 16 2026) Update 4.2, with the Nov 17 PvP additions on top
+  const NEWS_42 = [
     ['star', '<b>PvP is clearer:</b> three ways to play head to head. <b>⚔️ Ranked</b> (random golfer, win or lose RP), <b>🤝 Casual</b> (random golfer, just for fun) and <b>👥 Vs Friends</b> (private match with a code).'],
     ['flag', '<b>Ranked and Casual matches are 6 holes</b> now, on a random course.'],
     ['shield', '<b>Leaving a ranked match is a forfeit:</b> it counts as a loss and costs 25 RP. There\'s a 🏳️ Forfeit button between holes.'],
-    ['user', '<b>The coaches stick to 3C Par Three:</b> Coach Buck and Pro Duffy only pop up there now, so they stay out of your way everywhere else.'],
+    ['user', '<b>The coaches stick to 3C Par Three:</b> Coach Andy and Coach Kay only pop up there now, so they stay out of your way everywhere else.'],
     ['chart', '<b>Better connection</b> in online matches, especially on school Wi-Fi. Not loading but connected to the other player? Wait a few seconds: once they finish the hole it will most likely load.'],
     ['star', '<b>Ranked and Casual online play</b> (Play Friends): get matched with a golfer from anywhere for 1v1 on a random 6 holes. Leaving a ranked match is a forfeit (−25 RP). Climb 6 ranks with 3 levels each, all the way to 💎 <b>Pure Striker</b>.'],
-    ['user', '<b>Tutorial:</b> Coach Buck shows you how to swing, Pro Duffy helps when you miss the green, and Buck walks you through putting. Skip it any time (or replay it in the Golfer tab).'],
+    ['user', '<b>Tutorial:</b> Coach Andy shows you how to swing, Coach Kay helps when you miss the green, and Andy walks you through putting. Skip it any time.'],
     ['star', '<b>New look:</b> see-through grey panels, a smoother jacket and shirt, and a golf bag with stitched lettering.'],
     ['school', '<b>Homerooms are now Club Houses.</b>'],
     ['flag', '<b>Original course names are back:</b> Flyers Presidential and Brothers Hollow (Stryke Links stays).'],
@@ -9517,7 +9744,7 @@
     ['target', '<b>Smoother chips:</b> long chip run-outs on the green ease to a gradual stop instead of braking suddenly.'],
     ['ball', '<b>Bouncier cart path:</b> land on the path and the ball really takes off, with a second hop too.'],
     ['school', '<b>Fairer Club House Cup</b> (from the week of 11/16): only each club house\'s 5 best scores make its average, so a new golfer can only help the team, never drag it down.'],
-    ['user', '<b>New coaches on the first tee:</b> Coach Buck and Pro Duffy have tips for you.'],
+    ['user', '<b>New coaches on the first tee:</b> Coach Andy and Coach Kay have tips for you.'],
     ['map', '<b>Cleaner courses from above:</b> crisp grass all the way out past out of bounds, no more blurry edges.'],
     ['club', '<b>New names</b> for some courses and outfits: Stryke Links Crimson, Gold and Black, the Clubhouse Sweater, the Tour Pro Outfit and the Stryke Legend Jacket.'],
     ['camera', '<b>Sharper aim buttons</b> and arrows that look right on iPad.'],
@@ -9584,7 +9811,8 @@
     ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
   ];
   const UPDATES = [
-    ['4.2', 'Nov 16, 2026', NEWS.map(n => n[1])],
+    ['4.3', 'Nov 19, 2026', NEWS.map(n => n[1])],
+    ['4.2', 'Nov 16, 2026', NEWS_42.map(n => n[1])],
     ['4.1', 'Nov 13, 2026', NEWS_41.map(n => n[1])],
     ['4.0', 'Nov 11, 2026', NEWS_40.map(n => n[1])],
     ['3.2', 'Nov 5, 2026', NEWS_32.map(n => n[1])],
@@ -9689,9 +9917,10 @@
   // the welcome: brand-new golfers and everyone starting over after a reset (it points them at 3C, the daily challenges or the cup)
   if ((save.noteVer | 0) < 5) {
     if (!isNewGolfer || save.resetNote || hadSave) {
-      $('welcomeSub').innerHTML = 'A LOT has changed: a whole new experience is here. Pick how you want to start:';
+      $('welcomeSub').innerHTML = 'A lot has changed: a whole new Stryke Golf is here. Start here:';
       $('welcomeUpd').style.display = '';
     }
+    { const ci = document.querySelector('.crest img'); if (ci) $('wCrest').src = ci.src; }
     $('resetNote').classList.remove('hidden');
     save.newsVer = NEWS_VER;                       // (they don't need a list of changes too)
   } else {
