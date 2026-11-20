@@ -414,6 +414,13 @@
   .pvpModes{display:grid;gap:6px;margin-bottom:4px}.pvpModes div{background:rgba(0,0,0,.22);border-radius:10px;padding:8px 10px}
   .pvpModes b{display:block;font-size:14px;color:var(--cream)}.pvpModes small{display:block;font-size:12px;color:#f3d7a8;line-height:1.35;margin-top:2px}
   .mpMode{display:inline-block;margin-right:7px;padding:2px 7px;border-radius:999px;font:800 10px Inter;letter-spacing:.1em;vertical-align:1px}.mpMode.rk{background:var(--gold-l);color:var(--red-dd)}.mpMode.cs{background:#b9f5c8;color:#123826}
+  .qmAct{display:flex;flex-direction:column;gap:2px;margin:-2px 0 2px}
+  .qa{display:inline-flex;align-items:center;gap:6px;font:800 11px Inter;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px 3px 7px;border-radius:999px;background:rgba(0,0,0,.35);align-self:flex-start}
+  .qa i{width:9px;height:9px;border-radius:50%;background:#9a9a9a}
+  .qa.q2 i{background:#3ee07a;box-shadow:0 0 0 0 rgba(62,224,122,.7);animation:qaPulse 1.6s infinite}.qa.q2{color:#b9f5c8}
+  .qa.q1 i{background:#ffc93c}.qa.q1{color:#ffe08a}.qa.q0{color:#ddd}
+  @keyframes qaPulse{0%{box-shadow:0 0 0 0 rgba(62,224,122,.7)}70%{box-shadow:0 0 0 7px rgba(62,224,122,0)}100%{box-shadow:0 0 0 0 rgba(62,224,122,0)}}
+  .qaN{font-size:11.5px;color:rgba(255,255,255,.85)}.qaN b{color:#fff}
   .qmModes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .qmMode{position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;padding:12px 12px 11px;border-radius:16px;cursor:pointer;font:inherit;color:#fff}
   .qmMode.rk{background:linear-gradient(180deg,#B3122B,#5c0815);border:2px solid var(--gold-l);box-shadow:0 6px 18px rgba(0,0,0,.35)}
@@ -3329,7 +3336,7 @@
   // ---- Tee hosts: a golf coach pops up in the bottom-left corner on the first tee (flat cartoon sticker + a speech bubble) ----
   const HOSTS = {
     par3: { name: 'Coach Andy', line: 'Head down, smooth tempo, and finish your swing, champ!', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20180%2062%20160%20100%20156%20C138%20160%20160%20180%20160%20232%20Z%22%20fill%3D%22%23B3122B%22%2F%3E%20%3Cpath%20d%3D%22M82%20158%20L100%20182%20L118%20158%20L112%20154%20L100%20168%20L88%20154%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Crect%20x%3D%2288%22%20y%3D%22138%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2240%22%20ry%3D%2244%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cellipse%20cx%3D%2260%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2c3a2%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2c3a2%22%2F%3E%20%3Cpath%20d%3D%22M60%2096%20Q58%2070%2080%2066%20L80%2080%20Q66%2084%2064%20100Z%22%20fill%3D%22%239a9a9a%22%2F%3E%3Cpath%20d%3D%22M140%2096%20Q142%2070%20120%2066%20L120%2080%20Q134%2084%20136%20100Z%22%20fill%3D%22%239a9a9a%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%20%3Cpath%20d%3D%22M76%2093%20Q85%2088%2093%2092%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M107%2092%20Q115%2088%20124%2093%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M97%20108%20Q100%20120%20104%20108%22%20stroke%3D%22%23c9876a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M80%20124%20Q90%20116%20100%20122%20Q110%20116%20120%20124%20Q112%20132%20100%20127%20Q88%20132%2080%20124Z%22%20fill%3D%22%238a8a8a%22%2F%3E%20%3Cpath%20d%3D%22M90%20134%20Q100%20140%20110%20134%22%20stroke%3D%22%237a3b2a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M100%20182%20L100%20206%22%20stroke%3D%22%23111%22%20stroke-width%3D%222%22%2F%3E%3Crect%20x%3D%2294%22%20y%3D%22204%22%20width%3D%2214%22%20height%3D%229%22%20rx%3D%223%22%20fill%3D%22%23c0c4cc%22%2F%3E%20%3Cpath%20d%3D%22M58%2084%20Q100%2058%20142%2084%20L142%2092%20Q100%2074%2058%2092%20Z%22%20fill%3D%22%23ffffff%22%20stroke%3D%22%23d8d8d8%22%20stroke-width%3D%222%22%2F%3E%20%3Cpath%20d%3D%22M60%2090%20Q100%2076%20140%2090%20Q150%2096%20160%20104%20Q100%2092%2046%20104%20Q52%2096%2060%2090Z%22%20fill%3D%22%23f2c14e%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
-    pines: { name: 'Coach Kay', line: 'Grip it and rip it! Fairways and greens, kid.', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20180%2062%20160%20100%20156%20C138%20160%20160%20180%20160%20232%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Cpath%20d%3D%22M82%20158%20L100%20182%20L118%20158%20L112%20154%20L100%20168%20L88%20154%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Crect%20x%3D%2288%22%20y%3D%22138%22%20width%3D%2224%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2240%22%20ry%3D%2244%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cellipse%20cx%3D%2260%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22108%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23d9a07a%22%2F%3E%20%3Cpath%20d%3D%22M62%2098%20Q60%2084%2066%2080%20L68%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%3Cpath%20d%3D%22M138%2098%20Q140%2084%20134%2080%20L132%2096Z%22%20fill%3D%22%235a3b24%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22104%22%20rx%3D%224.5%22%20ry%3D%225%22%20fill%3D%22%23222%22%2F%3E%20%3Cpath%20d%3D%22M76%2093%20Q85%2088%2093%2092%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M107%2092%20Q115%2088%20124%2093%22%20stroke%3D%22%233a2a20%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M97%20108%20Q100%20120%20104%20108%22%20stroke%3D%22%23c9876a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Crect%20x%3D%2272%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%2296%22%20width%3D%2224%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23111%22%2F%3E%20%3Cpath%20d%3D%22M96%20101%20L104%20101%22%20stroke%3D%22%23111%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M76%2099%20L84%2099%22%20stroke%3D%22%23555%22%20stroke-width%3D%222%22%2F%3E%20%3Cpath%20d%3D%22M88%20128%20Q100%20136%20112%20128%22%20stroke%3D%22%237a3b2a%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M66%20170%20L80%20232%20M134%20170%20L120%20232%22%20stroke%3D%22%23d9a520%22%20stroke-width%3D%220%22%2F%3E%20%3Cpath%20d%3D%22M62%20176%20Q70%20200%2076%20232%20L124%20232%20Q130%20200%20138%20176%20Q120%20168%20118%20160%20L100%20190%20L82%20160%20Q80%20168%2062%20176Z%22%20fill%3D%22%23F2C14E%22%2F%3E%20%3Cpath%20d%3D%22M62%2078%20Q66%2046%20100%2044%20Q134%2046%20138%2078%20Z%22%20fill%3D%22%23e9dcc0%22%2F%3E%20%3Cpath%20d%3D%22M48%2082%20Q100%2066%20152%2082%20Q156%2090%20148%2092%20Q100%2080%2052%2092%20Q44%2090%2048%2082Z%22%20fill%3D%22%23d8c8a4%22%2F%3E%20%3Crect%20x%3D%2262%22%20y%3D%2272%22%20width%3D%2276%22%20height%3D%228%22%20fill%3D%22%23B3122B%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
+    pines: { name: 'Coach Kay', line: 'Grip it and rip it! Fairways and greens, kid.', img: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20240%22%3E%3Cdefs%3E%20%3Cg%20id%3D%22b%22%3E%20%3Cpath%20d%3D%22M56%2080%20Q50%20120%2054%20168%20Q62%20186%2080%20182%20L80%20110%20Z%22%20fill%3D%22%236b3a1f%22%2F%3E%20%3Cpath%20d%3D%22M144%2080%20Q150%20120%20146%20168%20Q138%20186%20120%20182%20L120%20110%20Z%22%20fill%3D%22%236b3a1f%22%2F%3E%20%3Cpath%20d%3D%22M40%20232%20C40%20182%2062%20162%20100%20158%20C138%20162%20160%20182%20160%20232%20Z%22%20fill%3D%22%23B3122B%22%2F%3E%20%3Cpath%20d%3D%22M84%20158%20L100%20178%20L116%20158%20L110%20155%20L100%20167%20L90%20155%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3Cpath%20d%3D%22M74%20166%20L70%20232%20M126%20166%20L130%20232%22%20stroke%3D%22%23F2C14E%22%20stroke-width%3D%225%22%2F%3E%20%3Crect%20x%3D%2289%22%20y%3D%22138%22%20width%3D%2222%22%20height%3D%2222%22%20rx%3D%226%22%20fill%3D%22%23e3b08c%22%2F%3E%20%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2237%22%20ry%3D%2242%22%20fill%3D%22%23e3b08c%22%2F%3E%20%3Cellipse%20cx%3D%2263%22%20cy%3D%22110%22%20rx%3D%226%22%20ry%3D%229%22%20fill%3D%22%23e3b08c%22%2F%3E%3Cellipse%20cx%3D%22137%22%20cy%3D%22110%22%20rx%3D%226%22%20ry%3D%229%22%20fill%3D%22%23e3b08c%22%2F%3E%20%3Ccircle%20cx%3D%2263%22%20cy%3D%22122%22%20r%3D%223.5%22%20fill%3D%22%23F2C14E%22%2F%3E%3Ccircle%20cx%3D%22137%22%20cy%3D%22122%22%20r%3D%223.5%22%20fill%3D%22%23F2C14E%22%2F%3E%20%3Cpath%20d%3D%22M62%2096%20Q60%2062%20100%2058%20Q140%2062%20138%2096%20Q128%2076%20100%2074%20Q74%2076%2062%2096Z%22%20fill%3D%22%237a4424%22%2F%3E%20%3Cpath%20d%3D%22M66%2092%20Q84%2070%20112%2076%20Q92%2080%2080%2098%20Z%22%20fill%3D%22%238c522c%22%2F%3E%20%3Cellipse%20cx%3D%2285%22%20cy%3D%22105%22%20rx%3D%224.5%22%20ry%3D%225.5%22%20fill%3D%22%23222%22%2F%3E%3Cellipse%20cx%3D%22115%22%20cy%3D%22105%22%20rx%3D%224.5%22%20ry%3D%225.5%22%20fill%3D%22%23222%22%2F%3E%20%3Ccircle%20cx%3D%2286.5%22%20cy%3D%22103%22%20r%3D%221.4%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22116.5%22%20cy%3D%22103%22%20r%3D%221.4%22%20fill%3D%22%23fff%22%2F%3E%20%3Cpath%20d%3D%22M78%20101%20L75%2098%20M81%2099%20L79%2095%20M122%20101%20L125%2098%20M119%2099%20L121%2095%22%20stroke%3D%22%23222%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M78%2093%20Q85%2089%2092%2092%22%20stroke%3D%22%235a3218%22%20stroke-width%3D%222.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M108%2092%20Q115%2089%20122%2093%22%20stroke%3D%22%235a3218%22%20stroke-width%3D%222.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M98%20110%20Q100%20118%20103%20111%22%20stroke%3D%22%23c98a6c%22%20stroke-width%3D%222.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cellipse%20cx%3D%2276%22%20cy%3D%22118%22%20rx%3D%227%22%20ry%3D%224%22%20fill%3D%22%23f29a9a%22%20opacity%3D%22.55%22%2F%3E%3Cellipse%20cx%3D%22124%22%20cy%3D%22118%22%20rx%3D%227%22%20ry%3D%224%22%20fill%3D%22%23f29a9a%22%20opacity%3D%22.55%22%2F%3E%20%3Cpath%20d%3D%22M89%20126%20Q100%20135%20111%20126%20Q100%20130%2089%20126Z%22%20fill%3D%22%23c8243c%22%20stroke%3D%22%23c8243c%22%20stroke-width%3D%222.5%22%20stroke-linejoin%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M54%2070%20Q100%2052%20146%2070%20L146%2078%20Q100%2064%2054%2078%20Z%22%20fill%3D%22%23F2C14E%22%2F%3E%20%3Cpath%20d%3D%22M60%2076%20Q100%2064%20140%2076%20Q150%2084%20160%2086%20Q100%2074%2040%2086%20Q50%2084%2060%2076Z%22%20fill%3D%22%23B3122B%22%2F%3E%20%3C%2Fg%3E%3C%2Fdefs%3E%20%3Cuse%20href%3D%22%23b%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2212%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cuse%20href%3D%22%23b%22%2F%3E%3C%2Fsvg%3E' },
   };
   let hostShown = false;
   function hideHosts() { if (!hostShown) return; hostShown = false; $('hostCard').classList.remove('show'); }
@@ -3671,12 +3678,15 @@
   const FLAG_TEX = FLAG_TEXS[0][0];
   // (Nov 19 2026) pin positions: every day the pin on each hole moves to the front, middle or back of the green
   // (the same for everyone that day, so the boards stay fair). Daily Closest to the Pin keeps its own pin.
+  let pinOverride = null;
   function placePin(h, i) {
     if (!h || h.mini || h.range || !h.green || (course && (course.ctp || course.mini))) return;
     if (!h.pin0) h.pin0 = { x: h.pin.x, y: h.pin.y };
-    let s = 7, day = ''; try { day = etDay(); } catch (e) {} const key = day + '|' + (course && course.id) + '|' + i;
-    for (let k = 0; k < key.length; k++) s = (s * 31 + key.charCodeAt(k)) % 233280;
-    const rng = makeRng(s); rng(); rng();
+    // (Nov 20 2026) random every time you play the hole. Online matches use the match's seed so both golfers get the same pin,
+    // and a round picked back up after a reload keeps the pin it had.
+    if (pinOverride && pinOverride.h === i && Number.isFinite(pinOverride.x)) { h.pin = { x: pinOverride.x, y: pinOverride.y }; h.pinZone = pinOverride.z | 0; pinOverride = null; return; }
+    pinOverride = null;
+    const rng = MP && MP.doc && MP.doc.seed ? makeRng((MP.doc.seed + i * 4513 + 77) % 233280) : Math.random; rng(); rng();
     const zi = Math.min(2, Math.floor(rng() * 3)), g = h.green;
     const from = h.aims && h.aims.length ? h.aims[h.aims.length - 1] : h.tee;
     let ux = g.x - from.x, uy = g.y - from.y; const L = Math.hypot(ux, uy) || 1; ux /= L; uy /= L;
@@ -5239,7 +5249,7 @@
     const cupNow = !course.mini && save.hr && cupWeek().phase === 'live' && course.id === cupCourse().id;
     save.live = { cid: course.id, next: holeIdx, scores: scores.slice(0, holeIdx), earned: earned.slice(0, holeIdx), start: roundStart, aces: roundAces, mo: streak, at: Date.now(),
       cup: cupNow ? cupWeek().id : 0, rs: rStat, rf: roundFlags,
-      cur: { h: holeIdx, s: strokes, x: Math.round(ball.x * 100) / 100, y: Math.round(ball.y * 100) / 100, w: hole.wind ? { mph: hole.wind.mph, ang: hole.wind.ang } : null, sw: swung ? 1 : 0 } };
+      cur: { h: holeIdx, s: strokes, pin: hole.pin0 ? { h: holeIdx, x: hole.pin.x, y: hole.pin.y, z: hole.pinZone | 0 } : null, x: Math.round(ball.x * 100) / 100, y: Math.round(ball.y * 100) / 100, w: hole.wind ? { mph: hole.wind.mph, ang: hole.wind.ang } : null, sw: swung ? 1 : 0 } };
     persist();
   }
   function clearLive() { if (save.live) { delete save.live; persist(); } }
@@ -5279,6 +5289,7 @@
       roundCut = true; HOLES = c.holes.slice(0, L.next); holeIdx = L.next - 1; hole = HOLES[holeIdx];
       loadHole(holeIdx, true); showFinal();
     } else {
+      pinOverride = L.cur && L.cur.h === L.next && L.cur.pin ? L.cur.pin : null;
       loadHole(L.next);
       const C = L.cur;
       if (C && C.h === L.next && Number.isFinite(C.x) && Number.isFinite(C.y)) {   // back to the exact shot
@@ -7550,6 +7561,31 @@
     if (b.lv > a.lv) setTimeout(() => { toastQ.push({ a: { icon: b.icon, label: 'RANK UP', name: b.name, pay: 0 } }); nextToast(); }, 1200);
     return rec.ranked;
   }
+  // (Nov 20 2026) how busy Ranked and Casual are right now: golfers searching this minute, plus matches started in the last 15 minutes
+  let qAct = null, qActAt = 0, qActBusy = false;
+  async function loadQAct(force) {
+    if (!fbDb || !fbUser || qActBusy || (!force && qAct && Date.now() - qActAt < 12000)) return qAct;
+    qActBusy = true;
+    try {
+      const sn = await fbDb.collection('queue').limit(200).get(), now = Date.now(), me = fbUser.uid;
+      const a = { ranked: { s: 0, m: 0 }, casual: { s: 0, m: 0 } };
+      sn.docs.forEach(d => { const q = d.data(); if (!q || !a[q.kind] || q.uid === me || bannedSet.has(q.uid)) return; const age = now - (q.at || 0);
+        if (!q.match && age < 75000) a[q.kind].s++; else if (q.match && age < 15 * 60000) a[q.kind].m++; });
+      qAct = a; qActAt = now;
+    } catch (e) {}
+    qActBusy = false; return qAct;
+  }
+  function qActHtml(kind) {
+    const a = qAct && qAct[kind]; if (!a) return '<span class="qa q0">Checking activity…</span>';
+    const lv = a.s >= 2 || a.m >= 3 ? ['q2', 'Active'] : a.s >= 1 || a.m >= 1 ? ['q1', 'Low activity'] : ['q0', 'Quiet'];
+    return `<span class="qa ${lv[0]}"><i></i>${lv[1]}</span><small class="qaN">${a.s ? `<b>${a.s}</b> golfer${a.s === 1 ? '' : 's'} waiting now` : 'Nobody waiting right now'}${a.m ? ` · ${a.m} match${a.m === 1 ? '' : 'es'} in the last 15 min` : ''}</small>`;
+  }
+  async function fillQAct(force) {
+    await loadQAct(force);
+    ['ranked', 'casual'].forEach(k => { const el = document.getElementById('qmAct-' + k); if (el) el.innerHTML = qActHtml(k); });
+    const w = document.getElementById('qmWait'); if (w && QM && qAct) { const n = qAct[QM.kind].s; w.textContent = n ? `${n} other golfer${n === 1 ? ' is' : 's are'} searching right now` : 'No one else is searching right now: hang tight or try the other mode'; }
+  }
+  setInterval(() => { if (!document.hidden && (document.getElementById('qmAct-ranked') || document.getElementById('qmWait'))) fillQAct(true); }, 15000);
   let rankLb = null, rankLbAt = 0;
   async function fillRankLb() {
     const el = document.getElementById('rankLb'); if (!el) return;
@@ -7565,15 +7601,15 @@
   function qmHtml() {
     const r = rankOf(save.rank.rp), rk = save.rank;
     if (QM) return `<div class="mpbox qmBox"><div class="lh">${QM.kind === 'ranked' ? 'RANKED' : 'CASUAL'} · SEARCHING</div>
-        <div class="qmSearch"><div class="qmSpin"></div><div><b>Looking for a golfer…</b><small id="qmTime">0s</small></div></div>
+        <div class="qmSearch"><div class="qmSpin"></div><div><b>Looking for a golfer…</b><small id="qmTime">0s</small><small id="qmWait" style="display:block;margin-top:2px;opacity:.85"></small></div></div>
         <div class="gnote">1v1 stroke play · random ${QM_HOLES} holes. Stay on this screen; the match starts as soon as someone is found.</div>${LOAD_NOTE}
         <button class="ghost" data-qmcancel="1" style="width:100%;margin-top:10px">Cancel</button></div>`;
     // (Nov 19 2026) Ranked and Casual are now two big, colour-coded cards you tap to search: no more guessing which is which
     return `<div class="mpbox qmBox"><div class="lh">PLAY ONLINE · PICK A MODE</div>
         <div class="qmModes">
-          <button class="qmMode rk" data-qm="ranked"><span class="qmTag">COMPETITIVE</span><b>⚔️ Ranked</b>
+          <button class="qmMode rk" data-qm="ranked"><span class="qmTag">COMPETITIVE</span><b>⚔️ Ranked</b><div class="qmAct" id="qmAct-ranked">${qActHtml('ranked')}</div>
             <ul><li>Win = <b>gain RP</b>, lose = <b>lose RP</b></li><li>Climb ranks up to 💎 Pure Striker</li><li>Leaving = forfeit (−${RANK_FORFEIT} RP)</li></ul><em>Find ranked match ›</em></button>
-          <button class="qmMode cs" data-qm="casual"><span class="qmTag">JUST FOR FUN</span><b>🤝 Casual</b>
+          <button class="qmMode cs" data-qm="casual"><span class="qmTag">JUST FOR FUN</span><b>🤝 Casual</b><div class="qmAct" id="qmAct-casual">${qActHtml('casual')}</div>
             <ul><li><b>No RP</b>: your rank never changes</li><li>Practice against real golfers</li><li>Leave any time, no penalty</li></ul><em>Find casual match ›</em></button>
         </div>
         <div class="gnote" style="margin-top:8px">Both: 1v1 stroke play vs a random golfer · random ${QM_HOLES} holes · no buy-in. Want to play someone you know? Use <b>👥 Vs Friends</b> below (match code, your course and buy-in).</div>
@@ -7616,6 +7652,7 @@
         <div class="mpmsg${mpMsg.ok ? ' ok' : ''}" id="mpMsg">${esc(mpMsg.t)}</div>
       </div>`;
     if (!QM) fillRankLb();
+    fillQAct();
   }
   function renderLobby(box, back) {
     const m = MP.doc, t = lobbyTeams(m), host = m.host === fbUser.uid, myTeam = m.players[fbUser.uid].team, md = MP_MODES[m.mode];
@@ -9815,7 +9852,7 @@
   // (Nov 13 2026) Update 4.1
   // (Nov 19 2026) Update 4.3
   const NEWS = [
-    ['flag', '<b>Pin positions change every day.</b> The flag colour tells you where it is: <b>red = front</b>, <b>white = middle</b>, <b>blue = back</b> of the green (it shows next to the yardage too). Every flag now has the Stryke logo.'],
+    ['flag', '<b>Pin positions are random every time you play a hole.</b> The flag colour tells you where it is: <b>red = front</b>, <b>white = middle</b>, <b>blue = back</b> of the green (it shows next to the yardage too). Every flag now has the Stryke logo.'],
     ['flag', '<b>Take the pin out:</b> chipping or putting from close by? Tap TAKE PIN OUT (above the aim arrows) and put it back any time.'],
     ['star', '<b>Level unlocks:</b> tap <b>LV</b> at the top to see your progress and what\'s next. Levels unlock ball lines, club colours, a jacket colour, four level-only outfits (Range Rat, Tour Elite, Stryke Platinum, Hall of Fame) and big cash bonuses.'],
     ['star', '<b>Levels and XP!</b> Every hole gives XP (more for birdies, eagles and aces), a finished round gives a bonus, and every level up pays you. Your level is next to your money.'],
