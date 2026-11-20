@@ -619,6 +619,14 @@
   /* ---------- Play Friends: 1v1 wagers, 2v2, Foursomes ---------- */
   .mpc{background:linear-gradient(135deg,#1f4f8a,#7A0C1D 60%,#45060F);border:2px solid var(--gold-l);border-radius:18px;padding:12px 12px 12px;margin:8px 0 4px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
   .mpc .ctag{font:800 10px Inter;letter-spacing:.16em;color:var(--gold-l)}
+  .playSide .mpc.mptall{padding:14px 12px 14px}
+  .playSide .mpc.mptall .cn{font-size:24px;margin:4px 0 8px}
+  .mptRows{display:flex;flex-direction:column;gap:6px}
+  .mptRows div{padding:8px 10px;border-radius:10px;background:rgba(0,0,0,.28);border-left:3px solid rgba(255,255,255,.4)}
+  .mptRows div.rk{border-left-color:var(--gold-l)}.mptRows div.cs{border-left-color:#9fe0b8}
+  .mptRows b{display:block;font:700 15px Oswald,sans-serif;letter-spacing:.03em;color:#fff}
+  .mptRows small{display:block;font-size:11.5px;color:#f3d7a8;margin-top:1px}
+  .mpc.mptall .main{padding-top:13px;padding-bottom:13px;font-size:16px}
   .mpc .cn{font:700 23px/1.1 Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em;margin:3px 0 4px}
   .mpc .cm{font-size:12px;color:#fff;opacity:.9}
   .mpbtns{display:flex;gap:8px;margin-top:10px}
@@ -7337,8 +7345,12 @@
     const active = MP && !MP.started ? `<div class="mpnote"><span>You're in match <b>${MP.id}</b></span><button class="main sm" data-mpopen="1">Lobby</button></div>`
       : !MP && save.mpActive && fbUser ? `<div class="mpnote"><span>Match <b>${esc(save.mpActive)}</b> in progress</span><button class="main sm" data-mprejoin="1">Rejoin</button></div>` : '';
     // (Oct 28 2026) cleaner and more condensed: one yellow button opens every match option (1v1, 2v2, foursome, join by code)
-    box.innerHTML = `<div class="mpc mpslim"><div class="ctag">PVP · RANKED · CASUAL · VS FRIENDS</div>
-      <button class="main sm" data-mpopen="1" style="width:100%;margin-top:8px">Play PvP ›</button>${active}</div>`;
+    // (Nov 19 2026) taller PvP card: a title, the three ways to play with a line each, and a big button
+    box.innerHTML = `<div class="mpc mptall"><div class="ctag">PVP · HEAD TO HEAD</div><div class="cn">Play PvP</div>
+      <div class="mptRows"><div class="rk"><b>⚔️ Ranked</b><small>Random golfer · win or lose RP</small></div>
+        <div class="cs"><b>🤝 Casual</b><small>Random golfer · just for fun</small></div>
+        <div><b>👥 Vs Friends</b><small>Private match with a code</small></div></div>
+      <button class="main" data-mpopen="1" style="width:100%;margin-top:10px">Play PvP ›</button>${active}</div>`;
   }
   $('mpCard').addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b) return;
