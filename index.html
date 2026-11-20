@@ -1683,10 +1683,11 @@
     // (Nov 3 2026) the hardest outfit in the game: finish UNDER par on every course
     { name: 'Stryke Legend Jacket', lock: 'chamiman', look: { style: 'suit', jacket: '#6b0f1e', shirt: '#F2C14E', tie: '#111113', pants: '#111113', shoes: '#111111' } },
     // (Nov 19 2026) level-up outfits
-    { name: 'Range Rat', lock: 'lv10', look: { style: 'suit', jacket: '#1f2c4d', shirt: '#F2C14E', tie: '#B3122B', pants: '#3a3d42', shoes: '#111111' } },
-    { name: 'Tour Elite', lock: 'lv25', look: { style: 'suit', jacket: '#111113', shirt: '#B3122B', tie: '#F2C14E', pants: '#111113', shoes: '#eeeeea' } },
-    { name: 'Stryke Platinum', lock: 'lv50', look: { style: 'suit', jacket: '#eeeeea', shirt: '#111113', tie: '#C9962B', pants: '#eeeeea', shoes: '#111111' } },
-    { name: 'Hall of Fame', lock: 'lv100', look: { style: 'suit', jacket: '#F2C14E', shirt: '#111113', tie: '#B3122B', pants: '#111113', shoes: '#111111' } },
+    // (Nov 20 2026) redesigned: each one has its own colour story instead of a shuffle of the shop colours
+    { name: 'Range Rat', lock: 'lv10', look: { style: 'suit', jacket: '#2c5e86', shirt: '#ffffff', tie: '#F2C14E', pants: '#cdb88f', shoes: '#6b4226' } },   // steel blue blazer, khakis, tan brogues
+    { name: 'Tour Elite', lock: 'lv25', look: { style: 'suit', jacket: '#4b2a7a', shirt: '#ffffff', tie: '#F2C14E', pants: '#1c1c22', shoes: '#111111' } },   // royal purple & gold
+    { name: 'Stryke Platinum', lock: 'lv50', look: { style: 'suit', jacket: '#c4cad3', shirt: '#16181d', tie: '#B3122B', pants: '#2b2e35', shoes: '#c4cad3' } },   // silver blazer, black shirt, crimson tie
+    { name: 'Hall of Fame', lock: 'lv100', look: { style: 'suit', jacket: '#e2b73c', shirt: '#B3122B', tie: '#111113', pants: '#111113', shoes: '#e2b73c' } },   // bright gold, crimson shirt, black tie
   ];
   LOOK_PRESETS.forEach(p => { if (p.price) p.price = salePrice(p.price); });
   const SWATCHES = {
@@ -1921,6 +1922,22 @@
     ['sharp3', '🎯', 'Dart Thrower', 'Hit it within 3 feet in the Daily Closest to the Pin', s => [s.ctpBestFt != null && s.ctpBestFt <= 3 ? 1 : 0, 1], 1500],
     ['momo9', '🌪️', 'Unstoppable', 'Go 9 holes in a row at par or better (a full Momentum run)', s => [s.bestStreak | 0, 9], 1500],
     ['bogeyfree', '🧊', 'Ice Cold', 'Finish an 18-hole round without a bogey', s => [s.bogeyFree | 0, 1], 4000],
+    // (Nov 20 2026) levels, ranked, pins and spin
+    ['lv5', '🌱', 'Rising Star', 'Reach level 5', s => [levelOf(save.xp).L, 5], 500],
+    ['lv10', '📈', 'Regular', 'Reach level 10', s => [levelOf(save.xp).L, 10], 1500],
+    ['lv25', '🎖️', 'Veteran', 'Reach level 25', s => [levelOf(save.xp).L, 25], 5000],
+    ['lv50', '💠', 'Elite', 'Reach level 50', s => [levelOf(save.xp).L, 50], 15000],
+    ['lv100', '🏛️', 'Hall of Famer', 'Reach level 100, the top level', s => [levelOf(save.xp).L, 100], 50000],
+    ['rk1', '⚔️', 'First Win', 'Win a Ranked match', s => [(save.rank && save.rank.w) | 0, 1], 300],
+    ['rk10', '🥊', 'Contender', 'Win 10 Ranked matches', s => [(save.rank && save.rank.w) | 0, 10], 2500],
+    ['rk50', '🛡️', 'Ranked Grinder', 'Win 50 Ranked matches', s => [(save.rank && save.rank.w) | 0, 50], 10000],
+    ['rkpure', '💎', 'Pure Striker', 'Reach the top rank, Pure Striker', s => [(save.rank && save.rank.rp) | 0, 1700], 20000],
+    ['backpin', '🔵', 'Back Pin Hunter', 'Make a birdie or better on a blue (back) pin', s => [s.backPinBirdies | 0, 1], 400],
+    ['frontpin', '🔴', 'Front Row', 'Make a birdie or better on a red (front) pin', s => [s.frontPinBirdies | 0, 1], 400],
+    ['pins25', '🎌', 'Flag Collector', 'Make 25 birdies on back pins', s => [s.backPinBirdies | 0, 25], 4000],
+    ['pinout', '🚩', 'Pin Puller', 'Hole a chip after taking the pin out', s => [s.pinOutChips | 0, 1], 600],
+    ['spin1', '🌀', 'Spin Doctor', 'Unlock spin control (Pro Ball level 7)', s => [(save.ball | 0) >= 7 ? 1 : 0, 1], 1000],
+    ['spin25', '↩️', 'Zip Zip', 'Hit 25 shots with backspin', s => [s.spinShots | 0, 25], 2500],
   ].map(([id, icon, name, how, prog, pay]) => ({ id, icon, name, how, prog, pay }));
   const awardDone = a => { const [h, n] = a.prog(st$()); return h >= n; };
   const hasAward = id => !!save.awards[id];
@@ -4579,6 +4596,7 @@
       const st = save.stats; st.putts = (st.putts | 0) + 1; st.puttFt = (st.puttFt || 0) + Math.round(lastShot.dist * 3); rStat.putts++; }
     strokes++; firstShot = false; trailReset(); swing = null; lastClub = clubIdx;
     shotSpin = spinOK(c) ? spinMode : 0; spinMode = 0;
+    if (shotSpin > 0) save.stats.spinShots = (save.stats.spinShots | 0) + 1;
     saveCur(true);
     ball.z = 0; ball.vz = 0; ball.spin = 0; ball.full = false; ball.rollCap = 0; ball.pathKick = false;
     const lieErr = lie === 'rough' ? 1.4 : lie === 'sand' ? 1.6 : 1;
@@ -5190,6 +5208,7 @@
       st.holes++;
       if (strokes === 1) st.aces++; else if (d <= -2) st.eagles++; else if (d === -1) st.birdies++; else if (d === 0) st.pars++;
       if (d <= -3) st.albatross++;
+      if (lastShot && !lastShot.putter && strokes > 1 && lastShot.lie !== 'green' && pinPulled && lastShot.dist < 45) st.pinOutChips = (st.pinOutChips | 0) + 1;
       if (lastShot && !lastShot.putter && strokes > 1 && lastShot.lie !== 'green') { st.chipIns++; rStat.chips++; if (lastShot.lie === 'sand') st.sandHoles++; showRating(lastShot.lie === 'sand' ? 'HOLED FROM THE SAND!' : 'CHIP IN!', '#FFE08A'); }
       if (lastShot && lastShot.putter && lastShot.dist >= 10) st.longPutts++;
       if (lastShot && lastShot.putter) { st.puttsMade = (st.puttsMade | 0) + 1; st.puttMadeFt = (st.puttMadeFt || 0) + Math.round(lastShot.dist * 3); }
@@ -5216,6 +5235,7 @@
     if (!course.mini && streak > (save.stats.bestStreak | 0)) save.stats.bestStreak = streak;
     const mo = momentumPct(streak), pay = base + (base && mo ? Math.max(1, Math.round(base * mo / 100)) : 0); earned[holeIdx] = pay;
     const xpGot = course.range ? 0 : gainXP(holeXP(strokes, hole.par, !!course.mini));
+    if (!course.mini && !course.range && d <= -1 && hole.pinZone != null) { if (hole.pinZone === 2) save.stats.backPinBirdies = (save.stats.backPinBirdies | 0) + 1; else if (hole.pinZone === 0) save.stats.frontPinBirdies = (save.stats.frontPinBirdies | 0) + 1; }
     const mate = MP && MP.remote ? MP.remote : '';
     const moTxt = mo ? ` · Momentum +${mo}%` : hadMo ? ' · Momentum lost' : streak === MO_START - 1 ? ' · 1 more for Momentum' : '';
     showBanner(term(strokes, hole.par), `${mate ? mate + ' · ' : ''}${strokes} stroke${strokes === 1 ? '' : 's'}${pay ? ` · +${money(pay)}` : ''}${xpGot ? ` · +${xpGot} XP` : ''}${moTxt}`, 2.3);
@@ -8377,6 +8397,8 @@
     ['rounds', 'flag', 'Rounds & courses', ['round1', 'rounds25', 'rounds100', 'rounds250', 'holes500', 'explorer', 'playall', 'valley', 'masters', 'blackTees', 'underpar1', 'underpar10', 'underpar25', 'evenall', 'chamiman', 'bogeyfree', 'momo9']],
     ['scoring', 'trophy', 'Birdies, eagles & aces', ['par100', 'birdie1', 'birdie25', 'birdie100', 'eagle1', 'eagle10', 'eagle50', 'albatross', 'ace1', 'ace5']],
     ['short', 'target', 'Short game & putting', ['chip1', 'chip10', 'chip25', 'chip100', 'sand1', 'putt10', 'putt10x', 'putt25x']],
+    ['levels', 'star', 'Levels & ranked', ['lv5', 'lv10', 'lv25', 'lv50', 'lv100', 'rk1', 'rk10', 'rk50', 'rkpure']],
+    ['pins', 'flag', 'Pins & spin', ['backpin', 'frontpin', 'pins25', 'pinout', 'spin1', 'spin25']],
     ['power', 'club', 'Driving & striking', ['drive250', 'drive275', 'drive300', 'perfect100', 'perfect1000', 'perfect10000']],
     ['modes', 'star', 'Challenges, range & mini golf', ['stiff', 'sharp3', 'champ1', 'champ10', 'champ25', 'bucket10', 'bucket50', 'mini1', 'miniace', 'miniunder', 'mini10']],
     ['cup', 'school', 'Club House Cup', ['homeroom', 'cup1', 'cup10', 'hrpodium', 'hrchamp', 'hrchamp5', 'hrmvp', 'hrfirst']],
@@ -9854,6 +9876,7 @@
   const NEWS = [
     ['flag', '<b>Pin positions are random every time you play a hole.</b> The flag colour tells you where it is: <b>red = front</b>, <b>white = middle</b>, <b>blue = back</b> of the green (it shows next to the yardage too). Every flag now has the Stryke logo.'],
     ['flag', '<b>Take the pin out:</b> chipping or putting from close by? Tap TAKE PIN OUT (above the aim arrows) and put it back any time.'],
+    ['trophy', '<b>15 new achievements:</b> level milestones, Ranked wins (up to 💎 Pure Striker), front and back pin birdies, holing a chip with the pin out, and spin shots.'],
     ['star', '<b>Level unlocks:</b> tap <b>LV</b> at the top to see your progress and what\'s next. Levels unlock ball lines, club colours, a jacket colour, four level-only outfits (Range Rat, Tour Elite, Stryke Platinum, Hall of Fame) and big cash bonuses.'],
     ['star', '<b>Levels and XP!</b> Every hole gives XP (more for birdies, eagles and aces), a finished round gives a bonus, and every level up pays you. Your level is next to your money.'],
     ['target', '<b>Spin control</b> is here for experienced golfers: get your Pro Ball to <b>level 7</b>, pick a wedge and tap SPIN for backspin (it bites and pulls back) or topspin (it lands and runs).'],
