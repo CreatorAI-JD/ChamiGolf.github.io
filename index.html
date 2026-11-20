@@ -914,7 +914,6 @@
   .tutCard{z-index:7;max-width:min(88vw,470px)}
   .tutCard .hostBub{margin-bottom:30px}
   .tutCard .hostBub span{display:block}
-  .duoCard img{width:clamp(80px,12vw,118px)}.duoCard img + img{margin-left:-26px;animation-delay:-1.6s}
   .tutBtns{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
   .tutBtns button{border:2px solid #2a1a10;border-radius:999px;padding:6px 14px;font:800 12px Inter;letter-spacing:.04em;cursor:pointer}
   .tutBtns .ok{background:#B3122B;color:#fff}.tutBtns .skip{background:#fff;color:#2a1a10}
@@ -1093,7 +1092,7 @@
 
 <!-- ===== In-game HUD ===== -->
 <div id="hostCard" class="hostCard"><img id="hostImg" alt=""><div class="hostBub"><b id="hostName"></b><span id="hostLine"></span></div></div>
-<div id="duoCard" class="hostCard tutCard duoCard"><img id="duoA" alt=""><img id="duoK" alt=""><div class="hostBub"><b>Coach Andy &amp; Coach Kay</b><span>Welcome to Stryke Links Crimson! Want us to walk you through the swing, chipping and putting?</span>
+<div id="duoCard" class="hostCard tutCard duoCard"><img id="duoK" alt=""><div class="hostBub"><b>Coach Kay</b><span>Welcome to Stryke Links Crimson! Want me to walk you through the swing, chipping and putting?</span>
   <div class="tutBtns"><button class="ok" id="duoTut">Play the tutorial</button><button class="skip" id="duoNo">No thanks</button></div></div></div>
 <div id="tutCard" class="hostCard tutCard"><img id="tutImg" alt=""><div class="hostBub"><b id="tutName"></b><span id="tutLine"></span>
   <div class="tutBtns"><button class="ok" id="tutOk">Got it</button><button class="skip" id="tutSkip">Skip tutorial</button></div><div class="tutStep" id="tutStep"></div></div></div>
@@ -3336,13 +3335,13 @@
   };
   let hostShown = false;
   function hideHosts() { $('duoCard').classList.remove('show'); if (!hostShown) return; hostShown = false; $('hostCard').classList.remove('show'); }
-  // (Nov 19 2026) Stryke Links Crimson: Coach Andy and Coach Kay greet you on the first tee EVERY round and offer the tutorial
+  // (Nov 19 2026) Coach Andy lives on 3C Par Three, Coach Kay on Stryke Links Crimson. Kay greets you on Crimson's first tee EVERY round and offers the tutorial
   let tutRound = null;   // tips already shown this round when you picked "Play the tutorial" (null = not doing it this round)
   function placeHost() {
     hideHosts();
     if (holeIdx === 0) tutRound = null;
     if (hole && !hole.mini && holeIdx === 0 && course.id === 'pines' && !(MP && MP.started)) {
-      $('duoA').src = HOSTS.par3.img; $('duoK').src = HOSTS.pines.img; hostShown = true;
+      $('duoK').src = HOSTS.pines.img; hostShown = true;
       const onHole = hole;
       setTimeout(() => { if (hostShown && hole === onHole && strokes === 0 && $('home').classList.contains('hidden') && state !== 'title') $('duoCard').classList.add('show'); }, 1600);
       return;
@@ -3371,7 +3370,7 @@
   let tutNow = null;
   function tutHide() { if (!tutNow) return; tutNow = null; $('tutCard').classList.remove('show'); }
   function tutShow(k) {
-    const t = TUT[k], H = HOSTS[t.who];
+    const t = TUT[k], H = course && course.id === 'pines' ? HOSTS.pines : HOSTS.par3;   // Kay teaches on Crimson, Andy on 3C
     hideHosts(); tutNow = k;
     if (tutRound) tutRound[k] = 1;
     save.tut.seen[k] = 1; if (TUT_ORDER.every(x => save.tut.seen[x])) save.tut.off = true; persist();   // (Nov 19 2026) each tip shows once, ever
@@ -9835,7 +9834,7 @@
     ['chart', '<b>No more driving greens with maxed clubs:</b> big upgrades still add distance, but much less past 255 yards.'],
     ['chart', '<b>Finish at least 9 holes to get paid.</b> End a round before 9 holes and those holes don\'t pay.'],
     ['star', '<b>Ranked vs Casual is easier to tell apart:</b> two big cards (Ranked = RP on the line, Casual = just for fun), and your match shows RANKED or CASUAL at the top.'],
-    ['user', '<b>Meet Coach Andy and Coach Kay!</b> They greet you on the first tee of Stryke Links Crimson every round and you can play the tutorial with them any time. On 3C Par Three the tips show once.'],
+    ['user', '<b>Meet your coaches:</b> Coach Andy is on 3C Par Three (his tips show once). Coach Kay greets you on the first tee of Stryke Links Crimson every round, and you can play the tutorial with her any time.'],
     ['chart', '<b>The Driving Range</b> now sits neatly under Stats in the Clubs tab, and the welcome screen is simpler.'],
   ];
   // (Nov 16 2026) Update 4.2, with the Nov 17 PvP additions on top
