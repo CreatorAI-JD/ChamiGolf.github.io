@@ -233,7 +233,46 @@
   .lvNext{margin-top:12px;padding:9px 11px;border-radius:12px;background:rgba(242,193,78,.14);border:1px solid rgba(242,193,78,.5);font-size:13px;color:#fff}.lvNext b{color:var(--gold-l)}
   .lvHow{margin-top:12px;font-size:12.5px;color:#f3e6d0}.lvHow .lh2{font:800 10px Inter;letter-spacing:.16em;color:var(--gold-l);margin-bottom:4px}
   .lvHow div{display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid rgba(242,193,78,.15)}.lvHow div b{color:var(--gold-l)}
-  .card.lvcard{max-height:88vh;overflow:auto;max-width:440px}
+  .mskGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media (max-width:640px){.mskGrid{grid-template-columns:1fr}}
+  .msk{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:16px;background:linear-gradient(180deg,rgba(142,15,34,.85),rgba(79,7,18,.9));border:1px solid rgba(242,193,78,.4)}
+  .mskI{flex:none;position:relative;width:52px;height:52px;border-radius:50%;border:3px solid;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3)}.mskI .ico{width:24px;height:24px}
+  .mskI b{position:absolute;bottom:-6px;right:-6px;min-width:20px;height:20px;border-radius:10px;background:#111;color:#fff;font:800 11px/20px Inter;text-align:center;border:2px solid currentColor}
+  .mskB{flex:1;min-width:0}.mskT{display:flex;justify-content:space-between;align-items:baseline;gap:6px}.mskT b{font:700 17px Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em}.mskT span{font:800 11px Inter;letter-spacing:.08em;text-transform:uppercase}
+  .mskBar{display:block;height:8px;border-radius:5px;background:rgba(0,0,0,.4);overflow:hidden;margin:6px 0 4px}.mskBar u{display:block;height:100%;border-radius:5px}
+  .msk small{display:block;font-size:11.5px;color:#f3d7a8}.msk .mskH{opacity:.7;margin-top:3px}
+  .ebGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+  .eb{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:9px 6px;border-radius:12px;background:rgba(0,0,0,.28);border:1px solid rgba(242,193,78,.45)}
+  .eb span{font-size:26px;line-height:1.1;display:flex}.eb span .ico{width:26px;height:26px}.eb b{font:700 12px/1.15 Oswald,sans-serif;color:#fff}.eb small{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+  .eb.off{opacity:.45;border-color:rgba(255,255,255,.15)}
+  .card.lvcard{max-height:88vh;overflow:auto;max-width:460px}
+  /* (Nov 20 2026) Stryke Level Pass */
+  .pass{border-radius:18px;border:2px solid var(--gold-l);background:linear-gradient(160deg,#8e0f22,#3a050d 70%);padding:14px 14px 12px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+  .lvcard .pass{border:0;background:none;box-shadow:none;padding:0}
+  .passHead{display:flex;align-items:center;gap:12px}
+  .passBadge{flex:none;width:64px;height:64px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--gold-l);background:radial-gradient(circle at 35% 30%,#c8172f,#45060F 75%)}
+  .passBadge small{font:800 8px Inter;letter-spacing:.16em;color:var(--gold-l)}.passBadge b{font:700 28px/1 Oswald,sans-serif;color:#fff}
+  .passT{flex:1;min-width:0}.passT small{display:block;font:800 10px Inter;letter-spacing:.18em;color:var(--gold-l)}
+  .passT b{display:block;font:700 22px/1.1 Oswald,sans-serif;color:#fff;text-transform:uppercase}.passT span{font-size:12px;color:#f3d7a8}
+  .passAll{flex:none}
+  .xpFri{margin-top:8px;padding:7px 10px;border-radius:10px;background:linear-gradient(90deg,rgba(242,193,78,.35),rgba(242,193,78,.08));font-size:12.5px;color:#fff}.xpFri b{color:var(--gold-l)}
+  .xpFri.dim{background:rgba(0,0,0,.25);color:#f3d7a8}
+  .passTrack{display:flex;gap:9px;overflow-x:auto;padding:12px 2px 6px;margin-top:4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .pn{flex:0 0 116px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:9px 7px 10px;border-radius:14px;background:rgba(0,0,0,.3);border:1px solid rgba(242,193,78,.22);scroll-snap-align:start}
+  .pn em{font:800 10px Inter;font-style:normal;letter-spacing:.1em;color:#f3d7a8}
+  .pn i{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 17px Inter;font-style:normal;background:#2a0409;border:2px solid rgba(242,193,78,.5);color:var(--gold-l)}.pn i .ico{width:20px;height:20px}
+  .pn b{font:700 13px/1.15 Oswald,sans-serif;color:#fff;letter-spacing:.02em;min-height:30px;display:flex;align-items:center}
+  .pn small{font-size:10px;line-height:1.25;opacity:.75;min-height:25px}
+  .pn .pst{font:800 10px Inter;letter-spacing:.06em;color:#f3d7a8;opacity:.8;display:flex;align-items:center;gap:3px}.pn .pst .ico{width:11px;height:11px}
+  .pn .main{width:100%;padding:7px 4px}
+  .pn.big{background:linear-gradient(180deg,rgba(242,193,78,.2),rgba(0,0,0,.3));border-color:rgba(242,193,78,.6)}.pn.big b{color:var(--gold-l)}
+  .pn.locked{opacity:.62}.pn.got{opacity:.55}.pn.got i{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:var(--red-dd);border-color:#fff}
+  .pn.ready{opacity:1;border:2px solid var(--gold-l);box-shadow:0 0 16px rgba(255,224,138,.45);animation:pnGlow 1.8s ease-in-out infinite}
+  .pn.next{opacity:1;border:2px dashed rgba(255,224,138,.7)}
+  @keyframes pnGlow{0%,100%{box-shadow:0 0 10px rgba(255,224,138,.3)}50%{box-shadow:0 0 22px rgba(255,224,138,.65)}}
+  .lvchip{position:relative}
+  .lvDot{position:absolute;top:-7px;right:-7px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#3ee07a;color:#0d2a17;font:900 10.5px/18px Inter;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--red-dd)}
+  .lvX2{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);padding:0 5px;border-radius:6px;background:var(--gold-l);color:var(--red-dd);font:900 9px/14px Inter;font-style:normal}
+  .tabs button.hasDot{position:relative}.tabs button.hasDot::after{content:'';position:absolute;top:8px;right:calc(50% - 22px);width:9px;height:9px;border-radius:50%;background:#3ee07a;box-shadow:0 0 0 2px var(--red-dd)}
   .lvHow .lvLine{position:relative;justify-content:flex-start;border-top:0;display:flex;gap:8px;overflow-x:auto;padding:12px 2px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
   .lvLine::before{content:'';position:absolute;left:0;right:0;top:46px;height:3px;background:rgba(242,193,78,.25)}
   .lvHow .lvN{position:relative;flex:0 0 92px;justify-content:flex-start;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:8px 5px 9px;border-radius:12px;background:rgba(0,0,0,.28);border:1px solid rgba(242,193,78,.2);scroll-snap-align:start}
@@ -1703,10 +1742,11 @@
     { name: 'Stryke Legend Jacket', lock: 'chamiman', look: { style: 'suit', jacket: '#6b0f1e', shirt: '#F2C14E', tie: '#111113', pants: '#111113', shoes: '#111111' } },
     // (Nov 19 2026) level-up outfits
     // (Nov 20 2026) redesigned: each one has its own colour story instead of a shuffle of the shop colours
-    { name: 'Range Rat', lock: 'lv10', look: { style: 'suit', jacket: '#2c5e86', shirt: '#ffffff', tie: '#F2C14E', pants: '#cdb88f', shoes: '#6b4226' } },   // steel blue blazer, khakis, tan brogues
-    { name: 'Tour Elite', lock: 'lv25', look: { style: 'suit', jacket: '#4b2a7a', shirt: '#ffffff', tie: '#F2C14E', pants: '#1c1c22', shoes: '#111111' } },   // royal purple & gold
-    { name: 'Stryke Platinum', lock: 'lv50', look: { style: 'suit', jacket: '#c4cad3', shirt: '#16181d', tie: '#B3122B', pants: '#2b2e35', shoes: '#c4cad3' } },   // silver blazer, black shirt, crimson tie
-    { name: 'Hall of Fame', lock: 'lv100', look: { style: 'suit', jacket: '#e2b73c', shirt: '#B3122B', tie: '#111113', pants: '#111113', shoes: '#e2b73c' } },   // bright gold, crimson shirt, black tie
+    // (Nov 20 2026) designer outfits: pattern + contrast lapels + pocket square + buttons
+    { name: 'Range Rat', lock: 'lv10', look: { style: 'suit', jacket: '#2c4f73', shirt: '#ffffff', tie: '#B3122B', pants: '#cdb88f', shoes: '#6b4226', pat: 'check', patc: '#e9c766', lap: '#1d3550', sq: '#F2C14E', btn: 'gold' } },   // navy windowpane blazer, khakis
+    { name: 'Tour Elite', lock: 'lv25', look: { style: 'suit', jacket: '#3d2266', shirt: '#ffffff', tie: '#F2C14E', pants: '#18181c', shoes: '#111111', pat: 'pin', patc: '#c9a7ff', lap: '#111113', sq: '#F2C14E', btn: 'gold' } },   // purple pinstripe, black satin lapels
+    { name: 'Stryke Platinum', lock: 'lv50', look: { style: 'suit', jacket: '#b9c0ca', shirt: '#16181d', tie: '#B3122B', pants: '#24262c', shoes: '#16181d', pat: 'herring', patc: '#ffffff', lap: '#16181d', sq: '#B3122B', btn: '' } },   // silver herringbone, black lapels
+    { name: 'Hall of Fame', lock: 'lv100', look: { style: 'suit', jacket: '#d9a92e', shirt: '#111113', tie: '#B3122B', pants: '#111113', shoes: '#111111', pat: 'diamond', patc: '#fff2b8', lap: '#111113', sq: '#B3122B', btn: 'gold' } },   // gold diamond weave, black tux lapels
   ];
   LOOK_PRESETS.forEach(p => { if (p.price) p.price = salePrice(p.price); });
   const SWATCHES = {
@@ -1760,14 +1800,17 @@
     { name: 'Tour Black', award: 'birdie1', bag: { body: '#111113', trim: '#B3122B', covers: '#111113', logo: 'none' } },
     { name: 'Navy Staff', award: 'underpar1', bag: { body: '#1f2c4d', trim: '#eeeeea', covers: '#B3122B', logo: 'none' } },
     { name: 'Royal Blue', award: 'chip1', bag: { body: '#2747a8', trim: '#eeeeea', covers: '#F2C14E', logo: 'none' } },
-    { name: 'Eagle Gold', award: 'eagle1', bag: { body: '#C9962B', trim: '#B3122B', covers: '#B3122B', logo: 'chami' } },
+    { name: 'Tour Staff Gold', award: 'eagle10', bag: { body: '#C9962B', trim: '#B3122B', covers: '#B3122B', logo: 'chami', style: 'tour' } },   // (Nov 20 2026) tour bags lie down on the tee
     { name: 'White & Gold', award: 'ace1', bag: { body: '#eeeeea', trim: '#C9962B', covers: '#B3122B', logo: 'chami' } },
     { name: 'Maroon Classic', award: 'rounds25', bag: { body: '#6b0f1e', trim: '#F2C14E', covers: '#6b0f1e', logo: 'chami' } },
-    { name: 'Silver Bullet', award: 'drive300', bag: { body: '#7d8088', trim: '#B3122B', covers: '#111113', logo: 'none' } },
+    { name: 'Silver Bullet Tour', award: 'drive300', bag: { body: '#7d8088', trim: '#B3122B', covers: '#111113', logo: 'chami', style: 'tour' } },
     { name: 'Green Jacket', award: 'explorer', bag: { body: '#1f5a34', trim: '#F2C14E', covers: '#1f5a34', logo: 'none' } },
     { name: 'Desert Tan', award: 'sand1', bag: { body: '#b9a47c', trim: '#5a3b24', covers: '#5a3b24', logo: 'none' } },
     { name: 'Gold Star', award: 'mini1', bag: { body: '#F2C14E', trim: '#B3122B', covers: '#B3122B', logo: 'chami' } },
-    { name: 'Black & Gold', award: 'birdie100', bag: { body: '#111113', trim: '#F2C14E', covers: '#F2C14E', logo: 'chami' } },
+    { name: 'Black & Gold Tour', award: 'birdie100', bag: { body: '#111113', trim: '#F2C14E', covers: '#F2C14E', logo: 'chami', style: 'tour' } },
+    // Stryke Level Pass bags (claim them in the Awards tab)
+    { name: 'Stryke Tour Staff', pass: 40, bag: { body: '#eeeeea', trim: '#111113', covers: '#B3122B', logo: 'chami', panel: '#B3122B', style: 'tour' } },
+    { name: 'Platinum Tour', pass: 70, bag: { body: '#c4cad3', trim: '#111113', covers: '#111113', logo: 'chami', style: 'tour' } },
   ];
   const BAG_SWATCHES = {
     body: [['Red', '#B3122B'], ['Maroon', '#6b0f1e'], ['Black', '#111113'], ['Navy', '#1f2c4d'], ['Royal', '#2747a8'], ['Green', '#1f5a34'],
@@ -1960,7 +2003,7 @@
   ].map(([id, icon, name, how, prog, pay]) => ({ id, icon, name, how, prog, pay }));
   const awardDone = a => { const [h, n] = a.prog(st$()); return h >= n; };
   const hasAward = id => !!save.awards[id];
-  const bagOpen = p => !p.award || hasAward(p.award);
+  const bagOpen = p => (!p.award && !p.pass) || (!!p.award && hasAward(p.award)) || (!!p.pass && !!(save.lvClaimed && save.lvClaimed[p.pass]));
   if (TEST) {   // everything unlocked, every time the test account opens; no name; stats start empty
     save.coins = 99999999; save.name = 'Member'; save.stats = freshStats(); save.hcp = { d: [] };
     save.owned = MODELS.map(m => m.id);
@@ -2182,7 +2225,7 @@
   };
   const bethHoles = (mk, list) => list.map(n => mk(n, ...BETH[n]));
   // ---- New courses (Oct 27 2026): Founders Park, Hearst Executive, Darby Beach and Flyers Presidential (original holes) ----
-  const FPD = { k: 1.0, fw: 1.1, gm: 1.1 }, HXD = { k: 1.02, fw: 1.0, gm: 0.95 }, DBD = { k: 1.04, fw: 0.98, gm: 0.98 }, FXD = { k: 1.07, fw: 0.88, gm: 0.88 };
+  const FPD = { k: 1.0, fw: 1.1, gm: 1.1 }, HXD = { k: 1.22, fw: 1.0, gm: 0.95 }   /* (Nov 20 2026) Hearst Executive plays about 20% longer */, DBD = { k: 1.04, fw: 0.98, gm: 0.98 }, FXD = { k: 1.07, fw: 0.88, gm: 0.88 };
   const FNP = (n, nm, par, y, o) => own(R(FPD, 'Founders Park', n, nm, par, y, Object.assign({ ts: 30, t: [50, 50] }, o)));
   const HXC = (n, nm, par, y, o) => own(R(HXD, 'Hearst Executive', n, nm, par, y, Object.assign({ ts: 24, t: [40, 40] }, par === 3 ? { fw: [['g-32', 'g-13', 24]] } : {}, o)));
   const DBC = (n, nm, par, y, o) => own(R(DBD, 'Darby Beach', n, nm, par, y, Object.assign({ ts: 44, t: [52, 52], tr: 6 }, o)));
@@ -3028,13 +3071,36 @@
     m.headW = new THREE.MeshPhongMaterial({ color: 0x1d1d22, specular: 0x777777, shininess: 70 });
     m.headI = new THREE.MeshPhongMaterial({ color: 0xc9cdd3, specular: 0xffffff, shininess: 90 });
     m.styled = [];   // suit-only / sweater-only parts of every golfer built with these materials
+    m.square = new THREE.MeshLambertMaterial({ color: 0xffffff });   // (Nov 20 2026) pocket square
     return m;
+  }
+  // (Nov 20 2026) designer jackets: a woven pattern (pinstripe, windowpane check, herringbone or diamond), contrast lapels,
+  // a pocket square and gold buttons. Plain outfits leave these empty.
+  const patCache = {};
+  function jacketPattern(kind, base, ink) {
+    const key = kind + base + ink; if (patCache[key]) return patCache[key];
+    const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+    g.fillStyle = base; g.fillRect(0, 0, 128, 128); g.strokeStyle = ink; g.fillStyle = ink;
+    if (kind === 'pin') { g.globalAlpha = 0.55; g.lineWidth = 1.6; for (let x = 4; x < 128; x += 16) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 128); g.stroke(); } }
+    else if (kind === 'check') { g.globalAlpha = 0.5; g.lineWidth = 2; for (let x = 8; x < 128; x += 32) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 128); g.moveTo(0, x); g.lineTo(128, x); g.stroke(); } }
+    else if (kind === 'herring') { g.globalAlpha = 0.22; g.lineWidth = 2; for (let x = 0; x < 128; x += 16) for (let y = -16; y < 144; y += 8) { g.beginPath(); g.moveTo(x, y); g.lineTo(x + 8, y + 6); g.lineTo(x + 16, y); g.stroke(); } }
+    else if (kind === 'diamond') { g.globalAlpha = 0.3; g.lineWidth = 1.5; for (let i = -128; i < 256; i += 24) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i + 128, 128); g.moveTo(i + 128, 0); g.lineTo(i, 128); g.stroke(); } }
+    // a soft woven grain over everything
+    g.globalAlpha = 0.06; g.fillStyle = '#000'; for (let y = 0; y < 128; y += 2) g.fillRect(0, y, 128, 1);
+    const tx = new THREE.CanvasTexture(c); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.repeat.set(5, 5); tx.anisotropy = 4;
+    return (patCache[key] = tx);
   }
   function applyLook(m, look) {
     for (const k in look) if (m[k] && m[k].color && k !== 'style') m[k].color.set(look[k]);
     if (look.jacket) m.lapel.color.set(look.jacket).multiplyScalar(look.style === 'sweater' ? 0.86 : 0.72);
     const sw = look.style === 'sweater';
-    m.styled.forEach(g => { g.suit.forEach(o => o.visible = !sw); g.sweater.forEach(o => o.visible = sw); });
+    if (!sw && look.lap) m.lapel.color.set(look.lap);
+    const pat = !sw && look.pat && look.jacket ? jacketPattern(look.pat, look.jacket, look.patc || '#ffffff') : null;
+    if (m.jacket.map !== pat) { m.jacket.map = pat; m.jacket.needsUpdate = true; }
+    if (pat) m.jacket.color.set(0xffffff);
+    m.button.color.set(!sw && look.btn === 'gold' ? 0xF2C14E : 0x1a1a1a); m.button.metalness = look.btn === 'gold' ? 0.6 : 0;
+    if (look.sq) m.square.color.set(look.sq);
+    m.styled.forEach(g => { g.suit.forEach(o => o.visible = !sw); g.sweater.forEach(o => o.visible = sw); (g.sq || []).forEach(o => o.visible = !sw && !!look.sq); });
   }
   function limb(a, b, r1, r2, mat) {
     const d = V3(0, 0, 0).subVectors(b, a), L = d.length();
@@ -3112,6 +3178,9 @@
       const vt = part(soft([[-0.012, 0.135], [0.012, 0.135], [0.012, -0.135], [-0.012, -0.135]]), m.lapel, sx * 0.048, 0.5, front(0.5) + 0.003, torso); vt.rotation.z = sx * 0.28; sweater.push(vt);
     }
     for (const by of [0.3, 0.18]) suit.push(part(new THREE.SphereGeometry(0.014, 12, 8), m.button, 0, by, front(by) + 0.004, torso));
+    // pocket square peeking out of the left breast pocket (three little points)
+    const sq = [part(soft([[-0.035, 0], [-0.022, 0.03], [-0.008, 0.008], [0.004, 0.034], [0.018, 0.006], [0.032, 0.026], [0.036, 0]], 0.004), m.square, 0.12, 0.47, front(0.47) - 0.005, torso)];
+    sq[0].rotation.y = 0.35;
     sweater.push(part(soft([[-0.012, 0.15], [0.012, 0.15], [0.012, -0.15], [-0.012, -0.15]]), m.lapel, 0, 0.2, front(0.2) + 0.002, torso));   // placket
     for (const by of [0.33, 0.24, 0.15, 0.07]) sweater.push(part(new THREE.SphereGeometry(0.011, 10, 8), m.lapel, 0, by, front(by) + 0.008, torso));
     const hem = part(new THREE.CylinderGeometry(0.207, 0.205, 0.07, 14, 1, true), m.lapel, 0, 0.055, 0, torso); hem.scale.z = 0.64; sweater.push(hem);
@@ -3133,7 +3202,7 @@
         const band = limb(at(t0), at(t1), rr(t0), rr(t1), mt); pivot.add(band); sweater.push(band);
       });
     }
-    m.styled.push({ suit, sweater });
+    m.styled.push({ suit, sweater, sq });
     const gl = part(new THREE.SphereGeometry(0.055, 16, 12), m.glove, HANDS.x, HANDS.y, HANDS.z, pivot); gl.scale.set(0.9, 1.15, 0.9);
     const hinge = new THREE.Group(); hinge.position.copy(HANDS); pivot.add(hinge);      // wrist cock
     const clubs = {}, axis = {}, B = {};
@@ -3294,73 +3363,111 @@
       tg.tx.needsUpdate = true;
     });
   }
-  // A stand bag: a smooth padded body, rounded collar, side pocket, backpack straps, two legs that kick out the back,
-  // and real-looking clubs (knit headcovers on the woods, iron heads hanging sole-up, putter cover).
-  function makeBag(m) {
+  // (Nov 20 2026) new bag shapes. STAND bag: a tapered, slightly oval body (narrow at the base, wide at the top like a real
+  // carry bag), a tall flared top cuff with a carry handle, a long apparel pocket down one side, a rounded ball pocket,
+  // backpack straps and two stand legs. TOUR (staff) bag: a big round glossy bag that lies down on its side, no legs.
+  function makeBag(m, tour) {
     const root = new THREE.Group(), bag = new THREE.Group(); root.add(bag);
-    const A = -0.28; bag.rotation.x = A;                                            // leans back on its stand
-    const prof = [[0, 0.012], [0.11, 0.012], [0.138, 0.025], [0.148, 0.06], [0.15, 0.2], [0.153, 0.5], [0.156, 0.78], [0.158, 0.84]].map(([x, y]) => new THREE.Vector2(x, y));
-    // map the bag's skin by height (not by profile point) so the logo sits centred on the front of the bag
-    const bodyGeo = new THREE.LatheGeometry(prof, 48), bp = bodyGeo.attributes.position, buv = bodyGeo.attributes.uv;
-    for (let i = 0; i < bp.count; i++) buv.setY(i, clamp((bp.getY(i) - 0.06) / (0.84 - 0.06), 0, 1));
+    const S = tour ? 1.32 : 1, TOP = tour ? 0.92 : 0.9;
+    const A = tour ? 0 : -0.26; bag.rotation.x = A;
+    const prof = (tour ? [[0, 0.012], [0.13, 0.012], [0.15, 0.03], [0.156, 0.08], [0.158, 0.3], [0.16, 0.6], [0.162, 0.86], [0.163, TOP]]
+      : [[0, 0.012], [0.1, 0.012], [0.116, 0.035], [0.122, 0.1], [0.128, 0.35], [0.138, 0.62], [0.148, 0.84], [0.151, TOP]]).map(([x, y]) => new THREE.Vector2(x * S, y));
+    const bodyGeo = new THREE.LatheGeometry(prof, 56), bp = bodyGeo.attributes.position, buv = bodyGeo.attributes.uv;
+    for (let i = 0; i < bp.count; i++) buv.setY(i, clamp((bp.getY(i) - 0.06) / (TOP - 0.06), 0, 1));
     buv.needsUpdate = true;
     const body = part(bodyGeo, m.body, 0, 0, 0, bag); body.rotation.y = Math.PI;
-    // rounded top collar and cuff
-    const cuff = part(new THREE.CylinderGeometry(0.164, 0.16, 0.1, 48, 1, true), m.trim, 0, 0.83, 0, bag);
-    const roll = part(new THREE.TorusGeometry(0.158, 0.022, 14, 48), m.trim, 0, 0.88, 0, bag); roll.rotation.x = Math.PI / 2;
-    part(new THREE.CircleGeometry(0.15, 40), m.dark, 0, 0.87, 0, bag).rotation.x = -Math.PI / 2;     // dark opening
-    for (const r of [0, Math.PI / 2]) { const dv = part(new THREE.BoxGeometry(0.29, 0.02, 0.012), m.dark, 0, 0.885, 0, bag); dv.rotation.y = r; }
-    // rubber base ring
-    const base = part(new THREE.TorusGeometry(0.142, 0.018, 12, 48), m.rubber, 0, 0.02, 0, bag); base.rotation.x = Math.PI / 2;
-    part(new THREE.CylinderGeometry(0.152, 0.152, 0.06, 48, 1, true), m.trim, 0, 0.055, 0, bag);
-    // pillow-shaped side pocket with a zip
-    const pk = part(new THREE.SphereGeometry(1, 28, 18), m.trim, 0.135, 0.36, 0, bag); pk.scale.set(0.05, 0.19, 0.1);
-    const zip = part(new THREE.TorusGeometry(0.075, 0.004, 6, 24, Math.PI), m.dark, 0.182, 0.36, 0, bag); zip.rotation.y = Math.PI / 2; zip.scale.set(1, 2.1, 1);
-    const pk2 = part(new THREE.SphereGeometry(1, 24, 14), m.trim, -0.13, 0.55, 0.02, bag); pk2.scale.set(0.045, 0.1, 0.075);     // small valuables pocket
-    const handle = part(new THREE.TorusGeometry(0.05, 0.012, 8, 20, Math.PI), m.dark, -0.155, 0.7, 0, bag); handle.rotation.set(0, Math.PI / 2, Math.PI / 2);
-    // clubs: three woods in knit headcovers at the back, irons and wedges hanging sole-up at the front, a covered putter
+    if (!tour) body.scale.set(1, 1, 0.9);                                              // carry bags are a little oval
+    const R = (tour ? 0.163 : 0.151) * S, RZ = tour ? R : R * 0.9;
+    // top cuff: taller, flaring out, with a rolled rim, dividers and a carry handle across the top
+    const cuff = part(new THREE.CylinderGeometry(R * 1.1, R * 1.01, 0.12, 56, 1, true), m.trim, 0, TOP + 0.04, 0, bag); cuff.scale.z = RZ / R;
+    const roll = part(new THREE.TorusGeometry(R * 1.1, 0.02 * S, 14, 56), m.trim, 0, TOP + 0.1, 0, bag); roll.rotation.x = Math.PI / 2; roll.scale.y = RZ / R;
+    const hole = part(new THREE.CircleGeometry(R * 1.06, 44), m.dark, 0, TOP + 0.095, 0, bag); hole.rotation.x = -Math.PI / 2; hole.scale.y = RZ / R;
+    for (const r of [0, Math.PI / 2]) { const dv = part(new THREE.BoxGeometry(R * 2.1, 0.02, 0.012), m.dark, 0, TOP + 0.105, 0, bag); dv.rotation.y = r; }
+    const hnd = part(new THREE.TorusGeometry(R * 0.55, 0.014 * S, 8, 24, Math.PI), m.dark, R * 0.95, TOP + 0.02, 0, bag); hnd.rotation.y = Math.PI / 2; hnd.scale.y = 0.6;
+    // base: a moulded rubber foot
+    const base = part(new THREE.CylinderGeometry(prof[2].x * 1.03, prof[1].x * 1.05, 0.07, 44), m.rubber, 0, 0.035, 0, bag); base.scale.z = tour ? 1 : 0.9;
+    part(new THREE.CylinderGeometry(prof[3].x * 1.02, prof[3].x * 1.02, 0.05, 44, 1, true), m.trim, 0, 0.09, 0, bag).scale.z = tour ? 1 : 0.9;
+    // pockets are raised panels that wrap the curve of the bag (not blobs): apparel pocket down the right side,
+    // a ball pocket low on the front-left, a valuables pocket up on the left. Each has a dark zip along its top.
+    const rAt = y => { for (let i = 1; i < prof.length; i++) if (y <= prof[i].y) { const a = prof[i - 1], b = prof[i], f = (y - a.y) / ((b.y - a.y) || 1); return a.x + (b.x - a.x) * f; } return prof[prof.length - 1].x; };
+    const shell = new THREE.Group(); shell.scale.z = tour ? 1 : 0.9; bag.add(shell);
+    const pocket = (th, w, y0, y1, dep, zipTop) => {
+      const g = new THREE.CylinderGeometry(rAt(y1) + dep, rAt(y0) + dep, y1 - y0, 20, 1, false, th - w / 2, w);
+      const pk = part(g, m.trim, 0, (y0 + y1) / 2, 0, shell);
+      // soft rounded top and bottom edges
+      for (const [yy, rr] of [[y1, rAt(y1)], [y0, rAt(y0)]]) {
+        const ed = part(new THREE.TorusGeometry(rr + dep * 0.5, dep * 0.5, 6, 20, w), m.trim, 0, yy, 0, shell);
+        ed.rotation.set(Math.PI / 2, 0, -(th - w / 2) + Math.PI / 2 - w); ed.rotation.order = 'XYZ';
+      }
+      const zy = zipTop ? y1 - 0.012 : (y0 + y1) / 2;
+      const zp = part(new THREE.CylinderGeometry(rAt(zy) + dep + 0.002, rAt(zy) + dep + 0.002, 0.006, 20, 1, true, th - w / 2 + 0.05, w - 0.1), m.dark, 0, zy, 0, shell); zp.castShadow = false;
+      return pk;
+    };
+    pocket(Math.PI / 2, 0.95, 0.16, 0.74, 0.03 * S, false);        // apparel pocket (right side)
+    pocket(-1.25, 0.85, 0.12, 0.34, 0.035 * S, true);                // ball pocket (front-left, clear of the logo)
+    pocket(-Math.PI / 2, 0.7, 0.56, 0.74, 0.022 * S, true);          // valuables pocket (left)
+    if (!tour) {   // backpack straps on the back
+      for (const sx of [-1, 1]) { const st = part(new THREE.TorusGeometry(0.16, 0.012, 6, 20, Math.PI * 0.9), m.dark, sx * 0.055, 0.5, -RZ - 0.01, bag);
+        st.rotation.set(0, Math.PI / 2, 0); st.scale.set(1, 1.35, 0.25); }
+    } else {       // tour bags: a padded shoulder strap across the top of the back and a name-plate on the cuff
+      const st = part(new THREE.TorusGeometry(0.2, 0.02, 6, 24, Math.PI), m.dark, 0, 0.62, -R - 0.005, bag); st.rotation.set(0, 0, Math.PI / 2); st.scale.set(1.5, 1, 0.3);
+      const plate = part(new THREE.BoxGeometry(0.12, 0.05, 0.006), m.metal, 0, TOP + 0.04, R * 1.08, bag); plate.castShadow = false;
+    }
+    // clubs: three woods in knit headcovers at the back, irons and wedges sole-up at the front, a covered putter
+    const top = TOP + 0.08, k = S;
     const tops = [[-0.075, -0.06, 0.2, 1], [0.0, -0.085, 0.24, 1], [0.075, -0.055, 0.19, 1]];
     tops.forEach(([x, z, h], i) => {
-      const c = new THREE.Group(); c.position.set(x, 0.86, z); c.rotation.set(-0.12 - i * 0.04, 0, (x > 0 ? -1 : x < 0 ? 1 : 0) * 0.18); bag.add(c);
-      const sh = part(new THREE.CylinderGeometry(0.0065, 0.0065, h, 8), m.dark, 0, h / 2, 0, c);
-      // a knit sock headcover: long ribbed neck, then the head bulge flopping to the toe side, with a number tag and a pom-pom
+      const c = new THREE.Group(); c.position.set(x * k, top, z * k); c.rotation.set(-0.12 - i * 0.04, 0, (x > 0 ? -1 : x < 0 ? 1 : 0) * 0.18); bag.add(c);
+      part(new THREE.CylinderGeometry(0.0065, 0.0065, h, 8), m.dark, 0, h / 2, 0, c);
       const big = i === 1 ? 1.12 : i === 2 ? 0.88 : 1;
       part(new THREE.CylinderGeometry(0.031, 0.029, 0.17, 24, 1, true), m.covers, 0, h + 0.06, 0, c);
-      part(new THREE.CylinderGeometry(0.034, 0.034, 0.035, 24, 1, true), m.covers, 0, h - 0.01, 0, c);   // folded cuff
+      part(new THREE.CylinderGeometry(0.034, 0.034, 0.035, 24, 1, true), m.covers, 0, h - 0.01, 0, c);
       const side = x > 0 ? 1 : -1;
       const hd = part(new THREE.SphereGeometry(1, 28, 18), m.covers, side * 0.042 * big, h + 0.19, 0.004, c);
       hd.scale.set(0.074 * big, 0.062 * big, 0.064 * big); hd.rotation.z = -side * 0.35;
-      const nk = part(new THREE.SphereGeometry(1, 20, 12), m.covers, side * 0.012, h + 0.15, 0, c); nk.scale.set(0.042, 0.05, 0.04);   // where the neck meets the head
+      const nk = part(new THREE.SphereGeometry(1, 20, 12), m.covers, side * 0.012, h + 0.15, 0, c); nk.scale.set(0.042, 0.05, 0.04);
       const tag = part(new THREE.PlaneGeometry(0.036, 0.036), m.tags[i].mat, side * 0.045 * big, h + 0.185, 0.064 * big + 0.004, c); tag.castShadow = false;
-      if (i === 1) part(new THREE.SphereGeometry(0.03, 14, 10), m.trim, side * 0.07, h + 0.255, 0, c);            // pom-pom on the driver
+      if (i === 1) part(new THREE.SphereGeometry(0.03, 14, 10), m.trim, side * 0.07, h + 0.255, 0, c);
     });
     [[-0.1, 0.03, 0.12], [-0.05, 0.075, 0.15], [0.0, 0.09, 0.17], [0.05, 0.075, 0.14], [0.1, 0.035, 0.13], [-0.02, 0.02, 0.18]].forEach(([x, z, h], i) => {
-      const c = new THREE.Group(); c.position.set(x, 0.86, z); c.rotation.set(0.1 + (i % 2) * 0.06, i * 0.9, x * -1.2); bag.add(c);
+      const c = new THREE.Group(); c.position.set(x * k, top, z * k); c.rotation.set(0.1 + (i % 2) * 0.06, i * 0.9, x * -1.2); bag.add(c);
       part(new THREE.CylinderGeometry(0.0055, 0.006, h, 8), m.metal, 0, h / 2, 0, c);
-      const hd = clubHead('iron', m); hd.position.y = h + 0.0; hd.rotation.x = Math.PI; c.add(hd);
+      const hd = clubHead('iron', m); hd.position.y = h; hd.rotation.x = Math.PI; c.add(hd);
     });
-    { const c = new THREE.Group(); c.position.set(0.11, 0.86, -0.02); c.rotation.set(-0.05, 0.4, -0.25); bag.add(c);
+    { const c = new THREE.Group(); c.position.set(0.11 * k, top, -0.02 * k); c.rotation.set(-0.05, 0.4, -0.25); bag.add(c);
       part(new THREE.CylinderGeometry(0.006, 0.006, 0.12, 8), m.metal, 0, 0.06, 0, c);
-      // blade putter cover: a flat rounded cover with a magnet-tab look
       const pc = part(new THREE.SphereGeometry(1, 24, 14), m.covers, 0.035, 0.135, 0, c); pc.scale.set(0.066, 0.03, 0.024);
       const pt = part(new THREE.BoxGeometry(0.03, 0.012, 0.05), m.trim, 0.035, 0.155, 0, c); pt.castShadow = false; }
-    // stand: two carbon legs hinged under the collar, kicking out behind, with rubber feet
-    const toRoot = v => { const c = Math.cos(A), sn = Math.sin(A); return V3(v.x, v.y * c - v.z * sn, v.y * sn + v.z * c); };
-    for (const sx of [-1, 1]) {
-      const hinge = toRoot(V3(sx * 0.085, 0.78, -0.135)), foot = V3(sx * 0.25, 0.015, -0.6);
-      root.add(limb(hinge, foot, 0.011, 0.009, m.dark));
-      const cap = new THREE.Mesh(new THREE.SphereGeometry(0.02, 12, 10), m.metal); cap.position.copy(hinge); root.add(cap);
-      const ft = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.02, 0.035, 12), m.rubber); ft.position.copy(foot).setY(0.017); root.add(ft);
+    if (!tour) {
+      // stand: two legs hinged under the cuff, kicking out behind, with rubber feet
+      const toRoot = v => { const c = Math.cos(A), sn = Math.sin(A); return V3(v.x, v.y * c - v.z * sn, v.y * sn + v.z * c); };
+      for (const sx of [-1, 1]) {
+        const hinge = toRoot(V3(sx * 0.085, 0.8, -RZ + 0.01)), foot = V3(sx * 0.25, 0.015, -0.6);
+        root.add(limb(hinge, foot, 0.011, 0.009, m.dark));
+        const cap = new THREE.Mesh(new THREE.SphereGeometry(0.02, 12, 10), m.metal); cap.position.copy(hinge); root.add(cap);
+        const ft = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.02, 0.035, 12), m.rubber); ft.position.copy(foot).setY(0.017); root.add(ft);
+      }
+    } else {
+      // laid down on its side: the bag's length runs along the ground, logo up, the top end resting a little higher
+      bag.rotation.set(0, 0, 0); bag.rotation.z = -Math.PI / 2 + 0.06; bag.rotation.y = 0;
+      const lay = new THREE.Group(); root.remove(bag); lay.add(bag); root.add(lay);
+      bag.rotation.order = 'ZYX'; bag.rotation.y = -Math.PI / 2 + 0.85;   // roll it so the front (logo) faces up and out toward you
+      lay.position.set(-0.45, R + 0.005, 0);
     }
     root.traverse(o => { if (o.isMesh) o.castShadow = true; });
     return root;
   }
   const playerBagMats = bagMats();
-  const teeBag = makeBag(playerBagMats); teeBag.scale.setScalar(1.05); teeBag.visible = false; scene.add(teeBag);
+  const teeBagStand = makeBag(playerBagMats), teeBagTour = makeBag(playerBagMats, true);
+  [teeBagStand, teeBagTour].forEach(b => { b.scale.setScalar(1.05); b.visible = false; scene.add(b); });
+  const isTourBag = b => !!(b && b.style === 'tour');
+  let teeBag = teeBagStand;
   applyBag(playerBagMats, save.gbag);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => applyBag(playerBagMats, save.gbag));
   // set the bag down on the tee box, just to the golfer's side, logo turned toward the camera
   function placeTeeBag() {
+    teeBagStand.visible = teeBagTour.visible = false;
+    teeBag = isTourBag(save.gbag) ? teeBagTour : teeBagStand;
     if (hole.mini) { teeBag.visible = false; return; }
     const dx = Math.cos(aimAng), dz = Math.sin(aimAng), hs = hand();
     const x = hole.tee.x + dz * 2.3 * hs + dx * 1.6, z = hole.tee.y - dx * 2.3 * hs + dz * 1.6;
@@ -4925,7 +5032,7 @@
   // on a steep enough slope a ball never just stops halfway, it keeps rolling to the bottom
   function slopePullAt(t) {
     if (!hole || hole.mini || t === 'sand' || t === 'water' || t === 'oob') return 0;
-    if (slopeLie(hole, t)) { const g = slopeGrad(hole, ball.x, ball.y); return SLOPE_G * Math.hypot(g.x, g.y); }
+    if (slopeLie(hole, t)) { const g = groundGrad(ball.x, ball.y); return SLOPE_G * Math.hypot(g.x, g.y); }
     const g = groundGrad(ball.x, ball.y); return SLOPE_G * 0.6 * Math.hypot(g.x, g.y);
   }
   // steep = a slope a real ball can't sit on: about 7° off the green, or the steepest tiers on a green
@@ -4988,7 +5095,9 @@
       // the slope pulls the ball downhill (that's the break); off the green, hills speed up or slow a rolling full shot
       let pull = 0;
       if (slopeLie(hole, t)) {
-        const gr = slopeGrad(hole, ball.x, ball.y);
+        // (Nov 20 2026 fix) use the slope of the ground you can actually see (sampled from the terrain), not the green's formula:
+        // near the edges (fringe, bunker lips, banks) the formula could point the other way, so a ball crept smoothly UPHILL
+        const gr = hole.mini ? slopeGrad(hole, ball.x, ball.y) : groundGrad(ball.x, ball.y);
         ball.vx -= SLOPE_G * gr.x * h; ball.vy -= SLOPE_G * gr.y * h; pull = SLOPE_G * Math.hypot(gr.x, gr.y);
         // real greens aren't perfect: footprints, grain and tiny bumps nudge a slow ball off line
         if (!hole.mini && t === 'green' && sp > 0.05) {
@@ -5027,6 +5136,7 @@
     }
     if (lastShot && !lastShot.putter && !hole.mini && lastShot.stock && shotD > lastShot.stock * 1.5 + 40)
       cheatFlag('shot', `${lastShot.club} went ${shotD} yds (stock ${lastShot.stock}) at ${course.name}`, false);
+    if (!course.range && !course.ctp && hole && !hole.mini && lastShot) { try { mastShot(terrainAt(ball), Math.hypot(ball.x - hole.pin.x, ball.y - hole.pin.y), false); } catch (e) {} }
     if (course.range) { const drv = lastClub === 0; lastClub = -1; return rangeDone(null, false, shotD, false, drv); }
     if (lastClub === 0) {
       const d = shotD;
@@ -5138,109 +5248,220 @@
     t.classList.add('show'); try { sfx.perfect(); } catch (e) {}
     setTimeout(() => { t.classList.remove('show'); setTimeout(() => { toastBusy = false; nextToast(); }, 400); }, 3200);
   }
-  // ================= Levels & XP (Nov 19 2026) =================
-  // Every finished hole gives XP (more for birdies and better), a finished round gives a bonus, and each level up pays out.
-  const XP_MAX_LV = 100, xpNeed = L => 100 + 40 * (L - 1), lvPay = L => 0;   // (Nov 20 2026) the rewards timeline replaces the flat level-up pay
+  // ================= Levels & XP · the Stryke Level Pass (Nov 19 / redone Nov 20 2026) =================
+  // XP per hole: finish 5 · par 10 · birdie 25 · eagle 75 · albatross 150 · hole in one 250. Fridays are double XP (ET).
+  // The pass has a reward every few levels (not every level); each one is claimed in the Awards tab (or Claim all).
+  const XP_MAX_LV = 100, xpNeed = L => 150 + 55 * (L - 1), lvPay = L => 0;
   function levelOf(xp) { xp = Math.max(0, xp | 0); let L = 1; while (L < XP_MAX_LV && xp >= xpNeed(L)) { xp -= xpNeed(L); L++; } return { L, into: xp, need: xpNeed(L), max: L >= XP_MAX_LV }; }
+  const isXPFriday = () => { try { return new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short' }).format(new Date()) === 'Fri'; } catch (e) { return false; } };
+  const xpMult = () => isXPFriday() ? 2 : 1;
   function holeXP(strokes, par, mini) {
-    if (mini) return 5 + (strokes - par <= -1 ? 5 : 0);
+    if (mini) return strokes - par <= -1 ? 6 : 3;
     const d = strokes - par;
-    return 10 + (strokes === 1 ? 150 : d <= -3 ? 80 : d === -2 ? 50 : d === -1 ? 20 : d === 0 ? 5 : 0);
+    return strokes === 1 ? 250 : d <= -3 ? 150 : d === -2 ? 75 : d === -1 ? 25 : d === 0 ? 10 : 5;
   }
   function gainXP(n) {
-    n = Math.round(n || 0); if (n <= 0) return 0;
+    n = Math.round((n || 0) * xpMult()); if (n <= 0) return 0;
     const before = levelOf(save.xp).L; save.xp = (save.xp | 0) + n; const after = levelOf(save.xp).L;
     if (after > before) {
-      toastQ.push({ a: { icon: ico('star'), label: 'LEVEL UP', name: `Level ${after}`, pay: 0 } }); applyLvRewards(false); nextToast();
-      track('level_up', { lv: after });
+      const ready = LV_REWARDS.filter(r => r.lv > before && r.lv <= after);
+      toastQ.push({ a: { icon: ico('star'), label: 'LEVEL UP', name: `Level ${after}`, pay: 0 } });
+      ready.forEach(r => toastQ.push({ a: { icon: ico(ICONS[r.ic] ? r.ic : 'gift'), label: `LEVEL ${r.lv} REWARD · CLAIM IT IN AWARDS`, name: r.name, pay: 0 } }));
+      nextToast(); track('level_up', { lv: after });
     }
     persist(); renderLevel(); return n;
   }
-  // ---- What levels get you (Nov 19 2026): every level pays money, and these levels also unlock stuff ----
   const lvOutfit = id => () => { save.unlocks[id] = true; const p = LOOK_PRESETS.find(x => x.lock === id); if (p) OUTFIT_PARTS.forEach(k => { if (p.look[k]) grantC(k, p.look[k]); }); };
   const lvClub = hex => () => { save.ownedLook['club:' + hex.toLowerCase()] = 1; };
   const lvLine = id => () => { save.ownedLook['ball-line:' + id] = 1; };
   const lvCash = n => () => { save.coins += n; save.stats.earnedTotal += n; };
   const lvToken = n => () => { save.upTokens = (save.upTokens | 0) + n; };
   const lvClubU = id => () => { const m = modelById(id); if (m && !save.owned.includes(id)) save.owned.push(id); };
-  // the big ones (fixed levels); every other level gets a small reward from the pattern below
-  const LV_BIG = [
-    { lv: 2, ic: 'ball', name: 'Black line ball', what: 'Ball line', give: lvLine('black') },
-    { lv: 3, ic: 'club', name: 'Gunmetal clubs', what: 'Club colour', give: lvClub('#53575e') },
-    { lv: 5, ic: 'ball', name: 'Red line ball', what: 'Ball line', give: lvLine('red') },
-    { lv: 7, ic: 'shirt', name: 'Royal blue jacket', what: 'Jacket colour', give: () => grantC('jacket', '#2747a8') },
-    { lv: 10, ic: 'shirt', name: 'Range Rat outfit', what: 'Level-only outfit', give: lvOutfit('lv10'), big: 1 },
-    { lv: 12, ic: 'club', name: 'Red clubs', what: 'Club colour', give: lvClub('#B3122B') },
-    { lv: 15, ic: 'ball', name: 'Triple track ball', what: 'Ball line', give: lvLine('triple') },
-    { lv: 18, ic: 'club', name: 'Copper clubs', what: 'Club colour', give: lvClub('#b8733a') },
-    { lv: 20, ic: 'star', name: '$2,000', what: 'Cash bonus', give: lvCash(2000), big: 1 },
-    { lv: 22, ic: 'club', name: 'Spin Wedge', what: 'Free club', give: lvClubU('spinw'), big: 1 },
-    { lv: 25, ic: 'shirt', name: 'Tour Elite outfit', what: 'Level-only outfit', give: lvOutfit('lv25'), big: 1 },
-    { lv: 30, ic: 'ball', name: 'Gold stripe ball', what: 'Ball line', give: lvLine('gold') },
-    { lv: 33, ic: 'club', name: 'Tour 8 Iron', what: 'Free club', give: lvClubU('tour8'), big: 1 },
-    { lv: 35, ic: 'club', name: 'White clubs', what: 'Club colour', give: lvClub('#f2f2ee') },
-    { lv: 40, ic: 'star', name: '$5,000', what: 'Cash bonus', give: lvCash(5000), big: 1 },
-    { lv: 44, ic: 'club', name: 'Tour 6 Iron', what: 'Free club', give: lvClubU('tour6'), big: 1 },
-    { lv: 50, ic: 'shirt', name: 'Stryke Platinum outfit', what: 'Level-only outfit', give: lvOutfit('lv50'), big: 1 },
-    { lv: 55, ic: 'club', name: 'Tour 3 Wood', what: 'Free club', give: lvClubU('tour3w'), big: 1 },
-    { lv: 60, ic: 'club', name: 'Gold clubs', what: 'Club colour', give: lvClub('#e5b740') },
-    { lv: 66, ic: 'club', name: '60° Tour Lob', what: 'Free club', give: lvClubU('w60'), big: 1 },
-    { lv: 75, ic: 'star', name: '$15,000', what: 'Cash bonus', give: lvCash(15000), big: 1 },
-    { lv: 80, ic: 'club', name: 'Thunder Driver', what: 'Free club', give: lvClubU('thunder'), big: 1 },
-    { lv: 90, ic: 'club', name: 'Tour Pro Driver', what: 'Free club', give: lvClubU('tourdr'), big: 1 },
-    { lv: 100, ic: 'trophy', name: 'Hall of Fame outfit', what: 'The top level', give: lvOutfit('lv100'), big: 1 }];
-  // (Nov 20 2026) a reward on EVERY level: big ones above, otherwise a free club upgrade every 3rd level and cash the rest
-  const LV_REWARDS = (() => {
-    const out = [];
-    for (let L = 2; L <= XP_MAX_LV; L++) {
-      const big = LV_BIG.find(r => r.lv === L);
-      if (big) { out.push(big); continue; }
-      if (L % 3 === 0) { const n = L >= 60 ? 2 : 1; out.push({ lv: L, ic: 'up', name: `${n} free upgrade${n > 1 ? 's' : ''}`, what: 'Power, Accuracy or Control', give: lvToken(n) }); }
-      else { const c = 250 + 50 * Math.floor(L / 10) * 5; out.push({ lv: L, ic: 'cash', name: money(c), what: 'Cash', give: lvCash(c) }); }
+  const lvBag = () => () => {};   // a pass bag is yours once its level is claimed (bagOpen checks the claim)
+  // [level, icon, name, what it is, give, big?]
+  const LV_REWARDS = [
+    [2, 'cash', '$250', 'Cash', lvCash(250)],
+    [3, 'ball', 'Black line ball', 'Ball line · Golfer › Ball', lvLine('black')],
+    [5, 'up', '1 free upgrade', 'Power, Accuracy or Control', lvToken(1)],
+    [7, 'club', 'Gunmetal clubs', 'Club colour · Clubs tab', lvClub('#53575e')],
+    [9, 'cash', '$400', 'Cash', lvCash(400)],
+    [10, 'shirt', 'Range Rat outfit', 'Navy windowpane blazer', lvOutfit('lv10'), 1],
+    [12, 'ball', 'Red line ball', 'Ball line · Golfer › Ball', lvLine('red')],
+    [14, 'up', '1 free upgrade', 'Power, Accuracy or Control', lvToken(1)],
+    [16, 'shirt', 'Royal blue jacket', 'Jacket colour', () => grantC('jacket', '#2747a8')],
+    [18, 'cash', '$750', 'Cash', lvCash(750)],
+    [20, 'club', 'Spin Wedge', 'Free club', lvClubU('spinw'), 1],
+    [23, 'club', 'Red clubs', 'Club colour · Clubs tab', lvClub('#B3122B')],
+    [25, 'shirt', 'Tour Elite outfit', 'Purple pinstripe, satin lapels', lvOutfit('lv25'), 1],
+    [28, 'up', '2 free upgrades', 'Power, Accuracy or Control', lvToken(2)],
+    [31, 'ball', 'Triple track ball', 'Ball line · Golfer › Ball', lvLine('triple')],
+    [34, 'cash', '$1,500', 'Cash', lvCash(1500)],
+    [37, 'club', 'Copper clubs', 'Club colour · Clubs tab', lvClub('#b8733a')],
+    [40, 'bag', 'Stryke Tour Staff bag', 'Tour bag (lies down on the tee)', lvBag(), 1],
+    [43, 'club', 'Tour 8 Iron', 'Free club', lvClubU('tour8'), 1],
+    [46, 'up', '2 free upgrades', 'Power, Accuracy or Control', lvToken(2)],
+    [50, 'shirt', 'Stryke Platinum outfit', 'Silver herringbone suit', lvOutfit('lv50'), 1],
+    [54, 'ball', 'Gold stripe ball', 'Ball line · Golfer › Ball', lvLine('gold')],
+    [58, 'cash', '$3,000', 'Cash', lvCash(3000)],
+    [62, 'club', 'Tour 6 Iron', 'Free club', lvClubU('tour6'), 1],
+    [66, 'club', 'White clubs', 'Club colour · Clubs tab', lvClub('#f2f2ee')],
+    [70, 'bag', 'Platinum Tour bag', 'Tour bag (lies down on the tee)', lvBag(), 1],
+    [74, 'up', '3 free upgrades', 'Power, Accuracy or Control', lvToken(3)],
+    [78, 'club', 'Tour 3 Wood', 'Free club', lvClubU('tour3w'), 1],
+    [82, 'club', 'Gold clubs', 'Club colour · Clubs tab', lvClub('#e5b740')],
+    [86, 'cash', '$8,000', 'Cash', lvCash(8000)],
+    [90, 'club', 'Thunder Driver', 'Free club', lvClubU('thunder'), 1],
+    [95, 'club', 'Tour Pro Driver', 'Free club', lvClubU('tourdr'), 1],
+    [100, 'trophy', 'Hall of Fame outfit', 'Gold diamond-weave tux · the top level', lvOutfit('lv100'), 1],
+  ].map(([lv, ic, name, what, give, big]) => ({ lv, ic, name, what, give, big: !!big }));
+  // claiming: save.lvClaimed[level] = 1. (Players from the first version of levels got their rewards automatically:
+  // anything they were already given counts as claimed, so nobody gets paid twice.)
+  save.lvClaimed = save.lvClaimed || {};
+  if (save.lvGot && !save.lvMigr) {
+    const Lnow = levelOf(save.xp).L;
+    LV_REWARDS.forEach(r => { if (r.lv > Lnow) return; save.lvClaimed[r.lv] = 1;   // already paid out the old way
+      if (r.ic !== 'cash' && r.ic !== 'up') { try { r.give(); } catch (e) {} } });               // items: make sure they own them
+    save.lvMigr = 1;
+  }
+  const lvReady = () => { const L = levelOf(save.xp).L; return LV_REWARDS.filter(r => r.lv <= L && !save.lvClaimed[r.lv]); };
+  function claimLv(lv) {
+    const r = LV_REWARDS.find(x => x.lv === lv); if (!r || save.lvClaimed[lv] || levelOf(save.xp).L < lv) return false;
+    save.lvClaimed[lv] = 1; try { r.give(); } catch (e) {}
+    return true;
+  }
+  function claimAndToast(list) {
+    const got = list.filter(r => claimLv(r.lv)); if (!got.length) return;
+    persist(); setTimeout(cloudSaveSoon, 0); try { sfx.buy(); } catch (e) {}
+    $('homeCoins').textContent = money(save.coins); renderLevel();
+    if (got.length === 1) toastQ.push({ a: { icon: ico(ICONS[got[0].ic] ? got[0].ic : 'gift'), label: `CLAIMED · LEVEL ${got[0].lv}`, name: got[0].name, pay: 0 } });
+    else toastQ.push({ a: { icon: ico('gift'), label: 'CLAIMED ALL', name: `${got.length} rewards`, pay: 0 } });
+    nextToast(); checkAwards();
+  }
+  // kept for older calls: nothing is handed out automatically any more
+  function applyLvRewards() { return []; }
+
+  // ================= Skills & Mastery (Nov 20 2026) =================
+  // Four skills that level up from how you actually play. Each skill has 10 mastery levels in 6 tiers
+  // (Bronze, Silver, Gold, Platinum, Diamond, Master). Every mastery level pays cash, Gold (5) and Master (10) give a
+  // permanent badge, and Master also gives a free club upgrade.
+  const SKILLS = [
+    { id: 'drive', name: 'Driving', ic: 'club', how: 'Tee shots on par 4s and 5s. Find the fairway for more.' },
+    { id: 'appr', name: 'Approach', ic: 'target', how: 'Full shots from 45+ yds that hit the green. Stick it close for more.' },
+    { id: 'short', name: 'Short Game', ic: 'flag', how: 'Chips and pitches inside 45 yds that finish close (or go in).' },
+    { id: 'putt', name: 'Putting', ic: 'ball', how: 'Putts holed. Long ones count much more.' }];
+  const MAST_T = [0, 20, 55, 110, 190, 300, 450, 650, 900, 1250, 1700];
+  const MAST_TIER = [['Unranked', '#8a8d93'], ['Bronze', '#c07a3e'], ['Bronze', '#c07a3e'], ['Silver', '#c9cdd3'], ['Silver', '#c9cdd3'], ['Gold', '#F2C14E'], ['Gold', '#F2C14E'],
+    ['Platinum', '#9fe3e0'], ['Platinum', '#9fe3e0'], ['Diamond', '#7cc7ff'], ['Master', '#ff6b7d']];
+  const mastLv = x => { let L = 0; while (L < 10 && (x | 0) >= MAST_T[L + 1]) L++; return L; };
+  const mastName = L => L ? `${MAST_TIER[L][0]}${L < 9 ? (L % 2 ? ' I' : ' II') : ''}` : 'Unranked';
+  save.mast = save.mast || {};
+  function addMastery(id, n) {
+    n = Math.round(n * xpMult()); if (n <= 0) return;
+    const before = mastLv(save.mast[id]); save.mast[id] = (save.mast[id] | 0) + n; const after = mastLv(save.mast[id]);
+    if (after > before) {
+      const sk = SKILLS.find(s => s.id === id); let pay = 0;
+      for (let L = before + 1; L <= after; L++) { pay += 150 * L; if (L === 10) save.upTokens = (save.upTokens | 0) + 1; }
+      save.coins += pay; save.stats.earnedTotal += pay;
+      toastQ.push({ a: { icon: ico(sk.ic), label: `${sk.name.toUpperCase()} MASTERY`, name: mastName(after) + (after === 5 || after === 10 ? ' · BADGE!' : ''), pay } }); nextToast();
     }
-    return out;
-  })();
-  // hand out every reward up to your level that you don't have yet (quiet = at start-up, no pop-ups)
-  function applyLvRewards(quiet) {
-    save.lvGot = save.lvGot || {};
-    const L = levelOf(save.xp).L, got = [];
-    LV_REWARDS.forEach(r => { if (r.lv <= L && !save.lvGot[r.lv]) { save.lvGot[r.lv] = 1; try { r.give(); } catch (e) {} got.push(r); } });
-    if (got.length) { persist(); if (!quiet) got.forEach(r => toastQ.push({ a: { icon: ico(ICONS[r.ic] ? r.ic : 'star'), label: `LEVEL ${r.lv} UNLOCK`, name: r.name, pay: 0 } })); }
-    return got;
+  }
+  // called when a shot finishes (holed = it went in). lastShot = where it was hit from.
+  function mastShot(endLie, endD, holed) {
+    const S = lastShot; if (!S || !hole || hole.mini || course.ctp || course.range) return;
+    if (S.putter) {
+      if (holed) addMastery('putt', 1 + (S.dist >= 5 ? 3 : 0) + (S.dist >= 10 ? 4 : 0));
+      else if (S.dist >= 10 && endD <= 1) addMastery('putt', 1);   // great lag
+      return;
+    }
+    if (S.tee && hole.par >= 4) { addMastery('drive', 1 + (endLie === 'fairway' ? 2 : 0) + (endLie === 'fairway' && lastShot.dist - endD >= 250 ? 1 : 0)); return; }
+    if (S.lie === 'green') return;
+    if (S.dist >= 45) {
+      if (holed) addMastery('appr', 10);
+      else if (endLie === 'green') addMastery('appr', 2 + (endD <= 8 ? 2 : 0) + (endD <= 3 ? 2 : 0));
+    } else {
+      if (holed) addMastery('short', 8);
+      else if (endD <= 3) addMastery('short', 2 + (endD <= 1.5 ? 2 : 0));
+    }
+  }
+  function masteryHtml() {
+    const rows = SKILLS.map(sk => {
+      const x = save.mast[sk.id] | 0, L = mastLv(x), nx = L < 10 ? MAST_T[L + 1] : null, pv = MAST_T[L], pct = nx ? Math.round((x - pv) / (nx - pv) * 100) : 100, col = MAST_TIER[L][1];
+      return `<div class="msk"><div class="mskI" style="border-color:${col};color:${col}">${ico(sk.ic)}<b>${L}</b></div><div class="mskB"><div class="mskT"><b>${sk.name}</b><span style="color:${col}">${mastName(L)}</span></div>
+        <i class="mskBar"><u style="width:${pct}%;background:${col}"></u></i><small>${nx ? `${x - pv} / ${nx - pv} to ${mastName(L + 1)} · +${money(150 * (L + 1))}` : 'Mastered!'}${!nx ? '' : L + 1 === 5 ? ' + Gold badge' : L + 1 === 10 ? ' + Master badge + free upgrade' : ''}</small>
+        <small class="mskH">${sk.how}</small></div></div>`;
+    }).join('');
+    return `<div class="sect" style="margin-top:16px">SKILLS &amp; MASTERY</div><div class="mskGrid">${rows}</div>`;
+  }
+  // permanent badges earned from ranks and mastery (shown in the Golfer tab)
+  function earnedBadgesHtml() {
+    const top = save.rankTop == null ? -1 : save.rankTop;
+    const rk = RANK_TIERS.map(([n, ic], i) => `<div class="eb${i <= top ? '' : ' off'}" title="${esc(n)}"><span>${i <= top ? ic : ico('lock')}</span><b>${n}</b><small>Ranked</small></div>`).join('');
+    const ms = SKILLS.flatMap(sk => [[5, 'Gold'], [10, 'Master']].map(([L, nm]) => { const has = mastLv(save.mast[sk.id]) >= L;
+      return `<div class="eb${has ? '' : ' off'}"><span style="color:${MAST_TIER[L][1]}">${has ? ico(sk.ic) : ico('lock')}</span><b>${nm} ${sk.name}</b><small>Mastery</small></div>`; })).join('');
+    const nRk = top + 1, nMs = SKILLS.reduce((a, sk) => a + (mastLv(save.mast[sk.id]) >= 5) + (mastLv(save.mast[sk.id]) >= 10), 0);
+    return `<div class="gcard" style="margin-top:12px"><div class="sect" style="display:flex;justify-content:space-between">RANK &amp; MASTERY BADGES<span>${nRk + nMs} / ${RANK_TIERS.length + SKILLS.length * 2}</span></div>
+      <div class="ebGrid">${rk}${ms}</div><div class="gnote">Reach a Ranked tier once and its badge is yours forever, even if your RP drops. Mastery badges come from Skills &amp; Mastery in the Awards tab.</div></div>`;
   }
   function lvChipHtml() {
-    const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100);
-    return `<b>LV ${v.L}</b><i><u style="width:${pct}%"></u></i>`;
+    const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100), n = lvReady().length;
+    return `<b>LV ${v.L}</b><i><u style="width:${pct}%"></u></i>${n ? `<em class="lvDot">${n}</em>` : ''}${isXPFriday() ? '<em class="lvX2">2×</em>' : ''}`;
   }
   function renderLevel() {
     const el = document.getElementById('homeLv'); if (!el) return;
     const v = levelOf(save.xp); el.innerHTML = lvChipHtml();
     el.setAttribute('role', 'button'); el.title = v.max ? `Level ${v.L} (max)` : `Level ${v.L} · ${v.into} / ${v.need} XP to level ${v.L + 1}`;
+    const at = document.querySelector('.tabs [data-tab="awards"]'); if (at) at.classList.toggle('hasDot', lvReady().length > 0);
+  }
+  // ---- the Stryke Level Pass: a scrolling row of rewards; reached ones have a CLAIM button, plus Claim all ----
+  function passHtml(where) {
+    const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100), ready = lvReady().length, fri = isXPFriday();
+    const cards = LV_REWARDS.map(r => {
+      const got = !!save.lvClaimed[r.lv], can = !got && v.L >= r.lv, nxt = !got && !can && r.lv === (LV_REWARDS.find(x => x.lv > v.L) || {}).lv;
+      const st = got ? 'got' : can ? 'ready' : nxt ? 'next' : 'locked';
+      const icon = got ? ico('check') : ICONS[r.ic] ? ico(r.ic) : r.ic === 'up' ? '⬆' : r.ic === 'cash' ? '$' : '★';
+      return `<div class="pn ${st}${r.big ? ' big' : ''}" data-plv="${r.lv}"><em>LV ${r.lv}</em><i>${icon}</i><b>${r.name}</b><small>${r.what}</small>
+        ${can ? `<button class="main sm" data-claim="${r.lv}">Claim</button>` : got ? '<span class="pst">Claimed</span>' : `<span class="pst">${ico('lock')} Level ${r.lv}</span>`}</div>`;
+    }).join('');
+    return `<div class="pass"><div class="passHead"><div class="passBadge"><small>LEVEL</small><b>${v.L}</b></div>
+        <div class="passT"><small>STRYKE LEVEL PASS</small><b>${v.max ? 'Max level!' : `Level ${v.L} → ${v.L + 1}`}</b><span>${v.max ? `${(save.xp | 0).toLocaleString()} XP` : `${v.into} / ${v.need} XP · ${v.need - v.into} to go`}</span></div>
+        <button class="main sm passAll" data-claimall="1"${ready ? '' : ' disabled'}>${ready ? `Claim all (${ready})` : 'All claimed'}</button></div>
+      <div class="lvBar"><u style="width:${where === 'pop' ? 0 : pct}%"></u><span>${v.max ? 'MAXED OUT' : pct + '%'}</span></div>
+      ${fri ? '<div class="xpFri">⚡ <b>2× XP FRIDAY</b>: every hole and round gives double XP today</div>' : '<div class="xpFri dim">⚡ Fridays are <b>2× XP</b> days</div>'}
+      ${(save.upTokens | 0) ? `<div class="lvNext">You have <b>${save.upTokens} free upgrade${save.upTokens === 1 ? '' : 's'}</b>: use them on any club in the Clubs tab.</div>` : ''}
+      <div class="passTrack" data-ptrack="1">${cards}</div></div>`;
+  }
+  function scrollPass(root) {
+    const tl = root && root.querySelector('[data-ptrack]'); if (!tl) return;
+    const nx = tl.querySelector('.pn.ready') || tl.querySelector('.pn.next') || tl.querySelector('.pn:not(.got)'); if (nx) tl.scrollLeft = Math.max(0, nx.offsetLeft - 16);
   }
   function showLevelPop() {
     const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100);
-    $('lvBody').innerHTML = `<div class="lvTop"><div class="lvBadge"><small>LEVEL</small><b>${v.L}</b></div>
-        <div><h2>${v.max ? 'Max level!' : 'Level ' + v.L}</h2><div class="lvTot">${(save.xp | 0).toLocaleString()} XP total</div></div></div>
-      <div class="lvBar"><u style="width:0%"></u><span>${v.max ? 'MAXED OUT' : `${v.into} / ${v.need} XP`}</span></div>
-      ${v.max ? '' : `<div class="lvEnds"><span>LV ${v.L}</span><span>${v.need - v.into} XP TO GO</span><span>LV ${v.L + 1}</span></div>`}
-      ${(save.upTokens | 0) ? `<div class="lvNext">You have <b>${save.upTokens} free upgrade${save.upTokens === 1 ? '' : 's'}</b>: use them on any club in the Clubs tab.</div>` : ''}
-      <div class="lvHow"><div class="lh2">REWARDS TIMELINE · SCROLL FOR WHAT'S NEXT</div>
-        <div class="lvLine" id="lvLine">${LV_REWARDS.map(r => { const st = v.L >= r.lv ? 'got' : r.lv === v.L + 1 ? 'next' : '';
-          return `<div class="lvN ${st}${r.big ? ' big' : ''}"><em>LV ${r.lv}</em><i>${st === 'got' ? ico('check') : ICONS[r.ic] ? ico(r.ic) : r.ic === 'up' ? '⬆' : '$'}</i><b>${r.name}</b><small>${r.what}</small></div>`; }).join('')}</div></div>
-      <div class="lvHow"><div class="lh2">HOW TO EARN XP</div>
-        <div><span>Finish a hole</span><b>+10</b></div><div><span>Par</span><b>+5 more</b></div><div><span>Birdie</span><b>+20 more</b></div>
-        <div><span>Eagle</span><b>+50 more</b></div><div><span>Hole in one</span><b>+150 more</b></div>
-        <div><span>Finish a 9-hole round</span><b>+40</b></div><div><span>Finish an 18-hole round</span><b>+100</b></div><div><span>Mini golf hole (birdie +5)</span><b>+5</b></div></div>`;
+    $('lvBody').innerHTML = passHtml('pop') + `<button class="ghost sm" data-gopass="1" style="width:100%;margin-top:10px">${ico('trophy')} Open in the Awards tab</button>
+      <div class="lvHow"><div class="lh2">HOW TO EARN XP${isXPFriday() ? ' · DOUBLE TODAY' : ''}</div>
+        <div><span>Finish a hole (bogey or worse)</span><b>+5</b></div><div><span>Par</span><b>+10</b></div><div><span>Birdie</span><b>+25</b></div>
+        <div><span>Eagle</span><b>+75</b></div><div><span>Albatross</span><b>+150</b></div><div><span>Hole in one</span><b>+250</b></div>
+        <div><span>Finish a 9-hole round</span><b>+25</b></div><div><span>Finish an 18-hole round</span><b>+60</b></div><div><span>Mini golf hole (birdie 6)</span><b>+3</b></div></div>`;
     $('lvPop').classList.remove('hidden');
-    requestAnimationFrame(() => setTimeout(() => { const u = document.querySelector('#lvBody .lvBar u'); if (u) u.style.width = pct + '%';
-      const tl = document.getElementById('lvLine'), nx = tl && tl.querySelector('.lvN:not(.got)'); if (tl && nx) tl.scrollLeft = Math.max(0, nx.offsetLeft - 104); }, 60));
+    requestAnimationFrame(() => setTimeout(() => { const u = document.querySelector('#lvBody .lvBar u'); if (u) u.style.width = pct + '%'; scrollPass($('lvBody')); }, 60));
   }
+  // claim buttons work wherever the pass is shown (the LV pop-up and the Awards tab)
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-claim],[data-claimall],[data-gopass]'); if (!b || b.disabled) return;
+    e.stopPropagation(); ensureAudio();
+    if (b.dataset.gopass) { $('lvPop').classList.add('hidden'); showHome(); setTab('awards'); return; }
+    const sl = (b.closest('.pass') || document).querySelector('[data-ptrack]'), keep = sl ? sl.scrollLeft : 0;
+    claimAndToast(b.dataset.claimall ? lvReady() : LV_REWARDS.filter(r => r.lv === +b.dataset.claim));
+    if (!$('lvPop').classList.contains('hidden')) { showLevelPop(); }
+    if (tab === 'awards') renderAwards();
+    document.querySelectorAll('[data-ptrack]').forEach(x => { x.scrollLeft = keep; });
+  }, true);
   $('homeLv').addEventListener('click', () => { ensureAudio(); sfx.click(); showLevelPop(); });
   $('lvOk').addEventListener('click', () => { sfx.click(); $('lvPop').classList.add('hidden'); });
   $('lvPop').addEventListener('click', e => { if (e.target.id === 'lvPop') $('lvPop').classList.add('hidden'); });
   const maxStrokes = () => hole && hole.mini ? 7 : MAX_STROKES;
   function finishHole() {
     if (course.ctp) return ctpDone(0);
+    if (!course.mini && lastShot) { try { mastShot('cup', 0, true); } catch (e) {} }
     scores[holeIdx] = strokes;
     const d = strokes - hole.par, st = save.stats;
     if (!course.mini) {
@@ -5277,7 +5498,7 @@
     if (!course.mini && !course.range && d <= -1 && hole.pinZone != null) { if (hole.pinZone === 2) save.stats.backPinBirdies = (save.stats.backPinBirdies | 0) + 1; else if (hole.pinZone === 0) save.stats.frontPinBirdies = (save.stats.frontPinBirdies | 0) + 1; }
     const mate = MP && MP.remote ? MP.remote : '';
     const moTxt = mo ? ` · Momentum +${mo}%` : hadMo ? ' · Momentum lost' : streak === MO_START - 1 ? ' · 1 more for Momentum' : '';
-    showBanner(term(strokes, hole.par), `${mate ? mate + ' · ' : ''}${strokes} stroke${strokes === 1 ? '' : 's'}${pay ? ` · +${money(pay)}` : ''}${xpGot ? ` · +${xpGot} XP` : ''}${moTxt}`, 2.3);
+    showBanner(term(strokes, hole.par), `${mate ? mate + ' · ' : ''}${strokes} stroke${strokes === 1 ? '' : 's'}${pay ? ` · +${money(pay)}` : ''}${xpGot ? ` · +${xpGot} XP${isXPFriday() ? ' (2×)' : ''}` : ''}${moTxt}`, 2.3);
     if (d <= -1 || strokes === 1) burst(140);
     saveLive(); persist(); checkAwards();
     state = 'holeDone'; doneT = 2.4;
@@ -6041,7 +6262,7 @@
       ${c.mini ? '<div style="font-size:12px;color:#f3d7a8;text-align:center">Par 41 · Max 7 strokes a hole · Payouts: 2 under $60 · 1 under (an ace on a par 2) $30 · par $10</div>'
         : `<div style="font-size:12px;color:#f3d7a8;text-align:center">In your bag: ${bag}</div>`}
       <div class="sect">THE HOLES</div><div class="holes">${holes}</div>
-      ${ONLINE ? `<div class="sect">LEADERBOARD</div><div class="seg"><button data-bm="daily" class="${boardMode === 'daily' ? 'on' : ''}">DAILY TOURNAMENT</button><button data-bm="all" class="${boardMode === 'all' ? 'on' : ''}">ALL-TIME</button></div>`
+      ${ONLINE ? `<div class="sect">LEADERBOARD</div><div class="seg"><button data-bm="daily" class="${boardMode === 'daily' ? 'on' : ''}">DAILY TOURNAMENT</button>${allTimeOff() ? '' : `<button data-bm="all" class="${boardMode === 'all' ? 'on' : ''}">ALL-TIME</button>`}</div>${allTimeOff() ? `<div class="gnote" style="margin:4px 2px 8px">The all-time board is taking a week off (back ${new Date(ALLTIME_OFF_UNTIL + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}). Go win today's Daily Tournament!</div>` : ''}`
         : '<div class="sect">LEADERBOARD · LOWEST SCORES</div>'}<div id="boardBox"></div>`;
     fillBoard(c);
   }
@@ -6076,7 +6297,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.19a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.20a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -6693,10 +6914,14 @@
     return `${Math.floor(mins / 60)}h ${mins % 60}m`;
   }
   let boardMode = 'daily';
+  // (Nov 20 2026) the all-time leaderboard takes a week off. Set to '' to bring it back early (or a new date to extend it).
+  const ALLTIME_OFF_UNTIL = '2026-11-27';
+  const allTimeOff = () => { try { return !!ALLTIME_OFF_UNTIL && etDay() < ALLTIME_OFF_UNTIL; } catch (e) { return false; } };
   const guestNote = () => fbUser ? '' : '<div class="tnote" style="margin-top:10px">Setting up your member code… <button class="main sm" data-signin="1">Member code</button></div>';
   async function fillBoard(c) {
     const box = $('boardBox'); if (!box) return;
     if (!ONLINE) { box.innerHTML = boardHtml(c); return; }
+    if (allTimeOff()) boardMode = 'daily';
     const mode = boardMode, day = etDay();
     box.innerHTML = '<div class="empty">Loading leaderboard…</div>';
     try {
@@ -7536,6 +7761,9 @@
     const [name, icon] = RANK_TIERS[tier], top = lv === RANK_LEVELS - 1;
     return { lv, tier, name: `${name} ${roman}`, icon, into: top ? 100 : Math.round((rp - lv * RP_LEVEL) / RP_LEVEL * 100), toNext: top ? 0 : (lv + 1) * RP_LEVEL - rp };
   }
+  // (Nov 20 2026) the highest Ranked tier you've ever reached (its badge is permanent)
+  if (save.rank && ((save.rank.w | 0) + (save.rank.l | 0) + (save.rank.t | 0)) > 0) { const tr = Math.floor(rankOf(save.rank.rp).lv / 3); if (save.rankTop == null || tr > save.rankTop) save.rankTop = tr; }
+
   save.rank = save.rank || { rp: 0, w: 0, l: 0, t: 0 };
   const rankHtml = rp => { const r = rankOf(rp); return `<span class="rankTag t${r.tier}">${r.icon} ${r.name}</span>`; };
   function matchCourse(m) {
@@ -7616,7 +7844,9 @@
     rec.ranked = save.rank.rp - before; persist();
     ranksRef().doc(fbUser.uid).set({ name: boardName(), uid: fbUser.uid, rp: save.rank.rp, w: save.rank.w, l: save.rank.l, at: Date.now() }).catch(() => {});
     rankLb = null;
-    const a = rankOf(before), b = rankOf(save.rank.rp);
+    const a = rankOf(before), b = rankOf(save.rank.rp), bt = Math.floor(b.lv / 3);
+    if (save.rankTop == null || bt > save.rankTop) { const first = save.rankTop == null || bt > save.rankTop; save.rankTop = Math.max(save.rankTop == null ? -1 : save.rankTop, bt); persist();
+      if (first && bt > 0) setTimeout(() => { toastQ.push({ a: { icon: RANK_TIERS[bt][1], label: 'PERMANENT BADGE', name: RANK_TIERS[bt][0], pay: 0 } }); nextToast(); }, 4600); }
     if (b.lv > a.lv) setTimeout(() => { toastQ.push({ a: { icon: b.icon, label: 'RANK UP', name: b.name, pay: 0 } }); nextToast(); }, 1200);
     return rec.ranked;
   }
@@ -7675,7 +7905,7 @@
         <div class="lh" style="margin-top:14px">YOUR RANK</div>
         <div class="qmRank"><span class="qmIcon">${r.icon}</span><div style="flex:1"><b>${r.name}</b><small>${rk.rp | 0} RP · ${rk.w | 0}W ${rk.l | 0}L${r.toNext ? ` · ${r.toNext} RP to the next level` : ' · top rank'}</small>
           <i class="qmBar"><u style="width:${r.into}%"></u></i></div></div>
-        <div class="lh" style="margin-top:12px">RANKED LEADERBOARD</div><div id="rankLb"><div class="empty">Loading…</div></div></div>`;
+        <div class="gnote" style="margin-top:8px">Every tier you reach gives you its badge for good (see Golfer › Rank &amp; Mastery badges).</div></div>`;
   }
   function renderMatchTab() {
     const box = $('matchBody'); if (!box) return;
@@ -7790,8 +8020,9 @@
     const pad = new THREE.Mesh(new THREE.CircleGeometry(1.5, 40), new THREE.MeshLambertMaterial({ color: 0x5fb556 }));
     pad.rotation.x = -Math.PI / 2; turn.add(pad);
     const bag = makeBag(previewBagMats); bag.position.set(-0.85, 0, -0.55); bag.rotation.y = 0.5; turn.add(bag);
+    const bagT = makeBag(previewBagMats, true); bagT.position.set(-0.55, 0, -0.75); bagT.rotation.y = 0.35; bagT.visible = false; turn.add(bagT);
     applyLook(previewMats, save.look); applyBag(previewBagMats, save.gbag);
-    prev3 = { r, sc, cam, g, ball, bag, turn, w: 0, h: 0 };
+    prev3 = { r, sc, cam, g, ball, bag, bagT, turn, w: 0, h: 0 };
     return prev3;
   }
   let prevRot = 0.6, prevDirty = true, prevDrag = null;
@@ -7811,6 +8042,7 @@
     if (P.paintFor !== CLUBS[0].id + clubColOf(CLUBS[0])) { P.paintFor = CLUBS[0].id + clubColOf(CLUBS[0]); paintClub(previewMats, CLUBS[0]); }
     // (update 2.4) the golfer stands still at address; drag the picture with your finger to spin it round
     P.turn.rotation.y = prevRot;
+    { const tb = isTourBag(tryBag ? Object.assign({}, save.gbag, tryBag) : save.gbag); P.bag.visible = !tb; P.bagT.visible = tb; }
     poseGolfer(P.g, kind, 0, 0, 0);
     P.cam.position.set(0, 1.3, 5.3); P.cam.lookAt(0, 0.8, 0);
     P.r.render(P.sc, P.cam);
@@ -7890,16 +8122,17 @@
   }
   function bagPanel() {
     const G = save.gbag;
-    const bagCost = p => p.award ? ((AWARDS.find(a => a.id === p.award) || {}).pay || 0) + 1 : 0;   // harder achievement = later in the list
+    const bagCost = p => p.pass ? 100000 + p.pass : p.award ? ((AWARDS.find(a => a.id === p.award) || {}).pay || 0) + 1 : 0;   // harder achievement = later in the list
     const cards = byCost(BAG_PRESETS.map((p, i) => [p, i]), ([p]) => bagCost(p)).map(([p, i]) => {
       const k = p.bag, locked = !bagOpen(p);
       return `<button class="pcard ${sameLook(G, k) ? 'on' : ''}${locked ? ' locked' : ''}" data-bpreset="${i}"><span class="mini">` +
         `<i style="background:${k.covers};flex:.6"></i><i style="background:${k.trim};flex:.3"></i><i style="background:${k.panel ? `linear-gradient(90deg,${k.body} 28%,#F2C14E 28% 32%,${k.panel} 32% 68%,#F2C14E 68% 72%,${k.body} 72%)` : k.body}"></i><i style="background:${k.trim};flex:.3"></i>` +
-        `${locked ? `<b class="lk">${ico('lock')}</b>` : ''}</span>${p.name}${locked ? '<small>LOCKED</small>' : ''}</button>`;
+        `${locked ? `<b class="lk">${ico('lock')}</b>` : ''}</span>${p.name}${locked ? `<small>${p.pass ? 'PASS LV ' + p.pass : 'LOCKED'}</small>` : isTourBag(k) ? '<small>TOUR BAG</small>' : ''}</button>`;
     }).join('');
     const bodies = byCost(BAG_SWATCHES.body, ([, c]) => { const bp = BAG_PRESETS.find(p => p.bag.body.toLowerCase() === c.toLowerCase()); return bp ? bagCost(bp) : 0; }).filter(([, c]) => BAG_PRESETS.some(p => bagOpen(p) && p.bag.body.toLowerCase() === c.toLowerCase()));
     const openN = BAG_PRESETS.filter(bagOpen).length;
-    const lockNote = bLockMsg ? (() => { const a = AWARDS.find(x => x.id === bLockMsg.award); return `<div class="locknote">${ico('lock')} <b>${bLockMsg.name}</b> bag is locked. Earn the <b>${a.icon} ${a.name}</b> achievement: ${a.how}.${tryBag ? '<br>Trying it on in the preview.' : ''}</div>`; })() : '';
+    const lockNote = bLockMsg ? (() => { if (bLockMsg.pass) return `<div class="locknote">${ico('lock')} <b>${bLockMsg.name}</b> is a Stryke Level Pass reward: reach level ${bLockMsg.pass} and claim it in the Awards tab.${tryBag ? '<br>Trying it on in the preview.' : ''}</div>`;
+      const a = AWARDS.find(x => x.id === bLockMsg.award); return `<div class="locknote">${ico('lock')} <b>${bLockMsg.name}</b> bag is locked. Earn the <b>${a.icon} ${a.name}</b> achievement: ${a.how}.${tryBag ? '<br>Trying it on in the preview.' : ''}</div>`; })() : '';
     const chips = BAG_PARTS.map(([k, n]) => `<button data-bpart="${k}" class="${k === bPart ? 'on' : ''}">${k === 'logo' ? ico('tag') + ' ' : `<i style="background:${G[k]}"></i>`}${n}</button>`).join('');
     const label = BAG_PARTS.find(x => x[0] === bPart)[1];
     const ownLogo = !!save.ownedLook['bag-logo:custom'], cl = customLogo();
@@ -8058,7 +8291,7 @@
       + `<div class="gnote" style="margin-top:4px">Saves battery on iPad: 30 fps, no shadows, no camera fly-ins (it cuts straight to your golfer), no confetti and a still home screen.</div>`;
     $('hrBox').innerHTML = save.hr ? `<div class="nameRow" style="margin-top:12px">Club House</div><div class="hrlock" style="margin-top:6px">Club House <b>${save.hr}</b> ${ico('lock')} <small>(can't be changed)</small></div>`
       : `<div class="nameRow" style="margin-top:12px">Pick your club house (can't be changed later)</div><div class="hrchips" style="margin-top:6px">${HOMEROOMS.map(h => `<button data-ghr="${h}">${h}</button>`).join('')}</div>`;
-    $('badgeBox').innerHTML = badgesHtml();
+    $('badgeBox').innerHTML = badgesHtml() + earnedBadgesHtml();
     const own = ownedBadges(), mb = myBadge();
     $('gBadge').innerHTML = own.map(b => `<button class="bmed${mb === b.id ? ' on' : ''}" data-bpop="${b.id}" title="${esc(b.name)}">${b.icon}</button>`).join('');
     $('gBadge').style.display = own.length ? '' : 'none';
@@ -8115,10 +8348,10 @@
     else if (d.preset != null) {
       const pr = LOOK_PRESETS[+d.preset];
       if (pr.lock && !unlocked(pr.lock)) { gLockMsg = pr.lock; tryLook = pr.look; }
-      else if (pr.lock) { OUTFIT_PARTS.forEach(k => pr.look[k] && grantC(k, pr.look[k])); setLook(pr.look); }   // earned outfits come with their colours
+      else if (pr.lock) { OUTFIT_PARTS.forEach(k => pr.look[k] && grantC(k, pr.look[k])); setLook(Object.assign({ pat: '', patc: '', lap: '', sq: '', btn: '' }, pr.look)); }   // earned outfits come with their colours (and designer details)
       else if (!presetOwned(pr)) pendingBuy = { kind: 'preset', title: `${pr.name} (full outfit)`, price: pr.price, swatch: pr.look.jacket,
-        grant: () => OUTFIT_PARTS.forEach(k => pr.look[k] && grantC(k, pr.look[k])), apply: () => setLook(pr.look) };
-      else setLook(pr.look);
+        grant: () => OUTFIT_PARTS.forEach(k => pr.look[k] && grantC(k, pr.look[k])), apply: () => setLook(Object.assign({ pat: '', patc: '', lap: '', sq: '', btn: '' }, pr.look)) };
+      else setLook(Object.assign({ pat: '', patc: '', lap: '', sq: '', btn: '' }, pr.look));
       if (pendingBuy) tryLook = pr.look;
     }
     else if (d.gpart) gPart = d.gpart;
@@ -8142,7 +8375,7 @@
     }
     else if (d.bpreset != null) {
       const bp = BAG_PRESETS[+d.bpreset];
-      if (bagOpen(bp)) { grantC('bag-trim', bp.bag.trim); grantC('bag-covers', bp.bag.covers); persist(); setBag(Object.assign({ panel: '' }, bp.bag)); } else { bLockMsg = bp; tryBag = Object.assign({ panel: '' }, bp.bag); }
+      if (bagOpen(bp)) { grantC('bag-trim', bp.bag.trim); grantC('bag-covers', bp.bag.covers); persist(); setBag(Object.assign({ panel: '', style: '' }, bp.bag)); } else { bLockMsg = bp; tryBag = Object.assign({ panel: '', style: '' }, bp.bag); }
     }
     else if (d.bpart) bPart = d.bpart;
     else if (d.ballc) { save.ballLook.color = d.ballc; persist(); applyBallLook(); }
@@ -8464,9 +8697,10 @@
       const have = list.filter(a => hasAward(a.id)).length;
       return `<details class="awgrp" data-awg="${k}"${awOpen[k] ? ' open' : ''}><summary>${ico(ic)}<b>${name}</b><span>${have} / ${list.length}</span></summary><div class="awlist">${list.map(card).join('')}</div></details>`;
     }).join('');
-    $('awardsBody').innerHTML = `<div class="sect" style="display:flex;justify-content:space-between">ACHIEVEMENTS<span>${got} / ${AWARDS.length}</span></div>
+    $('awardsBody').innerHTML = passHtml('awards') + masteryHtml() + `<div class="sect" style="display:flex;justify-content:space-between;margin-top:16px">ACHIEVEMENTS<span>${got} / ${AWARDS.length}</span></div>
       <div class="awbar"><b style="width:${Math.round(got / AWARDS.length * 100)}%"></b></div>${secs}`;
     $('awardsBody').querySelectorAll('details').forEach(d => d.addEventListener('toggle', () => { awOpen[d.dataset.awg] = d.open; }));
+    requestAnimationFrame(() => scrollPass($('awardsBody')));
   }
   // ---- (Nov 4 2026) Handicap Index, World Handicap System (USGA / GHIN) rules ----
   //  · each full 18 (or 9) hole round gives a Score Differential: (113 / Slope) x (Adjusted Gross Score - Course Rating).
@@ -8696,8 +8930,8 @@
     if (underBonus) lines += `<div><span>Under-par bonus</span><span>${money(underBonus)}</span></div>`;
     if (shortCut) lines += `<div><span style="opacity:.8">Ended before 9 holes: no pay for these holes</span><span></span></div>`;
     lines += `<div class="sum"><span>Earned</span><span>+${money(total)}</span></div>`;
-    { const rx = roundCut || course.ctp || course.range ? 0 : course.mini ? 30 : HOLES.length >= 18 ? 100 : 40;
-      if (rx) { gainXP(rx); lines = lines.replace('<div class="sum">', `<div><span>Round XP bonus</span><span>+${rx} XP</span></div><div class="sum">`); } }
+    { const rx = roundCut || course.ctp || course.range ? 0 : course.mini ? 15 : HOLES.length >= 18 ? 60 : 25;
+      if (rx) { const g = gainXP(rx); lines = lines.replace('<div class="sum">', `<div><span>Round XP bonus${isXPFriday() ? ' (2× Friday)' : ''}</span><span>+${g} XP</span></div><div class="sum">`); } }
     $('earnBox').innerHTML = lines;
 
     const wasLocked = COURSES.filter(c => !isUnlocked(c)).map(c => c.id);
@@ -9872,7 +10106,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.19a', NEWS_NUM = '4.3';
+  const NEWS_VER = '2026.11.20a', NEWS_NUM = '4.4';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -9914,8 +10148,21 @@
   ];
   // (Nov 4 2026) Update 3.1
   // (Nov 13 2026) Update 4.1
-  // (Nov 19 2026) Update 4.3
+  // (Nov 20 2026) Update 4.4
   const NEWS = [
+    ['trophy', '<b>The Stryke Level Pass</b> is at the top of the Awards tab. Rewards come every few levels now (not every level), and you <b>claim</b> each one (or hit Claim all): cash, free club upgrades, ball lines, club colours, designer outfits, free clubs and two new tour bags.'],
+    ['star', '<b>⚡ 2× XP Fridays!</b> Every hole and round gives double XP on Fridays.'],
+    ['star', '<b>New XP scale:</b> finish a hole 5 · par 10 · birdie 25 · eagle 75 · albatross 150 · hole in one 250.'],
+    ['target', '<b>Skills &amp; Mastery:</b> Driving, Approach, Short Game and Putting level up from how you play, Bronze to Master. Every level pays, Gold and Master give permanent badges.'],
+    ['shield', '<b>Ranked badges:</b> reach a tier once and its badge is yours for good (Golfer tab). The Ranked leaderboard is gone.'],
+    ['user', '<b>New golf bags:</b> a more realistic shape with real pockets, plus <b>tour bags that lie down</b> on the tee (Tour Staff Gold, Silver Bullet Tour, Black &amp; Gold Tour, and two Level Pass bags).'],
+    ['user', '<b>Designer outfits:</b> the level outfits now have patterns (windowpane, pinstripe, herringbone, diamond weave), contrast lapels, pocket squares and gold buttons.'],
+    ['flag', '<b>Hearst Executive plays about 20% longer.</b>'],
+    ['chart', '<b>Fixed:</b> a ball could sometimes roll smoothly uphill near the edge of the green. It now always follows the ground you see.'],
+    ['chart', '<b>The all-time leaderboard is taking a week off.</b> Go win the Daily Tournament!'],
+  ];
+  // (Nov 19 2026) Update 4.3
+  const NEWS_43 = [
     ['flag', '<b>Pin positions are random every time you play a hole.</b> The flag colour tells you where it is: <b>red = front</b>, <b>white = middle</b>, <b>blue = back</b> of the green (it shows next to the yardage too). Every flag now has the Stryke logo.'],
     ['flag', '<b>Take the pin out:</b> chipping or putting from close by? Tap TAKE PIN OUT (above the aim arrows) and put it back any time.'],
     ['trophy', '<b>15 new achievements:</b> level milestones, Ranked wins (up to 💎 Pure Striker), front and back pin birdies, holing a chip with the pin out, and spin shots.'],
@@ -10016,7 +10263,8 @@
     ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
   ];
   const UPDATES = [
-    ['4.3', 'Nov 19, 2026', NEWS.map(n => n[1])],
+    ['4.4', 'Nov 20, 2026', NEWS.map(n => n[1])],
+    ['4.3', 'Nov 19, 2026', NEWS_43.map(n => n[1])],
     ['4.2', 'Nov 16, 2026', NEWS_42.map(n => n[1])],
     ['4.1', 'Nov 13, 2026', NEWS_41.map(n => n[1])],
     ['4.0', 'Nov 11, 2026', NEWS_40.map(n => n[1])],
