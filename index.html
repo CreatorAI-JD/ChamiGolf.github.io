@@ -5254,12 +5254,12 @@
   const XP_MAX_LV = 100, xpNeed = L => 150 + 55 * (L - 1), lvPay = L => 0;
   function levelOf(xp) { xp = Math.max(0, xp | 0); let L = 1; while (L < XP_MAX_LV && xp >= xpNeed(L)) { xp -= xpNeed(L); L++; } return { L, into: xp, need: xpNeed(L), max: L >= XP_MAX_LV }; }
   const isXPFriday = () => { try { return new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short' }).format(new Date()) === 'Fri'; } catch (e) { return false; } };
-  // (Nov 22 2026) Thanksgiving week bonus: 2× XP every day Mon Nov 23 – Sun Nov 29 2026 (ET), 3× XP on Thanksgiving Day (Thu Nov 26)
+  // (Nov 22 2026) Thanksgiving week bonus: 2× XP every day Mon Nov 23 – Sun Nov 29 2026 (ET), 5× XP on Thanksgiving Day (Thu Nov 26)
   const etYMD = () => { try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); } catch (e) { return ''; } };
   const TGIV_START = '2026-11-23', TGIV_END = '2026-11-29', TGIV_DAY = '2026-11-26';
   const isTgivWeek = () => { const d = etYMD(); return d >= TGIV_START && d <= TGIV_END; };
   const isTgivDay = () => etYMD() === TGIV_DAY;
-  const xpMult = () => isTgivDay() ? 3 : (isTgivWeek() || isXPFriday()) ? 2 : 1;
+  const xpMult = () => isTgivDay() ? 5 : (isTgivWeek() || isXPFriday()) ? 2 : 1;
   const xpWhy = () => isTgivDay() ? 'Thanksgiving' : isTgivWeek() ? 'Thanksgiving week' : 'Friday';
   function holeXP(strokes, par, mini) {
     if (mini) return strokes - par <= -1 ? 6 : 3;
@@ -5433,7 +5433,7 @@
         <button class="main sm passAll" data-claimall="1"${ready ? '' : ' disabled'}>${ready ? `Claim all (${ready})` : 'All claimed'}</button></div>
       <div class="lvBar"><u style="width:${where === 'pop' ? 0 : pct}%"></u><span>${v.max ? 'MAXED OUT' : pct + '%'}</span></div>
       ${fri ? (xpWhy() === 'Friday' ? '<div class="xpFri">⚡ <b>2× XP FRIDAY</b>: every hole and round gives double XP today</div>'
-        : `<div class="xpFri">🦃 <b>${xpMult()}× XP · ${xpWhy().toUpperCase()}</b>: every hole and round gives ${xpMult() === 3 ? 'triple' : 'double'} XP today${isTgivDay() ? '' : ' (3× on Thanksgiving Day)'}</div>`)
+        : `<div class="xpFri">🦃 <b>${xpMult()}× XP · ${xpWhy().toUpperCase()}</b>: every hole and round gives ${xpMult() === 5 ? '5×' : 'double'} XP today${isTgivDay() ? '' : ' (5× on Thanksgiving Day)'}</div>`)
         : '<div class="xpFri dim">⚡ Fridays are <b>2× XP</b> days</div>'}
       ${(save.upTokens | 0) ? `<div class="lvNext">You have <b>${save.upTokens} free upgrade${save.upTokens === 1 ? '' : 's'}</b>: use them on any club in the Clubs tab.</div>` : ''}
       <div class="passTrack" data-ptrack="1">${cards}</div></div>`;
@@ -5445,7 +5445,7 @@
   function showLevelPop() {
     const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100);
     $('lvBody').innerHTML = passHtml('pop') + `<button class="ghost sm" data-gopass="1" style="width:100%;margin-top:10px">${ico('trophy')} Open in the Awards tab</button>
-      <div class="lvHow"><div class="lh2">HOW TO EARN XP${xpMult() === 3 ? ' · TRIPLE TODAY' : xpMult() === 2 ? ' · DOUBLE TODAY' : ''}</div>
+      <div class="lvHow"><div class="lh2">HOW TO EARN XP${xpMult() === 5 ? ' · 5× TODAY' : xpMult() === 2 ? ' · DOUBLE TODAY' : ''}</div>
         <div><span>Finish a hole (bogey or worse)</span><b>+5</b></div><div><span>Par</span><b>+10</b></div><div><span>Birdie</span><b>+25</b></div>
         <div><span>Eagle</span><b>+75</b></div><div><span>Albatross</span><b>+150</b></div><div><span>Hole in one</span><b>+250</b></div>
         <div><span>Finish a 9-hole round</span><b>+25</b></div><div><span>Finish an 18-hole round</span><b>+60</b></div><div><span>Mini golf hole (birdie 6)</span><b>+3</b></div></div>`;
@@ -10158,7 +10158,7 @@
   // (Nov 13 2026) Update 4.1
   // (Nov 22 2026) Update 4.5
   const NEWS = [
-    ['star', '<b>🦃 Thanksgiving week bonus!</b> <b>2× XP every day</b> from Monday Nov 23 to Sunday Nov 29, and <b>3× XP on Thanksgiving Day</b> (Thursday). Happy Thanksgiving!'],
+    ['star', '<b>🦃 Thanksgiving week bonus!</b> <b>2× XP every day</b> from Monday Nov 23 to Sunday Nov 29, and <b>5× XP on Thanksgiving Day</b> (Thursday). Happy Thanksgiving!'],
     ['flag', '<b>Hearst Executive plays about 10% longer</b> again.'],
   ];
   // (Nov 20 2026) Update 4.4
