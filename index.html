@@ -10397,7 +10397,7 @@
     save.newsVer = NEWS_VER;                       // (they don't need a list of changes too)
   } else {
     save.noteVer = Math.max(5, save.noteVer | 0);
-    if (save.newsVer !== NEWS_VER) showNews(); else setTimeout(firstName, 900);   // nothing to show first: ask for a name right away
+    if (save.newsVer !== NEWS_VER && save.newsVer !== '2026.11.22a') showNews(); else setTimeout(firstName, 900);   // nothing to show first: ask for a name right away
   }
   $('resetNote').addEventListener('click', e => {
     const b = e.target.closest('[data-welc]'); if (!b) return;
