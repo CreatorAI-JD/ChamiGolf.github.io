@@ -5254,7 +5254,13 @@
   const XP_MAX_LV = 100, xpNeed = L => 150 + 55 * (L - 1), lvPay = L => 0;
   function levelOf(xp) { xp = Math.max(0, xp | 0); let L = 1; while (L < XP_MAX_LV && xp >= xpNeed(L)) { xp -= xpNeed(L); L++; } return { L, into: xp, need: xpNeed(L), max: L >= XP_MAX_LV }; }
   const isXPFriday = () => { try { return new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short' }).format(new Date()) === 'Fri'; } catch (e) { return false; } };
-  const xpMult = () => isXPFriday() ? 2 : 1;
+  // (Nov 22 2026) Thanksgiving week bonus: 2× XP every day Mon Nov 23 – Sun Nov 29 2026 (ET), 3× XP on Thanksgiving Day (Thu Nov 26)
+  const etYMD = () => { try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); } catch (e) { return ''; } };
+  const TGIV_START = '2026-11-23', TGIV_END = '2026-11-29', TGIV_DAY = '2026-11-26';
+  const isTgivWeek = () => { const d = etYMD(); return d >= TGIV_START && d <= TGIV_END; };
+  const isTgivDay = () => etYMD() === TGIV_DAY;
+  const xpMult = () => isTgivDay() ? 3 : (isTgivWeek() || isXPFriday()) ? 2 : 1;
+  const xpWhy = () => isTgivDay() ? 'Thanksgiving' : isTgivWeek() ? 'Thanksgiving week' : 'Friday';
   function holeXP(strokes, par, mini) {
     if (mini) return strokes - par <= -1 ? 6 : 3;
     const d = strokes - par;
@@ -5404,7 +5410,7 @@
   }
   function lvChipHtml() {
     const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100), n = lvReady().length;
-    return `<b>LV ${v.L}</b><i><u style="width:${pct}%"></u></i>${n ? `<em class="lvDot">${n}</em>` : ''}${isXPFriday() ? '<em class="lvX2">2×</em>' : ''}`;
+    return `<b>LV ${v.L}</b><i><u style="width:${pct}%"></u></i>${n ? `<em class="lvDot">${n}</em>` : ''}${xpMult() > 1 ? `<em class="lvX2">${xpMult()}×</em>` : ''}`;
   }
   function renderLevel() {
     const el = document.getElementById('homeLv'); if (!el) return;
@@ -5414,7 +5420,7 @@
   }
   // ---- the Stryke Level Pass: a scrolling row of rewards; reached ones have a CLAIM button, plus Claim all ----
   function passHtml(where) {
-    const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100), ready = lvReady().length, fri = isXPFriday();
+    const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100), ready = lvReady().length, fri = xpMult() > 1;
     const cards = LV_REWARDS.map(r => {
       const got = !!save.lvClaimed[r.lv], can = !got && v.L >= r.lv, nxt = !got && !can && r.lv === (LV_REWARDS.find(x => x.lv > v.L) || {}).lv;
       const st = got ? 'got' : can ? 'ready' : nxt ? 'next' : 'locked';
@@ -5426,7 +5432,9 @@
         <div class="passT"><small>STRYKE LEVEL PASS</small><b>${v.max ? 'Max level!' : `Level ${v.L} → ${v.L + 1}`}</b><span>${v.max ? `${(save.xp | 0).toLocaleString()} XP` : `${v.into} / ${v.need} XP · ${v.need - v.into} to go`}</span></div>
         <button class="main sm passAll" data-claimall="1"${ready ? '' : ' disabled'}>${ready ? `Claim all (${ready})` : 'All claimed'}</button></div>
       <div class="lvBar"><u style="width:${where === 'pop' ? 0 : pct}%"></u><span>${v.max ? 'MAXED OUT' : pct + '%'}</span></div>
-      ${fri ? '<div class="xpFri">⚡ <b>2× XP FRIDAY</b>: every hole and round gives double XP today</div>' : '<div class="xpFri dim">⚡ Fridays are <b>2× XP</b> days</div>'}
+      ${fri ? (xpWhy() === 'Friday' ? '<div class="xpFri">⚡ <b>2× XP FRIDAY</b>: every hole and round gives double XP today</div>'
+        : `<div class="xpFri">🦃 <b>${xpMult()}× XP · ${xpWhy().toUpperCase()}</b>: every hole and round gives ${xpMult() === 3 ? 'triple' : 'double'} XP today${isTgivDay() ? '' : ' (3× on Thanksgiving Day)'}</div>`)
+        : '<div class="xpFri dim">⚡ Fridays are <b>2× XP</b> days</div>'}
       ${(save.upTokens | 0) ? `<div class="lvNext">You have <b>${save.upTokens} free upgrade${save.upTokens === 1 ? '' : 's'}</b>: use them on any club in the Clubs tab.</div>` : ''}
       <div class="passTrack" data-ptrack="1">${cards}</div></div>`;
   }
@@ -5437,7 +5445,7 @@
   function showLevelPop() {
     const v = levelOf(save.xp), pct = v.max ? 100 : Math.round(v.into / v.need * 100);
     $('lvBody').innerHTML = passHtml('pop') + `<button class="ghost sm" data-gopass="1" style="width:100%;margin-top:10px">${ico('trophy')} Open in the Awards tab</button>
-      <div class="lvHow"><div class="lh2">HOW TO EARN XP${isXPFriday() ? ' · DOUBLE TODAY' : ''}</div>
+      <div class="lvHow"><div class="lh2">HOW TO EARN XP${xpMult() === 3 ? ' · TRIPLE TODAY' : xpMult() === 2 ? ' · DOUBLE TODAY' : ''}</div>
         <div><span>Finish a hole (bogey or worse)</span><b>+5</b></div><div><span>Par</span><b>+10</b></div><div><span>Birdie</span><b>+25</b></div>
         <div><span>Eagle</span><b>+75</b></div><div><span>Albatross</span><b>+150</b></div><div><span>Hole in one</span><b>+250</b></div>
         <div><span>Finish a 9-hole round</span><b>+25</b></div><div><span>Finish an 18-hole round</span><b>+60</b></div><div><span>Mini golf hole (birdie 6)</span><b>+3</b></div></div>`;
@@ -5498,7 +5506,7 @@
     if (!course.mini && !course.range && d <= -1 && hole.pinZone != null) { if (hole.pinZone === 2) save.stats.backPinBirdies = (save.stats.backPinBirdies | 0) + 1; else if (hole.pinZone === 0) save.stats.frontPinBirdies = (save.stats.frontPinBirdies | 0) + 1; }
     const mate = MP && MP.remote ? MP.remote : '';
     const moTxt = mo ? ` · Momentum +${mo}%` : hadMo ? ' · Momentum lost' : streak === MO_START - 1 ? ' · 1 more for Momentum' : '';
-    showBanner(term(strokes, hole.par), `${mate ? mate + ' · ' : ''}${strokes} stroke${strokes === 1 ? '' : 's'}${pay ? ` · +${money(pay)}` : ''}${xpGot ? ` · +${xpGot} XP${isXPFriday() ? ' (2×)' : ''}` : ''}${moTxt}`, 2.3);
+    showBanner(term(strokes, hole.par), `${mate ? mate + ' · ' : ''}${strokes} stroke${strokes === 1 ? '' : 's'}${pay ? ` · +${money(pay)}` : ''}${xpGot ? ` · +${xpGot} XP${xpMult() > 1 ? ` (${xpMult()}×)` : ''}` : ''}${moTxt}`, 2.3);
     if (d <= -1 || strokes === 1) burst(140);
     saveLive(); persist(); checkAwards();
     state = 'holeDone'; doneT = 2.4;
@@ -8931,7 +8939,7 @@
     if (shortCut) lines += `<div><span style="opacity:.8">Ended before 9 holes: no pay for these holes</span><span></span></div>`;
     lines += `<div class="sum"><span>Earned</span><span>+${money(total)}</span></div>`;
     { const rx = roundCut || course.ctp || course.range ? 0 : course.mini ? 15 : HOLES.length >= 18 ? 60 : 25;
-      if (rx) { const g = gainXP(rx); lines = lines.replace('<div class="sum">', `<div><span>Round XP bonus${isXPFriday() ? ' (2× Friday)' : ''}</span><span>+${g} XP</span></div><div class="sum">`); } }
+      if (rx) { const g = gainXP(rx); lines = lines.replace('<div class="sum">', `<div><span>Round XP bonus${xpMult() > 1 ? ` (${xpMult()}× ${xpWhy()})` : ''}</span><span>+${g} XP</span></div><div class="sum">`); } }
     $('earnBox').innerHTML = lines;
 
     const wasLocked = COURSES.filter(c => !isUnlocked(c)).map(c => c.id);
@@ -10106,7 +10114,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.20a', NEWS_NUM = '4.4';
+  const NEWS_VER = '2026.11.22a', NEWS_NUM = '4.5';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -10148,8 +10156,13 @@
   ];
   // (Nov 4 2026) Update 3.1
   // (Nov 13 2026) Update 4.1
-  // (Nov 20 2026) Update 4.4
+  // (Nov 22 2026) Update 4.5
   const NEWS = [
+    ['star', '<b>🦃 Thanksgiving week bonus!</b> <b>2× XP every day</b> from Monday Nov 23 to Sunday Nov 29, and <b>3× XP on Thanksgiving Day</b> (Thursday). Happy Thanksgiving!'],
+    ['flag', '<b>Hearst Executive plays about 10% longer</b> again.'],
+  ];
+  // (Nov 20 2026) Update 4.4
+  const NEWS_44 = [
     ['trophy', '<b>The Stryke Level Pass</b> is at the top of the Awards tab. Rewards come every few levels now (not every level), and you <b>claim</b> each one (or hit Claim all): cash, free club upgrades, ball lines, club colours, designer outfits, free clubs and two new tour bags.'],
     ['star', '<b>⚡ 2× XP Fridays!</b> Every hole and round gives double XP on Fridays.'],
     ['star', '<b>New XP scale:</b> finish a hole 5 · par 10 · birdie 25 · eagle 75 · albatross 150 · hole in one 250.'],
@@ -10263,7 +10276,8 @@
     ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
   ];
   const UPDATES = [
-    ['4.4', 'Nov 20, 2026', NEWS.map(n => n[1])],
+    ['4.5', 'Nov 22, 2026', NEWS.map(n => n[1])],
+    ['4.4', 'Nov 20, 2026', NEWS_44.map(n => n[1])],
     ['4.3', 'Nov 19, 2026', NEWS_43.map(n => n[1])],
     ['4.2', 'Nov 16, 2026', NEWS_42.map(n => n[1])],
     ['4.1', 'Nov 13, 2026', NEWS_41.map(n => n[1])],
