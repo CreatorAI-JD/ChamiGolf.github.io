@@ -10114,7 +10114,7 @@
   // ---- Pop-ups: the first-time welcome, "What's new" after an update, and one-time tips ----
   // What's new only lists things players can see in the game (nothing about anti-cheat, analytics or creator tools).
   // To announce a new update: change NEWS_VER and replace NEWS.
-  const NEWS_VER = '2026.11.22a', NEWS_NUM = '4.5';
+  const NEWS_VER = '2026.11.20a', NEWS_NUM = '4.4';
   const NEWS_20 = [
     ['🏆', '<b>New leaderboard season!</b> Season 4 starts now: every leaderboard, Daily Tournament and Closest to the Pin board has been reset, so everyone starts fresh.'],
     ['🏌️', '<b>The Driving Range is open.</b> Grab a bucket of 30 balls and hit eight target greens from 50 to 270 yards. Drop one in a <b>bucket</b> for big money, and keep a 🔥 streak going for a bonus.'],
@@ -10156,13 +10156,8 @@
   ];
   // (Nov 4 2026) Update 3.1
   // (Nov 13 2026) Update 4.1
-  // (Nov 22 2026) Update 4.5
-  const NEWS = [
-    ['star', '<b>🦃 Thanksgiving week bonus!</b> <b>2× XP every day</b> from Monday Nov 23 to Sunday Nov 29, and <b>5× XP on Thanksgiving Day</b> (Thursday). Happy Thanksgiving!'],
-    ['flag', '<b>Hearst Executive plays about 10% longer</b> again.'],
-  ];
   // (Nov 20 2026) Update 4.4
-  const NEWS_44 = [
+  const NEWS = [
     ['trophy', '<b>The Stryke Level Pass</b> is at the top of the Awards tab. Rewards come every few levels now (not every level), and you <b>claim</b> each one (or hit Claim all): cash, free club upgrades, ball lines, club colours, designer outfits, free clubs and two new tour bags.'],
     ['star', '<b>⚡ 2× XP Fridays!</b> Every hole and round gives double XP on Fridays.'],
     ['star', '<b>New XP scale:</b> finish a hole 5 · par 10 · birdie 25 · eagle 75 · albatross 150 · hole in one 250.'],
@@ -10170,7 +10165,7 @@
     ['shield', '<b>Ranked badges:</b> reach a tier once and its badge is yours for good (Golfer tab). The Ranked leaderboard is gone.'],
     ['user', '<b>New golf bags:</b> a more realistic shape with real pockets, plus <b>tour bags that lie down</b> on the tee (Tour Staff Gold, Silver Bullet Tour, Black &amp; Gold Tour, and two Level Pass bags).'],
     ['user', '<b>Designer outfits:</b> the level outfits now have patterns (windowpane, pinstripe, herringbone, diamond weave), contrast lapels, pocket squares and gold buttons.'],
-    ['flag', '<b>Hearst Executive plays about 20% longer.</b>'],
+    ['flag', '<b>Hearst Executive plays longer:</b> about 20% longer (Nov 20), and another 10% longer (Nov 22).'],
     ['chart', '<b>Fixed:</b> a ball could sometimes roll smoothly uphill near the edge of the green. It now always follows the ground you see.'],
     ['chart', '<b>The all-time leaderboard is taking a week off.</b> Go win the Daily Tournament!'],
   ];
@@ -10276,8 +10271,7 @@
     ['shield', '<b>Fair play:</b> rounds that can\'t be real don\'t go on the leaderboards. Nobody gets banned automatically.'],
   ];
   const UPDATES = [
-    ['4.5', 'Nov 22, 2026', NEWS.map(n => n[1])],
-    ['4.4', 'Nov 20, 2026', NEWS_44.map(n => n[1])],
+    ['4.4', 'Nov 20, 2026', NEWS.map(n => n[1])],
     ['4.3', 'Nov 19, 2026', NEWS_43.map(n => n[1])],
     ['4.2', 'Nov 16, 2026', NEWS_42.map(n => n[1])],
     ['4.1', 'Nov 13, 2026', NEWS_41.map(n => n[1])],
@@ -10366,6 +10360,17 @@
   };
   save.tips = save.tips || {};
   const isNewGolfer = !hadSave && !(save.stats.rounds > 0);
+  // (Nov 22 2026) Thanksgiving week bonus pop-up: once per golfer, on the home screen, during Nov 23 – 29 2026 (ET)
+  function showTgiv() {
+    if (save.tgiv26 || !isTgivWeek() || inRound() || popOpen() || !$('nameAsk').classList.contains('hidden') || !$('liveOv').classList.contains('hidden')
+      || !$('updPop').classList.contains('hidden') || !$('updReady').classList.contains('hidden')) return;
+    save.tgiv26 = 1; persist();
+    $('tipTitle').textContent = '🦃 Thanksgiving Week Bonus!';
+    $('tipBody').innerHTML = `<b>2× XP every day</b> from Monday Nov 23 to Sunday Nov 29, and <b>5× XP on Thanksgiving Day</b> (Thursday Nov 26).${isTgivDay() ? '<br><br><b>It\'s Thanksgiving: 5× XP today!</b>' : ''}<br><br>Every hole and every round counts. Happy Thanksgiving!`;
+    $('tipOk').textContent = "Let's play"; $('tipOk').className = 'main';
+    $('tipPop').classList.remove('hidden');
+  }
+  setInterval(() => { try { showTgiv(); } catch (e) {} }, 4000);
   const popOpen = () => ['resetNote', 'newsPop', 'tipPop', 'msgPop'].some(id => !$(id).classList.contains('hidden'));
   function showTip(k) {
     try { if (!save.tips || save.tips[k] || popOpen() || !TIPS[k]) return; } catch (e) { return; }   // (setTab can run before the tips are set up)
