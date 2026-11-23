@@ -2225,7 +2225,7 @@
   };
   const bethHoles = (mk, list) => list.map(n => mk(n, ...BETH[n]));
   // ---- New courses (Oct 27 2026): Founders Park, Hearst Executive, Darby Beach and Flyers Presidential (original holes) ----
-  const FPD = { k: 1.0, fw: 1.1, gm: 1.1 }, HXD = { k: 1.22, fw: 1.0, gm: 0.95 }   /* (Nov 20 2026) Hearst Executive plays about 20% longer */, DBD = { k: 1.04, fw: 0.98, gm: 0.98 }, FXD = { k: 1.07, fw: 0.88, gm: 0.88 };
+  const FPD = { k: 1.0, fw: 1.1, gm: 1.1 }, HXD = { k: 1.35, fw: 1.0, gm: 0.95 }   /* (Nov 20 2026) Hearst Executive plays about 20% longer; (Nov 22 2026) about 10% longer again, scores were still too low */, DBD = { k: 1.04, fw: 0.98, gm: 0.98 }, FXD = { k: 1.07, fw: 0.88, gm: 0.88 };
   const FNP = (n, nm, par, y, o) => own(R(FPD, 'Founders Park', n, nm, par, y, Object.assign({ ts: 30, t: [50, 50] }, o)));
   const HXC = (n, nm, par, y, o) => own(R(HXD, 'Hearst Executive', n, nm, par, y, Object.assign({ ts: 24, t: [40, 40] }, par === 3 ? { fw: [['g-32', 'g-13', 24]] } : {}, o)));
   const DBC = (n, nm, par, y, o) => own(R(DBD, 'Darby Beach', n, nm, par, y, Object.assign({ ts: 44, t: [52, 52], tr: 6 }, o)));
@@ -6297,7 +6297,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.20a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.22a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
