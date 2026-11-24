@@ -7952,7 +7952,7 @@
     let a = null; try { a = qAct && qAct[kind]; } catch (e) {}   // (renderMpCard can run before qAct is set up)
     if (!a) return '<i></i>…';
     const w = a.s, p = a.m * 2;
-    if (!w && !p) return '<i></i>Quiet';
+    if (!w && !p) return '<i></i><b>0</b> waiting';
     return `<i></i>${w ? `<b>${w}</b> waiting` : ''}${w && p ? ' · ' : ''}${p ? `<b>${p}</b> playing` : ''}`;
   }
   function fillMpLive() {
@@ -7968,7 +7968,7 @@
   setInterval(() => { if (!document.hidden && (document.getElementById('qmAct-ranked') || document.getElementById('qmWait'))) fillQAct(true); }, 15000);
   // home screen: refresh the live counts every 30 s while the Play tab is showing (not during a round)
   setInterval(() => { const el = document.getElementById('mpLive-ranked'); if (!document.hidden && el && el.offsetParent && !inRound()) fillQAct(true); }, 30000);
-  setTimeout(() => { if (document.getElementById('mpLive-ranked')) fillQAct(true); }, 2500);
+  [2500, 6000, 12000].forEach(ms => setTimeout(() => { if (document.getElementById('mpLive-ranked') && !qAct) fillQAct(true); }, ms));   // (sign-in can take a few seconds)
   let rankLb = null, rankLbAt = 0;
   async function fillRankLb() {
     const el = document.getElementById('rankLb'); if (!el) return;
