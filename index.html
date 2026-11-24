@@ -181,7 +181,7 @@
     .crest{width:38px;height:38px;font-size:18px} .bname{font-size:20px} .coins{font-size:16px;padding:5px 11px}
     .hbody{padding:4px 10px 80px}
     .tabs button{font-size:9.5px;letter-spacing:.04em} .tabs button .ic{font-size:18px;height:20px} .tabs button .ic .ico{width:20px;height:20px}
-    .miniBtn{padding:9px 14px 9px 10px;font-size:15px;bottom:calc(env(safe-area-inset-bottom) + 90px)}
+    .miniBtn{padding:9px 14px 9px 10px;font-size:15px}
     .course .thumb,.ctp .thumb{width:68px;min-height:96px} .course .cn{font-size:18px} .ctp .cn{font-size:20px} .course .cd{font-size:12px}
   }
   @media (max-height:500px) {   /* phone sideways: the map panel gets even smaller so it doesn't cover the hole */
@@ -294,7 +294,8 @@
   .hbody{flex:1;overflow-y:auto;padding:4px 16px 84px;-webkit-overflow-scrolling:touch;touch-action:pan-y}
   .wrap{max-width:560px;margin:0 auto}
   .sect{font:700 13px Inter,sans-serif;letter-spacing:.18em;color:var(--gold);margin:14px 2px 10px}
-  .miniBtn{position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom) + 102px);z-index:2;display:flex;align-items:center;gap:8px;
+  /* (Nov 23 2026) tucked into the bottom-right corner, sitting right on top of the Stats tab (--tabsH = the tab bar's height, set from JS) */
+  .miniBtn{position:absolute;right:8px;bottom:calc(var(--tabsH, calc(env(safe-area-inset-bottom) + 63px)) + 6px);z-index:2;display:flex;align-items:center;gap:8px;
            padding:12px 20px 12px 14px;border-radius:999px;border:2px solid var(--gold-l);cursor:pointer;
            background:linear-gradient(180deg,#d6262f,#7A0C1D);color:#fff;font:700 18px Oswald,sans-serif;letter-spacing:.05em;text-transform:uppercase;
            box-shadow:0 6px 18px rgba(0,0,0,.45),0 0 0 4px rgba(242,193,78,.18)}
@@ -342,7 +343,7 @@
   button:disabled{opacity:.45;cursor:default;box-shadow:none}
 
   /* ---------- Clubs tab: bag rack + workshop + collapsible stats ---------- */
-  .crack{display:grid;grid-template-columns:repeat(9,minmax(64px,1fr));gap:8px;overflow-x:auto;padding:2px 2px 8px;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+  .crack{display:grid;grid-template-columns:repeat(9,minmax(64px,1fr));gap:8px;overflow-x:auto;padding:13px 8px 8px 4px;margin:-6px -4px 0;   /* (Nov 23 2026) room so the ▲ upgrade badges aren't cut off */-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
   .cchip{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px 8px;border-radius:14px;cursor:pointer;color:#fff;
          background:linear-gradient(180deg,#6d0a1a,#3a050d);border:2px solid rgba(242,193,78,.35);transition:transform .15s,border-color .15s}
   .cchip svg{width:38px;height:38px}
@@ -350,7 +351,7 @@
   .cchip em{font:700 11px Inter;font-style:normal;opacity:.85}
   .cchip .pips{gap:2px;margin-top:3px}.cchip .pip{width:8px;height:4px}
   .cchip.on{border-color:var(--gold-l);background:linear-gradient(180deg,#B3122B,#5c0815);transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,.45),0 0 0 2px rgba(255,224,138,.25)}
-  .cchip.can::after{content:'▲';position:absolute;top:-7px;right:-5px;width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--red-dd);font:900 9px/18px Inter;text-align:center;box-shadow:0 2px 4px rgba(0,0,0,.4)}
+  .cchip.can::after{content:'▲';position:absolute;top:-7px;right:-4px;z-index:1;width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--red-dd);font:900 9px/18px Inter;text-align:center;box-shadow:0 2px 4px rgba(0,0,0,.4)}
   .cmain{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:12px;align-items:start;margin-top:8px;transition:grid-template-columns .25s}
   .cmain.shut{grid-template-columns:minmax(0,1fr) 38px}
   .chero{display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;border:2px solid var(--gold);
@@ -703,6 +704,13 @@
   .mptRows div.rk{border-left-color:var(--gold-l)}.mptRows div.cs{border-left-color:#9fe0b8}
   .mptRows b{display:block;font:700 15px Oswald,sans-serif;letter-spacing:.03em;color:#fff}
   .mptRows small{display:block;font-size:11.5px;color:#f3d7a8;margin-top:1px}
+  /* (Nov 23 2026) live counts on the home PvP card: golfers waiting + golfers in a match, per mode */
+  .mptRows div.rk,.mptRows div.cs{position:relative}
+  .mptRows .mpLive{position:absolute;top:7px;right:8px;display:inline-flex;align-items:center;gap:5px;padding:2px 8px 2px 6px;border-radius:999px;
+    background:rgba(0,0,0,.4);font:800 10.5px Inter,sans-serif;letter-spacing:.03em;color:#ddd;border:0;margin:0;white-space:nowrap}
+  .mptRows .mpLive i{width:8px;height:8px;border-radius:50%;background:#9a9a9a;flex:none}
+  .mptRows .mpLive.on{color:#b9f5c8}.mptRows .mpLive.on i{background:#3ee07a;animation:qaPulse 1.6s infinite}
+  .mptRows .mpLive b{display:inline;font:800 10.5px Inter,sans-serif;color:#fff;letter-spacing:0}
   .mpc.mptall .main{padding-top:13px;padding-bottom:13px;font-size:16px}
   .mpc .cn{font:700 23px/1.1 Oswald,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:.03em;margin:3px 0 4px}
   .mpc .cm{font-size:12px;color:#fff;opacity:.9}
@@ -1137,7 +1145,7 @@
     .hhead .brand{flex:1 1 calc(100% - 150px);order:0} .hhead .lvchip{order:1;margin-left:auto;margin-right:0} .hhead .coins{order:1;margin-left:6px}
     #adminBtn,#hBadges,#lowBat,#acctBtn{order:2}
     .hhead .bname{font-size:19px} .hhead .tag{font-size:9px;letter-spacing:.16em}
-    .miniBtn{height:44px;padding:0 14px;font-size:13px;gap:6px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 92px)}
+    .miniBtn{height:44px;padding:0 14px;font-size:13px;gap:6px;right:6px}
     .miniBtn span{font-size:18px} .miniBtn span .ico{width:18px;height:18px}
     .gstage{height:240px}
   }
@@ -2000,6 +2008,39 @@
     ['pinout', '🚩', 'Pin Puller', 'Hole a chip after taking the pin out', s => [s.pinOutChips | 0, 1], 600],
     ['spin1', '🌀', 'Spin Doctor', 'Unlock spin control (Pro Ball level 7)', s => [(save.ball | 0) >= 7 ? 1 : 0, 1], 1000],
     ['spin25', '↩️', 'Zip Zip', 'Hit 25 shots with backspin', s => [s.spinShots | 0, 25], 2500],
+    // (Nov 23 2026) more achievements: levels, money, mastery, milestones, Ott Fields and Thanksgiving
+    // (mastery thresholds are written out here because these can be checked before the mastery section has run)
+    ['lv2', '👣', 'First Steps', 'Reach level 2', s => [levelOf(save.xp).L, 2], 150],
+    ['lv15', '🧗', 'Climbing', 'Reach level 15', s => [levelOf(save.xp).L, 15], 2500],
+    ['lv20', '🎯', 'Locked In', 'Reach level 20', s => [levelOf(save.xp).L, 20], 3500],
+    ['lv30', '🔥', 'Dedicated', 'Reach level 30', s => [levelOf(save.xp).L, 30], 7500],
+    ['lv40', '⚡', 'Seasoned Pro', 'Reach level 40', s => [levelOf(save.xp).L, 40], 10000],
+    ['lv60', '🌋', 'Unstoppable Force', 'Reach level 60', s => [levelOf(save.xp).L, 60], 20000],
+    ['lv75', '🛸', 'Out of This World', 'Reach level 75', s => [levelOf(save.xp).L, 75], 30000],
+    ['lv90', '🗿', 'Living Legend', 'Reach level 90', s => [levelOf(save.xp).L, 90], 40000],
+    ['earn1k', '💵', 'First Paycheck', 'Earn $1,000 in total', s => [s.earnedTotal, 1000], 100],
+    ['earn25k', '💸', 'Making Money', 'Earn $25,000 in total', s => [s.earnedTotal, 25000], 1000],
+    ['earn50k', '🤑', 'Cashing In', 'Earn $50,000 in total', s => [s.earnedTotal, 50000], 2000],
+    ['earn250k', '💼', 'Sponsored', 'Earn $250,000 in total', s => [s.earnedTotal, 250000], 7500],
+    ['earn500k', '🛥️', 'High Roller', 'Earn $500,000 in total', s => [s.earnedTotal, 500000], 15000],
+    ['earn1m', '🏰', 'Millionaire', 'Earn $1,000,000 in total', s => [s.earnedTotal, 1000000], 40000],
+    ['bank10k', '🐷', 'Piggy Bank', 'Have $10,000 in the bank at once', s => [save.coins | 0, 10000], 500],
+    ['bank50k', '🏧', 'Saver', 'Have $50,000 in the bank at once', s => [save.coins | 0, 50000], 2500],
+    ['bank100k', '🪙', 'Vault', 'Have $100,000 in the bank at once', s => [save.coins | 0, 100000], 5000],
+    ['mastB4', '🥉', 'All-Rounder', 'Reach Bronze in all four skills (Skills & Mastery)', s => [['drive', 'appr', 'short', 'putt'].filter(k => ((save.mast || {})[k] | 0) >= 20).length, 4], 1000],
+    ['mastG1', '🥇', 'Specialist', 'Reach Gold in any skill', s => [Math.max(0, ...['drive', 'appr', 'short', 'putt'].map(k => (save.mast || {})[k] | 0)), 300], 3000],
+    ['mastG4', '🏵️', 'Complete Golfer', 'Reach Gold in all four skills', s => [['drive', 'appr', 'short', 'putt'].filter(k => ((save.mast || {})[k] | 0) >= 300).length, 4], 12000],
+    ['mastM1', '🎓', 'Master Class', 'Reach Master in any skill', s => [Math.max(0, ...['drive', 'appr', 'short', 'putt'].map(k => (save.mast || {})[k] | 0)), 1700], 20000],
+    ['rounds500', '🗓️', 'Every Day Golfer', 'Finish 500 rounds', s => [s.rounds, 500], 12000],
+    ['holes2500', '🥾', 'Marathon', 'Play 2,500 holes', s => [s.holes, 2500], 5000],
+    ['par500', '🧮', 'Mr. Consistent', 'Make 500 pars', s => [s.pars, 500], 3000],
+    ['birdie250', '🦩', 'Birdie Flock', 'Make 250 birdies', s => [s.birdies, 250], 4000],
+    ['birdie500', '🦚', 'Birdie King', 'Make 500 birdies', s => [s.birdies, 500], 10000],
+    ['eagle25', '🦅', 'Eagle Nest', 'Make 25 eagles', s => [s.eagles, 25], 2500],
+    ['ace10', '🎰', 'Ace Machine', 'Make 10 holes in one', s => [s.aces, 10], 10000],
+    ['underpar50', '📊', 'Red Zone', 'Finish 50 rounds under par', s => [s.underPar, 50], 12000],
+    ['ott', '🌾', 'Field Day', 'Finish Ott Fields under par', s => [s.bestBy.ott != null && s.bestBy.ott < 0 ? 1 : 0, 1], 1000],
+    ['tgiv', '🦃', 'Thanksgiving Tee Time', 'Finish a round on Thanksgiving Day', s => [s.tgivRounds | 0, 1], 1500],
   ].map(([id, icon, name, how, prog, pay]) => ({ id, icon, name, how, prog, pay }));
   const awardDone = a => { const [h, n] = a.prog(st$()); return h >= n; };
   const hasAward = id => !!save.awards[id];
@@ -2194,6 +2235,10 @@
   const CLB = (n, nm, par, y, o) => R(BLK, 'Bethpage Black', n, nm, par, y, Object.assign({ t: [46, 46], ts: 28 }, o));
   const own = h => { h.after = null; return h; };   // original holes (not modeled on a real course)
   const P3 = (n, nm, y, o) => own(R(D3C, '3C', n, nm, 3, y, Object.assign({ t: [46, 46], ts: 26, fw: [['g-35', 'g-13', 26]] }, o)));
+  // (Nov 23 2026) Ott Fields: a 9-hole course where every hole is straight and narrow side to side (tight out of bounds, trees close in),
+  // so a whole hole fits on screen. Fairways are a touch wider to make up for the out of bounds being closer.
+  const OTT = { k: 1.0, fw: 1.05, gm: 1.0 };
+  const OF = (n, nm, par, y, o) => own(R(OTT, 'Ott Fields', n, nm, par, y, Object.assign({ m: [44, 44], mb: 24, t: [36, 36], ts: 26, tr: 7, fw: par === 3 ? [] : [[0.08, 0.93, 36]] }, o)));
   const FL = (n, nm, par, y, o) => own(R(LAKE, 'Faerber Lake', n, nm, par, y, Object.assign({ ts: 30, t: [50, 50] }, o)));
   const CL_PAL = { outer: '#2f6f30', rough: '#3f8b3c', fairEdge: '#4f9d48', fair: '#66c05c', fringe: '#5cb854', green: '#88da7f', sand: '#f7ebc8', sandRim: '#7d6638',
              tee: '#74cd6a', far: 0x2f6f30, sky: ['#3f8fd6', '#b9dcf3', '#eef6fb'], fog: 0xd3e8f4, sun: 0xfff0d0, leaves: [0x2d6e2f, 0x245f29, 0x387a34], style: 'round' };
@@ -2258,6 +2303,20 @@
         FNP(7, 'Cobblestone Creek', 4, 395, { wt: [[0.62, 0, 5, 40]], bk: [[0.42, -24, 10, 6], ['g-10', 15, 6, 8]] }),
         FNP(8, 'Lamplighter', 3, 185, { fw: [['g-44', 'g-13', 28]], wt: [[0.5, -28, 44, 12]], bk: [['g-2', 16, 5, 8]] }),
         FNP(9, 'Founders Way', 5, 505, { p: [[0, 0], [0, 240], [50, 360], [40, 505]], fw: [[0.07, 0.5, 44], [0.62, 0.95, 38]], bk: [['v2+20', 0, 6, 28], ['g-12', -15, 6, 8]], wd: [['v1-20', -60, 22, 5]] }),
+      ] },
+    { id: 'ott', name: 'Ott Fields', unlock: 'pines', teeCol: '#e08a1e', desc: 'Nine straight, narrow holes cut through open farm fields: hay bales, a split-rail creek and the whole hole in view from the tee. Keep it in the short grass, because out of bounds is never far.', wind: 11,
+      pal: { outer: '#6b7a34', rough: '#7c9440', fairEdge: '#86a84a', fair: '#9ccc5a', fringe: '#90bd52', green: '#a8e07a', sand: '#f1e2b8', sandRim: '#7d6a3a',
+             tee: '#94c95a', far: 0x7a7a3a, sky: ['#4f8fd0', '#bcd8ef', '#f7ecd2'], fog: 0xe6dcc0, sun: 0xffe3a6, leaves: [0x4f7a2a, 0x6a8a30, 0x3f6a26], style: 'round' },
+      holes: [
+        OF(1, 'Barn Door', 4, 360, { bk: [[0.6, 20, 9, 6], ['g-10', -13, 5, 6]] }),
+        OF(2, 'Hay Bales', 4, 385, { bk: [[0.5, -19, 8, 6], [0.62, 19, 8, 6], ['g-10', 13, 5, 6]] }),
+        OF(3, 'Corn Row', 3, 165, { fw: [['g-34', 'g-13', 24]], bk: [['g-8', -13, 5, 6], ['g-8', 13, 5, 6]] }),
+        OF(4, 'The Long Field', 5, 520, { fw: [[0.07, 0.95, 36]], bk: [[0.45, 19, 9, 6], [0.72, -19, 9, 6], ['g-12', 13, 5, 6]] }),
+        OF(5, 'Split Rail Creek', 4, 400, { wt: [[0.7, 0, 6, 38]], bk: [['g-8', -13, 5, 6]] }),
+        OF(6, 'Scarecrow', 3, 140, { fw: [['g-30', 'g-12', 24]], g: [12, 14], bk: [['g-10', 0, 4, 9], ['g+9', 10, 4, 4]] }),
+        OF(7, 'Fence Line', 4, 370, { bk: [[0.55, 18, 10, 5], ['g-9', -13, 5, 6], ['g+8', 11, 4, 4]] }),
+        OF(8, 'Windmill', 3, 185, { fw: [['g-40', 'g-13', 24]], wt: [[0.45, 0, 8, 34]], bk: [['g+6', -12, 4, 5]] }),
+        OF(9, 'Harvest Home', 5, 505, { fw: [[0.07, 0.48, 36], [0.6, 0.95, 34]], wt: [[0.54, 0, 7, 38]], bk: [['g-12', -13, 5, 6], ['g-12', 13, 5, 6]] }),
       ] },
     { id: 'coast', name: 'TPC Saragosa', unlock: 'pines', desc: 'Stadium golf modeled on TPC Sawgrass. Water everywhere, doglegs around lakes and the famous island green.', wind: 14,
       pal: { outer: '#6f8f4a', rough: '#8fa54f', fairEdge: '#6fae55', fair: '#7cc663', fringe: '#6dbd5c', green: '#93de86', sand: '#f8eecd', sandRim: '#806a3a',
@@ -3931,10 +3990,10 @@
 
   // ================= Terrain: rolling hills shaped around each hole =================
   // Purely visual: the ball, golfer, trees, flag and camera sit on it, while the game's physics stay flat.
-  const HILL = { mini: 0.15, range: 0.35, founders: 1.0, hearst: 0.5, darby: 0.8, flyers: 1.1, pines: 1.2, coast: 0.6, meribah: 1.7, hollow: 0.55, valley: 1.2 };   // how hilly each course is
+  const HILL = { mini: 0.15, range: 0.35, founders: 1.0, ott: 0.5, hearst: 0.5, darby: 0.8, flyers: 1.1, pines: 1.2, coast: 0.6, meribah: 1.7, hollow: 0.55, valley: 1.2 };   // how hilly each course is
   const LINKS = { hollow: 1, darby: 1 };
   // How much the greens break (slope, yards of rise per yard). Stryke Links is the flattest, Deans Valley the wildest.
-  const BREAK = { founders: 0.018, hearst: 0.022, darby: 0.024, flyers: 0.034, clblack: 0.05, clyellow: 0.022, pines: 0.01, coast: 0.02, meribah: 0.03, hollow: 0.026, valley: 0.045, ctp: 0.03 };
+  const BREAK = { founders: 0.018, ott: 0.02, hearst: 0.022, darby: 0.024, flyers: 0.034, clblack: 0.05, clyellow: 0.022, pines: 0.01, coast: 0.02, meribah: 0.03, hollow: 0.026, valley: 0.045, ctp: 0.03 };
   const SLOPE_G = 7.6;   // a rolling ball feels 5/7 of gravity (yd/s²) along the slope                                                         // lots of small humps and hollows
   const sm01 = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
   const LIP_Q = 1.28;
@@ -4780,7 +4839,7 @@
   // ---- Realistic putting ("Pace & Line") ----
   // Every course has its own green speed (Stimpmeter: how many feet a ball rolls off the stimp ramp). Faster greens
   // = the same stroke rolls further. Speeds drift a little day to day, like real greens after mowing and rain.
-  const STIMP = { par3: 9, pines: 9.5, founders: 9.5, coast: 10.5, hearst: 10, farbor: 10, darby: 10.5, flyers: 12, clyellow: 10.5, meribah: 12.5, hollow: 9.5, valley: 12, clblack: 13, ctp: 11 };
+  const STIMP = { par3: 9, pines: 9.5, founders: 9.5, ott: 9.5, coast: 10.5, hearst: 10, farbor: 10, darby: 10.5, flyers: 12, clyellow: 10.5, meribah: 12.5, hollow: 9.5, valley: 12, clblack: 13, ctp: 11 };
   const STIMP_REF = 10;   // your stroke is calibrated on a flat, Stimp-10 green
   function stimpOf(c) {
     const base = STIMP[c.id] || 10, day = etDay(), seed = [...(c.id + day)].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) % 9973, 7);
@@ -5351,10 +5410,11 @@
   // (Bronze, Silver, Gold, Platinum, Diamond, Master). Every mastery level pays cash, Gold (5) and Master (10) give a
   // permanent badge, and Master also gives a free club upgrade.
   const SKILLS = [
-    { id: 'drive', name: 'Driving', ic: 'club', how: 'Tee shots on par 4s and 5s. Find the fairway for more.' },
-    { id: 'appr', name: 'Approach', ic: 'target', how: 'Full shots from 45+ yds that hit the green. Stick it close for more.' },
-    { id: 'short', name: 'Short Game', ic: 'flag', how: 'Chips and pitches inside 45 yds that finish close (or go in).' },
-    { id: 'putt', name: 'Putting', ic: 'ball', how: 'Putts holed. Long ones count much more.' }];
+    // (Nov 23 2026) mastery is earned by doing the hard things well, not just by hitting a green or putting out (see mastShot)
+    { id: 'drive', name: 'Driving', ic: 'club', how: 'Long drives that find the fairway on par 4s and 5s: 230+ yds counts, 270+ and 300+ count much more.' },
+    { id: 'appr', name: 'Approach', ic: 'target', how: 'Full shots from 45+ yds stuck close: inside 5 yds, 3 yds or 1.5 yds. Holing out counts big. Longer shots and shots from the rough or sand count more.' },
+    { id: 'short', name: 'Short Game', ic: 'flag', how: 'Chips, pitches and bunker shots inside 45 yds left within 2 yds, or holed. Bunker shots count double.' },
+    { id: 'putt', name: 'Putting', ic: 'ball', how: 'Putts holed from 2+ yds (tap-ins don\'t count; long ones count much more) and long lag putts left within a yard.' }];
   const MAST_T = [0, 20, 55, 110, 190, 300, 450, 650, 900, 1250, 1700];
   const MAST_TIER = [['Unranked', '#8a8d93'], ['Bronze', '#c07a3e'], ['Bronze', '#c07a3e'], ['Silver', '#c9cdd3'], ['Silver', '#c9cdd3'], ['Gold', '#F2C14E'], ['Gold', '#F2C14E'],
     ['Platinum', '#9fe3e0'], ['Platinum', '#9fe3e0'], ['Diamond', '#7cc7ff'], ['Master', '#ff6b7d']];
@@ -5374,21 +5434,30 @@
   // called when a shot finishes (holed = it went in). lastShot = where it was hit from.
   function mastShot(endLie, endD, holed) {
     const S = lastShot; if (!S || !hole || hole.mini || course.ctp || course.range) return;
+    // (Nov 23 2026) harder mastery: nothing for just hitting a fairway or a green, or for tap-ins. Only real skill counts.
     if (S.putter) {
-      if (holed) addMastery('putt', 1 + (S.dist >= 5 ? 3 : 0) + (S.dist >= 10 ? 4 : 0));
-      else if (S.dist >= 10 && endD <= 1) addMastery('putt', 1);   // great lag
+      if (holed) { const d = S.dist; addMastery('putt', d >= 20 ? 10 : d >= 10 ? 6 : d >= 5 ? 3 : d >= 2 ? 1 : 0); }
+      else if (S.dist >= 15 && endD <= 1) addMastery('putt', 1);   // a long lag left stone dead
       return;
     }
-    if (S.tee && hole.par >= 4) { addMastery('drive', 1 + (endLie === 'fairway' ? 2 : 0) + (endLie === 'fairway' && lastShot.dist - endD >= 250 ? 1 : 0)); return; }
-    if (S.lie === 'green') return;
+    const gain = S.dist - endD;   // yards the shot moved you toward the hole
+    if (S.tee && hole.par >= 4) {
+      if (endLie === 'fairway') addMastery('drive', gain >= 300 ? 5 : gain >= 270 ? 3 : gain >= 230 ? 1 : 0);
+      return;
+    }
+    if (S.lie === 'green' || S.lie === 'fringe' && S.dist < 15) return;
+    const tough = S.lie === 'rough' || S.lie === 'sand';
     if (S.dist >= 45) {
-      if (holed) addMastery('appr', 10);
-      else if (endLie === 'green') addMastery('appr', 2 + (endD <= 8 ? 2 : 0) + (endD <= 3 ? 2 : 0));
+      const k = (S.dist >= 150 ? 1.5 : 1) * (tough ? 1.5 : 1);
+      if (holed) addMastery('appr', Math.round(12 * k));
+      else if (endLie === 'green' && endD <= 5) addMastery('appr', Math.round((endD <= 1.5 ? 6 : endD <= 3 ? 4 : 2) * k));
     } else {
-      if (holed) addMastery('short', 8);
-      else if (endD <= 3) addMastery('short', 2 + (endD <= 1.5 ? 2 : 0));
+      const k = S.lie === 'sand' ? 2 : 1;
+      if (holed) addMastery('short', 10 * k);
+      else if (endD <= 2) addMastery('short', (endD <= 1 ? 3 : 1) * k);
     }
   }
+
   function masteryHtml() {
     const rows = SKILLS.map(sk => {
       const x = save.mast[sk.id] | 0, L = mastLv(x), nx = L < 10 ? MAST_T[L + 1] : null, pv = MAST_T[L], pct = nx ? Math.round((x - pv) / (nx - pv) * 100) : 100, col = MAST_TIER[L][1];
@@ -6305,7 +6374,7 @@
     appId: '1:934222144340:web:b7f2209350da831f4e5ec1',
     measurementId: 'G-4D02FQ9XMJ'
   };
-  const GAME_VER = '2026.11.22a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
+  const GAME_VER = '2026.11.23a';   // bump on EVERY release: open games compare it to the live site and pop up "Update ready"
   // The creator: gets the 👑 Creator badge and the admin tools (bans, analytics). It's a player-code account; the rules check this uid too.
   const CREATOR_UID = 'ehmuzxkmLXSu8oDLLcTBF0l1m2y2';
   // In-game money paid to the top 3 of each Daily Tournament, collected the next time they open the game.
@@ -7740,8 +7809,8 @@
     // (Oct 28 2026) cleaner and more condensed: one yellow button opens every match option (1v1, 2v2, foursome, join by code)
     // (Nov 19 2026) taller PvP card: a title, the three ways to play with a line each, and a big button
     box.innerHTML = `<div class="mpc mptall"><div class="ctag">PVP · HEAD TO HEAD</div><div class="cn">Play PvP</div>
-      <div class="mptRows"><div class="rk"><b>⚔️ Ranked</b><small>Random golfer · win or lose RP</small></div>
-        <div class="cs"><b>🤝 Casual</b><small>Random golfer · just for fun</small></div>
+      <div class="mptRows"><div class="rk"><b>⚔️ Ranked</b><span class="mpLive" id="mpLive-ranked">${mpLiveHtml('ranked')}</span><small>Random golfer · win or lose RP</small></div>
+        <div class="cs"><b>🤝 Casual</b><span class="mpLive" id="mpLive-casual">${mpLiveHtml('casual')}</span><small>Random golfer · just for fun</small></div>
         <div><b>👥 Vs Friends</b><small>Private match with a code</small></div></div>
       <button class="main" data-mpopen="1" style="width:100%;margin-top:10px">Play PvP ›</button>${active}</div>`;
   }
@@ -7877,12 +7946,29 @@
     const lv = a.s >= 2 || a.m >= 3 ? ['q2', 'Active'] : a.s >= 1 || a.m >= 1 ? ['q1', 'Low activity'] : ['q0', 'Quiet'];
     return `<span class="qa ${lv[0]}"><i></i>${lv[1]}</span><small class="qaN">${a.s ? `<b>${a.s}</b> golfer${a.s === 1 ? '' : 's'} waiting now` : 'Nobody waiting right now'}${a.m ? ` · ${a.m} match${a.m === 1 ? '' : 'es'} in the last 15 min` : ''}</small>`;
   }
+  // (Nov 23 2026) the home screen's PvP card shows, for Ranked and Casual, how many golfers are waiting and how many are in a match
+  // (each match started in the last 15 minutes counts as 2 golfers playing). Same queue read as the Play Online screen.
+  function mpLiveHtml(kind) {
+    let a = null; try { a = qAct && qAct[kind]; } catch (e) {}   // (renderMpCard can run before qAct is set up)
+    if (!a) return '<i></i>…';
+    const w = a.s, p = a.m * 2;
+    if (!w && !p) return '<i></i>Quiet';
+    return `<i></i>${w ? `<b>${w}</b> waiting` : ''}${w && p ? ' · ' : ''}${p ? `<b>${p}</b> playing` : ''}`;
+  }
+  function fillMpLive() {
+    ['ranked', 'casual'].forEach(k => { const el = document.getElementById('mpLive-' + k); if (!el) return;
+      el.innerHTML = mpLiveHtml(k); const a = qAct && qAct[k]; el.classList.toggle('on', !!a && (a.s > 0 || a.m > 0)); });
+  }
   async function fillQAct(force) {
     await loadQAct(force);
+    fillMpLive();
     ['ranked', 'casual'].forEach(k => { const el = document.getElementById('qmAct-' + k); if (el) el.innerHTML = qActHtml(k); });
     const w = document.getElementById('qmWait'); if (w && QM && qAct) { const n = qAct[QM.kind].s; w.textContent = n ? `${n} other golfer${n === 1 ? ' is' : 's are'} searching right now` : 'No one else is searching right now: hang tight or try the other mode'; }
   }
   setInterval(() => { if (!document.hidden && (document.getElementById('qmAct-ranked') || document.getElementById('qmWait'))) fillQAct(true); }, 15000);
+  // home screen: refresh the live counts every 30 s while the Play tab is showing (not during a round)
+  setInterval(() => { const el = document.getElementById('mpLive-ranked'); if (!document.hidden && el && el.offsetParent && !inRound()) fillQAct(true); }, 30000);
+  setTimeout(() => { if (document.getElementById('mpLive-ranked')) fillQAct(true); }, 2500);
   let rankLb = null, rankLbAt = 0;
   async function fillRankLb() {
     const el = document.getElementById('rankLb'); if (!el) return;
@@ -8527,6 +8613,8 @@
         <div class="go">${open ? '›' : ico('lock')}</div></div>`;
     }).join('');
   }
+  { const tb = document.querySelector('.tabs'), setTH = () => { if (tb && tb.offsetHeight) document.documentElement.style.setProperty('--tabsH', tb.offsetHeight + 'px'); };
+    setTH(); addEventListener('resize', setTH); try { new ResizeObserver(setTH).observe(tb); } catch (e) {} }
   $('miniBtn').addEventListener('click', () => { ensureAudio(); sfx.click(); openCourse(MINI); });
   $('courseList').addEventListener('click', e => {
     ensureAudio();
@@ -8677,16 +8765,17 @@
 
   // (update 2.4) achievements are grouped into drop-down sections, so members can find the ones for what they like to play
   const AWARD_GROUPS = [
-    ['rounds', 'flag', 'Rounds & courses', ['round1', 'rounds25', 'rounds100', 'rounds250', 'holes500', 'explorer', 'playall', 'valley', 'masters', 'blackTees', 'underpar1', 'underpar10', 'underpar25', 'evenall', 'chamiman', 'bogeyfree', 'momo9']],
-    ['scoring', 'trophy', 'Birdies, eagles & aces', ['par100', 'birdie1', 'birdie25', 'birdie100', 'eagle1', 'eagle10', 'eagle50', 'albatross', 'ace1', 'ace5']],
+    ['rounds', 'flag', 'Rounds & courses', ['round1', 'rounds25', 'rounds100', 'rounds250', 'rounds500', 'holes500', 'holes2500', 'ott', 'tgiv', 'explorer', 'playall', 'valley', 'masters', 'blackTees', 'underpar1', 'underpar10', 'underpar25', 'underpar50', 'evenall', 'chamiman', 'bogeyfree', 'momo9']],
+    ['scoring', 'trophy', 'Birdies, eagles & aces', ['par100', 'par500', 'birdie1', 'birdie25', 'birdie100', 'birdie250', 'birdie500', 'eagle1', 'eagle10', 'eagle25', 'eagle50', 'albatross', 'ace1', 'ace5', 'ace10']],
     ['short', 'target', 'Short game & putting', ['chip1', 'chip10', 'chip25', 'chip100', 'sand1', 'putt10', 'putt10x', 'putt25x']],
-    ['levels', 'star', 'Levels & ranked', ['lv5', 'lv10', 'lv25', 'lv50', 'lv100', 'rk1', 'rk10', 'rk50', 'rkpure']],
+    ['levels', 'star', 'Levels & ranked', ['lv2', 'lv5', 'lv10', 'lv15', 'lv20', 'lv25', 'lv30', 'lv40', 'lv50', 'lv60', 'lv75', 'lv90', 'lv100', 'rk1', 'rk10', 'rk50', 'rkpure']],
+    ['mastery', 'target', 'Skills & mastery', ['mastB4', 'mastG1', 'mastG4', 'mastM1']],
     ['pins', 'flag', 'Pins & spin', ['backpin', 'frontpin', 'pins25', 'pinout', 'spin1', 'spin25']],
     ['power', 'club', 'Driving & striking', ['drive250', 'drive275', 'drive300', 'perfect100', 'perfect1000', 'perfect10000']],
     ['modes', 'star', 'Challenges, range & mini golf', ['stiff', 'sharp3', 'champ1', 'champ10', 'champ25', 'bucket10', 'bucket50', 'mini1', 'miniace', 'miniunder', 'mini10']],
     ['cup', 'school', 'Club House Cup', ['homeroom', 'cup1', 'cup10', 'hrpodium', 'hrchamp', 'hrchamp5', 'hrmvp', 'hrfirst']],
     ['gear', 'club', 'Clubs & gear', ['club1', 'club10', 'clubAll', 'maxclub']],
-    ['money', 'gift', 'Money', ['earn10k', 'earn100k']],
+    ['money', 'gift', 'Money', ['earn1k', 'earn10k', 'earn25k', 'earn50k', 'earn100k', 'earn250k', 'earn500k', 'earn1m', 'bank10k', 'bank50k', 'bank100k']],
   ];
   const awOpen = {};
   function renderAwards() {
@@ -8947,7 +9036,8 @@
     if (!course.mini && !roundCut) { s.rounds++; s.strokesTotal += ts; s.parTotal += tp; if (rel < 0) s.underPar++;
       if (HOLES.length === 18 && HOLES.every((h, i) => scores[i] != null && scores[i] <= h.par)) s.bogeyFree = (s.bogeyFree | 0) + 1;
       if (!course.ctp && !course.range && !(MP && MP.started) && !TEST) hcpPost(HOLES, scores); }
-    if (!roundCut && !cupGuest) s.roundsBy[course.id] = (s.roundsBy[course.id] || 0) + 1;   // a cup round on a locked course doesn't unlock it
+    if (!roundCut && !cupGuest) s.roundsBy[course.id] = (s.roundsBy[course.id] || 0) + 1;
+    if (!course.mini && !roundCut) { try { if (isTgivDay()) s.tgivRounds = (s.tgivRounds | 0) + 1; } catch (e) {} }   // (Nov 23 2026) Thanksgiving achievement   // a cup round on a locked course doesn't unlock it
     let mastersLine = '';
     if (course.id === MASTERS_CID && !roundCut && HOLES.length >= course.holes.length && rel <= MASTERS_REL && !unlocked('masters')) {
       save.unlocks.masters = true; OUTFIT_PARTS.forEach(k => { const p = LOOK_PRESETS.find(x => x.lock === 'masters'); if (p.look[k]) grantC(k, p.look[k]); });
